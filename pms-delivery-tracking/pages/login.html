@@ -398,13 +398,6 @@
             <footer class="form-footer">
               © 2026 PMS v2.0
             </footer>
-
-            <!-- Environment Switch -->
-            <div class="env-switch" role="group" aria-label="环境切换">
-              <button type="button" class="env-switch-btn active" data-env="生产环境">生产环境</button>
-              <button type="button" class="env-switch-btn" data-env="测试环境">测试环境</button>
-              <button type="button" class="env-switch-btn" data-env="开发环境">开发环境</button>
-            </div>
           </div>
         </section>
       </div>
@@ -826,166 +819,6 @@
           .brand-footer-note { display: none; }
           .form-panel { width: 100%; padding: 24px; }
         }
-
-        /* ===== Input error (shake + red border) ===== */
-        @keyframes pms-shake {
-          0%, 100% { transform: translateX(0); }
-          20%, 60% { transform: translateX(-6px); }
-          40%, 80% { transform: translateX(6px); }
-        }
-        .field-input.input-error {
-          border-color: var(--state-error) !important;
-          animation: pms-shake 0.4s ease;
-        }
-        .field-input.input-error:focus {
-          box-shadow: 0 0 0 3px rgba(231,76,60,0.12);
-        }
-
-        /* ===== Login button spinner ===== */
-        .btn-spinner {
-          display: inline-block;
-          width: 14px;
-          height: 14px;
-          border: 2px solid rgba(255,255,255,0.4);
-          border-top-color: #fff;
-          border-radius: 50%;
-          animation: pms-btn-spin 0.7s linear infinite;
-        }
-        @keyframes pms-btn-spin {
-          to { transform: rotate(360deg); }
-        }
-        .btn-submit.is-loading {
-          opacity: 0.8;
-          cursor: not-allowed;
-        }
-
-        /* ===== Environment switch ===== */
-        .env-switch {
-          display: flex;
-          gap: 4px;
-          margin-top: 16px;
-          padding: 4px;
-          background: var(--bg-hover);
-          border-radius: var(--radius-sm);
-        }
-        .env-switch-btn {
-          flex: 1;
-          height: 28px;
-          border: none;
-          background: transparent;
-          color: var(--text-tertiary);
-          font-size: 12px;
-          cursor: pointer;
-          border-radius: 3px;
-          transition: all 0.2s;
-          font-family: var(--font-family);
-        }
-        .env-switch-btn:hover { color: var(--color-primary); }
-        .env-switch-btn.active {
-          background: var(--color-primary);
-          color: #fff;
-          font-weight: 500;
-        }
-
-        /* ===== Forgot password modal ===== */
-        .pms-modal-overlay {
-          position: fixed;
-          top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(0,0,0,0.45);
-          z-index: 99998;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          opacity: 0;
-          transition: opacity 0.25s ease;
-        }
-        .pms-modal-overlay.show { opacity: 1; }
-        .pms-modal-dialog {
-          background: #fff;
-          border-radius: 8px;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-          width: 90%;
-          max-width: 420px;
-          transform: translateY(20px);
-          transition: transform 0.25s ease;
-          overflow: hidden;
-        }
-        .pms-modal-overlay.show .pms-modal-dialog { transform: translateY(0); }
-        .pms-modal-header {
-          padding: 16px 24px;
-          border-bottom: 1px solid #EBEEF5;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-        .pms-modal-title {
-          font-size: 16px;
-          font-weight: 600;
-          color: var(--text-primary);
-        }
-        .pms-modal-close {
-          cursor: pointer;
-          color: var(--text-tertiary);
-          font-size: 20px;
-          line-height: 1;
-          background: none;
-          border: none;
-          padding: 0;
-        }
-        .pms-modal-body { padding: 24px; }
-        .pms-modal-field { margin-bottom: 16px; }
-        .pms-modal-field label {
-          display: block;
-          font-size: 13px;
-          font-weight: 500;
-          color: var(--text-primary);
-          margin-bottom: 6px;
-        }
-        .pms-modal-field input,
-        .pms-modal-field select {
-          width: 100%;
-          height: 36px;
-          padding: 0 12px;
-          font-size: 14px;
-          color: var(--text-primary);
-          background: #fff;
-          border: 1px solid var(--color-border);
-          border-radius: var(--radius-sm);
-          outline: none;
-          box-sizing: border-box;
-          font-family: var(--font-family);
-          transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        .pms-modal-field input:focus,
-        .pms-modal-field select:focus {
-          border-color: var(--color-primary);
-          box-shadow: 0 0 0 3px rgba(26,111,212,0.12);
-        }
-        .pms-modal-footer {
-          display: flex;
-          justify-content: flex-end;
-          gap: 12px;
-          padding: 16px 24px;
-          border-top: 1px solid #EBEEF5;
-        }
-        .pms-modal-btn {
-          height: 36px;
-          padding: 0 20px;
-          border-radius: var(--radius-sm);
-          font-size: 14px;
-          cursor: pointer;
-          font-family: var(--font-family);
-          border: 1px solid var(--color-border);
-          background: #fff;
-          color: var(--text-tertiary);
-        }
-        .pms-modal-btn:hover { color: var(--text-primary); }
-        .pms-modal-btn-primary {
-          border-color: var(--color-primary);
-          background: var(--color-primary);
-          color: #fff;
-        }
-        .pms-modal-btn-primary:hover { background: var(--color-primary-hover); }
       </style>
 
       <!-- ============ Interactions ============ -->
@@ -1013,34 +846,10 @@
           var togglePwd = document.getElementById('togglePwd');
           var rememberInput = document.getElementById('remember');
           var rememberLabel = document.querySelector('.checkbox-label');
-          var forgotLink = document.querySelector('.forgot-link');
 
           // ===== Field error helper =====
           function showError(input, msg) {
-            var group = input.closest('.field-group');
-            if (!group) return;
-            var err = group.querySelector('.field-error');
-            if (!err) {
-              err = document.createElement('div');
-              err.className = 'field-error';
-              err.style.cssText = 'color:#E74C3C;font-size:12px;margin-top:4px;line-height:1.4;';
-              group.appendChild(err);
-            }
-            err.textContent = msg;
-            // Add red border + shake animation
-            input.classList.remove('input-error');
-            void input.offsetWidth; // restart animation
-            input.classList.add('input-error');
-          }
-          function clearError(input) {
-            var group = input.closest('.field-group');
-            if (!group) return;
-            var err = group.querySelector('.field-error');
-            if (err) err.remove();
-            input.classList.remove('input-error');
-          }
-          function clearAllErrors() {
-            document.querySelectorAll('.field-error').forEach(function (e) { e.remove(); });
+            showToast(msg);
           }
 
           // ===== Password visibility toggle =====
@@ -1054,21 +863,14 @@
 
           // ===== Login action =====
           function doLogin() {
-            clearAllErrors();
             var u = usernameInput ? usernameInput.value.trim() : '';
             var p = passwordInput ? passwordInput.value.trim() : '';
             var ok = true;
             if (!u) { showError(usernameInput, '请输入用户名或工号'); ok = false; }
             if (!p) { showError(passwordInput, '请输入密码'); ok = false; }
             if (!ok) return;
-            if (submitBtn) {
-              submitBtn.innerHTML = '<span class="btn-spinner"></span> 登录中...';
-              submitBtn.disabled = true;
-              submitBtn.classList.add('is-loading');
-            }
-            setTimeout(function () {
-              __safeNav('overall-tracking.html');
-            }, 1500);
+            showToast('登录成功');
+            __safeNav('overall-tracking.html');
           }
           if (submitBtn) submitBtn.addEventListener('click', doLogin);
 
@@ -1083,10 +885,6 @@
             });
           });
 
-          // ===== Clear error on input =====
-          if (usernameInput) usernameInput.addEventListener('input', function () { clearError(usernameInput); });
-          if (passwordInput) passwordInput.addEventListener('input', function () { clearError(passwordInput); });
-
           // ===== Remember me toggle =====
           if (rememberLabel && rememberInput) {
             rememberLabel.addEventListener('click', function (e) {
@@ -1095,87 +893,11 @@
             });
           }
 
-          // ===== Forgot password (modal) =====
-          function closeForgotModal() {
-            var ov = document.getElementById('__forgotModalOverlay');
-            if (ov) {
-              ov.classList.remove('show');
-              setTimeout(function () { if (ov.parentNode) ov.remove(); }, 250);
-            }
-          }
-          function openForgotModal() {
-            closeForgotModal();
-            var overlay = document.createElement('div');
-            overlay.className = 'pms-modal-overlay';
-            overlay.id = '__forgotModalOverlay';
-            overlay.innerHTML =
-              '<div class="pms-modal-dialog">' +
-                '<div class="pms-modal-header">' +
-                  '<span class="pms-modal-title">找回密码</span>' +
-                  '<button class="pms-modal-close" id="__forgotClose">&times;</button>' +
-                '</div>' +
-                '<div class="pms-modal-body">' +
-                  '<div class="pms-modal-field">' +
-                    '<label>用户名 / 工号</label>' +
-                    '<input type="text" id="__forgotUser" placeholder="请输入您的用户名或工号">' +
-                  '</div>' +
-                  '<div class="pms-modal-field">' +
-                    '<label>注册邮箱</label>' +
-                    '<input type="email" id="__forgotEmail" placeholder="请输入注册邮箱">' +
-                  '</div>' +
-                  '<div class="pms-modal-field" style="margin-bottom:0;">' +
-                    '<label>验证方式</label>' +
-                    '<select id="__forgotMethod">' +
-                      '<option value="email">邮箱验证</option>' +
-                      '<option value="sms">短信验证</option>' +
-                      '<option value="admin">联系管理员</option>' +
-                    '</select>' +
-                  '</div>' +
-                '</div>' +
-                '<div class="pms-modal-footer">' +
-                  '<button class="pms-modal-btn" id="__forgotCancel">取消</button>' +
-                  '<button class="pms-modal-btn pms-modal-btn-primary" id="__forgotConfirm">发送重置链接</button>' +
-                '</div>' +
-              '</div>';
-            document.body.appendChild(overlay);
-            requestAnimationFrame(function () { overlay.classList.add('show'); });
-            overlay.addEventListener('click', function (e) {
-              if (e.target === overlay) closeForgotModal();
-            });
-            document.getElementById('__forgotClose').addEventListener('click', closeForgotModal);
-            document.getElementById('__forgotCancel').addEventListener('click', closeForgotModal);
-            document.getElementById('__forgotConfirm').addEventListener('click', function () {
-              var user = document.getElementById('__forgotUser').value.trim();
-              var email = document.getElementById('__forgotEmail').value.trim();
-              if (!user) { showToast('请输入用户名或工号'); return; }
-              if (!email) { showToast('请输入注册邮箱'); return; }
-              closeForgotModal();
-              showToast('密码重置链接已发送至 ' + email);
-            });
-          }
-          if (forgotLink) {
-            forgotLink.addEventListener('click', function (e) {
-              e.preventDefault();
-              openForgotModal();
-            });
-          }
-
           // ===== Auth method radio (switch active pill) =====
           document.querySelectorAll('.radio-pill').forEach(function (pill) {
             pill.addEventListener('click', function () {
               var input = this.querySelector('input[type="radio"]');
               if (input) input.checked = true;
-            });
-          });
-
-          // ===== Environment switch =====
-          var envButtons = document.querySelectorAll('.env-switch-btn');
-          envButtons.forEach(function (btn) {
-            btn.addEventListener('click', function () {
-              var envName = btn.getAttribute('data-env');
-              envButtons.forEach(function (b) { b.classList.remove('active'); });
-              btn.classList.add('active');
-              showToast('已切换至：' + envName);
             });
           });
         })();

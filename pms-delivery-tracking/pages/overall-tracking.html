@@ -784,31 +784,6 @@
         // Bind existing sidebar items
         document.querySelectorAll('.sidebar-menu li a').forEach(bindSidebarItem);
 
-        // ===== Stat cards: hover + click filter =====
-        var statCards = document.querySelectorAll('.stat-card');
-        statCards.forEach(function (card) {
-          card.style.cursor = 'pointer';
-          card.style.transition = 'transform 0.2s, box-shadow 0.2s';
-          card.addEventListener('mouseenter', function () {
-            card.style.transform = 'translateY(-2px)';
-            card.style.boxShadow = '0 6px 16px rgba(0,0,0,0.15)';
-          });
-          card.addEventListener('mouseleave', function () {
-            card.style.transform = '';
-            card.style.boxShadow = '';
-          });
-          card.addEventListener('click', function () {
-            var label = card.querySelector('.stat-label');
-            if (!label) return;
-            var stageText = label.textContent.trim().replace('超期项目', '超期');
-            // Highlight current card, remove highlight from others
-            statCards.forEach(function (c) { c.classList.remove('stat-active'); });
-            card.classList.add('stat-active');
-            filterTableByStage(stageText);
-            showToast('已筛选: ' + stageText);
-          });
-        });
-
         // ===== Table helpers =====
         var table = document.querySelector('.data-table');
         var tbody = table ? table.querySelector('tbody') : null;
@@ -860,116 +835,16 @@
 
         // ===== Search/Filter bar =====
         var filterInputs = document.querySelectorAll('.filter-item input, .filter-item select');
-        var queryBtn = document.querySelector('.filter-row .btn-primary');
         var resetBtn = null;
         document.querySelectorAll('.filter-row .btn-outline').forEach(function (b) {
           if (b.textContent.trim() === '重置') resetBtn = b;
         });
 
-        function applySearchFilter() {
-          if (!tbody) return;
-          hideEmptyRow();
-          var vals = [];
-          filterInputs.forEach(function (inp) { vals.push(inp.value.trim().toLowerCase()); });
-          var rows = tbody.querySelectorAll('tr:not(.__empty_row)');
-          var matchCount = 0;
-          rows.forEach(function (row) {
-            var cells = row.querySelectorAll('td');
-            var match = true;
-            for (var i = 0; i < vals.length && i < 5; i++) {
-              if (!vals[i]) continue;
-              var cellText = cells[i] ? cells[i].textContent.trim().toLowerCase() : '';
-              if (cellText.indexOf(vals[i]) < 0) { match = false; break; }
-            }
-            row.style.display = match ? '' : 'none';
-            if (match) matchCount++;
-          });
-          if (matchCount === 0) showEmptyRow();
-        }
-
-        if (queryBtn) queryBtn.addEventListener('click', applySearchFilter);
         if (resetBtn) {
           resetBtn.addEventListener('click', function () {
             filterInputs.forEach(function (inp) { inp.value = ''; });
-            statCards.forEach(function (c) { c.classList.remove('stat-active'); });
             filterTableByStage('全部');
           });
-        }
-
-        // ===== Real-time search: filter card inputs & selects =====
-        filterInputs.forEach(function (inp) {
-          if (inp.tagName === 'SELECT') {
-            inp.addEventListener('change', applySearchFilter);
-          } else {
-            inp.addEventListener('input', applySearchFilter);
-          }
-        });
-
-        // ===== Real-time search: header search box =====
-        var headerSearch = document.querySelector('.header-search input');
-        if (headerSearch) {
-          headerSearch.addEventListener('input', function () {
-            var keyword = headerSearch.value.trim().toLowerCase();
-            if (!tbody) return;
-            hideEmptyRow();
-            var rows = tbody.querySelectorAll('tr:not(.__empty_row)');
-            var matchCount = 0;
-            rows.forEach(function (row) {
-              if (!keyword) { row.style.display = ''; matchCount++; return; }
-              var cells = row.querySelectorAll('td');
-              var match = false;
-              for (var i = 0; i < cells.length - 1; i++) {
-                var text = cells[i].textContent.trim().toLowerCase();
-                if (text.indexOf(keyword) >= 0) { match = true; break; }
-              }
-              row.style.display = match ? '' : 'none';
-              if (match) matchCount++;
-            });
-            if (matchCount === 0) showEmptyRow();
-          });
-        }
-
-        // ===== Table sorting =====
-        var sortState = { col: -1, dir: 1 };
-        var ths = document.querySelectorAll('.data-table thead th');
-        ths.forEach(function (th, idx) {
-          th.style.cursor = 'pointer';
-          th.addEventListener('click', function () {
-            var allThs = th.parentNode.querySelectorAll('th');
-            if (idx === allThs.length - 1) return; // skip 操作 column
-            if (sortState.col === idx) {
-              sortState.dir = -sortState.dir;
-            } else {
-              sortState.col = idx;
-              sortState.dir = 1;
-            }
-            ths.forEach(function (t) {
-              var ea = t.querySelector('.__sort_arrow');
-              if (ea) ea.remove();
-            });
-            var arrow = document.createElement('span');
-            arrow.className = '__sort_arrow';
-            arrow.textContent = sortState.dir === 1 ? ' ▲' : ' ▼';
-            arrow.style.cssText = 'color:#1A6FD4;font-size:12px;margin-left:2px;';
-            th.appendChild(arrow);
-            sortTable(idx, sortState.dir);
-          });
-        });
-
-        function sortTable(colIdx, dir) {
-          if (!tbody) return;
-          var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr:not(.__empty_row)'));
-          rows.sort(function (a, b) {
-            var av = a.querySelectorAll('td')[colIdx];
-            var bv = b.querySelectorAll('td')[colIdx];
-            if (!av || !bv) return 0;
-            var at = av.textContent.trim();
-            var bt = bv.textContent.trim();
-            if (at < bt) return -1 * dir;
-            if (at > bt) return 1 * dir;
-            return 0;
-          });
-          rows.forEach(function (r) { tbody.appendChild(r); });
         }
 
         // ===== Track buttons =====
@@ -992,15 +867,7 @@
             if (numberBtns[idx]) numberBtns[idx].classList.add('active');
             if (prevBtn) prevBtn.classList.toggle('disabled', idx === 0);
             if (nextBtn) nextBtn.classList.toggle('disabled', idx === numberBtns.length - 1);
-            // Simulate data update with loading transition
-            if (table) {
-              table.style.transition = 'opacity 0.3s ease';
-              table.style.opacity = '0.4';
-              setTimeout(function () {
-                table.style.opacity = '1';
-                showToast('已切换至第 ' + (idx + 1) + ' 页');
-              }, 400);
-            }
+            showToast('已切换至第 ' + (idx + 1) + ' 页');
           }
 
           numberBtns.forEach(function (btn, i) {
@@ -1441,11 +1308,6 @@
       }
       .stat-card.overdue {
         border: 2px solid #E74C3C;
-      }
-      .stat-card.stat-active {
-        border-color: #1A6FD4;
-        background: #E8F2FC;
-        box-shadow: 0 4px 12px rgba(26,111,212,0.20);
       }
       .stat-label {
         font-size: 14px;
@@ -1939,7 +1801,7 @@
         document.getElementById('btn-batch-export').addEventListener('click', function () {
           var btn = this;
           var originalHTML = btn.innerHTML;
-          btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:__spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>导出中...';
+          btn.innerHTML = '导出中...';
           btn.disabled = true;
           showToastDelivery('导出中...');
           setTimeout(function () {
@@ -2035,12 +1897,10 @@
           dropdown.className = 'row-more-dropdown';
           dropdown.innerHTML =
             '<div class="dropdown-item" data-row-action="detail">查看详情</div>' +
-            '<div class="dropdown-item" data-row-action="edit">编辑</div>' +
             '<div class="dropdown-item" data-row-action="assign-pm">分配PM</div>' +
             '<div class="dropdown-item" data-row-action="status-flow">状态流转</div>' +
             '<div class="dropdown-item" data-row-action="export-report">导出报告</div>' +
-            '<div class="dropdown-item" data-row-action="alert">发起预警</div>' +
-            '<div class="dropdown-item" data-row-action="delete" style="color:#E74C3C;">删除</div>';
+            '<div class="dropdown-item" data-row-action="alert">发起预警</div>';
           wrapper.appendChild(moreBtn);
           wrapper.appendChild(dropdown);
           moreBtn.addEventListener('click', function (e) {
@@ -2057,26 +1917,6 @@
               dropdown.classList.remove('show');
               if (action === 'detail') {
                 __safeNav('project-tracking.html');
-              } else if (action === 'edit') {
-                var row = cell.closest('tr');
-                var rCells = row ? row.querySelectorAll('td') : [];
-                var projName = rCells[1] ? rCells[1].textContent.trim() : '';
-                var editContent =
-                  '<div class="delivery-modal-field">' +
-                    '<label>项目名称</label>' +
-                    '<input type="text" value="' + projName + '">' +
-                  '</div>' +
-                  '<div class="delivery-modal-field">' +
-                    '<label>项目级别</label>' +
-                    '<select><option>A级</option><option>B级</option><option>C级</option></select>' +
-                  '</div>';
-                createDeliveryModal('编辑项目', editContent, function () {
-                  showToastDelivery('项目信息已更新');
-                });
-              } else if (action === 'delete') {
-                createDeliveryModal('确认删除', '<div class="delivery-modal-info" style="color:#E74C3C;">确认删除该项目？此操作不可撤销。</div>', function () {
-                  showToastDelivery('项目已删除');
-                }, { confirmText: '确认删除' });
               } else if (action === 'assign-pm') {
                 var pmContent =
                   '<div class="delivery-modal-field">' +
@@ -2137,11 +1977,6 @@
             });
           }
         });
-
-        /* Spin animation */
-        var spinStyle = document.createElement('style');
-        spinStyle.textContent = '@keyframes __spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
-        document.head.appendChild(spinStyle);
       })();
     </script>
 </body>
