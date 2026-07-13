@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMS 桌面客户端离线模式</title>
+    <style id="theme-vars">
+:root {
+  /* ── Brand ── */
+  --color-primary: #1A6FD4;
+  --color-primary-hover: #3B8AE0;
+  --color-primary-light: #E8F2FC;
+  --color-text-muted: #5A6477;
+  --color-border: #DCDFE6;
+
+  /* ── State Colors ── */
+  --state-success: #27AE60;
+  --state-info: #2E8BE6;
+  --state-warning: #F39C12;
+  --state-error: #E74C3C;
+  --state-locked: #8E44AD;
+  --state-disabled: #BDBDBD;
+
+  /* ── Surface ── */
+  --bg-page: #F5F7FA;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F5F7FA;
+  --bg-active: #E8F2FC;
+
+  /* ── Text ── */
+  --text-primary: #303133;
+  --text-tertiary: #909399;
+  --text-white: #FFFFFF;
+
+  /* ── Typography ── */
+  --font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  --text-h1: 600 24px/1.5 var(--font-family);
+  --text-h2: 600 20px/1.5 var(--font-family);
+  --text-h3: 600 16px/1.5 var(--font-family);
+  --text-body: 400 14px/1.5 var(--font-family);
+  --text-caption: 400 12px/1.5 var(--font-family);
+  --text-stat: 600 28px/1.5 var(--font-family);
+
+  /* ── Semantic Token Aliases (Tailwind bridge) ── */
+  --background: #F5F7FA;
+  --foreground: #303133;
+  --card: #FFFFFF;
+  --card-foreground: #303133;
+  --muted: #F5F7FA;
+  --muted-foreground: #909399;
+  --primary-foreground: #FFFFFF;
+  --border: #DCDFE6;
+  --input: #DCDFE6;
+  --ring: #1A6FD4;
+
+  /* ── Radius ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* ── Shadow ── */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  /* ── Spacing ── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+    </style>
+    <script type="application/json" data-cdn="@tailwindcss/browser@4.3.1"></script>
+    <script type="application/json" data-cdn="lucide@1.8.0"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-primary: var(--color-primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+  }
+  @layer base {
+    body { background: var(--background); color: var(--foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--background); }
+      .text-background { color: var(--background); }
+      .border-background { border-color: var(--background); }
+      .ring-background { --tw-ring-color: var(--background); }
+      .bg-foreground { background-color: var(--foreground); }
+      .text-foreground { color: var(--foreground); }
+      .border-foreground { border-color: var(--foreground); }
+      .ring-foreground { --tw-ring-color: var(--foreground); }
+      .bg-card { background-color: var(--card); }
+      .text-card { color: var(--card); }
+      .border-card { border-color: var(--card); }
+      .ring-card { --tw-ring-color: var(--card); }
+      .bg-card-foreground { background-color: var(--card-foreground); }
+      .text-card-foreground { color: var(--card-foreground); }
+      .border-card-foreground { border-color: var(--card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--card-foreground); }
+      .bg-primary { background-color: var(--color-primary); }
+      .text-primary { color: var(--color-primary); }
+      .border-primary { border-color: var(--color-primary); }
+      .ring-primary { --tw-ring-color: var(--color-primary); }
+      .bg-primary-foreground { background-color: var(--primary-foreground); }
+      .text-primary-foreground { color: var(--primary-foreground); }
+      .border-primary-foreground { border-color: var(--primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--primary-foreground); }
+      .bg-muted { background-color: var(--muted); }
+      .text-muted { color: var(--muted); }
+      .border-muted { border-color: var(--muted); }
+      .ring-muted { --tw-ring-color: var(--muted); }
+      .bg-muted-foreground { background-color: var(--muted-foreground); }
+      .text-muted-foreground { color: var(--muted-foreground); }
+      .border-muted-foreground { border-color: var(--muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--muted-foreground); }
+      .bg-border { background-color: var(--border); }
+      .text-border { color: var(--border); }
+      .border-border { border-color: var(--border); }
+      .ring-border { --tw-ring-color: var(--border); }
+      .bg-input { background-color: var(--input); }
+      .text-input { color: var(--input); }
+      .border-input { border-color: var(--input); }
+      .ring-input { --tw-ring-color: var(--input); }
+      .bg-ring { background-color: var(--ring); }
+      .text-ring { color: var(--ring); }
+      .border-ring { border-color: var(--ring); }
+      .ring-ring { --tw-ring-color: var(--ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+<script>
+(function(){
+  var __lastNav = '';
+  var __lastNavTime = 0;
+  window.__safeNav = function(url) {
+    var now = Date.now();
+    if (url === __lastNav && (now - __lastNavTime) < 800) return;
+    __lastNav = url;
+    __lastNavTime = now;
+    try { window.parent.postMessage({ type: 'design-navigate', url: url }, '*'); } catch(e) {}
+    var name = url.replace(/\.html$/, '').replace(/-/g, ' ');
+    if (typeof window.showToast === 'function') {
+      window.showToast('页面跳转: ' + name);
+    } else if (typeof window.showToastDelivery === 'function') {
+      window.showToastDelivery('页面跳转: ' + name);
+    } else {
+      var t = document.createElement('div');
+      t.textContent = '页面跳转: ' + name;
+      t.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1A6FD4;color:#fff;padding:10px 24px;border-radius:8px;z-index:99999;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-family:sans-serif;';
+      document.body.appendChild(t);
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 2000);
+    }
+  };
+  document.addEventListener('click', function(e) {
+    var el = e.target;
+    while (el && el !== document) {
+      if (el.hasAttribute && el.hasAttribute('data-nav-target')) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.__safeNav(el.getAttribute('data-nav-target'));
+        return false;
+      }
+      el = el.parentElement;
+    }
+  }, true);
+})();
+</script>
+<script>
+(function(){
+  // Suppress cross-origin security errors that occur when canvas SDK
+  // cleans up the srcdoc iframe during page switching.
+  // The iframe has null origin (srcdoc mode) while the host has vscode-file:// origin.
+  var origError = window.onerror;
+  window.onerror = function(msg, url, line, col, err) {
+    if (typeof msg === 'string' && (msg.indexOf('removeEventListener') !== -1 || msg.indexOf('cross-origin') !== -1 || msg.indexOf('security policy') !== -1)) {
+      return true; // suppress
+    }
+    if (origError) return origError.apply(this, arguments);
+    return false;
+  };
+  window.addEventListener('unhandledrejection', function(e) {
+    if (e.reason && typeof e.reason.message === 'string' && (e.reason.message.indexOf('removeEventListener') !== -1 || e.reason.message.indexOf('cross-origin') !== -1)) {
+      e.preventDefault();
+    }
+  });
+})();
+</script>
+    <!-- ==================== Header ==================== -->
+    <header class="admin-header">
+        <div class="header-logo">
+            <div class="logo-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <span class="logo-text">PMS 项目交付管理系统</span>
+        </div>
+        <div class="header-search">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input type="text" placeholder="搜索办事处/项目名称/合同号...">
+        </div>
+        <div class="header-right">
+            <!-- Offline Status Indicator -->
+            <div class="offline-pill">
+                <span class="pulse-dot"></span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <span>离线 - 缓存剩余4天12时</span>
+            </div>
+            <div class="header-bell">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span class="bell-badge">3</span>
+            </div>
+            <div class="header-user">
+                <div class="avatar">张</div>
+                <span class="user-name">张三</span>
+                <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== Sidebar ==================== -->
+    <aside class="admin-sidebar">
+        <!-- 交付跟踪 (expanded) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    交付跟踪
+                </span>
+                <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" data-nav-target="overall-tracking.html" class="active">项目总体跟踪</a></li>
+                <li><a href="#" onclick="return false">售前测试管理</a></li>
+                <li><a href="#" onclick="return false">项目转包（代施）</a></li>
+            </ul>
+        </div>
+
+        <!-- 交付执行 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                    </svg>
+                    交付执行
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;">
+                <li><a href="#" data-nav-target="pre-work.html">工前准备</a></li>
+                <li><a href="#" data-nav-target="construction-plan.html">施工计划</a></li>
+                <li><a href="#" data-nav-target="implementation-plan.html">实施方案</a></li>
+                <li><a href="#" data-nav-target="deployment.html">实施部署</a></li>
+                <li><a href="#" onclick="return false">验收交维</a></li>
+                <li><a href="#" data-nav-target="cutover.html">割接管理</a></li>
+            </ul>
+        </div>
+
+        <!-- 交付支撑 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                    交付支撑
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;">
+                <li><a href="#" data-nav-target="customer-asset.html">客户资产库</a></li>
+                <li><a href="#" onclick="return false">技术公告与周报</a></li>
+                <li><a href="#" onclick="return false">回访与维保</a></li>
+                <li><a href="#" data-nav-target="ai-troubleshoot.html">AI排障与知识库</a></li>
+                <li><a href="#" onclick="return false">ITR故障与RMA</a></li>
+            </ul>
+        </div>
+
+        <!-- 集成与报表 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                    集成与报表
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+
+        <!-- 系统管理 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                    系统管理
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+    </aside>
+
+    <!-- ==================== TagsView ==================== -->
+    <div class="tags-view">
+        <div class="tag-item active" onclick="showToast('请先联网再切换页面')">
+            <span>项目总体跟踪</span>
+            <span class="tag-close">&times;</span>
+        </div>
+        <div style="flex:1;"></div>
+    </div>
+
+    <!-- ==================== Main Content ==================== -->
+    <div class="admin-main">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar">
+            <a href="#">交付跟踪</a>
+            <span class="sep">/</span>
+            <span class="current">项目总体跟踪</span>
+        </div>
+
+        <div class="page-content">
+            <!-- Cache Expired Alert Banner -->
+            <div class="alert-banner">
+                <div class="alert-left">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    <span><strong>缓存已过期</strong>，请联网刷新（缓存超7天，不强制清除，离线填写仍可暂存）</span>
+                </div>
+                <button class="btn-outline-orange" onclick="showToast('无法连接网络，请检查网络连接')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 4 23 10 17 10"/>
+                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                    </svg>
+                    立即同步
+                    <span class="btn-label-disabled">需联网</span>
+                </button>
+            </div>
+
+            <!-- Status Card -->
+            <div class="card status-card">
+                <div class="status-header">
+                    <div class="status-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F39C12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            <line x1="9" y1="9" x2="9" y2="9"/>
+                        </svg>
+                    </div>
+                    <span class="status-text">当前：离线模式</span>
+                    <div class="offline-meta">
+                        <span class="meta-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            最后同步：2026-07-03 10:42
+                        </span>
+                        <span class="meta-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                <line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                            </svg>
+                            桌面客户端 v3.2.1
+                        </span>
+                    </div>
+                </div>
+                <div class="mini-stats">
+                    <div class="mini-stat">
+                        <div class="stat-num blue">5</div>
+                        <div class="stat-meta">
+                            <span class="label">待同步变更</span>
+                            <span class="sub">本地暂存，待联网推送</span>
+                        </div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="stat-num red">1</div>
+                        <div class="stat-meta">
+                            <span class="label">冲突待裁定</span>
+                            <span class="sub">本地与远端同时修改</span>
+                        </div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="stat-num green">4</div>
+                        <div class="stat-meta">
+                            <span class="label">自动合并</span>
+                            <span class="sub">本地改 / 远端未变</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sync Queue Card -->
+            <div class="card sync-queue-card">
+                <div class="section-title-row">
+                    <span class="section-title">同步队列</span>
+                    <span class="section-subtitle">待同步变更：5条</span>
+                </div>
+                <div class="queue-body">
+                    <!-- Item 1 -->
+                    <div class="sync-item" data-item-id="1">
+                        <div class="item-checkbox">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="item-icon green">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-title">工勘记录 - 字段：供电方式</div>
+                            <div class="item-desc">本地改 / 远端未变 → 自动合并</div>
+                        </div>
+                        <div class="item-right">
+                            <span class="status-badge green"><span class="dot"></span>自动合并</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 (Conflict) -->
+                    <div class="sync-item" data-item-id="2">
+                        <div class="item-checkbox">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="item-icon blue">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-title">需求分析 - 字段：项目背景</div>
+                            <div class="item-desc">本地改 / 远端改 - 字段冲突：1项</div>
+                        </div>
+                        <div class="item-right">
+                            <span class="status-badge red"><span class="dot"></span>冲突待裁定</span>
+                            <button class="item-expand-btn" id="expandConflictBtn" title="查看冲突详情">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M15 3h6v6"/><path d="M10 14 21 3"/>
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="sync-item" data-item-id="3">
+                        <div class="item-checkbox">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="item-icon gray">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                            </svg>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-title">实施部署 - 配置Log上传</div>
+                            <div class="item-desc">新增配置变更，待联网同步</div>
+                        </div>
+                        <div class="item-right">
+                            <span class="status-badge gray"><span class="dot"></span>待同步</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="sync-item" data-item-id="4">
+                        <div class="item-checkbox">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="item-icon gray">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-title">施工照片</div>
+                            <div class="item-desc">3张图片待上传，等待网络连接</div>
+                        </div>
+                        <div class="item-right">
+                            <span class="status-badge gray"><span class="dot"></span>待同步</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 5 -->
+                    <div class="sync-item" data-item-id="5">
+                        <div class="item-checkbox">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="item-icon green">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-title">需求分析 - 字段：传输现状</div>
+                            <div class="item-desc">本地改 / 远端未变 → 自动合并</div>
+                        </div>
+                        <div class="item-right">
+                            <span class="status-badge green"><span class="dot"></span>自动合并</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="queue-footer">
+                    <button class="btn-primary-disabled" onclick="attemptSync()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="23 4 23 10 17 10"/>
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                        </svg>
+                        立即同步（需联网）
+                    </button>
+                </div>
+            </div>
+
+            <!-- Strong Consistency Operations Disabled Panel -->
+            <div class="card disabled-panel-card">
+                <div class="section-title-row">
+                    <span class="section-title">强一致性操作（离线禁用）</span>
+                </div>
+                <div class="disabled-body">
+                    <div class="disabled-grid">
+                        <div class="disabled-btn">
+                            <svg class="lock-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                            <span>审批提交</span>
+                        </div>
+                        <div class="disabled-btn">
+                            <svg class="lock-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                            <span>状态流转</span>
+                        </div>
+                        <div class="disabled-btn">
+                            <svg class="lock-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                            <span>割接发起</span>
+                        </div>
+                        <div class="disabled-btn">
+                            <svg class="lock-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                            <span>闭环申请</span>
+                        </div>
+                        <div class="disabled-btn">
+                            <svg class="lock-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                            <span>转包发起</span>
+                        </div>
+                    </div>
+                    <div class="disabled-help">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="16" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12.01" y2="8"/>
+                        </svg>
+                        <span>该操作需联机执行，联网后自动恢复可用</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== Conflict Resolution Modal ==================== -->
+    <div class="modal-overlay" id="conflictModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div class="modal-title">同步冲突解决 - 字段级合并</div>
+                <div class="modal-subtitle">实体：需求分析（项目：XX银行核心网） | 字段冲突：1项</div>
+            </div>
+            <div class="modal-body">
+                <table class="conflict-table">
+                    <thead>
+                        <tr>
+                            <th style="width:100px;">字段</th>
+                            <th>基准值 (base)</th>
+                            <th>本地值 (local)</th>
+                            <th>远端值 (remote)</th>
+                            <th style="width:130px;">处理方式</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>项目背景</td>
+                            <td class="muted">该项目为XX银行核心网升级，计划替换现有路由设备...</td>
+                            <td class="local-val">本项目为XX银行核心网升级，计划替换现有路由设备并新增SDN控制器...</td>
+                            <td class="remote-val">该项目为XX银行核心网改造，计划替换全部路由设备并优化网络架构...</td>
+                            <td>
+                                <div class="radio-group">
+                                    <label class="radio-option selected">
+                                        <input type="radio" name="conflict-resolve" value="local" checked>
+                                        本地
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="conflict-resolve" value="remote">
+                                        远端
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="conflict-resolve" value="merge">
+                                        合并
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Locked field alert -->
+                <div class="lock-alert">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                    <div class="lock-text">
+                        <strong>已审核锁定字段</strong>（施工计划-到货签收时间）拒绝离线覆盖，保留远端值
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" id="modalCancelBtn">取消</button>
+                <button class="btn-primary" id="modalApplyBtn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    应用裁定并提交
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ── showToast ──
+        var __toastTimer = null;
+        function showToast(msg, type) {
+            var toast = document.getElementById('__pmsToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = '__pmsToast';
+                toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);background:#303133;color:#fff;padding:10px 24px;border-radius:6px;font-size:14px;z-index:99999;opacity:0;transition:all 0.3s ease;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+            clearTimeout(__toastTimer);
+            __toastTimer = setTimeout(function() {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px)';
+            }, 2500);
+        }
+
+        // ── Attempt sync (bottom button) ──
+        var __syncing = false;
+        function attemptSync() {
+            if (__syncing) return;
+            __syncing = true;
+            showToast('正在尝试连接网络...');
+            setTimeout(function() {
+                showToast('连接失败，请检查网络');
+                __syncing = false;
+            }, 2000);
+        }
+
+        // ── Sidebar toggle ──
+        document.querySelectorAll('.sidebar-group-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const menu = this.nextElementSibling;
+                const chevron = this.querySelector('.chevron-icon');
+                if (menu && menu.tagName === 'UL') {
+                    const isHidden = menu.style.display === 'none';
+                    menu.style.display = isHidden ? 'block' : 'none';
+                    if (chevron) {
+                        chevron.classList.toggle('collapsed', !isHidden);
+                    }
+                }
+            });
+        });
+
+        // ── Checkbox toggle on sync queue items ──
+        document.querySelectorAll('.sync-item .item-checkbox').forEach(cb => {
+            cb.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('checked');
+                const item = this.closest('.sync-item');
+                if (item) {
+                    item.classList.toggle('checked', this.classList.contains('checked'));
+                }
+            });
+        });
+
+        // ── Allow clicking the entire sync item row to toggle checkbox (except expand button) ──
+        document.querySelectorAll('.sync-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                // Don't toggle if clicking the expand button or its children
+                if (e.target.closest('.item-expand-btn') || e.target.closest('.status-badge')) return;
+                const cb = this.querySelector('.item-checkbox');
+                if (cb) {
+                    cb.classList.toggle('checked');
+                    this.classList.toggle('checked', cb.classList.contains('checked'));
+                }
+            });
+        });
+
+        // ── Conflict modal open/close ──
+        const modal = document.getElementById('conflictModal');
+        const expandBtn = document.getElementById('expandConflictBtn');
+        const cancelBtn = document.getElementById('modalCancelBtn');
+        const applyBtn = document.getElementById('modalApplyBtn');
+
+        function openModal() {
+            modal.classList.add('show');
+        }
+        function closeModal() {
+            modal.classList.remove('show');
+        }
+
+        if (expandBtn) {
+            expandBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                openModal();
+            });
+        }
+
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', closeModal);
+        }
+
+        if (applyBtn) {
+            applyBtn.addEventListener('click', function() {
+                const selected = document.querySelector('input[name="conflict-resolve"]:checked');
+                const val = selected ? selected.value : 'local';
+                closeModal();
+                showToast('裁定已应用，等待联网同步');
+                // Update conflict item badge after resolution
+                const conflictItem = document.querySelector('.sync-item[data-item-id="2"]');
+                if (conflictItem) {
+                    const badge = conflictItem.querySelector('.status-badge');
+                    if (badge) {
+                        badge.className = 'status-badge green';
+                        badge.innerHTML = '<span class="dot"></span>已裁定';
+                    }
+                    const desc = conflictItem.querySelector('.item-desc');
+                    if (desc) {
+                        const labels = { local: '保留本地值', remote: '保留远端值', merge: '合并后提交' };
+                        desc.textContent = '冲突已裁定：' + (labels[val] || '保留本地值');
+                    }
+                }
+            });
+        }
+
+        // Close modal when clicking backdrop
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('show')) {
+                closeModal();
+            }
+        });
+
+        // ── Radio button selection styling ──
+        document.querySelectorAll('input[name="conflict-resolve"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.querySelectorAll('.radio-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.closest('.radio-option').classList.add('selected');
+            });
+        });
+
+        // ── Disabled operations panel: show toast on click ──
+        document.querySelectorAll('.disabled-btn').forEach(btn => {
+            btn.style.cursor = 'pointer';
+            btn.addEventListener('click', function() {
+                showToast('该操作需联机执行');
+            });
+        });
+
+        // ═══════════════ Enhanced Interactions ═══════════════
+
+        // ── 1. 同步进度动画 (override attemptSync) ──
+        var __syncOverlay = null;
+        window.attemptSync = function() {
+            if (__syncing) return;
+            __syncing = true;
+            __syncOverlay = document.createElement('div');
+            __syncOverlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);z-index:99998;display:flex;align-items:center;justify-content:center;';
+            var dlg = document.createElement('div');
+            dlg.style.cssText = 'background:#fff;border-radius:8px;padding:24px 32px;width:320px;text-align:center;font-family:var(--font-family);box-shadow:0 8px 30px rgba(0,0,0,0.2);';
+            var title = document.createElement('div');
+            title.textContent = '正在同步数据...';
+            title.style.cssText = 'font-size:15px;font-weight:600;color:#303133;margin-bottom:16px;';
+            var barWrap = document.createElement('div');
+            barWrap.style.cssText = 'width:100%;height:8px;background:#F5F7FA;border-radius:4px;overflow:hidden;';
+            var bar = document.createElement('div');
+            bar.style.cssText = 'width:0%;height:100%;background:var(--color-primary);border-radius:4px;transition:width 0.3s ease;';
+            barWrap.appendChild(bar);
+            var pct = document.createElement('div');
+            pct.textContent = '0%';
+            pct.style.cssText = 'font-size:12px;color:#909399;margin-top:8px;';
+            dlg.appendChild(title); dlg.appendChild(barWrap); dlg.appendChild(pct);
+            __syncOverlay.appendChild(dlg);
+            document.body.appendChild(__syncOverlay);
+            var progress = 0;
+            var iv = setInterval(function() {
+                progress += Math.random() * 18 + 8;
+                if (progress >= 100) {
+                    progress = 100;
+                    bar.style.width = '100%';
+                    pct.textContent = '100%';
+                    clearInterval(iv);
+                    setTimeout(function() {
+                        if (__syncOverlay && __syncOverlay.parentNode) __syncOverlay.remove();
+                        __syncOverlay = null;
+                        showToast('同步完成：5条变更已推送', 'success');
+                        __syncing = false;
+                    }, 400);
+                } else {
+                    bar.style.width = Math.floor(progress) + '%';
+                    pct.textContent = Math.floor(progress) + '%';
+                }
+            }, 300);
+        };
+
+        // ── 2. 离线操作队列: 展开详情 + 重试按钮 ──
+        var __queueDetails = {
+            '1': { desc: '修改时间：2026-07-05 09:15 | 修改人：张三 | 变更字段：供电方式（DC→AC）', canRetry: false },
+            '2': { desc: '修改时间：2026-07-05 10:30 | 修改人：张三 | 远端修改人：李四 | 冲突字段：项目背景', canRetry: false },
+            '3': { desc: '修改时间：2026-07-05 11:20 | 修改人：张三 | 新增配置：Log上传地址配置', canRetry: true },
+            '4': { desc: '修改时间：2026-07-05 14:00 | 修改人：张三 | 图片：3张（共12.5MB）', canRetry: true },
+            '5': { desc: '修改时间：2026-07-05 15:10 | 修改人：张三 | 变更字段：传输现状', canRetry: false }
+        };
+        document.querySelectorAll('.sync-item').forEach(function(item) {
+            var itemId = item.getAttribute('data-item-id');
+            var info = __queueDetails[itemId];
+            if (!info) return;
+            var detail = document.createElement('div');
+            detail.className = '__syncDetail';
+            detail.style.cssText = 'display:none;padding:10px 16px 10px 48px;background:#F9FAFB;border-top:1px solid #EBEEF5;font-size:12px;color:#606266;line-height:1.8;';
+            var detailText = document.createElement('div');
+            detailText.textContent = info.desc;
+            detail.appendChild(detailText);
+            if (info.canRetry) {
+                var retryBtn = document.createElement('button');
+                retryBtn.textContent = '重试';
+                retryBtn.style.cssText = 'margin-top:6px;padding:4px 14px;background:var(--color-primary);color:#fff;border:none;border-radius:4px;font-size:12px;cursor:pointer;font-family:var(--font-family);';
+                retryBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var orig = retryBtn.textContent;
+                    retryBtn.textContent = '提交中...';
+                    retryBtn.style.opacity = '0.7';
+                    setTimeout(function() {
+                        retryBtn.textContent = orig;
+                        retryBtn.style.opacity = '';
+                        showToast('已重新提交，等待网络恢复后同步', 'success');
+                    }, 1200);
+                });
+                detail.appendChild(retryBtn);
+            }
+            item.appendChild(detail);
+            // item-content click toggles detail
+            var content = item.querySelector('.item-content');
+            if (content) {
+                content.style.cursor = 'pointer';
+                content.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    detail.style.display = detail.style.display === 'none' ? 'block' : 'none';
+                });
+            }
+        });
+
+        // ── 3. 设置按钮 + modal ──
+        var __toolbar = document.createElement('div');
+        __toolbar.style.cssText = 'display:flex;gap:8px;margin-left:auto;';
+        var settingsBtn = document.createElement('button');
+        settingsBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>设置</span>';
+        settingsBtn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#fff;border:1px solid var(--color-border);border-radius:6px;font-size:13px;color:#606266;cursor:pointer;font-family:var(--font-family);transition:all .2s;flex-shrink:0;';
+        settingsBtn.addEventListener('mouseenter', function() { this.style.borderColor = 'var(--color-primary)'; this.style.color = 'var(--color-primary)'; });
+        settingsBtn.addEventListener('mouseleave', function() { this.style.borderColor = 'var(--color-border)'; this.style.color = '#606266'; });
+        settingsBtn.addEventListener('click', function() { __openSettingsModal(); });
+        __toolbar.appendChild(settingsBtn);
+
+        // ── 4. 网络状态切换 ──
+        var __isOnline = false;
+        var netToggleBtn = document.createElement('button');
+        netToggleBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg><span>切换网络</span>';
+        netToggleBtn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#fff;border:1px solid var(--color-border);border-radius:6px;font-size:13px;color:#606266;cursor:pointer;font-family:var(--font-family);transition:all .2s;flex-shrink:0;';
+        netToggleBtn.addEventListener('click', function() {
+            __isOnline = !__isOnline;
+            var label = netToggleBtn.querySelector('span');
+            if (__isOnline) {
+                netToggleBtn.style.borderColor = 'var(--state-success)';
+                netToggleBtn.style.color = 'var(--state-success)';
+                if (label) label.textContent = '已上线';
+                showToast('网络已连接，正在后台同步...', 'success');
+            } else {
+                netToggleBtn.style.borderColor = 'var(--color-border)';
+                netToggleBtn.style.color = '#606266';
+                if (label) label.textContent = '切换网络';
+                showToast('网络已断开，已切换为离线模式');
+            }
+        });
+        __toolbar.appendChild(netToggleBtn);
+
+        // insert toolbar into status header
+        var __statusHeader = document.querySelector('.status-card .status-header');
+        if (__statusHeader) {
+            __statusHeader.appendChild(__toolbar);
+        }
+
+        var __settingsModal = null;
+        function __openSettingsModal() {
+            if (__settingsModal) { __settingsModal.remove(); __settingsModal = null; }
+            __settingsModal = document.createElement('div');
+            __settingsModal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:99999;display:flex;align-items:center;justify-content:center;';
+            var dlg = document.createElement('div');
+            dlg.style.cssText = 'background:#fff;border-radius:8px;width:400px;max-width:90vw;font-family:var(--font-family);box-shadow:0 8px 30px rgba(0,0,0,0.2);';
+            var hdr = document.createElement('div');
+            hdr.style.cssText = 'padding:20px 24px;border-bottom:1px solid #EBEEF5;font-size:16px;font-weight:600;color:#303133;';
+            hdr.textContent = '离线设置';
+            dlg.appendChild(hdr);
+            var body = document.createElement('div');
+            body.style.cssText = 'padding:20px 24px;';
+            var opts = [
+                { label: '自动同步（联网后）', checked: true },
+                { label: '离线缓存加密', checked: true },
+                { label: '冲突自动提示', checked: true },
+                { label: '离线操作通知', checked: false }
+            ];
+            opts.forEach(function(opt) {
+                var row = document.createElement('div');
+                row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #F5F7FA;';
+                var lbl = document.createElement('span');
+                lbl.style.cssText = 'font-size:14px;color:#303133;';
+                lbl.textContent = opt.label;
+                row.appendChild(lbl);
+                var toggle = document.createElement('div');
+                toggle.style.cssText = 'width:40px;height:22px;border-radius:11px;background:' + (opt.checked ? 'var(--state-success)' : '#DCDFE6') + ';position:relative;cursor:pointer;transition:background .2s;';
+                var knob = document.createElement('div');
+                knob.style.cssText = 'width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:2px;left:' + (opt.checked ? '20px' : '2px') + ';transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,0.2);';
+                toggle.appendChild(knob);
+                toggle.addEventListener('click', function() {
+                    var on = knob.style.left === '20px';
+                    knob.style.left = on ? '2px' : '20px';
+                    toggle.style.background = on ? '#DCDFE6' : 'var(--state-success)';
+                });
+                row.appendChild(toggle);
+                body.appendChild(row);
+            });
+            dlg.appendChild(body);
+            var footer = document.createElement('div');
+            footer.style.cssText = 'padding:16px 24px;display:flex;justify-content:flex-end;gap:8px;border-top:1px solid #EBEEF5;';
+            var closeBtn = document.createElement('button');
+            closeBtn.textContent = '关闭';
+            closeBtn.style.cssText = 'padding:8px 20px;border:1px solid var(--color-border);background:#fff;border-radius:6px;font-size:14px;cursor:pointer;font-family:var(--font-family);';
+            closeBtn.addEventListener('click', function() { __settingsModal.remove(); __settingsModal = null; });
+            footer.appendChild(closeBtn);
+            dlg.appendChild(footer);
+            __settingsModal.appendChild(dlg);
+            __settingsModal.addEventListener('click', function(e) { if (e.target === __settingsModal) { __settingsModal.remove(); __settingsModal = null; } });
+            document.body.appendChild(__settingsModal);
+        }
+
+        // ── 5. 离线数据列表 (collapsible) ──
+        var __dataCard = document.createElement('div');
+        __dataCard.className = 'card';
+        __dataCard.style.cssText = 'background:#fff;border-radius:8px;box-shadow:var(--shadow-card);margin-top:16px;overflow:hidden;';
+        var __dataHeader = document.createElement('div');
+        __dataHeader.style.cssText = 'padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;';
+        __dataHeader.innerHTML = '<span style="font-size:15px;font-weight:600;color:#303133;">离线缓存数据</span><span style="font-size:13px;color:#909399;">3 类 · 点击展开</span>';
+        var __dataList = document.createElement('div');
+        __dataList.style.cssText = 'display:none;';
+        var __dataItems = [
+            { title: '工勘记录', count: '12条', detail: '含供电方式、机房环境、线缆走向等字段' },
+            { title: '施工照片', count: '8张', detail: 'XX银行核心网项目现场照片，共45.2MB' },
+            { title: '配置变更', count: '5条', detail: 'Log上传配置、接口描述、VLAN划分' }
+        ];
+        __dataItems.forEach(function(di) {
+            var row = document.createElement('div');
+            row.style.cssText = 'padding:12px 16px;border-top:1px solid #F5F7FA;cursor:pointer;transition:background .15s;';
+            row.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:14px;font-weight:500;color:#303133;">' + di.title + '</span><span style="font-size:12px;color:#909399;">' + di.count + '</span></div><div class="__dataDetail" style="display:none;margin-top:8px;font-size:12px;color:#606266;line-height:1.6;">' + di.detail + '</div>';
+            row.addEventListener('click', function() {
+                var d = this.querySelector('.__dataDetail');
+                if (d) d.style.display = d.style.display === 'none' ? 'block' : 'none';
+            });
+            __dataList.appendChild(row);
+        });
+        __dataHeader.addEventListener('click', function() {
+            __dataList.style.display = __dataList.style.display === 'none' ? 'block' : 'none';
+        });
+        __dataCard.appendChild(__dataHeader);
+        __dataCard.appendChild(__dataList);
+        var __pageContent = document.querySelector('.page-content');
+        if (__pageContent) {
+            __pageContent.appendChild(__dataCard);
+        }
+    </script>
+
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+        font-size: 14px;
+        color: #303133;
+        background: #F5F7FA;
+        overflow: hidden;
+        height: 100vh;
+      }
+
+      /* ── Header ── */
+      .admin-header {
+        height: 60px;
+        background: #FFFFFF;
+        border-bottom: 1px solid #DCDFE6;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+      }
+      .header-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+        width: 208px;
+      }
+      .header-logo .logo-icon {
+        width: 32px;
+        height: 32px;
+        background: #1A6FD4;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .header-logo .logo-text {
+        font-size: 16px;
+        font-weight: 600;
+        color: #303133;
+        white-space: nowrap;
+      }
+      .header-search {
+        flex: 1;
+        max-width: 480px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .header-search input {
+        width: 100%;
+        height: 36px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        padding: 0 12px 0 36px;
+        font-size: 14px;
+        color: #303133;
+        background: #F5F7FA;
+        outline: none;
+        transition: border-color 0.2s;
+        font-family: inherit;
+      }
+      .header-search input::placeholder { color: #C0C4CC; }
+      .header-search input:focus {
+        border-color: #1A6FD4;
+        background: #FFFFFF;
+      }
+      .header-search .search-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #C0C4CC;
+        pointer-events: none;
+      }
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-shrink: 0;
+      }
+
+      /* ── Offline Status Pill (Header Extra) ── */
+      .offline-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 30px;
+        padding: 0 12px;
+        background: #FEF5E7;
+        border: 1px solid #F39C12;
+        border-radius: 15px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #F39C12;
+        white-space: nowrap;
+        user-select: none;
+      }
+      .offline-pill .pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #F39C12;
+        position: relative;
+        flex-shrink: 0;
+      }
+      .offline-pill .pulse-dot::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: #F39C12;
+        animation: pulse-ring 1.5s ease-out infinite;
+      }
+      @keyframes pulse-ring {
+        0% { transform: scale(1); opacity: 0.6; }
+        100% { transform: scale(2.5); opacity: 0; }
+      }
+
+      .header-bell {
+        position: relative;
+        cursor: pointer;
+        color: #606266;
+        transition: color 0.2s;
+      }
+      .header-bell:hover { color: #1A6FD4; }
+      .header-bell .bell-badge {
+        position: absolute;
+        top: -6px;
+        right: -8px;
+        background: #E74C3C;
+        color: #FFFFFF;
+        font-size: 11px;
+        font-weight: 600;
+        min-width: 16px;
+        height: 16px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4px;
+        line-height: 1;
+      }
+      .header-user {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: background 0.2s;
+      }
+      .header-user:hover { background: #F5F7FA; }
+      .header-user .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #1A6FD4;
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .header-user .user-name {
+        font-size: 14px;
+        color: #303133;
+      }
+      .header-user .chevron {
+        color: #909399;
+        transition: transform 0.2s;
+      }
+
+      /* ── Sidebar ── */
+      .admin-sidebar {
+        width: 208px;
+        background: #FFFFFF;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        bottom: 0;
+        border-right: 1px solid #DCDFE6;
+        overflow-y: auto;
+        z-index: 900;
+      }
+      .admin-sidebar::-webkit-scrollbar { width: 4px; }
+      .admin-sidebar::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 2px; }
+      .admin-sidebar::-webkit-scrollbar-track { background: transparent; }
+
+      .sidebar-group-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #303133;
+        font-weight: 500;
+        transition: background 0.2s;
+        user-select: none;
+      }
+      .sidebar-group-header:hover { background: #F5F7FA; }
+      .sidebar-group-header .group-icon {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .sidebar-group-header .chevron-icon {
+        transition: transform 0.2s;
+        color: #909399;
+      }
+      .sidebar-group-header .chevron-icon.collapsed { transform: rotate(-90deg); }
+
+      .sidebar-menu { list-style: none; }
+      .sidebar-menu li { position: relative; }
+      .sidebar-menu li a {
+        display: block;
+        padding: 0 20px 0 44px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        color: #606266;
+        text-decoration: none;
+        transition: all 0.2s;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .sidebar-menu li a:hover { background: #F5F7FA; color: #1A6FD4; }
+      .sidebar-menu li a.active {
+        color: #1A6FD4;
+        background: #E8F2FC;
+        font-weight: 500;
+      }
+      .sidebar-menu li a.active::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: #1A6FD4;
+        border-radius: 0 2px 2px 0;
+      }
+
+      /* ── TagsView ── */
+      .tags-view {
+        height: 36px;
+        background: #FFFFFF;
+        border-bottom: 1px solid #DCDFE6;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        gap: 8px;
+        position: fixed;
+        top: 60px;
+        left: 208px;
+        right: 0;
+        z-index: 800;
+        overflow-x: auto;
+      }
+      .tags-view::-webkit-scrollbar { display: none; }
+      .tag-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        height: 26px;
+        padding: 0 10px;
+        border-radius: 3px;
+        font-size: 12px;
+        cursor: pointer;
+        white-space: nowrap;
+        border: 1px solid #DCDFE6;
+        color: #606266;
+        background: #FFFFFF;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+      .tag-item:hover { color: #1A6FD4; }
+      .tag-item.active {
+        background: #E8F2FC;
+        color: #1A6FD4;
+        border-color: #1A6FD4;
+      }
+      .tag-item .tag-close {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        transition: background 0.2s;
+        margin-left: 2px;
+      }
+      .tag-item .tag-close:hover { background: rgba(26,111,212,0.2); color: #1A6FD4; }
+
+      /* ── Main Layout ── */
+      .admin-main {
+        margin-left: 208px;
+        margin-top: 96px;
+        height: calc(100vh - 96px);
+        overflow-y: auto;
+        background: #F5F7FA;
+      }
+      .admin-main::-webkit-scrollbar { width: 6px; }
+      .admin-main::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 3px; }
+      .admin-main::-webkit-scrollbar-track { background: transparent; }
+
+      /* ── Breadcrumb ── */
+      .breadcrumb-bar {
+        height: 32px;
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        font-size: 13px;
+        color: #909399;
+        background: #FFFFFF;
+        border-bottom: 1px solid #EBEEF5;
+      }
+      .breadcrumb-bar a {
+        color: #606266;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .breadcrumb-bar a:hover { color: #1A6FD4; }
+      .breadcrumb-bar .sep { margin: 0 8px; color: #C0C4CC; }
+      .breadcrumb-bar .current { color: #303133; }
+
+      /* ── Content ── */
+      .page-content {
+        padding: 16px 24px 24px;
+        max-width: 1400px;
+      }
+
+      /* ── Cache Expired Alert Banner ── */
+      .alert-banner {
+        background: #FEF5E7;
+        border-left: 4px solid #F39C12;
+        border-radius: 4px;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      .alert-banner .alert-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        color: #7A5C00;
+        line-height: 1.5;
+      }
+      .alert-banner .alert-left svg {
+        flex-shrink: 0;
+        color: #F39C12;
+      }
+      .alert-banner .alert-left strong { font-weight: 600; color: #7A5C00; }
+      .btn-outline-orange {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 14px;
+        border: 1px solid #F39C12;
+        border-radius: 4px;
+        background: transparent;
+        color: #F39C12;
+        font-size: 13px;
+        cursor: not-allowed;
+        font-family: inherit;
+        opacity: 0.7;
+        flex-shrink: 0;
+        transition: opacity 0.2s;
+      }
+      .btn-outline-orange .btn-label-disabled {
+        font-size: 11px;
+        color: #BDBDBD;
+        margin-left: 4px;
+      }
+
+      /* ── Card Base ── */
+      .card {
+        background: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        margin-bottom: 16px;
+      }
+
+      /* ── Status Card ── */
+      .status-card {
+        padding: 20px 24px;
+      }
+      .status-card .status-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .status-card .status-header .status-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: #FEF5E7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .status-card .status-header .status-text {
+        font-size: 20px;
+        font-weight: 600;
+        color: #F39C12;
+      }
+      .status-card .status-header .offline-meta {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: #909399;
+      }
+      .status-card .status-header .offline-meta .meta-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 10px;
+        border-radius: 4px;
+        background: #F5F7FA;
+        color: #606266;
+      }
+      .mini-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .mini-stat {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 20px;
+        background: #F9FAFB;
+        border-radius: 8px;
+        border: 1px solid #EBEEF5;
+        transition: border-color 0.2s;
+      }
+      .mini-stat:hover { border-color: #C0C4CC; }
+      .mini-stat .stat-num {
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .mini-stat .stat-num.blue { color: #1A6FD4; }
+      .mini-stat .stat-num.red { color: #E74C3C; }
+      .mini-stat .stat-num.green { color: #27AE60; }
+      .mini-stat .stat-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .mini-stat .stat-meta .label {
+        font-size: 14px;
+        color: #303133;
+        font-weight: 500;
+      }
+      .mini-stat .stat-meta .sub {
+        font-size: 12px;
+        color: #909399;
+      }
+
+      /* ── Section Title ── */
+      .section-title-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        padding: 16px 24px 12px;
+        border-bottom: 1px solid #EBEEF5;
+      }
+      .section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #303133;
+      }
+      .section-subtitle {
+        font-size: 13px;
+        color: #909399;
+      }
+
+      /* ── Sync Queue ── */
+      .sync-queue-card .queue-body {
+        padding: 8px 24px 20px;
+      }
+      .sync-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border: 1px solid #EBEEF5;
+        border-radius: 8px;
+        margin-top: 8px;
+        transition: all 0.2s;
+        background: #FFFFFF;
+      }
+      .sync-item:hover {
+        border-color: #C0C4CC;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      }
+      .sync-item.checked {
+        background: #F0F7FF;
+        border-color: #1A6FD4;
+      }
+      .sync-item .item-checkbox {
+        width: 18px;
+        height: 18px;
+        border: 2px solid #C0C4CC;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: all 0.15s;
+        background: #FFFFFF;
+      }
+      .sync-item .item-checkbox:hover { border-color: #1A6FD4; }
+      .sync-item .item-checkbox.checked {
+        background: #1A6FD4;
+        border-color: #1A6FD4;
+      }
+      .sync-item .item-checkbox.checked svg { display: block; }
+      .sync-item .item-checkbox svg { display: none; }
+      .sync-item .item-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .sync-item .item-icon.blue { background: #E8F2FC; color: #1A6FD4; }
+      .sync-item .item-icon.gray { background: #F5F7FA; color: #909399; }
+      .sync-item .item-icon.green { background: #E8F8EE; color: #27AE60; }
+      .sync-item .item-content {
+        flex: 1;
+        min-width: 0;
+      }
+      .sync-item .item-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: #303133;
+        margin-bottom: 2px;
+      }
+      .sync-item .item-desc {
+        font-size: 12px;
+        color: #909399;
+      }
+      .sync-item .item-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+      .status-badge.green {
+        background: #E8F8EE;
+        color: #27AE60;
+      }
+      .status-badge.red {
+        background: #FDECEA;
+        color: #E74C3C;
+      }
+      .status-badge.gray {
+        background: #F5F7FA;
+        color: #909399;
+      }
+      .status-badge .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+      }
+      .status-badge.green .dot { background: #27AE60; }
+      .status-badge.red .dot { background: #E74C3C; }
+      .status-badge.gray .dot { background: #909399; }
+      .item-expand-btn {
+        width: 28px;
+        height: 28px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        background: #FFFFFF;
+        color: #606266;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+      .item-expand-btn:hover {
+        color: #E74C3C;
+        border-color: #E74C3C;
+        background: #FDECEA;
+      }
+
+      /* Queue footer */
+      .queue-footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 16px 24px 0;
+        margin-top: 8px;
+        border-top: 1px solid #EBEEF5;
+      }
+      .btn-primary-disabled {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 36px;
+        padding: 0 20px;
+        border: 1px solid #C0C4CC;
+        border-radius: 4px;
+        background: #F5F7FA;
+        color: #BDBDBD;
+        font-size: 14px;
+        cursor: not-allowed;
+        font-family: inherit;
+        opacity: 0.8;
+      }
+
+      /* ── Disabled Operations Panel ── */
+      .disabled-panel-card .disabled-body {
+        padding: 20px 24px;
+      }
+      .disabled-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .disabled-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 44px;
+        padding: 0 16px;
+        background: #F5F7FA;
+        border: 1px solid #EBEEF5;
+        border-radius: 6px;
+        color: #BDBDBD;
+        font-size: 14px;
+        cursor: not-allowed;
+        user-select: none;
+        position: relative;
+      }
+      .disabled-btn .lock-icon {
+        flex-shrink: 0;
+        opacity: 0.6;
+      }
+      .disabled-help {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 16px;
+        font-size: 12px;
+        color: #909399;
+      }
+
+      /* ── Modal Overlay ── */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        z-index: 2000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
+      }
+      .modal-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      .modal-dialog {
+        background: #FFFFFF;
+        border-radius: 12px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        width: 90%;
+        max-width: 860px;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        transform: translateY(20px) scale(0.97);
+        transition: transform 0.25s ease;
+      }
+      .modal-overlay.show .modal-dialog {
+        transform: translateY(0) scale(1);
+      }
+      .modal-header {
+        padding: 20px 24px 12px;
+        border-bottom: 1px solid #EBEEF5;
+      }
+      .modal-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #303133;
+        margin-bottom: 4px;
+      }
+      .modal-subtitle {
+        font-size: 13px;
+        color: #909399;
+      }
+      .modal-body {
+        padding: 20px 24px;
+        overflow-y: auto;
+        flex: 1;
+      }
+      .conflict-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      .conflict-table thead th {
+        background: #F5F7FA;
+        padding: 10px 12px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #303133;
+        text-align: left;
+        border-bottom: 1px solid #DCDFE6;
+        white-space: nowrap;
+      }
+      .conflict-table tbody td {
+        padding: 12px;
+        font-size: 13px;
+        color: #303133;
+        border-bottom: 1px solid #EBEEF5;
+        vertical-align: top;
+      }
+      .conflict-table tbody td.muted { color: #909399; }
+      .conflict-table tbody td.local-val { color: #1A6FD4; }
+      .conflict-table tbody td.remote-val { color: #E74C3C; }
+      .conflict-table .radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .radio-option {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+        font-size: 12px;
+        color: #606266;
+        white-space: nowrap;
+      }
+      .radio-option input { cursor: pointer; accent-color: #1A6FD4; }
+      .radio-option.selected { color: #1A6FD4; font-weight: 500; }
+
+      .lock-alert {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 16px;
+        background: #F4ECF7;
+        border-radius: 6px;
+        margin-top: 16px;
+        border-left: 3px solid #8E44AD;
+      }
+      .lock-alert svg {
+        flex-shrink: 0;
+        color: #8E44AD;
+        margin-top: 1px;
+      }
+      .lock-alert .lock-text {
+        font-size: 13px;
+        color: #8E44AD;
+        line-height: 1.5;
+      }
+      .lock-alert .lock-text strong { font-weight: 600; }
+
+      .modal-footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 12px;
+        padding: 16px 24px;
+        border-top: 1px solid #EBEEF5;
+      }
+      .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 36px;
+        padding: 0 20px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        background: #FFFFFF;
+        color: #606266;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+      .btn-outline:hover {
+        color: #1A6FD4;
+        border-color: #1A6FD4;
+      }
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 36px;
+        padding: 0 20px;
+        border: 1px solid #1A6FD4;
+        border-radius: 4px;
+        background: #1A6FD4;
+        color: #FFFFFF;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+      .btn-primary:hover { background: #3B8AE0; border-color: #3B8AE0; }
+      .btn-primary:active { background: #1565C0; border-color: #1565C0; }
+    </style>
+<script>
+/* === Sidebar Navigation Fix === */
+(function(){
+  function navToast(msg){
+    if(typeof window.showToast==='function'){try{window.showToast(msg);return;}catch(e){}}
+    var t=document.createElement('div');
+    t.style.cssText='position:fixed;top:16px;right:16px;background:#303133;color:#fff;padding:12px 20px;border-radius:4px;z-index:99999;font-size:14px;opacity:0;transition:opacity .3s;box-shadow:0 2px 12px rgba(0,0,0,.15)';
+    document.body.appendChild(t);
+    t.textContent=msg;
+    requestAnimationFrame(function(){t.style.opacity='1';});
+    setTimeout(function(){t.style.opacity='0';setTimeout(function(){t.remove();},300);},2500);
+  }
+  var navMap={'项目总体跟踪':'overall-tracking.html','工前准备':'pre-work.html','施工计划':'construction-plan.html','实施方案':'implementation-plan.html','实施部署':'deployment.html','割接管理':'cutover.html','客户资产库':'customer-asset.html','AI排障与知识库':'ai-troubleshoot.html'};
+  var toastLabels=['售前测试管理','项目转包（代施）','验收交维','技术公告与周报','回访与维保','ITR故障与RMA'];
+  var groupConfig={
+    '交付跟踪':[{label:'项目总体跟踪',url:'overall-tracking.html'},{label:'售前测试管理',toast:true},{label:'项目转包（代施）',toast:true}],
+    '交付执行':[{label:'工前准备',url:'pre-work.html'},{label:'施工计划',url:'construction-plan.html'},{label:'实施方案',url:'implementation-plan.html'},{label:'实施部署',url:'deployment.html'},{label:'验收交维',toast:true},{label:'割接管理',url:'cutover.html'}],
+    '交付支撑':[{label:'客户资产库',url:'customer-asset.html'},{label:'技术公告与周报',toast:true},{label:'回访与维保',toast:true},{label:'AI排障与知识库',url:'ai-troubleshoot.html'},{label:'ITR故障与RMA',toast:true}]
+  };
+  var typeA=document.querySelectorAll('.sidebar-menu').length>0;
+  var typeB=!typeA&&document.querySelectorAll('.sidebar-item').length>0;
+  function txt(el){return(el.textContent||'').trim();}
+  function createItem(cfg){
+    if(typeA){
+      var li=document.createElement('li');
+      var a=document.createElement('a');
+      a.textContent=cfg.label;
+      if(cfg.toast){a.setAttribute('href','#');a.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});}
+      else if(cfg.url){a.setAttribute('href',cfg.url);}
+      li.appendChild(a);
+      return li;
+    }else{
+      var div=document.createElement('div');
+      div.className='sidebar-item';
+      div.textContent=cfg.label;
+      div.style.cursor='pointer';
+      if(cfg.toast){div.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});}
+      else if(cfg.url){div.addEventListener('click',function(e){e.preventDefault();__safeNav(cfg.url);});}
+      return div;
+    }
+  }
+  Object.keys(groupConfig).forEach(function(gName){
+    var container=null;
+    if(typeA){document.querySelectorAll('.sidebar-group-header').forEach(function(h){if(txt(h).indexOf(gName)>=0){container=h.parentElement.querySelector('.sidebar-menu');}});}
+    else if(typeB){document.querySelectorAll('.sidebar-group-title').forEach(function(t2){if(txt(t2).indexOf(gName)>=0){container=t2.parentElement.querySelector('.sidebar-group-items');}});}
+    if(!container)return;
+    var existing={};
+    var sel=typeA?'a':'.sidebar-item';
+    container.querySelectorAll(sel).forEach(function(el){existing[txt(el)]=true;});
+    groupConfig[gName].forEach(function(cfg){if(!existing[cfg.label]){container.appendChild(createItem(cfg));}});
+  });
+  var allLinks=typeA?document.querySelectorAll('.sidebar-menu a'):document.querySelectorAll('.sidebar-item');
+  allLinks.forEach(function(item){
+    var t=txt(item);
+    if(navMap[t]){
+      var url=navMap[t];
+      if(typeA){
+        if(item.tagName==='A'&&item.getAttribute('href')!==url){item.setAttribute('href',url);item.removeAttribute('onclick');}
+      }else{
+        item.removeAttribute('onclick');
+        item.style.cursor='pointer';
+        var ni=item.cloneNode(true);
+        ni.addEventListener('click',function(e){e.preventDefault();__safeNav(url);});
+        if(item.parentNode)item.parentNode.replaceChild(ni,item);
+      }
+      return;
+    }
+    if(toastLabels.indexOf(t)>=0){
+      if(typeA){
+        var href=item.getAttribute('href')||'';
+        var oc=item.getAttribute('onclick')||'';
+        if(href==='#'||oc.indexOf('return false')>=0||href===''){
+          var na=item.cloneNode(true);
+          na.setAttribute('href','#');
+          na.removeAttribute('onclick');
+          na.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});
+          if(item.parentNode)item.parentNode.replaceChild(na,item);
+        }
+      }else{
+        var oc2=item.getAttribute('onclick')||'';
+        if(oc2.indexOf('return false')>=0){
+          item.removeAttribute('onclick');
+          item.style.cursor='pointer';
+          var nd=item.cloneNode(true);
+          nd.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});
+          if(item.parentNode)item.parentNode.replaceChild(nd,item);
+        }
+      }
+    }
+  });
+  ['集成与报表','系统管理'].forEach(function(gName){
+    if(typeA){
+      document.querySelectorAll('.sidebar-group-header').forEach(function(h){
+        if(txt(h)===gName){
+          h.style.cursor='pointer';
+          h.addEventListener('click',function(){var m=h.parentElement.querySelector('.sidebar-menu');if(m&&m.children.length===0)navToast('功能开发中');});
+        }
+      });
+    }else if(typeB){
+      document.querySelectorAll('.sidebar-group-title').forEach(function(t2){
+        if(txt(t2)===gName){
+          t2.addEventListener('click',function(){var it=t2.parentElement.querySelector('.sidebar-group-items');if(it&&it.children.length===0)navToast('功能开发中');});
+        }
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

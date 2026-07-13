@@ -1,0 +1,2058 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工前准备 - PMS项目交付管理系统</title>
+    <style id="theme-vars">
+:root {
+  /* ── Brand ── */
+  --color-primary: #1A6FD4;
+  --color-primary-hover: #3B8AE0;
+  --color-primary-light: #E8F2FC;
+  --color-text-muted: #5A6477;
+  --color-border: #DCDFE6;
+
+  /* ── State Colors ── */
+  --state-success: #27AE60;
+  --state-info: #2E8BE6;
+  --state-warning: #F39C12;
+  --state-error: #E74C3C;
+  --state-locked: #8E44AD;
+  --state-disabled: #BDBDBD;
+
+  /* ── Surface ── */
+  --bg-page: #F5F7FA;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F5F7FA;
+  --bg-active: #E8F2FC;
+
+  /* ── Text ── */
+  --text-primary: #303133;
+  --text-tertiary: #909399;
+  --text-white: #FFFFFF;
+
+  /* ── Typography ── */
+  --font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  --text-h1: 600 24px/1.5 var(--font-family);
+  --text-h2: 600 20px/1.5 var(--font-family);
+  --text-h3: 600 16px/1.5 var(--font-family);
+  --text-body: 400 14px/1.5 var(--font-family);
+  --text-caption: 400 12px/1.5 var(--font-family);
+  --text-stat: 600 28px/1.5 var(--font-family);
+
+  /* ── Semantic Token Aliases (Tailwind bridge) ── */
+  --background: #F5F7FA;
+  --foreground: #303133;
+  --card: #FFFFFF;
+  --card-foreground: #303133;
+  --muted: #F5F7FA;
+  --muted-foreground: #909399;
+  --primary-foreground: #FFFFFF;
+  --border: #DCDFE6;
+  --input: #DCDFE6;
+  --ring: #1A6FD4;
+
+  /* ── Radius ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* ── Shadow ── */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  /* ── Spacing ── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+    </style>
+    <script type="application/json" data-cdn="@tailwindcss/browser@4.3.1"></script>
+    <script type="application/json" data-cdn="lucide@1.8.0"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-primary: var(--color-primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+  }
+  @layer base {
+    body { background: var(--background); color: var(--foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--background); }
+      .text-background { color: var(--background); }
+      .border-background { border-color: var(--background); }
+      .ring-background { --tw-ring-color: var(--background); }
+      .bg-foreground { background-color: var(--foreground); }
+      .text-foreground { color: var(--foreground); }
+      .border-foreground { border-color: var(--foreground); }
+      .ring-foreground { --tw-ring-color: var(--foreground); }
+      .bg-card { background-color: var(--card); }
+      .text-card { color: var(--card); }
+      .border-card { border-color: var(--card); }
+      .ring-card { --tw-ring-color: var(--card); }
+      .bg-card-foreground { background-color: var(--card-foreground); }
+      .text-card-foreground { color: var(--card-foreground); }
+      .border-card-foreground { border-color: var(--card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--card-foreground); }
+      .bg-primary { background-color: var(--color-primary); }
+      .text-primary { color: var(--color-primary); }
+      .border-primary { border-color: var(--color-primary); }
+      .ring-primary { --tw-ring-color: var(--color-primary); }
+      .bg-primary-foreground { background-color: var(--primary-foreground); }
+      .text-primary-foreground { color: var(--primary-foreground); }
+      .border-primary-foreground { border-color: var(--primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--primary-foreground); }
+      .bg-muted { background-color: var(--muted); }
+      .text-muted { color: var(--muted); }
+      .border-muted { border-color: var(--muted); }
+      .ring-muted { --tw-ring-color: var(--muted); }
+      .bg-muted-foreground { background-color: var(--muted-foreground); }
+      .text-muted-foreground { color: var(--muted-foreground); }
+      .border-muted-foreground { border-color: var(--muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--muted-foreground); }
+      .bg-border { background-color: var(--border); }
+      .text-border { color: var(--border); }
+      .border-border { border-color: var(--border); }
+      .ring-border { --tw-ring-color: var(--border); }
+      .bg-input { background-color: var(--input); }
+      .text-input { color: var(--input); }
+      .border-input { border-color: var(--input); }
+      .ring-input { --tw-ring-color: var(--input); }
+      .bg-ring { background-color: var(--ring); }
+      .text-ring { color: var(--ring); }
+      .border-ring { border-color: var(--ring); }
+      .ring-ring { --tw-ring-color: var(--ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+<script>
+(function(){
+  var __lastNav = '';
+  var __lastNavTime = 0;
+  window.__safeNav = function(url) {
+    var now = Date.now();
+    if (url === __lastNav && (now - __lastNavTime) < 800) return;
+    __lastNav = url;
+    __lastNavTime = now;
+    try { window.parent.postMessage({ type: 'design-navigate', url: url }, '*'); } catch(e) {}
+    var name = url.replace(/\.html$/, '').replace(/-/g, ' ');
+    if (typeof window.showToast === 'function') {
+      window.showToast('页面跳转: ' + name);
+    } else if (typeof window.showToastDelivery === 'function') {
+      window.showToastDelivery('页面跳转: ' + name);
+    } else {
+      var t = document.createElement('div');
+      t.textContent = '页面跳转: ' + name;
+      t.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1A6FD4;color:#fff;padding:10px 24px;border-radius:8px;z-index:99999;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-family:sans-serif;';
+      document.body.appendChild(t);
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 2000);
+    }
+  };
+  document.addEventListener('click', function(e) {
+    var el = e.target;
+    while (el && el !== document) {
+      if (el.hasAttribute && el.hasAttribute('data-nav-target')) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.__safeNav(el.getAttribute('data-nav-target'));
+        return false;
+      }
+      el = el.parentElement;
+    }
+  }, true);
+})();
+</script>
+<script>
+(function(){
+  // Suppress cross-origin security errors that occur when canvas SDK
+  // cleans up the srcdoc iframe during page switching.
+  // The iframe has null origin (srcdoc mode) while the host has vscode-file:// origin.
+  var origError = window.onerror;
+  window.onerror = function(msg, url, line, col, err) {
+    if (typeof msg === 'string' && (msg.indexOf('removeEventListener') !== -1 || msg.indexOf('cross-origin') !== -1 || msg.indexOf('security policy') !== -1)) {
+      return true; // suppress
+    }
+    if (origError) return origError.apply(this, arguments);
+    return false;
+  };
+  window.addEventListener('unhandledrejection', function(e) {
+    if (e.reason && typeof e.reason.message === 'string' && (e.reason.message.indexOf('removeEventListener') !== -1 || e.reason.message.indexOf('cross-origin') !== -1)) {
+      e.preventDefault();
+    }
+  });
+})();
+</script>
+    <!-- ==================== Header ==================== -->
+    <header class="admin-header">
+        <div class="header-logo">
+            <div class="logo-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <span class="logo-text">PMS 项目交付管理系统</span>
+        </div>
+        <div class="header-search">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input type="text" placeholder="搜索办事处/项目名称/合同号...">
+        </div>
+        <div class="header-right">
+            <div class="header-bell">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span class="bell-badge">3</span>
+            </div>
+            <div class="header-user">
+                <div class="avatar">张</div>
+                <span class="user-name">张三</span>
+                <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== Sidebar ==================== -->
+    <aside class="admin-sidebar">
+        <!-- 交付跟踪 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    交付跟踪
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;">
+                <li><a href="#" data-nav-target="overall-tracking.html">项目总体跟踪</a></li>
+            </ul>
+        </div>
+
+        <!-- 交付执行 (expanded, active) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                    </svg>
+                    交付执行
+                </span>
+                <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" data-nav-target="pre-work.html" class="active">工前准备</a></li>
+                <li><a href="#" data-nav-target="construction-plan.html">施工计划</a></li>
+                <li><a href="#" data-nav-target="implementation-plan.html">实施方案</a></li>
+                <li><a href="#" data-nav-target="deployment.html">实施部署</a></li>
+                <li><a href="#">验收交维</a></li>
+                <li><a href="#" data-nav-target="cutover.html">割接管理</a></li>
+            </ul>
+        </div>
+
+        <!-- 交付支撑 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                    交付支撑
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;">
+                <li><a href="#" data-nav-target="customer-asset.html">客户资产库</a></li>
+                <li><a href="#" data-nav-target="ai-troubleshoot.html">AI排障与知识库</a></li>
+            </ul>
+        </div>
+
+        <!-- 集成与报表 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                    集成与报表
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+
+        <!-- 系统管理 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                    系统管理
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+    </aside>
+
+    <!-- ==================== TagsView ==================== -->
+    <div class="tags-view">
+        <div class="tag-item active">
+            <span>工前准备</span>
+            <span class="tag-close">&times;</span>
+        </div>
+        <div style="flex:1;"></div>
+        <div class="tag-item" style="cursor: pointer;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- ==================== Main Content ==================== -->
+    <div class="admin-main">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar">
+            <a href="#">交付执行</a>
+            <span class="sep">/</span>
+            <span class="current">工前准备</span>
+        </div>
+
+        <div class="page-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">工前准备</h1>
+                <div class="page-actions">
+                    <button class="btn-outline">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        工程交底书
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="tab-nav">
+                <button class="tab-btn active" data-tab="contacts">客户联系人</button>
+                <button class="tab-btn" data-tab="survey">工勘分工确认</button>
+                <button class="tab-btn" data-tab="requirements">需求分析</button>
+                <button class="tab-btn" data-tab="materials">
+                    物料选择
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                        <polyline points="15 3 21 3 21 9"/>
+                        <line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- ==================== Tab Panel: 客户联系人 ==================== -->
+            <div class="tab-panel active" id="tab-contacts">
+
+                <!-- Main Contact Card -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-title-with-badge">
+                            <span class="card-title-text">主联系人</span>
+                            <span class="mini-badge">项目页展示</span>
+                        </div>
+                        <button class="btn-sm-outline">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            </svg>
+                            编辑
+                        </button>
+                    </div>
+                    <div class="info-grid-3">
+                        <div class="info-field">
+                            <span class="info-label">姓名</span>
+                            <span class="info-value">孙主管</span>
+                        </div>
+                        <div class="info-field">
+                            <span class="info-label">电话</span>
+                            <span class="info-value">138xxxx</span>
+                        </div>
+                        <div class="info-field">
+                            <span class="info-label">服务等级</span>
+                            <span class="info-value"><span class="level-badge level-a">A</span></span>
+                        </div>
+                        <div class="info-field">
+                            <span class="info-label">部门</span>
+                            <span class="info-value">IT部</span>
+                        </div>
+                        <div class="info-field">
+                            <span class="info-label">职务</span>
+                            <span class="info-value">主管</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other Contacts Table -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-title-with-badge">
+                            <span class="card-title-text">其他联系人</span>
+                            <span class="mini-badge">详情页展示</span>
+                        </div>
+                        <button class="btn-sm-primary">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            新增联系人
+                        </button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>姓名</th>
+                                <th>电话</th>
+                                <th>服务等级</th>
+                                <th>部门</th>
+                                <th>职务</th>
+                                <th style="width:120px;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>周八</td>
+                                <td>139xxxx</td>
+                                <td><span class="level-badge level-a">A</span></td>
+                                <td>运维部</td>
+                                <td>工程师</td>
+                                <td>
+                                    <a href="#" class="action-link">编辑</a>
+                                    <a href="#" class="action-link danger">失效</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>吴九</td>
+                                <td>137xxxx</td>
+                                <td><span class="level-badge level-b">B</span></td>
+                                <td>网络部</td>
+                                <td>主管</td>
+                                <td>
+                                    <a href="#" class="action-link">编辑</a>
+                                    <a href="#" class="action-link danger">失效</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- ==================== Tab Panel: 工勘分工确认 ==================== -->
+            <div class="tab-panel" id="tab-survey">
+
+                <!-- Survey Basic Info -->
+                <div class="content-card">
+                    <div class="section-title">工勘基本信息</div>
+                    <div class="form-grid">
+                        <div class="form-item">
+                            <label class="form-label">工期要求</label>
+                            <input type="date" class="form-input" value="2026-09-30">
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">机房供电确认</label>
+                            <select class="form-select">
+                                <option selected>已确认</option>
+                                <option>未确认</option>
+                            </select>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">供电方式</label>
+                            <div class="radio-group">
+                                <label class="radio-item"><input type="radio" name="power-mode" checked> 市电</label>
+                                <label class="radio-item"><input type="radio" name="power-mode"> UPS</label>
+                            </div>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">网口类型</label>
+                            <select class="form-select">
+                                <option selected>10G光口</option>
+                                <option>1G光口</option>
+                                <option>10G电口</option>
+                                <option>1G电口</option>
+                            </select>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">机柜资源</label>
+                            <select class="form-select">
+                                <option selected>充足</option>
+                                <option>紧张</option>
+                                <option>不足</option>
+                            </select>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">光纤网线</label>
+                            <select class="form-select">
+                                <option selected>需补充</option>
+                                <option>充足</option>
+                                <option>不足</option>
+                            </select>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">光模块</label>
+                            <select class="form-select">
+                                <option selected>原厂</option>
+                                <option>第三方</option>
+                            </select>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">原厂光模块</label>
+                            <select class="form-select">
+                                <option selected>需采购</option>
+                                <option>已备货</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Implementation Conditions -->
+                <div class="content-card">
+                    <div class="section-title">实施条件确认</div>
+
+                    <!-- Conditional: 上架加电需原厂实施 -->
+                    <div class="conditional-box">
+                        <div class="conditional-row">
+                            <span class="form-label-inline">上架加电需原厂实施：</span>
+                            <span class="form-value-badge">是</span>
+                            <a href="#" class="form-link">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                    <polyline points="15 3 21 3 21 9"/>
+                                    <line x1="10" y1="14" x2="21" y2="3"/>
+                                </svg>
+                                发起外包流程
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Conditional: 导轨托盘需求 -->
+                    <div class="conditional-box">
+                        <div class="conditional-row">
+                            <span class="form-label-inline">导轨托盘需求：</span>
+                            <span class="form-value-badge">是</span>
+                            <a href="#" class="form-link">物料领用</a>
+                            <a href="#" class="form-link">外采</a>
+                        </div>
+                    </div>
+
+                    <!-- 发货物料符合性 -->
+                    <div class="form-item-full">
+                        <label class="form-label">发货物料符合性</label>
+                        <select class="form-select">
+                            <option selected>不符合</option>
+                            <option>符合</option>
+                        </select>
+                    </div>
+
+                    <!-- Warning Alert -->
+                    <div class="alert-warning">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                            <line x1="12" y1="9" x2="12" y2="13"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                        <span>物料不符合，请进入物料选择页面</span>
+                        <a href="#" class="alert-link">物料选择</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ==================== Tab Panel: 需求分析 ==================== -->
+            <div class="tab-panel" id="tab-requirements">
+
+                <!-- Project Background & Goals -->
+                <div class="content-card">
+                    <div class="section-title">项目背景与目标</div>
+                    <div class="form-vertical">
+                        <div class="form-item-vertical">
+                            <label class="form-label">项目背景</label>
+                            <textarea class="form-textarea" rows="4" placeholder="请输入项目背景..."></textarea>
+                        </div>
+                        <div class="form-item-vertical">
+                            <label class="form-label">项目目标</label>
+                            <textarea class="form-textarea" rows="4" placeholder="请输入项目目标..."></textarea>
+                        </div>
+                        <div class="form-item-vertical">
+                            <label class="form-label">网络拓扑</label>
+                            <div class="file-upload">
+                                <label for="topology-file" class="file-upload-btn">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                        <polyline points="17 8 12 3 7 8"/>
+                                        <line x1="12" y1="3" x2="12" y2="15"/>
+                                    </svg>
+                                    点击上传
+                                </label>
+                                <input type="file" id="topology-file" style="display:none;">
+                                <span class="file-hint" id="topology-file-hint">支持 PDF、PNG、JPG 格式，文件不超过 10MB</span>
+                                <div id="topology-upload-progress" style="display:none;width:100%;margin-top:8px;">
+                                    <div style="height:6px;background:#EBEEF5;border-radius:3px;overflow:hidden;">
+                                        <div id="topology-progress-bar" style="height:100%;width:0%;background:var(--color-primary);transition:width .3s ease;border-radius:3px;"></div>
+                                    </div>
+                                    <span id="topology-progress-text" style="font-size:12px;color:var(--text-tertiary);margin-top:4px;display:block;">上传中... 0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Network Status Analysis -->
+                <div class="content-card">
+                    <div class="section-title">网络现状分析</div>
+                    <div class="checkbox-groups">
+                        <div>
+                            <label class="checkbox-group-title">传输现状</label>
+                            <div class="checkbox-list">
+                                <label class="checkbox-item"><input type="checkbox"> IPv6</label>
+                                <label class="checkbox-item"><input type="checkbox"> 分片</label>
+                                <label class="checkbox-item"><input type="checkbox"> MTU</label>
+                                <label class="checkbox-item"><input type="checkbox"> Jumbo</label>
+                                <label class="checkbox-item"><input type="checkbox"> 隧道</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="checkbox-group-title">流量现状</label>
+                            <div class="checkbox-list">
+                                <label class="checkbox-item"><input type="checkbox"> 新建</label>
+                                <label class="checkbox-item"><input type="checkbox"> 并发</label>
+                                <label class="checkbox-item"><input type="checkbox"> 吞吐</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="checkbox-group-title">IP资源</label>
+                            <div class="checkbox-list">
+                                <label class="checkbox-item"><input type="checkbox"> 管理IP</label>
+                                <label class="checkbox-item"><input type="checkbox"> 公网IP</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- O&M Requirements -->
+                <div class="content-card">
+                    <div class="section-title">运维要求</div>
+                    <div class="form-grid">
+                        <div class="form-item">
+                            <label class="form-label">冗余备份要求</label>
+                            <input type="text" class="form-input" placeholder="请输入冗余备份要求">
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">运维管理要求</label>
+                            <div class="checkbox-inline">
+                                <label class="checkbox-item"><input type="checkbox"> 带内</label>
+                                <label class="checkbox-item"><input type="checkbox"> 带外</label>
+                                <label class="checkbox-item"><input type="checkbox"> SNMP</label>
+                                <label class="checkbox-item"><input type="checkbox"> UMC</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ==================== Tab Panel: 物料选择 ==================== -->
+            <div class="tab-panel" id="tab-materials">
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-title-with-badge">
+                            <span class="card-title-text">物料符合性检查</span>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width:40px;">
+                                    <input type="checkbox" id="select-all">
+                                </th>
+                                <th>序列号</th>
+                                <th>产品编码</th>
+                                <th>产品名称</th>
+                                <th>不符合项说明</th>
+                                <th style="width:100px;">换货流程</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" class="row-check" checked></td>
+                                <td>SN001</td>
+                                <td>P001</td>
+                                <td>设备A</td>
+                                <td><input type="text" class="table-input" placeholder="请输入不符合项说明"></td>
+                                <td><a href="#" class="action-link">发起换货</a></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="row-check" checked></td>
+                                <td>SN002</td>
+                                <td>P002</td>
+                                <td>设备B</td>
+                                <td>接口不匹配</td>
+                                <td><a href="#" class="action-link">发起换货</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Table Footer -->
+                    <div class="table-footer">
+                        <label class="table-footer-note">
+                            <input type="checkbox" checked> 已确认所选物料的换货需求
+                        </label>
+                        <button class="btn-primary">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            发起换货流程
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ===== Enhanced Interactive Sections ===== -->
+
+            <!-- Task List -->
+            <div class="content-card">
+                <div class="card-header">
+                    <div class="card-title-with-badge">
+                        <span class="card-title-text">工前任务清单</span>
+                        <span class="mini-badge" id="prework-task-count" style="background:var(--color-primary-light);color:var(--color-primary);">0/5 已完成</span>
+                    </div>
+                </div>
+                <div id="prework-task-list"></div>
+            </div>
+
+            <!-- Checklist -->
+            <div class="content-card">
+                <div class="card-header">
+                    <div class="card-title-with-badge">
+                        <span class="card-title-text">工前检查项确认</span>
+                        <span class="mini-badge" id="prework-checklist-count">0/5 已确认</span>
+                    </div>
+                </div>
+                <ul class="delivery-checklist" id="prework-checklist" style="list-style:none;padding:0;margin:0;"></ul>
+                <div style="margin-top:16px;display:flex;justify-content:flex-end;">
+                    <button class="delivery-btn delivery-btn-primary" id="prework-checklist-submit" disabled style="opacity:.5;cursor:not-allowed;">提交检查确认</button>
+                </div>
+            </div>
+
+            <!-- Milestone Timeline -->
+            <div class="content-card">
+                <div class="card-header">
+                    <div class="card-title-with-badge">
+                        <span class="card-title-text">里程碑时间线</span>
+                    </div>
+                </div>
+                <ul class="delivery-timeline" id="prework-milestone" style="list-style:none;padding:0;margin:0;"></ul>
+            </div>
+
+            <!-- Risk Assessment -->
+            <div class="content-card">
+                <div class="card-header">
+                    <div class="card-title-with-badge">
+                        <span class="card-title-text">风险评估</span>
+                    </div>
+                    <button class="delivery-btn delivery-btn-outline" id="prework-add-risk-btn">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        添加风险
+                    </button>
+                </div>
+                <div id="prework-risk-list"></div>
+            </div>
+
+            <!-- ===== Delivery Operations ===== -->
+            <div class="delivery-ops-card" id="delivery-ops-bar">
+                <div class="delivery-ops-head">
+                    <span class="delivery-ops-title">交付操作</span>
+                    <span class="delivery-badge delivery-badge-green" id="delivery-status-badge">工前准备已完成</span>
+                </div>
+                <div class="delivery-ops-actions">
+                    <button class="delivery-btn delivery-btn-primary" data-daction="submit-prework">提交工前确认</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="download-docs">下载工前文档包</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="change-req">发起需求变更</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="audit-trail">查看审核记录</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="back-tracking">返回项目跟踪</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // ── Sidebar toggle ──
+        document.querySelectorAll('.sidebar-group-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const menu = this.nextElementSibling;
+                const chevron = this.querySelector('.chevron-icon');
+                if (menu && menu.tagName === 'UL') {
+                    const isHidden = menu.style.display === 'none';
+                    menu.style.display = isHidden ? 'block' : 'none';
+                    if (chevron) {
+                        chevron.classList.toggle('collapsed', !isHidden);
+                    }
+                }
+            });
+        });
+
+        // ── Toast ──
+        function showToast(message, type) {
+            var toast = document.getElementById('pms-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'pms-toast';
+                toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:6px;font-size:14px;z-index:99999;opacity:0;transition:opacity 0.3s;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,0.15);color:#fff;background:#303133;';
+                document.body.appendChild(toast);
+            }
+            var colors = {success:'#27AE60', warning:'#F39C12', error:'#E74C3C', info:'#303133'};
+            toast.style.background = colors[type] || colors.info;
+            toast.textContent = message;
+            toast.style.opacity = '1';
+            clearTimeout(toast._t);
+            toast._t = setTimeout(function(){ toast.style.opacity = '0'; }, 2500);
+        }
+
+        // ── Confirm modal ──
+        function showConfirm(message, onConfirm, okText, cancelText) {
+            var overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:99998;display:flex;align-items:center;justify-content:center;';
+            var box = document.createElement('div');
+            box.style.cssText = 'background:#fff;border-radius:8px;padding:24px;min-width:340px;max-width:440px;box-shadow:0 8px 24px rgba(0,0,0,0.2);';
+            var msg = document.createElement('div');
+            msg.style.cssText = 'font-size:15px;color:#303133;margin-bottom:20px;line-height:1.6;';
+            msg.textContent = message;
+            var row = document.createElement('div');
+            row.style.cssText = 'display:flex;justify-content:flex-end;gap:10px;';
+            var cancel = document.createElement('button');
+            cancel.textContent = cancelText || '取消';
+            cancel.style.cssText = 'height:32px;padding:0 18px;border:1px solid #DCDFE6;border-radius:4px;background:#fff;color:#606266;font-size:14px;cursor:pointer;font-family:inherit;';
+            var ok = document.createElement('button');
+            ok.textContent = okText || '确认';
+            ok.style.cssText = 'height:32px;padding:0 18px;border:1px solid #1A6FD4;border-radius:4px;background:#1A6FD4;color:#fff;font-size:14px;cursor:pointer;font-family:inherit;';
+            row.appendChild(cancel); row.appendChild(ok);
+            box.appendChild(msg); box.appendChild(row);
+            overlay.appendChild(box);
+            document.body.appendChild(overlay);
+            function close(){ if(overlay.parentNode) document.body.removeChild(overlay); }
+            ok.addEventListener('click', function(){ close(); if(onConfirm) onConfirm(); });
+            cancel.addEventListener('click', close);
+            overlay.addEventListener('click', function(e){ if(e.target===overlay) close(); });
+        }
+
+        // ── Tab switching with fade-in ──
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+                const panel = document.getElementById('tab-' + tabId);
+                if (panel) {
+                    panel.classList.add('active');
+                    panel.style.transition = 'opacity 0.25s ease';
+                    panel.style.opacity = '0';
+                    requestAnimationFrame(function(){
+                        requestAnimationFrame(function(){ panel.style.opacity = '1'; });
+                    });
+                }
+            });
+        });
+
+        // ── Select all checkbox in materials table ──
+        const selectAll = document.getElementById('select-all');
+        if (selectAll) {
+            selectAll.addEventListener('change', function() {
+                document.querySelectorAll('.row-check').forEach(cb => { cb.checked = this.checked; });
+            });
+        }
+
+        // ── 客户联系人: 编辑主联系人 ──
+        var mainEditBtn = document.querySelector('#tab-contacts .btn-sm-outline');
+        if (mainEditBtn) mainEditBtn.addEventListener('click', function(){ showToast('联系人编辑功能开发中'); });
+
+        // ── 客户联系人: 新增联系人 modal ──
+        var addBtn = document.querySelector('#tab-contacts .btn-sm-primary');
+        if (addBtn) addBtn.addEventListener('click', showAddContactModal);
+
+        function showAddContactModal(){
+            var overlay = document.createElement('div');
+            overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:99998;display:flex;align-items:center;justify-content:center;';
+            var box=document.createElement('div');
+            box.style.cssText='background:#fff;border-radius:8px;padding:24px;min-width:400px;max-width:460px;box-shadow:0 8px 24px rgba(0,0,0,0.2);';
+            var title=document.createElement('div');
+            title.style.cssText='font-size:16px;font-weight:600;color:#303133;margin-bottom:18px;';
+            title.textContent='新增联系人';
+            var fields=[
+                {label:'姓名',type:'text',ph:'请输入姓名'},
+                {label:'电话',type:'text',ph:'请输入电话'},
+                {label:'服务等级',type:'select',opts:['A','B','C']},
+                {label:'部门',type:'text',ph:'请输入部门'},
+                {label:'职务',type:'text',ph:'请输入职务'}
+            ];
+            var form=document.createElement('div');
+            form.style.cssText='display:flex;flex-direction:column;gap:14px;';
+            fields.forEach(function(f){
+                var wrap=document.createElement('div');
+                wrap.style.cssText='display:flex;flex-direction:column;gap:6px;';
+                var lab=document.createElement('label');
+                lab.style.cssText='font-size:13px;color:#909399;';
+                lab.textContent=f.label;
+                var inp;
+                if(f.type==='select'){
+                    inp=document.createElement('select');
+                    f.opts.forEach(function(o){var op=document.createElement('option');op.textContent=o;inp.appendChild(op);});
+                } else {
+                    inp=document.createElement('input');
+                    inp.type=f.type; inp.placeholder=f.ph;
+                }
+                inp.style.cssText='height:34px;border:1px solid #DCDFE6;border-radius:4px;padding:0 10px;font-size:14px;color:#303133;outline:none;font-family:inherit;background:#fff;';
+                wrap.appendChild(lab); wrap.appendChild(inp);
+                form.appendChild(wrap);
+            });
+            var row=document.createElement('div');
+            row.style.cssText='display:flex;justify-content:flex-end;gap:10px;margin-top:20px;';
+            var cancel=document.createElement('button');
+            cancel.textContent='取消';
+            cancel.style.cssText='height:32px;padding:0 18px;border:1px solid #DCDFE6;border-radius:4px;background:#fff;color:#606266;font-size:14px;cursor:pointer;font-family:inherit;';
+            var save=document.createElement('button');
+            save.textContent='保存';
+            save.style.cssText='height:32px;padding:0 18px;border:1px solid #1A6FD4;border-radius:4px;background:#1A6FD4;color:#fff;font-size:14px;cursor:pointer;font-family:inherit;';
+            row.appendChild(cancel); row.appendChild(save);
+            box.appendChild(title); box.appendChild(form); box.appendChild(row);
+            overlay.appendChild(box);
+            document.body.appendChild(overlay);
+            function close(){ if(overlay.parentNode) document.body.removeChild(overlay); }
+            save.addEventListener('click', function(){ close(); showToast('联系人已保存', 'success'); });
+            cancel.addEventListener('click', close);
+            overlay.addEventListener('click', function(e){ if(e.target===overlay) close(); });
+        }
+
+        // ── table edit/fail links ──
+        document.querySelectorAll('#tab-contacts .data-table .action-link').forEach(function(link){
+            link.addEventListener('click', function(e){
+                e.preventDefault();
+                if(this.classList.contains('danger')){
+                    showConfirm('确认将此联系人设为失效？', function(){ showToast('联系人已设为失效', 'success'); }, '确认', '取消');
+                } else {
+                    showToast('编辑功能开发中');
+                }
+            });
+        });
+
+        // ── 工勘: form-link clicks ──
+        document.querySelectorAll('#tab-survey .form-link').forEach(function(link){
+            link.addEventListener('click', function(e){
+                e.preventDefault();
+                var txt=(this.textContent||'').trim();
+                if(txt.indexOf('发起外包流程')>-1){ showToast('外包流程已发起', 'success'); }
+                else if(txt.indexOf('物料领用')>-1){ showToast('物料领用流程已发起', 'success'); }
+                else if(txt.indexOf('外采')>-1){ showToast('外采流程已发起', 'success'); }
+            });
+        });
+
+        // ── 工勘: 发货物料符合性 select toggle alert ──
+        var complianceSelect = document.querySelector('#tab-survey .form-item-full .form-select');
+        var complianceAlert = document.querySelector('#tab-survey .alert-warning');
+        if (complianceSelect && complianceAlert) {
+            complianceSelect.addEventListener('change', function(){
+                var val = this.options[this.selectedIndex].text;
+                complianceAlert.style.display = (val === '不符合') ? '' : 'none';
+            });
+            var initVal = complianceSelect.options[complianceSelect.selectedIndex].text;
+            complianceAlert.style.display = (initVal === '不符合') ? '' : 'none';
+        }
+        var alertLink = document.querySelector('#tab-survey .alert-warning .alert-link');
+        if (alertLink) {
+            alertLink.addEventListener('click', function(e){
+                e.preventDefault();
+                var matBtn = document.querySelector('.tab-btn[data-tab="materials"]');
+                if (matBtn) matBtn.click();
+            });
+        }
+
+        // ── 需求分析: file upload ──
+        var topoFile = document.getElementById('topology-file');
+        if (topoFile) {
+            topoFile.addEventListener('change', function(){
+                var hint = topoFile.parentElement.querySelector('.file-hint');
+                if (topoFile.files && topoFile.files.length) {
+                    if (hint) hint.textContent = '已选择：' + topoFile.files[0].name;
+                } else {
+                    if (hint) hint.textContent = '支持 PDF、PNG、JPG 格式，文件不超过 10MB';
+                }
+            });
+        }
+
+        // ── 物料选择: 发起换货流程 ──
+        var exchangeBtn = document.querySelector('#tab-materials .btn-primary');
+        if (exchangeBtn) exchangeBtn.addEventListener('click', function(){ showToast('换货流程已发起，请等待审批', 'success'); });
+    </script>
+
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+        font-size: 14px;
+        color: #303133;
+        background: #F5F7FA;
+        overflow: hidden;
+        height: 100vh;
+      }
+
+      /* ── Header ── */
+      .admin-header {
+        height: 60px;
+        background: #FFFFFF;
+        border-bottom: 1px solid #DCDFE6;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 1000;
+      }
+      .header-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+        width: 208px;
+      }
+      .header-logo .logo-icon {
+        width: 32px; height: 32px;
+        background: #1A6FD4;
+        border-radius: 4px;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .header-logo .logo-text {
+        font-size: 16px; font-weight: 600; color: #303133;
+        white-space: nowrap;
+      }
+      .header-search {
+        flex: 1; max-width: 480px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .header-search input {
+        width: 100%; height: 36px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        padding: 0 12px 0 36px;
+        font-size: 14px; color: #303133;
+        background: #F5F7FA;
+        outline: none;
+        transition: border-color 0.2s;
+        font-family: inherit;
+      }
+      .header-search input::placeholder { color: #C0C4CC; }
+      .header-search input:focus { border-color: #1A6FD4; background: #FFFFFF; }
+      .header-search .search-icon {
+        position: absolute; left: 10px; top: 50%;
+        transform: translateY(-50%);
+        color: #C0C4CC; pointer-events: none;
+      }
+      .header-right {
+        display: flex; align-items: center; gap: 20px; flex-shrink: 0;
+      }
+      .header-bell {
+        position: relative; cursor: pointer; color: #606266;
+        transition: color 0.2s;
+      }
+      .header-bell:hover { color: #1A6FD4; }
+      .header-bell .bell-badge {
+        position: absolute; top: -6px; right: -8px;
+        background: #E74C3C; color: #FFFFFF;
+        font-size: 11px; font-weight: 600;
+        min-width: 16px; height: 16px; border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        padding: 0 4px; line-height: 1;
+      }
+      .header-user {
+        display: flex; align-items: center; gap: 8px;
+        cursor: pointer; padding: 4px 8px; border-radius: 4px;
+        transition: background 0.2s;
+      }
+      .header-user:hover { background: #F5F7FA; }
+      .header-user .avatar {
+        width: 32px; height: 32px; border-radius: 50%;
+        background: #1A6FD4; color: #FFFFFF;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 14px; font-weight: 500;
+      }
+      .header-user .user-name { font-size: 14px; color: #303133; }
+      .header-user .chevron { color: #909399; transition: transform 0.2s; }
+
+      /* ── Sidebar ── */
+      .admin-sidebar {
+        width: 208px;
+        background: #FFFFFF;
+        position: fixed;
+        top: 60px; left: 0; bottom: 0;
+        border-right: 1px solid #DCDFE6;
+        overflow-y: auto;
+        z-index: 900;
+      }
+      .admin-sidebar::-webkit-scrollbar { width: 4px; }
+      .admin-sidebar::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 2px; }
+      .admin-sidebar::-webkit-scrollbar-track { background: transparent; }
+
+      .sidebar-group-header {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 14px; color: #303133; font-weight: 500;
+        transition: background 0.2s;
+        user-select: none;
+      }
+      .sidebar-group-header:hover { background: #F5F7FA; }
+      .sidebar-group-header .group-icon {
+        display: flex; align-items: center; gap: 8px;
+      }
+      .sidebar-group-header .chevron-icon {
+        transition: transform 0.2s; color: #909399;
+      }
+      .sidebar-group-header .chevron-icon.collapsed { transform: rotate(-90deg); }
+
+      .sidebar-menu { list-style: none; }
+      .sidebar-menu li { position: relative; }
+      .sidebar-menu li a {
+        display: block;
+        padding: 0 20px 0 44px;
+        height: 40px; line-height: 40px;
+        font-size: 14px; color: #606266;
+        text-decoration: none;
+        transition: all 0.2s;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
+      .sidebar-menu li a:hover { background: #F5F7FA; color: #1A6FD4; }
+      .sidebar-menu li a.active {
+        color: #1A6FD4; background: #E8F2FC; font-weight: 500;
+      }
+      .sidebar-menu li a.active::before {
+        content: ''; position: absolute;
+        left: 0; top: 0; bottom: 0; width: 3px;
+        background: #1A6FD4; border-radius: 0 2px 2px 0;
+      }
+
+      /* ── TagsView ── */
+      .tags-view {
+        height: 36px;
+        background: #FFFFFF;
+        border-bottom: 1px solid #DCDFE6;
+        display: flex; align-items: center;
+        padding: 0 16px; gap: 8px;
+        position: fixed;
+        top: 60px; left: 208px; right: 0;
+        z-index: 800;
+        overflow-x: auto;
+      }
+      .tags-view::-webkit-scrollbar { display: none; }
+      .tag-item {
+        display: inline-flex; align-items: center; gap: 4px;
+        height: 26px; padding: 0 10px;
+        border-radius: 3px; font-size: 12px;
+        cursor: pointer; white-space: nowrap;
+        border: 1px solid #DCDFE6;
+        color: #606266; background: #FFFFFF;
+        transition: all 0.2s; flex-shrink: 0;
+      }
+      .tag-item:hover { color: #1A6FD4; }
+      .tag-item.active {
+        background: #E8F2FC; color: #1A6FD4;
+        border-color: #1A6FD4;
+      }
+      .tag-item .tag-close {
+        width: 14px; height: 14px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 12px; transition: background 0.2s; margin-left: 2px;
+      }
+      .tag-item .tag-close:hover { background: rgba(26,111,212,0.2); color: #1A6FD4; }
+
+      /* ── Main Layout ── */
+      .admin-main {
+        margin-left: 208px;
+        margin-top: 96px;
+        height: calc(100vh - 96px);
+        overflow-y: auto;
+        background: #F5F7FA;
+      }
+      .admin-main::-webkit-scrollbar { width: 6px; }
+      .admin-main::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 3px; }
+      .admin-main::-webkit-scrollbar-track { background: transparent; }
+
+      /* ── Breadcrumb ── */
+      .breadcrumb-bar {
+        height: 32px;
+        display: flex; align-items: center;
+        padding: 0 24px;
+        font-size: 13px; color: #909399;
+        background: #FFFFFF;
+        border-bottom: 1px solid #EBEEF5;
+      }
+      .breadcrumb-bar a {
+        color: #606266; text-decoration: none; transition: color 0.2s;
+      }
+      .breadcrumb-bar a:hover { color: #1A6FD4; }
+      .breadcrumb-bar .sep { margin: 0 8px; color: #C0C4CC; }
+      .breadcrumb-bar .current { color: #303133; }
+
+      /* ── Content ── */
+      .page-content { padding: 16px; }
+
+      /* ── Page Header ── */
+      .page-header {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .page-title {
+        font-size: 20px; font-weight: 600; color: #303133;
+      }
+      .page-actions { display: flex; gap: 10px; }
+
+      /* ── Buttons ── */
+      .btn-outline {
+        display: inline-flex; align-items: center; gap: 6px;
+        height: 32px; padding: 0 14px;
+        border: 1px solid #DCDFE6; border-radius: 4px;
+        background: #FFFFFF; color: #606266;
+        font-size: 14px; cursor: pointer;
+        transition: all 0.2s; font-family: inherit;
+      }
+      .btn-outline:hover { color: #1A6FD4; border-color: #1A6FD4; }
+      .btn-primary {
+        display: inline-flex; align-items: center; gap: 6px;
+        height: 32px; padding: 0 16px;
+        border: 1px solid #1A6FD4; border-radius: 4px;
+        background: #1A6FD4; color: #FFFFFF;
+        font-size: 14px; cursor: pointer;
+        transition: all 0.2s; font-family: inherit;
+      }
+      .btn-primary:hover { background: #3B8AE0; border-color: #3B8AE0; }
+      .btn-sm-primary {
+        display: inline-flex; align-items: center; gap: 4px;
+        height: 28px; padding: 0 12px;
+        border: 1px solid #1A6FD4; border-radius: 4px;
+        background: #1A6FD4; color: #FFFFFF;
+        font-size: 13px; cursor: pointer;
+        transition: all 0.2s; font-family: inherit;
+      }
+      .btn-sm-primary:hover { background: #3B8AE0; border-color: #3B8AE0; }
+      .btn-sm-outline {
+        display: inline-flex; align-items: center; gap: 4px;
+        height: 28px; padding: 0 12px;
+        border: 1px solid #DCDFE6; border-radius: 4px;
+        background: #FFFFFF; color: #606266;
+        font-size: 13px; cursor: pointer;
+        transition: all 0.2s; font-family: inherit;
+      }
+      .btn-sm-outline:hover { color: #1A6FD4; border-color: #1A6FD4; }
+
+      /* ── Tab Navigation ── */
+      .tab-nav {
+        display: flex; gap: 0;
+        border-bottom: 1px solid #DCDFE6;
+        margin-bottom: 16px;
+        background: #FFFFFF;
+        border-radius: 8px 8px 0 0;
+        padding: 0 8px;
+      }
+      .tab-btn {
+        padding: 12px 20px;
+        font-size: 14px; color: #606266;
+        cursor: pointer; border: none; background: none;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+        display: flex; align-items: center; gap: 6px;
+        font-family: inherit;
+        margin-bottom: -1px;
+      }
+      .tab-btn:hover { color: #1A6FD4; }
+      .tab-btn.active {
+        color: #1A6FD4;
+        border-bottom-color: #1A6FD4;
+        font-weight: 500;
+      }
+
+      /* ── Tab Panels ── */
+      .tab-panel { display: none; }
+      .tab-panel.active { display: block; }
+
+      /* ── Content Card ── */
+      .content-card {
+        background: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        padding: 20px;
+        margin-bottom: 16px;
+      }
+      .card-header {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .card-title-with-badge {
+        display: flex; align-items: center; gap: 8px;
+      }
+      .card-title-text {
+        font-size: 16px; font-weight: 600; color: #303133;
+      }
+      .mini-badge {
+        display: inline-flex; align-items: center;
+        padding: 1px 8px; border-radius: 10px;
+        font-size: 12px; font-weight: 400;
+        background: #F0F2F5; color: #909399;
+      }
+
+      /* ── Info Grid (3-column) ── */
+      .info-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px 32px;
+      }
+      .info-field { display: flex; flex-direction: column; gap: 4px; }
+      .info-label { font-size: 12px; color: #909399; }
+      .info-value { font-size: 14px; color: #303133; }
+
+      /* ── Level Badges ── */
+      .level-badge {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 22px; height: 22px;
+        border-radius: 4px;
+        font-size: 12px; font-weight: 600;
+      }
+      .level-badge.level-a {
+        background: #FDECEA; color: #E74C3C;
+      }
+      .level-badge.level-b {
+        background: #E8F2FC; color: #1A6FD4;
+      }
+
+      /* ── Data Table ── */
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .data-table thead th {
+        background: #F5F7FA;
+        padding: 10px 12px;
+        font-size: 14px; font-weight: 600;
+        color: #303133; text-align: left;
+        border-bottom: 1px solid #EBEEF5;
+        white-space: nowrap;
+      }
+      .data-table tbody td {
+        padding: 12px 12px;
+        font-size: 14px; color: #303133;
+        border-bottom: 1px solid #EBEEF5;
+      }
+      .data-table tbody tr { transition: background 0.15s; }
+      .data-table tbody tr:hover { background: #E8F2FC; }
+      .data-table tbody tr:last-child td { border-bottom: none; }
+
+      /* ── Action Links ── */
+      .action-link {
+        color: #1A6FD4; text-decoration: none;
+        cursor: pointer; transition: color 0.2s;
+        font-size: 13px; margin-right: 12px;
+      }
+      .action-link:hover { color: #3B8AE0; text-decoration: underline; }
+      .action-link.danger { color: #E74C3C; }
+      .action-link.danger:hover { color: #C0392B; }
+
+      /* ── Form Elements ── */
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px 32px;
+      }
+      .form-item { display: flex; flex-direction: column; gap: 6px; }
+      .form-label {
+        font-size: 12px; color: #909399;
+      }
+      .form-input, .form-select {
+        height: 32px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        padding: 0 10px;
+        font-size: 14px; color: #303133;
+        outline: none; transition: border-color 0.2s;
+        font-family: inherit;
+        background: #FFFFFF;
+      }
+      .form-input:focus, .form-select:focus { border-color: #1A6FD4; }
+      .form-select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23909399' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 8px center;
+        padding-right: 28px;
+      }
+      .form-textarea {
+        width: 100%;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        padding: 8px 10px;
+        font-size: 14px; color: #303133;
+        outline: none; transition: border-color 0.2s;
+        font-family: inherit;
+        resize: vertical;
+        min-height: 80px;
+      }
+      .form-textarea:focus { border-color: #1A6FD4; }
+      .form-textarea::placeholder { color: #C0C4CC; }
+
+      /* ── Radio Group ── */
+      .radio-group { display: flex; align-items: center; gap: 20px; height: 32px; }
+      .radio-item {
+        display: inline-flex; align-items: center; gap: 6px;
+        font-size: 14px; color: #303133;
+        cursor: pointer;
+      }
+      .radio-item input { accent-color: #1A6FD4; cursor: pointer; }
+
+      /* ── Checkbox ── */
+      .checkbox-item {
+        display: inline-flex; align-items: center; gap: 6px;
+        font-size: 14px; color: #303133;
+        cursor: pointer;
+      }
+      .checkbox-item input { accent-color: #1A6FD4; cursor: pointer; }
+      .checkbox-inline { display: flex; align-items: center; gap: 20px; height: 32px; }
+      .checkbox-list { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 6px; }
+
+      /* ── Conditional Box ── */
+      .conditional-box {
+        background: #FDF6EC;
+        border-left: 3px solid #F39C12;
+        padding: 12px 16px;
+        border-radius: 0 4px 4px 0;
+        margin-bottom: 12px;
+      }
+      .conditional-row {
+        display: flex; align-items: center; gap: 12px;
+      }
+      .form-label-inline {
+        font-size: 14px; color: #303133; font-weight: 500;
+        white-space: nowrap;
+      }
+      .form-value-badge {
+        display: inline-flex; align-items: center;
+        padding: 2px 10px; border-radius: 4px;
+        font-size: 13px; font-weight: 500;
+        background: #FDECEA; color: #E74C3C;
+      }
+      .form-link {
+        color: #1A6FD4; text-decoration: none;
+        cursor: pointer; transition: color 0.2s;
+        font-size: 13px;
+        display: inline-flex; align-items: center; gap: 4px;
+      }
+      .form-link:hover { color: #3B8AE0; text-decoration: underline; }
+
+      /* ── Alert Warning ── */
+      .alert-warning {
+        background: #FDF6EC;
+        border: 1px solid #F5DAB1;
+        border-radius: 4px;
+        padding: 12px 16px;
+        display: flex; align-items: center; gap: 8px;
+        color: #E6A23C; font-size: 14px;
+        margin-top: 12px;
+      }
+      .alert-warning svg { flex-shrink: 0; color: #E6A23C; }
+      .alert-warning .alert-link {
+        color: #1A6FD4; text-decoration: none;
+        cursor: pointer; margin-left: 8px;
+        font-size: 13px; font-weight: 500;
+      }
+      .alert-warning .alert-link:hover { text-decoration: underline; }
+
+      /* ── File Upload ── */
+      .file-upload { display: flex; align-items: center; gap: 12px; }
+      .file-upload-btn {
+        display: inline-flex; align-items: center; gap: 6px;
+        height: 32px; padding: 0 14px;
+        border: 1px dashed #DCDFE6; border-radius: 4px;
+        background: #FAFBFC; color: #606266;
+        font-size: 14px; cursor: pointer;
+        transition: all 0.2s; font-family: inherit;
+      }
+      .file-upload-btn:hover { color: #1A6FD4; border-color: #1A6FD4; }
+      .file-hint { font-size: 12px; color: #909399; }
+
+      /* ── Vertical Form ── */
+      .form-vertical { display: flex; flex-direction: column; gap: 16px; }
+      .form-item-vertical { display: flex; flex-direction: column; gap: 6px; }
+
+      /* ── Checkbox Groups ── */
+      .checkbox-groups { display: flex; flex-direction: column; gap: 20px; }
+      .checkbox-group-title {
+        font-size: 14px; font-weight: 500; color: #303133;
+        display: block; margin-bottom: 8px;
+      }
+
+      /* ── Table Input ── */
+      .table-input {
+        height: 28px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        padding: 0 8px;
+        font-size: 13px; color: #303133;
+        outline: none; transition: border-color 0.2s;
+        font-family: inherit;
+        width: 100%;
+        min-width: 120px;
+      }
+      .table-input:focus { border-color: #1A6FD4; }
+      .table-input::placeholder { color: #C0C4CC; }
+
+      /* ── Table Footer ── */
+      .table-footer {
+        display: flex; align-items: center; justify-content: space-between;
+        padding-top: 16px;
+        margin-top: 4px;
+        border-top: 1px solid #EBEEF5;
+      }
+      .table-footer-note {
+        font-size: 13px; color: #909399;
+        display: flex; align-items: center; gap: 6px;
+      }
+
+      /* ── Section Title ── */
+      .section-title {
+        font-size: 14px; font-weight: 600; color: #303133;
+        margin-bottom: 12px; padding-bottom: 8px;
+        border-bottom: 1px solid #EBEEF5;
+      }
+
+      /* ── Full Width Form Item ── */
+      .form-item-full {
+        display: flex; align-items: center; gap: 12px;
+        margin-bottom: 12px;
+      }
+      .form-item-full .form-label {
+        flex-shrink: 0; width: 120px;
+      }
+      .form-item-full .form-select {
+        width: 200px;
+      }
+    </style>
+<script>
+/* === Sidebar Navigation Fix === */
+(function(){
+  function navToast(msg){
+    if(typeof window.showToast==='function'){try{window.showToast(msg);return;}catch(e){}}
+    var t=document.createElement('div');
+    t.style.cssText='position:fixed;top:16px;right:16px;background:#303133;color:#fff;padding:12px 20px;border-radius:4px;z-index:99999;font-size:14px;opacity:0;transition:opacity .3s;box-shadow:0 2px 12px rgba(0,0,0,.15)';
+    document.body.appendChild(t);
+    t.textContent=msg;
+    requestAnimationFrame(function(){t.style.opacity='1';});
+    setTimeout(function(){t.style.opacity='0';setTimeout(function(){t.remove();},300);},2500);
+  }
+  var navMap={'项目总体跟踪':'overall-tracking.html','工前准备':'pre-work.html','施工计划':'construction-plan.html','实施方案':'implementation-plan.html','实施部署':'deployment.html','割接管理':'cutover.html','客户资产库':'customer-asset.html','AI排障与知识库':'ai-troubleshoot.html'};
+  var toastLabels=['售前测试管理','项目转包（代施）','验收交维','技术公告与周报','回访与维保','ITR故障与RMA'];
+  var groupConfig={
+    '交付跟踪':[{label:'项目总体跟踪',url:'overall-tracking.html'},{label:'售前测试管理',toast:true},{label:'项目转包（代施）',toast:true}],
+    '交付执行':[{label:'工前准备',url:'pre-work.html'},{label:'施工计划',url:'construction-plan.html'},{label:'实施方案',url:'implementation-plan.html'},{label:'实施部署',url:'deployment.html'},{label:'验收交维',toast:true},{label:'割接管理',url:'cutover.html'}],
+    '交付支撑':[{label:'客户资产库',url:'customer-asset.html'},{label:'技术公告与周报',toast:true},{label:'回访与维保',toast:true},{label:'AI排障与知识库',url:'ai-troubleshoot.html'},{label:'ITR故障与RMA',toast:true}]
+  };
+  var typeA=document.querySelectorAll('.sidebar-menu').length>0;
+  var typeB=!typeA&&document.querySelectorAll('.sidebar-item').length>0;
+  function txt(el){return(el.textContent||'').trim();}
+  function createItem(cfg){
+    if(typeA){
+      var li=document.createElement('li');
+      var a=document.createElement('a');
+      a.textContent=cfg.label;
+      if(cfg.toast){a.setAttribute('href','#');a.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});}
+      else if(cfg.url){a.setAttribute('href',cfg.url);}
+      li.appendChild(a);
+      return li;
+    }else{
+      var div=document.createElement('div');
+      div.className='sidebar-item';
+      div.textContent=cfg.label;
+      div.style.cursor='pointer';
+      if(cfg.toast){div.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});}
+      else if(cfg.url){div.addEventListener('click',function(e){e.preventDefault();__safeNav(cfg.url);});}
+      return div;
+    }
+  }
+  Object.keys(groupConfig).forEach(function(gName){
+    var container=null;
+    if(typeA){document.querySelectorAll('.sidebar-group-header').forEach(function(h){if(txt(h).indexOf(gName)>=0){container=h.parentElement.querySelector('.sidebar-menu');}});}
+    else if(typeB){document.querySelectorAll('.sidebar-group-title').forEach(function(t2){if(txt(t2).indexOf(gName)>=0){container=t2.parentElement.querySelector('.sidebar-group-items');}});}
+    if(!container)return;
+    var existing={};
+    var sel=typeA?'a':'.sidebar-item';
+    container.querySelectorAll(sel).forEach(function(el){existing[txt(el)]=true;});
+    groupConfig[gName].forEach(function(cfg){if(!existing[cfg.label]){container.appendChild(createItem(cfg));}});
+  });
+  var allLinks=typeA?document.querySelectorAll('.sidebar-menu a'):document.querySelectorAll('.sidebar-item');
+  allLinks.forEach(function(item){
+    var t=txt(item);
+    if(navMap[t]){
+      var url=navMap[t];
+      if(typeA){
+        if(item.tagName==='A'&&item.getAttribute('href')!==url){item.setAttribute('href',url);item.removeAttribute('onclick');}
+      }else{
+        item.removeAttribute('onclick');
+        item.style.cursor='pointer';
+        var ni=item.cloneNode(true);
+        ni.addEventListener('click',function(e){e.preventDefault();__safeNav(url);});
+        if(item.parentNode)item.parentNode.replaceChild(ni,item);
+      }
+      return;
+    }
+    if(toastLabels.indexOf(t)>=0){
+      if(typeA){
+        var href=item.getAttribute('href')||'';
+        var oc=item.getAttribute('onclick')||'';
+        if(href==='#'||oc.indexOf('return false')>=0||href===''){
+          var na=item.cloneNode(true);
+          na.setAttribute('href','#');
+          na.removeAttribute('onclick');
+          na.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});
+          if(item.parentNode)item.parentNode.replaceChild(na,item);
+        }
+      }else{
+        var oc2=item.getAttribute('onclick')||'';
+        if(oc2.indexOf('return false')>=0){
+          item.removeAttribute('onclick');
+          item.style.cursor='pointer';
+          var nd=item.cloneNode(true);
+          nd.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});
+          if(item.parentNode)item.parentNode.replaceChild(nd,item);
+        }
+      }
+    }
+  });
+  ['集成与报表','系统管理'].forEach(function(gName){
+    if(typeA){
+      document.querySelectorAll('.sidebar-group-header').forEach(function(h){
+        if(txt(h)===gName){
+          h.style.cursor='pointer';
+          h.addEventListener('click',function(){var m=h.parentElement.querySelector('.sidebar-menu');if(m&&m.children.length===0)navToast('功能开发中');});
+        }
+      });
+    }else if(typeB){
+      document.querySelectorAll('.sidebar-group-title').forEach(function(t2){
+        if(txt(t2)===gName){
+          t2.addEventListener('click',function(){var it=t2.parentElement.querySelector('.sidebar-group-items');if(it&&it.children.length===0)navToast('功能开发中');});
+        }
+      });
+    }
+  });
+})();
+</script>
+
+<script>
+// ===== Delivery Operations =====
+(function(){
+var dcss=document.getElementById('delivery-ops-css');
+if(!dcss){dcss=document.createElement('style');dcss.id='delivery-ops-css';dcss.textContent=`
+.delivery-ops-card{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:20px;margin-bottom:16px}
+.delivery-ops-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.delivery-ops-title{font-size:16px;font-weight:600;color:#303133}
+.delivery-badge{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:4px;font-size:12px;font-weight:500;white-space:nowrap}
+.delivery-badge-green{background:#E8F8EE;color:#27AE60}
+.delivery-badge-blue{background:#E8F2FC;color:#1A6FD4}
+.delivery-badge-orange{background:#FEF0E0;color:#F39C12}
+.delivery-ops-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;flex-wrap:wrap}
+.delivery-btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;height:32px;padding:0 14px;border-radius:4px;font-size:14px;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;border:1px solid transparent}
+.delivery-btn-primary{background:#1A6FD4;border-color:#1A6FD4;color:#fff}
+.delivery-btn-primary:hover{background:#3B8AE0;border-color:#3B8AE0}
+.delivery-btn-primary:disabled{opacity:.7;cursor:not-allowed}
+.delivery-btn-outline{background:#fff;border-color:#DCDFE6;color:#606266}
+.delivery-btn-outline:hover{color:#1A6FD4;border-color:#1A6FD4}
+.delivery-btn-outline:disabled{opacity:.7;cursor:not-allowed}
+.delivery-btn-danger{background:#FEF0F0;border-color:#FBC4C0;color:#E74C3C;cursor:not-allowed;opacity:.6}
+.delivery-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:99998;display:flex;align-items:center;justify-content:center;padding:20px}
+.delivery-modal-box{background:#fff;border-radius:8px;width:480px;max-width:100%;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.delivery-modal-head{padding:16px 20px;border-bottom:1px solid #EBEEF5;font-size:16px;font-weight:600;color:#303133}
+.delivery-modal-body{padding:20px;overflow-y:auto;flex:1}
+.delivery-modal-foot{padding:12px 20px;border-top:1px solid #EBEEF5;display:flex;justify-content:flex-end;gap:8px}
+.delivery-form-label{display:block;font-size:13px;color:#606266;margin-bottom:6px;font-weight:500}
+.delivery-form-textarea{width:100%;min-height:72px;padding:8px 12px;border:1px solid #DCDFE6;border-radius:4px;font-size:14px;color:#303133;font-family:inherit;resize:vertical;outline:none;box-sizing:border-box}
+.delivery-form-textarea:focus{border-color:#1A6FD4}
+.delivery-form-input{width:100%;height:32px;padding:0 12px;border:1px solid #DCDFE6;border-radius:4px;font-size:14px;color:#303133;font-family:inherit;outline:none;box-sizing:border-box}
+.delivery-form-input:focus{border-color:#1A6FD4}
+.delivery-form-group{margin-bottom:16px}
+.delivery-form-group:last-child{margin-bottom:0}
+.delivery-audit-table{width:100%;border-collapse:collapse}
+.delivery-audit-table th,.delivery-audit-table td{padding:10px 12px;text-align:left;font-size:14px;border-bottom:1px solid #EBEEF5}
+.delivery-audit-table th{background:#F5F7FA;color:#303133;font-weight:600}
+.delivery-audit-table td{color:#606266}
+.delivery-audit-pass{color:#27AE60;font-weight:500}
+.delivery-audit-pending{color:#F39C12}
+.delivery-audit-waiting{color:#909399}
+.delivery-timeline{list-style:none;padding:0;margin:0}
+.delivery-timeline li{display:flex;gap:12px;padding:12px 0;position:relative}
+.delivery-timeline li:not(:last-child)::after{content:"";position:absolute;left:11px;top:36px;bottom:-12px;width:2px;background:#EBEEF5}
+.delivery-timeline .tl-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;font-weight:600}
+.delivery-timeline .tl-done{background:#E8F8EE;color:#27AE60}
+.delivery-timeline .tl-active{background:#FEF0E0;color:#F39C12}
+.delivery-timeline .tl-todo{background:#F5F7FA;color:#C0C4CC}
+.delivery-timeline .tl-content{flex:1}
+.delivery-timeline .tl-title{font-size:14px;color:#303133;font-weight:500}
+.delivery-timeline .tl-date{font-size:12px;color:#909399;margin-top:2px}
+.delivery-checklist{list-style:none;padding:0;margin:0}
+.delivery-checklist li{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #EBEEF5;font-size:14px;color:#303133}
+.delivery-checklist li:last-child{border-bottom:none}
+.delivery-checklist .cl-pass{color:#27AE60;font-weight:600}
+.delivery-checklist .cl-pending{color:#F39C12;font-weight:600}
+.delivery-checklist .cl-fail{color:#E74C3C;font-weight:600}
+.delivery-template-item{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid #EBEEF5;border-radius:6px;margin-bottom:8px;cursor:pointer;transition:border-color .2s}
+.delivery-template-item:hover{border-color:#1A6FD4}
+.delivery-template-item input{margin-top:2px}
+.delivery-template-name{font-size:14px;color:#303133;font-weight:500}
+.delivery-template-desc{font-size:12px;color:#909399;margin-top:2px}
+.delivery-link{color:#1A6FD4;text-decoration:none;cursor:pointer;font-size:13px;margin-left:8px;background:none;border:none;font-family:inherit;padding:0}
+.delivery-link:hover{text-decoration:underline}
+.delivery-radio-group{display:flex;gap:20px;align-items:center}
+.delivery-radio-item{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:#303133}
+.delivery-checkbox-group{display:flex;gap:20px;align-items:center}
+.delivery-checkbox-item{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:#303133}
+.delivery-tooltip{position:relative;display:inline-block}
+.delivery-tooltip .tt-text{visibility:hidden;background:#303133;color:#fff;text-align:center;border-radius:4px;padding:4px 8px;font-size:12px;position:absolute;z-index:99999;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
+.delivery-tooltip:hover .tt-text{visibility:visible;opacity:1}
+.delivery-info-box{background:#E8F2FC;border:1px solid #BFDBF7;border-radius:6px;padding:10px 12px;font-size:13px;color:#1A6FD4;margin-bottom:16px}
+`;document.head.appendChild(dcss);}
+if(!document.getElementById('delivery-spin-style')){var _ss=document.createElement('style');_ss.id='delivery-spin-style';_ss.textContent='@keyframes delivery-spin{to{transform:rotate(360deg)}}';document.head.appendChild(_ss);}
+function dt(m,t){if(typeof window.showToast==='function'){try{window.showToast(m,t);return;}catch(e){}}var el=document.getElementById('delivery-toast');if(!el){el=document.createElement('div');el.id='delivery-toast';el.style.cssText='position:fixed;top:80px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:6px;font-size:14px;z-index:99999;opacity:0;transition:opacity .3s;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.15);color:#fff;background:#303133;';document.body.appendChild(el);}var cm={success:'#27AE60',warning:'#F39C12',error:'#E74C3C',info:'#303133'};el.style.background=cm[t]||cm.info;el.textContent=m;el.style.opacity='1';clearTimeout(el._t);el._t=setTimeout(function(){el.style.opacity='0';},2500);}
+window.showToastDelivery=dt;
+function createDeliveryModal(title,html,o){o=o||{};var ov=document.createElement('div');ov.className='delivery-modal-overlay';var bx=document.createElement('div');bx.className='delivery-modal-box';if(o.width)bx.style.width=o.width;var hd=document.createElement('div');hd.className='delivery-modal-head';hd.textContent=title;var bd=document.createElement('div');bd.className='delivery-modal-body';bd.innerHTML=html;bx.appendChild(hd);bx.appendChild(bd);function cl(){if(ov.parentNode)document.body.removeChild(ov);}if(!o.hideFooter){var ft=document.createElement('div');ft.className='delivery-modal-foot';var ok=document.createElement('button');ok.className='delivery-btn delivery-btn-primary';ok.textContent=o.confirmText||'确认';if(!o.hideCancel){var ca=document.createElement('button');ca.className='delivery-btn delivery-btn-outline';ca.textContent=o.cancelText||'取消';ca.addEventListener('click',cl);ft.appendChild(ca);}ft.appendChild(ok);bx.appendChild(ft);ok.addEventListener('click',function(){if(o.onConfirm)o.onConfirm(bx,cl);else cl();});}ov.appendChild(bx);document.body.appendChild(ov);ov.addEventListener('click',function(e){if(e.target===ov)cl();});return{box:bx,overlay:ov,close:cl};}
+window.createDeliveryModal=createDeliveryModal;
+function spW(s){return '<span style="display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:delivery-spin .6s linear infinite;vertical-align:middle;margin-right:4px;"></span>'+s;}
+function spB(s){return '<span style="display:inline-block;width:14px;height:14px;border:2px solid #C0C4CC;border-top-color:#1A6FD4;border-radius:50%;animation:delivery-spin .6s linear infinite;vertical-align:middle;margin-right:4px;"></span>'+s;}
+
+var b1=document.querySelector('[data-daction="submit-prework"]');
+if(b1)b1.addEventListener('click',function(){
+  createDeliveryModal('确认提交工前准备工作？提交后将进入审核流程','',{confirmText:'确认提交',cancelText:'取消',onConfirm:function(bx,cl){var ok=bx.querySelector('.delivery-modal-foot .delivery-btn-primary');if(ok){ok.disabled=true;ok.innerHTML=spW('提交中...');}setTimeout(function(){cl();dt('工前确认已提交，等待PM审核','success');var sb=document.getElementById('delivery-status-badge');if(sb){sb.className='delivery-badge delivery-badge-orange';sb.textContent='审批中';}},1500);}});
+});
+var b2=document.querySelector('[data-daction="download-docs"]');
+if(b2)b2.addEventListener('click',function(){var o=b2.innerHTML;b2.disabled=true;b2.innerHTML=spB('文档包生成中...');setTimeout(function(){b2.disabled=false;b2.innerHTML=o;dt('工前文档包已下载','success');},2000);});
+var b3=document.querySelector('[data-daction="change-req"]');
+if(b3)b3.addEventListener('click',function(){
+  var h='<div class="delivery-form-group"><label class="delivery-form-label">变更原因</label><textarea class="delivery-form-textarea" placeholder="请输入变更原因"></textarea></div>'+
+    '<div class="delivery-form-group"><label class="delivery-form-label">变更内容</label><textarea class="delivery-form-textarea" placeholder="请输入变更内容"></textarea></div>'+
+    '<div class="delivery-form-group"><label class="delivery-form-label">影响评估</label><textarea class="delivery-form-textarea" placeholder="请输入影响评估"></textarea></div>';
+  createDeliveryModal('发起需求变更',h,{confirmText:'提交变更',cancelText:'取消',onConfirm:function(bx,cl){cl();dt('需求变更申请已提交','success');}});
+});
+var b4=document.querySelector('[data-daction="audit-trail"]');
+if(b4)b4.addEventListener('click',function(){
+  var h='<table class="delivery-audit-table"><thead><tr><th>步骤</th><th>审核人</th><th>时间</th><th>结果</th></tr></thead><tbody>'+
+    '<tr><td>工前提交</td><td>张三</td><td>2026-06-20 14:30</td><td class="delivery-audit-pass">&#10003;通过</td></tr>'+
+    '<tr><td>PM审核</td><td>赵经理</td><td>2026-06-21 09:15</td><td class="delivery-audit-pass">&#10003;通过</td></tr>'+
+    '<tr><td>客户确认</td><td>孙主管</td><td>2026-06-22 16:00</td><td class="delivery-audit-pass">&#10003;通过</td></tr>'+
+    '</tbody></table>';
+  createDeliveryModal('审核记录',h,{confirmText:'关闭',hideCancel:true});
+});
+var b5=document.querySelector('[data-daction="back-tracking"]');
+if(b5)b5.addEventListener('click',function(){__safeNav('project-tracking.html');});
+})();
+</script>
+<script>
+// ===== Enhanced Interactions for pre-work.html =====
+(function(){
+  var css=document.createElement('style');
+  css.textContent='\
+    .prework-task-item{border-bottom:1px solid #EBEEF5}\
+    .prework-task-item:last-child{border-bottom:none}\
+    .prework-task-header{display:flex;align-items:center;gap:12px;padding:12px 0;cursor:pointer;transition:background .15s}\
+    .prework-task-header:hover{background:var(--bg-hover)}\
+    .prework-task-detail{display:none;padding:8px 0 12px 28px;font-size:13px;color:var(--color-text-muted);line-height:1.6}\
+    .prework-task-detail.show{display:block}\
+    .prework-task-chevron{transition:transform .2s;flex-shrink:0}\
+    .prework-task-chevron.rotate{transform:rotate(180deg)}\
+    .prework-task-done .prework-task-name{text-decoration:line-through;color:var(--text-tertiary)}\
+    .prework-task-check{width:16px;height:16px;accent-color:var(--color-primary);cursor:pointer;flex-shrink:0}\
+    .prework-task-status{font-size:12px;padding:2px 8px;border-radius:4px;white-space:nowrap}\
+    .prework-task-status.pending{background:#FEF0E0;color:var(--state-warning)}\
+    .prework-task-status.done{background:#E8F8EE;color:var(--state-success)}\
+    .prework-check-toggle{display:inline-flex;width:18px;height:18px;border:2px solid #C0C4CC;border-radius:4px;cursor:pointer;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}\
+    .prework-check-toggle:hover{border-color:var(--color-primary)}\
+    .prework-check-toggle.checked{background:var(--state-success);border-color:var(--state-success)}\
+    .prework-check-toggle.checked svg{display:block}\
+    .prework-check-toggle svg{display:none}\
+    .prework-risk-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #EBEEF5}\
+    .prework-risk-item:last-child{border-bottom:none}\
+    .prework-risk-level{font-size:12px;padding:2px 8px;border-radius:4px;flex-shrink:0;font-weight:500}\
+    .prework-risk-high{background:#FEECEC;color:var(--state-error)}\
+    .prework-risk-medium{background:#FEF0E0;color:var(--state-warning)}\
+    .prework-risk-low{background:#E8F8EE;color:var(--state-success)}\
+    .prework-milestone-node{position:relative}\
+    .prework-milestone-tooltip{position:absolute;left:50%;top:100%;transform:translateX(-50%);z-index:99999;background:#303133;color:#fff;padding:6px 12px;border-radius:4px;font-size:12px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s;margin-top:8px}\
+    .prework-milestone-tooltip::before{content:"";position:absolute;left:50%;top:-4px;transform:translateX(-50%) rotate(45deg);width:8px;height:8px;background:#303133}\
+    .prework-milestone-node:hover .prework-milestone-tooltip{opacity:1}\
+  ';
+  document.head.appendChild(css);
+
+  // ── Task List ──
+  var tasks=[
+    {id:'t1',name:'设备到货签收确认',detail:'确认所有设备到货并签收，核对设备型号、序列号与采购订单一致。负责人：物流部李四，预计完成：2026-07-15。',done:false},
+    {id:'t2',name:'机房供电与网络环境确认',detail:'确认机房供电（市电/UPS）、机柜资源、网口类型、光模块等环境条件满足实施要求。负责人：工勘组王五，预计完成：2026-07-10。',done:false},
+    {id:'t3',name:'工勘分工与实施条件确认',detail:'完成工勘分工表，确认上架加电是否需原厂实施，导轨托盘需求及发货物料符合性。负责人：项目经理张三。',done:false},
+    {id:'t4',name:'需求分析与网络拓扑确认',detail:'完成项目背景、目标、网络现状分析（传输/流量/IP资源），确认运维要求。需上传网络拓扑图。',done:false},
+    {id:'t5',name:'物料符合性检查与换货',detail:'检查发货物料符合性，对不符合项发起换货流程，确保物料齐套。负责人：物料组赵六。',done:false}
+  ];
+  var taskListEl=document.getElementById('prework-task-list');
+  function renderTasks(){
+    if(!taskListEl)return;
+    taskListEl.innerHTML='';
+    var dc=0;
+    tasks.forEach(function(t){
+      if(t.done)dc++;
+      var item=document.createElement('div');
+      item.className='prework-task-item'+(t.done?' prework-task-done':'');
+      item.innerHTML='<div class="prework-task-header">'+
+        '<input type="checkbox" class="prework-task-check"'+(t.done?' checked':'')+'>'+
+        '<span class="prework-task-name" style="flex:1;font-size:14px;color:#303133;">'+t.name+'</span>'+
+        '<span class="prework-task-status '+(t.done?'done':'pending')+'">'+(t.done?'已完成':'待处理')+'</span>'+
+        '<svg class="prework-task-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#909399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>'+
+        '</div><div class="prework-task-detail">'+t.detail+'</div>';
+      taskListEl.appendChild(item);
+      var header=item.querySelector('.prework-task-header');
+      var detail=item.querySelector('.prework-task-detail');
+      var chevron=item.querySelector('.prework-task-chevron');
+      var check=item.querySelector('.prework-task-check');
+      header.addEventListener('click',function(e){
+        if(e.target===check)return;
+        detail.classList.toggle('show');
+        chevron.classList.toggle('rotate');
+      });
+      check.addEventListener('change',function(){
+        t.done=this.checked;
+        item.classList.toggle('prework-task-done',t.done);
+        var st=item.querySelector('.prework-task-status');
+        st.className='prework-task-status '+(t.done?'done':'pending');
+        st.textContent=t.done?'已完成':'待处理';
+        var n=tasks.filter(function(x){return x.done;}).length;
+        var cb=document.getElementById('prework-task-count');
+        if(cb)cb.textContent=n+'/'+tasks.length+' 已完成';
+        showToast(t.done?'任务"'+t.name+'"已完成':'任务"'+t.name+'"已取消完成',t.done?'success':'warning');
+      });
+    });
+    var cb=document.getElementById('prework-task-count');
+    if(cb)cb.textContent=dc+'/'+tasks.length+' 已完成';
+  }
+  renderTasks();
+
+  // ── Checklist ──
+  var checks=[
+    {id:'c1',text:'机房供电及网络环境确认',checked:false},
+    {id:'c2',text:'设备到货与物料符合性',checked:false},
+    {id:'c3',text:'工勘分工完成',checked:false},
+    {id:'c4',text:'需求分析文档完成',checked:false},
+    {id:'c5',text:'风险评估完成',checked:false}
+  ];
+  var checklistEl=document.getElementById('prework-checklist');
+  var checklistSubmit=document.getElementById('prework-checklist-submit');
+  function renderChecklist(){
+    if(!checklistEl)return;
+    checklistEl.innerHTML='';
+    var cc=0;
+    checks.forEach(function(c){
+      if(c.checked)cc++;
+      var li=document.createElement('li');
+      li.innerHTML='<span class="prework-check-toggle'+(c.checked?' checked':'')+'">'+
+        '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>'+
+        '<span style="flex:1;">'+c.text+'</span>'+
+        '<span class="'+(c.checked?'cl-pass':'cl-pending')+'">'+(c.checked?'已确认':'待确认')+'</span>';
+      checklistEl.appendChild(li);
+      var toggle=li.querySelector('.prework-check-toggle');
+      toggle.addEventListener('click',function(){
+        c.checked=!c.checked;
+        toggle.classList.toggle('checked',c.checked);
+        var st=li.querySelector('.cl-pass,.cl-pending');
+        if(st){st.className=c.checked?'cl-pass':'cl-pending';st.textContent=c.checked?'已确认':'待确认';}
+        var n=checks.filter(function(x){return x.checked;}).length;
+        var cb=document.getElementById('prework-checklist-count');
+        if(cb)cb.textContent=n+'/'+checks.length+' 已确认';
+        if(checklistSubmit){
+          var all=n===checks.length;
+          checklistSubmit.disabled=!all;
+          checklistSubmit.style.opacity=all?'1':'.5';
+          checklistSubmit.style.cursor=all?'pointer':'not-allowed';
+        }
+        showToast(c.checked?'"'+c.text+'"已确认':'"'+c.text+'"已取消',c.checked?'success':'warning');
+      });
+    });
+    var cb=document.getElementById('prework-checklist-count');
+    if(cb)cb.textContent=cc+'/'+checks.length+' 已确认';
+  }
+  renderChecklist();
+  if(checklistSubmit){
+    checklistSubmit.addEventListener('click',function(){
+      if(this.disabled)return;
+      showToast('检查项已全部确认并提交','success');
+      this.disabled=true;this.style.opacity='.5';this.style.cursor='not-allowed';this.textContent='已提交';
+    });
+  }
+
+  // ── Milestone Timeline ──
+  var milestones=[
+    {icon:'done',char:'\u2713',title:'项目启动',date:'2026-06-15',detail:'项目正式启动，组建项目团队，明确各方职责'},
+    {icon:'done',char:'\u2713',title:'工勘完成',date:'2026-07-01',detail:'现场工勘已完成，机房条件确认无误，工勘报告已归档'},
+    {icon:'active',char:'\u23F3',title:'需求分析',date:'2026-07-08',detail:'需求分析进行中，网络拓扑图待上传，预计7月10日完成'},
+    {icon:'todo',char:'\u25CB',title:'物料到货',date:'2026-07-15',detail:'物料到货签收，预计7月15日完成，需确认物料符合性'},
+    {icon:'todo',char:'\u25CB',title:'工前确认',date:'2026-07-20',detail:'完成所有工前准备检查项，提交工前确认进入施工阶段'}
+  ];
+  var msEl=document.getElementById('prework-milestone');
+  if(msEl){
+    msEl.innerHTML='';
+    milestones.forEach(function(m){
+      var li=document.createElement('li');
+      li.className='prework-milestone-node';
+      li.innerHTML='<div class="tl-icon tl-'+m.icon+'">'+m.char+'</div>'+
+        '<div class="tl-content"><div class="tl-title">'+m.title+'</div><div class="tl-date">'+m.date+'</div></div>'+
+        '<div class="prework-milestone-tooltip">'+m.detail+'</div>';
+      msEl.appendChild(li);
+    });
+  }
+
+  // ── Risk Assessment ──
+  var risks=[
+    {level:'高',cls:'prework-risk-high',name:'设备到货延迟',desc:'供应商交期紧张，需提前确认'},
+    {level:'中',cls:'prework-risk-medium',name:'机房条件不满足',desc:'供电或网络条件需改造'},
+    {level:'低',cls:'prework-risk-low',name:'人员调配冲突',desc:'实施工程师档期需协调'}
+  ];
+  var riskListEl=document.getElementById('prework-risk-list');
+  function renderRisks(){
+    if(!riskListEl)return;
+    riskListEl.innerHTML='';
+    if(risks.length===0){riskListEl.innerHTML='<div style="padding:20px;text-align:center;color:var(--text-tertiary);font-size:14px;">暂无风险项</div>';return;}
+    risks.forEach(function(r,idx){
+      var item=document.createElement('div');
+      item.className='prework-risk-item';
+      item.innerHTML='<span class="prework-risk-level '+r.cls+'">'+r.level+'</span>'+
+        '<span style="flex:1;font-size:14px;color:#303133;">'+r.name+'</span>'+
+        '<span style="font-size:13px;color:var(--color-text-muted);">'+r.desc+'</span>'+
+        '<button class="delivery-link prework-risk-delete" data-idx="'+idx+'" style="color:var(--state-error);">删除</button>';
+      riskListEl.appendChild(item);
+    });
+    riskListEl.querySelectorAll('.prework-risk-delete').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var idx=parseInt(this.dataset.idx);
+        var removed=risks.splice(idx,1)[0];
+        renderRisks();
+        showToast('风险"'+removed.name+'"已删除','info');
+      });
+    });
+  }
+  renderRisks();
+  var addRiskBtn=document.getElementById('prework-add-risk-btn');
+  if(addRiskBtn){
+    addRiskBtn.addEventListener('click',function(){
+      var html='<div class="delivery-form-group"><label class="delivery-form-label">风险名称</label><input type="text" class="delivery-form-input" id="risk-name-input" placeholder="请输入风险名称"></div>'+
+        '<div class="delivery-form-group"><label class="delivery-form-label">风险等级</label><select class="delivery-form-input" id="risk-level-input"><option value="高">高</option><option value="中" selected>中</option><option value="低">低</option></select></div>'+
+        '<div class="delivery-form-group"><label class="delivery-form-label">风险描述与应对措施</label><textarea class="delivery-form-textarea" id="risk-desc-input" placeholder="请输入风险描述及应对措施"></textarea></div>';
+      createDeliveryModal('添加风险',html,{confirmText:'添加',cancelText:'取消',onConfirm:function(bx,cl){
+        var nameEl=bx.querySelector('#risk-name-input');
+        var levelEl=bx.querySelector('#risk-level-input');
+        var descEl=bx.querySelector('#risk-desc-input');
+        var name=nameEl?nameEl.value.trim():'';
+        var level=levelEl?levelEl.value:'中';
+        var desc=descEl?descEl.value.trim():'';
+        if(!name){showToast('请输入风险名称','warning');return;}
+        var cls=level==='高'?'prework-risk-high':(level==='低'?'prework-risk-low':'prework-risk-medium');
+        risks.push({level:level,cls:cls,name:name,desc:desc||'暂无描述'});
+        renderRisks();cl();
+        showToast('风险"'+name+'"已添加','success');
+      }});
+    });
+  }
+
+  // ── Enhanced File Upload with Progress Bar ──
+  var topoFile=document.getElementById('topology-file');
+  if(topoFile){
+    var newFile=topoFile.cloneNode(true);
+    topoFile.parentNode.replaceChild(newFile,topoFile);
+    newFile.addEventListener('change',function(){
+      if(newFile.files&&newFile.files.length){
+        var fileName=newFile.files[0].name;
+        var hint=document.getElementById('topology-file-hint');
+        var pw=document.getElementById('topology-upload-progress');
+        var pb=document.getElementById('topology-progress-bar');
+        var pt=document.getElementById('topology-progress-text');
+        if(hint)hint.textContent='正在上传：'+fileName;
+        if(pw)pw.style.display='block';
+        if(pb)pb.style.width='0%';
+        var progress=0;
+        var timer=setInterval(function(){
+          progress+=Math.random()*25+10;
+          if(progress>=100){
+            progress=100;clearInterval(timer);
+            if(pb)pb.style.width='100%';
+            if(pt)pt.textContent='上传完成';
+            if(hint)hint.textContent='已上传：'+fileName;
+            setTimeout(function(){if(pw)pw.style.display='none';showToast('文档已上传','success');},500);
+          }else{
+            if(pb)pb.style.width=Math.floor(progress)+'%';
+            if(pt)pt.textContent='上传中... '+Math.floor(progress)+'%';
+          }
+        },300);
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>

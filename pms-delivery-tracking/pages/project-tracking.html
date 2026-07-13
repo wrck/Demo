@@ -1,0 +1,3508 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单项目跟踪 - XX银行核心网 - PMS项目交付管理系统</title>
+    <style id="theme-vars">
+:root {
+  /* ── Brand ── */
+  --color-primary: #1A6FD4;
+  --color-primary-hover: #3B8AE0;
+  --color-primary-light: #E8F2FC;
+  --color-text-muted: #5A6477;
+  --color-border: #DCDFE6;
+
+  /* ── State Colors ── */
+  --state-success: #27AE60;
+  --state-info: #2E8BE6;
+  --state-warning: #F39C12;
+  --state-error: #E74C3C;
+  --state-locked: #8E44AD;
+  --state-disabled: #BDBDBD;
+
+  /* ── Surface ── */
+  --bg-page: #F5F7FA;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F5F7FA;
+  --bg-active: #E8F2FC;
+
+  /* ── Text ── */
+  --text-primary: #303133;
+  --text-tertiary: #909399;
+  --text-white: #FFFFFF;
+
+  /* ── Typography ── */
+  --font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  --text-h1: 600 24px/1.5 var(--font-family);
+  --text-h2: 600 20px/1.5 var(--font-family);
+  --text-h3: 600 16px/1.5 var(--font-family);
+  --text-body: 400 14px/1.5 var(--font-family);
+  --text-caption: 400 12px/1.5 var(--font-family);
+  --text-stat: 600 28px/1.5 var(--font-family);
+
+  /* ── Semantic Token Aliases (Tailwind bridge) ── */
+  --background: #F5F7FA;
+  --foreground: #303133;
+  --card: #FFFFFF;
+  --card-foreground: #303133;
+  --muted: #F5F7FA;
+  --muted-foreground: #909399;
+  --primary-foreground: #FFFFFF;
+  --border: #DCDFE6;
+  --input: #DCDFE6;
+  --ring: #1A6FD4;
+
+  /* ── Radius ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* ── Shadow ── */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  /* ── Spacing ── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+    </style>
+    <script type="application/json" data-cdn="@tailwindcss/browser@4.3.1"></script>
+    <script type="application/json" data-cdn="lucide@1.8.0"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-primary: var(--color-primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+  }
+  @layer base {
+    body { background: var(--background); color: var(--foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--background); }
+      .text-background { color: var(--background); }
+      .border-background { border-color: var(--background); }
+      .ring-background { --tw-ring-color: var(--background); }
+      .bg-foreground { background-color: var(--foreground); }
+      .text-foreground { color: var(--foreground); }
+      .border-foreground { border-color: var(--foreground); }
+      .ring-foreground { --tw-ring-color: var(--foreground); }
+      .bg-card { background-color: var(--card); }
+      .text-card { color: var(--card); }
+      .border-card { border-color: var(--card); }
+      .ring-card { --tw-ring-color: var(--card); }
+      .bg-card-foreground { background-color: var(--card-foreground); }
+      .text-card-foreground { color: var(--card-foreground); }
+      .border-card-foreground { border-color: var(--card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--card-foreground); }
+      .bg-primary { background-color: var(--color-primary); }
+      .text-primary { color: var(--color-primary); }
+      .border-primary { border-color: var(--color-primary); }
+      .ring-primary { --tw-ring-color: var(--color-primary); }
+      .bg-primary-foreground { background-color: var(--primary-foreground); }
+      .text-primary-foreground { color: var(--primary-foreground); }
+      .border-primary-foreground { border-color: var(--primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--primary-foreground); }
+      .bg-muted { background-color: var(--muted); }
+      .text-muted { color: var(--muted); }
+      .border-muted { border-color: var(--muted); }
+      .ring-muted { --tw-ring-color: var(--muted); }
+      .bg-muted-foreground { background-color: var(--muted-foreground); }
+      .text-muted-foreground { color: var(--muted-foreground); }
+      .border-muted-foreground { border-color: var(--muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--muted-foreground); }
+      .bg-border { background-color: var(--border); }
+      .text-border { color: var(--border); }
+      .border-border { border-color: var(--border); }
+      .ring-border { --tw-ring-color: var(--border); }
+      .bg-input { background-color: var(--input); }
+      .text-input { color: var(--input); }
+      .border-input { border-color: var(--input); }
+      .ring-input { --tw-ring-color: var(--input); }
+      .bg-ring { background-color: var(--ring); }
+      .text-ring { color: var(--ring); }
+      .border-ring { border-color: var(--ring); }
+      .ring-ring { --tw-ring-color: var(--ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+<script>
+(function(){
+  var __lastNav = '';
+  var __lastNavTime = 0;
+  window.__safeNav = function(url) {
+    var now = Date.now();
+    if (url === __lastNav && (now - __lastNavTime) < 800) return;
+    __lastNav = url;
+    __lastNavTime = now;
+    try { window.parent.postMessage({ type: 'design-navigate', url: url }, '*'); } catch(e) {}
+    var name = url.replace(/\.html$/, '').replace(/-/g, ' ');
+    if (typeof window.showToast === 'function') {
+      window.showToast('页面跳转: ' + name);
+    } else if (typeof window.showToastDelivery === 'function') {
+      window.showToastDelivery('页面跳转: ' + name);
+    } else {
+      var t = document.createElement('div');
+      t.textContent = '页面跳转: ' + name;
+      t.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1A6FD4;color:#fff;padding:10px 24px;border-radius:8px;z-index:99999;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-family:sans-serif;';
+      document.body.appendChild(t);
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 2000);
+    }
+  };
+  document.addEventListener('click', function(e) {
+    var el = e.target;
+    while (el && el !== document) {
+      if (el.hasAttribute && el.hasAttribute('data-nav-target')) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.__safeNav(el.getAttribute('data-nav-target'));
+        return false;
+      }
+      el = el.parentElement;
+    }
+  }, true);
+})();
+</script>
+<script>
+(function(){
+  // Suppress cross-origin security errors that occur when canvas SDK
+  // cleans up the srcdoc iframe during page switching.
+  // The iframe has null origin (srcdoc mode) while the host has vscode-file:// origin.
+  var origError = window.onerror;
+  window.onerror = function(msg, url, line, col, err) {
+    if (typeof msg === 'string' && (msg.indexOf('removeEventListener') !== -1 || msg.indexOf('cross-origin') !== -1 || msg.indexOf('security policy') !== -1)) {
+      return true; // suppress
+    }
+    if (origError) return origError.apply(this, arguments);
+    return false;
+  };
+  window.addEventListener('unhandledrejection', function(e) {
+    if (e.reason && typeof e.reason.message === 'string' && (e.reason.message.indexOf('removeEventListener') !== -1 || e.reason.message.indexOf('cross-origin') !== -1)) {
+      e.preventDefault();
+    }
+  });
+})();
+</script>
+    <!-- ==================== Header ==================== -->
+    <header class="admin-header">
+        <div class="header-logo">
+            <div class="logo-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <span class="logo-text">PMS 项目交付管理系统</span>
+        </div>
+        <div class="header-search">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input type="text" placeholder="搜索办事处/项目名称/合同号...">
+        </div>
+        <div class="header-right">
+            <div class="header-bell">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span class="bell-badge">3</span>
+            </div>
+            <div class="header-user">
+                <div class="avatar">张</div>
+                <span class="user-name">张三</span>
+                <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== Sidebar ==================== -->
+    <aside class="admin-sidebar">
+        <!-- 交付跟踪 (expanded, active domain) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    交付跟踪
+                </span>
+                <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" data-nav-target="overall-tracking.html" data-nav="overall">项目总体跟踪</a></li>
+                <li><a href="#" data-nav="toast">售前测试管理</a></li>
+                <li><a href="#" data-nav="toast">项目转包（代施）</a></li>
+            </ul>
+        </div>
+
+        <!-- 交付执行 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                    </svg>
+                    交付执行
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+
+        <!-- 交付支撑 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                    交付支撑
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+
+        <!-- 集成与报表 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                    集成与报表
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+
+        <!-- 系统管理 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                    系统管理
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+    </aside>
+
+    <!-- ==================== TagsView ==================== -->
+    <div class="tags-view">
+        <div class="tag-item" data-nav="overall">
+            <span>项目总体跟踪</span>
+            <span class="tag-close">&times;</span>
+        </div>
+        <div class="tag-item active">
+            <span>单项目跟踪 - XX银行核心网</span>
+            <span class="tag-close">&times;</span>
+        </div>
+        <div style="flex:1;"></div>
+        <div class="tags-add">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- ==================== Main Content ==================== -->
+    <div class="admin-main">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar">
+            <a href="#" data-nav-target="overall-tracking.html">交付跟踪</a>
+            <span class="sep">/</span>
+            <span>单项目跟踪</span>
+            <span class="sep">/</span>
+            <span class="current">XX银行核心网项目</span>
+        </div>
+
+        <!-- Project Body: Left-Right Split -->
+        <div class="project-body">
+
+            <!-- ============ LEFT: Phase Sidebar ============ -->
+            <aside class="phase-sidebar">
+                <div class="phase-nav-title">交付阶段</div>
+                <nav class="phase-nav">
+                    <div class="phase-item active" data-phase="basic">
+                        <span class="phase-dot green"></span>
+                        <span class="phase-text">基本信息</span>
+                    </div>
+                    <div class="phase-item" data-phase="prework">
+                        <span class="phase-dot green"></span>
+                        <span class="phase-text">工前准备</span>
+                    </div>
+                    <div class="phase-item" data-phase="plan">
+                        <span class="phase-dot blue"></span>
+                        <span class="phase-text">施工计划</span>
+                    </div>
+                    <div class="phase-item" data-phase="implplan">
+                        <span class="phase-dot gray"></span>
+                        <span class="phase-text">实施方案</span>
+                    </div>
+                    <div class="phase-item" data-phase="deploy">
+                        <span class="phase-dot gray"></span>
+                        <span class="phase-text">实施部署</span>
+                    </div>
+                    <div class="phase-item" data-phase="acceptance">
+                        <span class="phase-dot gray"></span>
+                        <span class="phase-text">验收交维</span>
+                    </div>
+
+                    <div class="phase-separator"></div>
+
+                    <div class="phase-item" data-nav="cutover">
+                        <span class="phase-dot gray"></span>
+                        <span class="phase-text">割接管理</span>
+                        <svg class="phase-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                    </div>
+                    <div class="phase-item" data-nav="archive">
+                        <span class="phase-dot gray"></span>
+                        <span class="phase-text">归档</span>
+                    </div>
+                </nav>
+
+                <!-- Mini Progress Card -->
+                <div class="mini-progress-card">
+                    <div class="mp-label">项目进度</div>
+                    <div class="mp-bar">
+                        <div class="mp-fill" style="width:40%"></div>
+                    </div>
+                    <div class="mp-text">40%</div>
+                </div>
+            </aside>
+
+            <!-- ============ RIGHT: Content Area ============ -->
+            <div class="content-area">
+
+                <!-- ========== Panel 1: 基本信息 ========== -->
+                <div class="panel fade-in" id="panel-basic">
+
+                    <!-- Project Basic Info Card -->
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                项目基本信息
+                            </h3>
+                            <span class="badge badge-blue">40 实施中</span>
+                        </div>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">项目名称</span>
+                                <span class="info-value">XX银行核心网</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">合同号</span>
+                                <span class="info-value">HT202601</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">办事处</span>
+                                <span class="info-value">华东</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">项目级别</span>
+                                <span class="info-value"><span class="badge badge-red">A级</span></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">项目类型</span>
+                                <span class="info-value">标准实施</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">实施方式</span>
+                                <span class="info-value">自施</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">服务经理</span>
+                                <span class="info-value">赵经理</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">项目经理</span>
+                                <span class="info-value">张三</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">销售</span>
+                                <span class="info-value">钱七</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">客户主联系人</span>
+                                <span class="info-value">孙主管 138xxxx</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">下单代理商</span>
+                                <span class="info-value">—</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">客户单位</span>
+                                <span class="info-value">XX银行</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">项目阶段</span>
+                                <span class="info-value"><span class="badge badge-blue">40 实施中</span></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">发货状态</span>
+                                <span class="info-value text-orange">部分发货</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">创建时间</span>
+                                <span class="info-value">2026-06-10</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lifecycle State Machine Card -->
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                顶层生命周期状态机
+                            </h3>
+                        </div>
+                        <div class="lifecycle-flow">
+                            <div class="lc-node completed">
+                                <div class="lc-circle green" title="2026-06-10 创建">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                </div>
+                                <div class="lc-code">30</div>
+                                <div class="lc-label">已创建</div>
+                            </div>
+                            <div class="lc-line green solid"></div>
+                            <div class="lc-node completed">
+                                <div class="lc-circle green" title="2026-06-12 进入待指派">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                </div>
+                                <div class="lc-code">31</div>
+                                <div class="lc-label">待指派</div>
+                            </div>
+                            <div class="lc-line green solid"></div>
+                            <div class="lc-node completed">
+                                <div class="lc-circle green" title="2026-06-15 完成指派">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                </div>
+                                <div class="lc-code">32</div>
+                                <div class="lc-label">已指派</div>
+                            </div>
+                            <div class="lc-line blue solid"></div>
+                            <div class="lc-node current">
+                                <div class="lc-circle blue pulse" title="2026-06-20 进入实施（当前阶段）">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/></svg>
+                                </div>
+                                <div class="lc-code">40</div>
+                                <div class="lc-label">实施中</div>
+                            </div>
+                            <div class="lc-line gray dashed"></div>
+                            <div class="lc-node pending">
+                                <div class="lc-circle gray" title="尚未到达">
+                                </div>
+                                <div class="lc-code">100</div>
+                                <div class="lc-label">已完成</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sub-stage Progress Card -->
+                    <div class="info-card substage-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                                40 实施中：交付子阶段进度
+                            </h3>
+                            <span class="progress-label-text">总体进度 40%</span>
+                        </div>
+                        <div class="substage-flow">
+                            <div class="ss-node done">
+                                <div class="ss-circle green"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                                <div class="ss-label">未开始</div>
+                            </div>
+                            <div class="ss-line green solid"></div>
+                            <div class="ss-node done">
+                                <div class="ss-circle green"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                                <div class="ss-label">工前准备</div>
+                            </div>
+                            <div class="ss-line green solid"></div>
+                            <div class="ss-node current">
+                                <div class="ss-circle blue"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/></svg></div>
+                                <div class="ss-label">制定施工计划</div>
+                                <div class="ss-pct">60%</div>
+                            </div>
+                            <div class="ss-line gray dashed"></div>
+                            <div class="ss-node pending">
+                                <div class="ss-circle gray"></div>
+                                <div class="ss-label">编写实施方案</div>
+                            </div>
+                            <div class="ss-line gray dashed"></div>
+                            <div class="ss-node pending">
+                                <div class="ss-circle gray"></div>
+                                <div class="ss-label">实施部署</div>
+                            </div>
+                            <div class="ss-line gray dashed"></div>
+                            <div class="ss-node pending">
+                                <div class="ss-circle gray"></div>
+                                <div class="ss-label">验收交维</div>
+                            </div>
+                        </div>
+                        <div class="progress-bar-wrap">
+                            <div class="progress-bar-track">
+                                <div class="progress-bar-fill" style="width:40%"></div>
+                            </div>
+                            <span class="progress-bar-text">40%</span>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Operations: 交付状态总览 -->
+                    <div class="delivery-ops">
+                        <div class="delivery-ops-header">
+                            <div class="delivery-ops-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                交付状态总览
+                            </div>
+                        </div>
+                        <div class="delivery-status-overview">
+                            <div class="dso-stage done">
+                                <div class="dso-circle green"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                                <div class="dso-label">已创建</div>
+                            </div>
+                            <div class="dso-connector green"></div>
+                            <div class="dso-stage done">
+                                <div class="dso-circle green"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                                <div class="dso-label">工前准备</div>
+                            </div>
+                            <div class="dso-connector green"></div>
+                            <div class="dso-stage current">
+                                <div class="dso-circle blue"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/></svg></div>
+                                <div class="dso-label">施工计划(60%)</div>
+                            </div>
+                            <div class="dso-connector gray"></div>
+                            <div class="dso-stage pending">
+                                <div class="dso-circle gray"></div>
+                                <div class="dso-label">实施部署</div>
+                            </div>
+                            <div class="dso-connector gray"></div>
+                            <div class="dso-stage pending">
+                                <div class="dso-circle gray"></div>
+                                <div class="dso-label">验收交维</div>
+                            </div>
+                        </div>
+                        <div class="ops-body">
+                            <div class="ops-status">
+                                <span class="ops-badge blue">交付中 · 总体进度 40%</span>
+                            </div>
+                            <div class="ops-actions">
+                                <button class="btn-outline" id="btn-refresh-status">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="refresh-icon"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                                    刷新状态
+                                </button>
+                                <button class="btn-primary" id="btn-export-report">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    导出项目报告
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== Panel 2: 工前准备 ========== -->
+                <div class="panel" id="panel-prework" style="display:none;">
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11H1l3-3-3-3"/><path d="M22 12A10 10 0 1 1 12 2"/><path d="M16 6l-4 4-4-4"/></svg>
+                                工前准备概览
+                            </h3>
+                            <span class="badge badge-green">已完成</span>
+                        </div>
+
+                        <div class="summary-grid">
+                            <div class="summary-item">
+                                <span class="summary-label">主联系人</span>
+                                <span class="summary-value">孙主管 138xxxx</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">工勘分工</span>
+                                <span class="summary-value text-green">已确认</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">需求分析</span>
+                                <span class="summary-value text-green">已完成</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">物料符合性</span>
+                                <span class="summary-value text-red">不符合</span>
+                                <a href="#" class="detail-link">查看详情</a>
+                            </div>
+                        </div>
+
+                        <div class="card-sub-title">联系人清单</div>
+                        <div class="table-wrap">
+                            <table class="data-table compact">
+                                <thead>
+                                    <tr>
+                                        <th style="width:120px;">姓名</th>
+                                        <th style="width:140px;">角色</th>
+                                        <th style="width:140px;">电话</th>
+                                        <th>邮箱</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>孙主管</td>
+                                        <td>客户主联系人</td>
+                                        <td>138xxxx</td>
+                                        <td>sun@xxbank.com</td>
+                                    </tr>
+                                    <tr>
+                                        <td>李工</td>
+                                        <td>现场配合人</td>
+                                        <td>139xxxx</td>
+                                        <td>li@xxbank.com</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="panel-footer">
+                            <button class="btn-outline" data-nav="pre-work">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+                                进入工前准备详细页面
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Operations: 工前准备 -->
+                    <div class="delivery-ops">
+                        <div class="delivery-ops-header">
+                            <div class="delivery-ops-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7h7v7"/><path d="M10 17a8 8 0 0 1-8-8"/><path d="M21 7l-7 8"/></svg>
+                                交付操作
+                            </div>
+                        </div>
+                        <div class="ops-body">
+                            <div class="ops-status">
+                                <span class="ops-badge green">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                    工前准备已完成
+                                </span>
+                            </div>
+                            <div class="ops-actions">
+                                <button class="btn-primary" id="btn-prework-confirm">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                    提交工前确认
+                                </button>
+                                <button class="btn-outline" id="btn-prework-download">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    下载工前文档
+                                </button>
+                                <button class="btn-outline" id="btn-prework-change">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                                    发起需求变更
+                                </button>
+                                <button class="btn-outline" id="btn-prework-audit">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                                    查看审核记录
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== Panel 3: 施工计划 ========== -->
+                <div class="panel" id="panel-plan" style="display:none;">
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                施工计划
+                            </h3>
+                            <span class="badge badge-blue">进行中 60%</span>
+                        </div>
+
+                        <div class="card-sub-title">三层时间模型（工期倒推）</div>
+                        <div class="table-wrap">
+                            <table class="data-table compact">
+                                <thead>
+                                    <tr>
+                                        <th style="width:140px;">阶段</th>
+                                        <th style="width:150px;">计划时间</th>
+                                        <th style="width:150px;">工期要求</th>
+                                        <th style="width:180px;">倒推建议</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>到货签收</td>
+                                        <td>2026-07-15</td>
+                                        <td>2026-07-20</td>
+                                        <td>2026-07-18</td>
+                                    </tr>
+                                    <tr>
+                                        <td>硬件实施</td>
+                                        <td>2026-07-25</td>
+                                        <td>2026-07-30</td>
+                                        <td>2026-07-28</td>
+                                    </tr>
+                                    <tr>
+                                        <td>设备配置</td>
+                                        <td>2026-08-05</td>
+                                        <td>2026-08-10</td>
+                                        <td>2026-08-08</td>
+                                    </tr>
+                                    <tr>
+                                        <td>业务联通</td>
+                                        <td>2026-08-15</td>
+                                        <td>2026-08-20</td>
+                                        <td>2026-08-18</td>
+                                    </tr>
+                                    <tr class="row-danger">
+                                        <td>割接-上线</td>
+                                        <td>2026-09-05</td>
+                                        <td>2026-09-10</td>
+                                        <td><span class="text-red text-bold">2026-07-01</span> <span class="tag-danger">已严重滞后</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>初验</td>
+                                        <td>2026-09-20</td>
+                                        <td>2026-09-25</td>
+                                        <td>2026-09-22</td>
+                                    </tr>
+                                    <tr>
+                                        <td>终验</td>
+                                        <td>2026-09-28</td>
+                                        <td>2026-09-30</td>
+                                        <td>2026-09-28</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            <span>当前项目工期紧张，请详细落实好工期计划</span>
+                        </div>
+
+                        <div class="panel-footer">
+                            <button class="btn-outline" data-nav="construction-plan">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+                                进入施工计划详细页面
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Operations: 施工计划 -->
+                    <div class="delivery-ops">
+                        <div class="delivery-ops-header">
+                            <div class="delivery-ops-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7h7v7"/><path d="M10 17a8 8 0 0 1-8-8"/><path d="M21 7l-7 8"/></svg>
+                                交付操作
+                            </div>
+                        </div>
+                        <div class="ops-body">
+                            <div class="ops-status">
+                                <span class="ops-badge blue" id="plan-status-badge">
+                                    施工计划审核中
+                                    <span class="progress-mini"><span class="progress-mini-fill" style="width:60%"></span></span>
+                                    60%
+                                </span>
+                            </div>
+                            <div class="ops-actions">
+                                <button class="btn-outline" id="btn-plan-draft">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                    保存草稿
+                                </button>
+                                <button class="btn-primary" id="btn-plan-submit">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                                    提交钉钉审批
+                                </button>
+                                <button class="btn-outline" id="btn-plan-download">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    下载施工计划
+                                </button>
+                                <button class="btn-outline" id="btn-plan-audit">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                                    查看审批记录
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== Panel 4: 实施方案 ========== -->
+                <div class="panel" id="panel-implplan" style="display:none;">
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+                                实施方案
+                            </h3>
+                            <span class="badge badge-orange">待编写</span>
+                        </div>
+
+                        <div class="chapter-progress">
+                            <div class="chapter-progress-text">3/8 章节已完成</div>
+                            <div class="progress-bar-wrap">
+                                <div class="progress-bar-track">
+                                    <div class="progress-bar-fill" style="width:37.5%"></div>
+                                </div>
+                                <span class="progress-bar-text">37.5%</span>
+                            </div>
+                        </div>
+
+                        <div class="chapter-list">
+                            <div class="chapter-item done">
+                                <span class="chapter-num">1</span>
+                                <span class="chapter-name">项目概述</span>
+                                <span class="chapter-status done">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                    已完成
+                                </span>
+                            </div>
+                            <div class="chapter-item done">
+                                <span class="chapter-num">2</span>
+                                <span class="chapter-name">现网现状</span>
+                                <span class="chapter-status done">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                    已完成
+                                </span>
+                            </div>
+                            <div class="chapter-item current">
+                                <span class="chapter-num">3</span>
+                                <span class="chapter-name">总体方案设计</span>
+                                <span class="chapter-status current">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                    进行中
+                                </span>
+                            </div>
+                            <div class="chapter-item">
+                                <span class="chapter-num">4</span>
+                                <span class="chapter-name">配置脚本</span>
+                                <span class="chapter-status pending">未开始</span>
+                            </div>
+                            <div class="chapter-item">
+                                <span class="chapter-num">5</span>
+                                <span class="chapter-name">实施步骤</span>
+                                <span class="chapter-status pending">未开始</span>
+                            </div>
+                            <div class="chapter-item">
+                                <span class="chapter-num">6</span>
+                                <span class="chapter-name">其他方案模板</span>
+                                <span class="chapter-status pending">未开始</span>
+                            </div>
+                            <div class="chapter-item">
+                                <span class="chapter-num">7</span>
+                                <span class="chapter-name">培训移交</span>
+                                <span class="chapter-status pending">未开始</span>
+                            </div>
+                            <div class="chapter-item">
+                                <span class="chapter-num">8</span>
+                                <span class="chapter-name">售后服务</span>
+                                <span class="chapter-status pending">未开始</span>
+                            </div>
+                        </div>
+
+                        <div class="panel-footer">
+                            <button class="btn-outline" data-nav="implementation-plan">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+                                进入实施方案详细页面
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Operations: 实施方案 -->
+                    <div class="delivery-ops">
+                        <div class="delivery-ops-header">
+                            <div class="delivery-ops-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7h7v7"/><path d="M10 17a8 8 0 0 1-8-8"/><path d="M21 7l-7 8"/></svg>
+                                交付操作
+                            </div>
+                        </div>
+                        <div class="ops-body">
+                            <div class="ops-status">
+                                <span class="ops-badge orange">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    方案待编写
+                                </span>
+                            </div>
+                            <div class="ops-actions">
+                                <button class="btn-outline" id="btn-impl-draft">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                    保存草稿
+                                </button>
+                                <button class="btn-primary" id="btn-impl-generate">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                    生成方案
+                                </button>
+                                <button class="btn-outline" id="btn-impl-download">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    下载方案文档
+                                </button>
+                                <button class="btn-outline" id="btn-impl-submit">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                                    提交审核
+                                </button>
+                                <button class="btn-outline" id="btn-impl-templates">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                                    查看模板库
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== Panel 5: 实施部署 ========== -->
+                <div class="panel" id="panel-deploy" style="display:none;">
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                                实施部署
+                            </h3>
+                            <span class="badge badge-gray">未开始</span>
+                        </div>
+
+                        <div class="card-sub-title">部署子步骤</div>
+                        <div class="deploy-steps">
+                            <div class="deploy-step done">
+                                <div class="ds-icon green">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                </div>
+                                <div class="ds-info">
+                                    <div class="ds-name">到货签收</div>
+                                    <div class="ds-status text-green">已完成</div>
+                                </div>
+                            </div>
+                            <div class="deploy-step done">
+                                <div class="ds-icon green">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                </div>
+                                <div class="ds-info">
+                                    <div class="ds-name">硬件安装</div>
+                                    <div class="ds-status text-green">已完成</div>
+                                </div>
+                            </div>
+                            <div class="deploy-step current">
+                                <div class="ds-icon blue">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                </div>
+                                <div class="ds-info">
+                                    <div class="ds-name">配置Log</div>
+                                    <div class="ds-status text-blue">进行中 · 2 个文件已上传</div>
+                                </div>
+                            </div>
+                            <div class="deploy-step">
+                                <div class="ds-icon gray"></div>
+                                <div class="ds-info">
+                                    <div class="ds-name">业务联调</div>
+                                    <div class="ds-status text-gray">未开始</div>
+                                </div>
+                            </div>
+                            <div class="deploy-step">
+                                <div class="ds-icon gray"></div>
+                                <div class="ds-info">
+                                    <div class="ds-name">割接发起</div>
+                                    <div class="ds-status text-red">未开始 · 备件库存不足</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-error">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            <span>割接备件库存检查：库存不足</span>
+                        </div>
+
+                        <div class="panel-footer">
+                            <button class="btn-outline" data-nav="deployment">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+                                进入实施部署详细页面
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Operations: 实施部署 -->
+                    <div class="delivery-ops">
+                        <div class="delivery-ops-header">
+                            <div class="delivery-ops-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7h7v7"/><path d="M10 17a8 8 0 0 1-8-8"/><path d="M21 7l-7 8"/></svg>
+                                交付操作
+                            </div>
+                        </div>
+                        <div class="ops-body">
+                            <div class="ops-status">
+                                <span class="ops-badge blue">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                    配置Log上传中
+                                </span>
+                            </div>
+                            <div class="ops-actions">
+                                <button class="btn-primary" id="btn-deploy-upload">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                    上传配置Log
+                                </button>
+                                <button class="btn-outline" id="btn-deploy-confirm">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                    提交部署确认
+                                </button>
+                                <button class="btn-outline" id="btn-deploy-report">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    下载部署报告
+                                </button>
+                                <div class="tooltip-wrap">
+                                    <button class="btn-danger" id="btn-deploy-cutover" disabled>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                                        发起割接
+                                    </button>
+                                    <span class="tooltip-text">备件库存不足，无法发起割接</span>
+                                </div>
+                                <button class="btn-text" id="btn-deploy-parts">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    发起备件采购
+                                </button>
+                            </div>
+                        </div>
+                        <table class="config-log-table" id="config-log-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:40%;">文件名</th>
+                                    <th style="width:25%;">上传时间</th>
+                                    <th style="width:20%;">上传人</th>
+                                    <th style="width:15%;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="config-log-tbody">
+                                <tr><td>config_log_20260705.log</td><td>2026-07-05 14:30</td><td>李工</td><td><button class="btn-text" style="height:auto;padding:0 4px;">下载</button></td></tr>
+                                <tr><td>config_log_20260706.log</td><td>2026-07-06 09:15</td><td>李工</td><td><button class="btn-text" style="height:auto;padding:0 4px;">下载</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ========== Panel 6: 验收交维 ========== -->
+                <div class="panel" id="panel-acceptance" style="display:none;">
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                                验收交维
+                            </h3>
+                            <span class="badge badge-gray">未开始</span>
+                        </div>
+
+                        <div class="placeholder-block">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#C0C4CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            <div class="placeholder-text">该阶段尚未开始</div>
+                        </div>
+
+                        <div class="card-sub-title">验收检查清单</div>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <span class="check-box"></span>
+                                <span class="check-text">初验测试报告</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="check-box"></span>
+                                <span class="check-text">终验测试报告</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="check-box"></span>
+                                <span class="check-text">客户签核单</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="check-box"></span>
+                                <span class="check-text">培训交付确认</span>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="check-box"></span>
+                                <span class="check-text">文档归档</span>
+                            </div>
+                        </div>
+
+                        <div class="panel-footer">
+                            <button class="btn-disabled" disabled>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                发起验收
+                            </button>
+                            <span class="footer-hint">前置条件未完成</span>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Operations: 验收交维 -->
+                    <div class="delivery-ops">
+                        <div class="delivery-ops-header">
+                            <div class="delivery-ops-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7h7v7"/><path d="M10 17a8 8 0 0 1-8-8"/><path d="M21 7l-7 8"/></svg>
+                                交付操作
+                            </div>
+                        </div>
+                        <div class="ops-body">
+                            <div class="ops-status">
+                                <span class="ops-badge gray">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                                    验收未开始
+                                </span>
+                            </div>
+                            <div class="ops-actions">
+                                <button class="btn-primary" id="btn-acceptance-initial">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                                    发起初验
+                                </button>
+                                <button class="btn-outline" id="btn-acceptance-upload">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                    上传验收文档
+                                </button>
+                                <button class="btn-outline" id="btn-acceptance-sign">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                    发起客户签核
+                                </button>
+                                <button class="btn-outline" id="btn-acceptance-training">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                                    发起培训移交
+                                </button>
+                                <div class="tooltip-wrap">
+                                    <button class="btn-disabled" id="btn-acceptance-close" disabled>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+                                        闭环归档
+                                    </button>
+                                    <span class="tooltip-text">前置条件未完成：初验/终验/签核/培训/归档均需完成</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /content-area -->
+        </div><!-- /project-body -->
+
+        <!-- ============ Bottom Quick Action Bar ============ -->
+        <div class="quick-action-bar">
+            <span class="qab-label">快捷操作</span>
+            <button class="btn-primary" id="qab-close">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                发起闭环
+            </button>
+            <button class="btn-outline" id="qab-cutover">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                发起割接
+            </button>
+            <button class="btn-outline" id="qab-weekly">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                创建周报
+            </button>
+            <button class="btn-outline" id="qab-visit">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                发起回访
+            </button>
+            <button class="btn-outline" id="qab-deliverables">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                查看交付件
+            </button>
+            <span class="qab-spacer"></span>
+        </div>
+    </div><!-- /admin-main -->
+
+    <!-- ============ Scripts ============ -->
+    <script>
+      // ===== Toast helper =====
+      function showToast(msg) {
+        var existing = document.querySelector('.__pms_toast');
+        if (existing) existing.remove();
+        var toast = document.createElement('div');
+        toast.className = '__pms_toast';
+        toast.style.cssText = 'position:fixed;top:80px;right:24px;z-index:9999;background:#303133;color:#fff;padding:12px 20px;border-radius:4px;font-size:14px;opacity:0;transition:opacity 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.15);max-width:360px;font-family:inherit;';
+        toast.textContent = msg;
+        document.body.appendChild(toast);
+        requestAnimationFrame(function () { toast.style.opacity = '1'; });
+        setTimeout(function () {
+          toast.style.opacity = '0';
+          setTimeout(function () { if (toast.parentNode) toast.remove(); }, 300);
+        }, 2500);
+      }
+
+      (function () {
+        // ===== Sidebar group toggle =====
+        document.querySelectorAll('.sidebar-group-header').forEach(function (header) {
+          header.addEventListener('click', function () {
+            var menu = this.nextElementSibling;
+            var chevron = this.querySelector('.chevron-icon');
+            if (menu && menu.tagName === 'UL') {
+              var isHidden = menu.style.display === 'none';
+              menu.style.display = isHidden ? 'block' : 'none';
+              if (chevron) chevron.classList.toggle('collapsed', !isHidden);
+            }
+          });
+        });
+
+        // ===== Sidebar item navigation =====
+        document.querySelectorAll('.sidebar-menu a').forEach(function (a) {
+          a.addEventListener('click', function (e) {
+            var nav = a.getAttribute('data-nav');
+            if (!nav) return;
+            e.preventDefault();
+            if (nav === 'overall') {
+              __safeNav('overall-tracking.html');
+            } else if (nav === 'toast') {
+              showToast('功能开发中');
+            }
+          });
+        });
+
+        // ===== Tags view navigation =====
+        document.querySelectorAll('.tags-view .tag-item').forEach(function (tag) {
+          tag.addEventListener('click', function (e) {
+            if (e.target.classList.contains('tag-close')) return;
+            var nav = tag.getAttribute('data-nav');
+            if (nav === 'overall') {
+              __safeNav('overall-tracking.html');
+            }
+          });
+        });
+
+        // ===== Phase switching (CORE) =====
+        var phaseItems = document.querySelectorAll('.phase-item[data-phase]');
+        phaseItems.forEach(function (item) {
+          item.addEventListener('click', function () {
+            var phase = this.getAttribute('data-phase');
+            // 1. Remove active from all phase items
+            document.querySelectorAll('.phase-item').forEach(function (i) {
+              i.classList.remove('active');
+            });
+            // 2. Add active to clicked item
+            this.classList.add('active');
+            // 3. Hide all panels
+            document.querySelectorAll('.panel').forEach(function (p) {
+              p.style.display = 'none';
+              p.classList.remove('fade-in');
+            });
+            // 4. Show corresponding panel
+            var panel = document.getElementById('panel-' + phase);
+            if (panel) {
+              panel.style.display = 'block';
+              // 5. Trigger fade-in transition
+              void panel.offsetWidth;
+              panel.classList.add('fade-in');
+            }
+            // Scroll content area to top
+            var contentArea = document.querySelector('.content-area');
+            if (contentArea) contentArea.scrollTop = 0;
+          });
+        });
+
+        // ===== Phase nav items that navigate away =====
+        document.querySelectorAll('.phase-item[data-nav]').forEach(function (item) {
+          item.addEventListener('click', function () {
+            var nav = this.getAttribute('data-nav');
+            if (nav === 'cutover') {
+              __safeNav('cutover.html');
+            } else if (nav === 'archive') {
+              showToast('归档功能开发中');
+            }
+          });
+        });
+
+        // ===== "进入...详细页面" buttons =====
+        document.querySelectorAll('.panel-footer button[data-nav]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var nav = btn.getAttribute('data-nav');
+            if (nav) __safeNav(nav + '.html');
+          });
+        });
+
+        // ===== Detail links =====
+        document.querySelectorAll('.detail-link').forEach(function (link) {
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+            showToast('物料符合性详情：3项物料型号不匹配');
+          });
+        });
+      })();
+    </script>
+
+    <!-- ============ Delivery Operations Scripts ============ -->
+    <script>
+      // ===== Reusable Modal =====
+      function createModal(title, contentHTML, options) {
+        options = options || {};
+        closeModal();
+        var overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+
+        var modal = document.createElement('div');
+        modal.className = 'modal';
+        if (options.width) modal.style.width = options.width;
+
+        var headerHTML = '<div class="modal-header">' +
+          '<span class="modal-title">' + title + '</span>' +
+          '<button class="modal-close" data-modal-close>&times;</button>' +
+          '</div>';
+        var bodyHTML = '<div class="modal-body">' + contentHTML + '</div>';
+        modal.innerHTML = headerHTML + bodyHTML;
+
+        if (!options.hideFooter) {
+          var footer = document.createElement('div');
+          footer.className = 'modal-footer';
+
+          var cancelBtn = document.createElement('button');
+          cancelBtn.className = 'btn-outline';
+          cancelBtn.textContent = options.cancelText || '取消';
+          cancelBtn.addEventListener('click', closeModal);
+
+          var confirmBtn = document.createElement('button');
+          confirmBtn.className = options.confirmClass || 'btn-primary';
+          confirmBtn.textContent = options.confirmText || '确认';
+          if (options.confirmDisabled) confirmBtn.disabled = true;
+          confirmBtn.addEventListener('click', function () {
+            if (typeof options.onConfirm === 'function') {
+              options.onConfirm(modal);
+            } else {
+              closeModal();
+            }
+          });
+
+          footer.appendChild(cancelBtn);
+          footer.appendChild(confirmBtn);
+          modal.appendChild(footer);
+        }
+
+        overlay.appendChild(modal);
+        overlay.addEventListener('click', function (e) {
+          if (e.target === overlay) closeModal();
+        });
+        modal.querySelector('[data-modal-close]').addEventListener('click', closeModal);
+
+        document.body.appendChild(overlay);
+        requestAnimationFrame(function () { overlay.classList.add('show'); });
+        return modal;
+      }
+
+      function closeModal() {
+        var overlay = document.querySelector('.modal-overlay');
+        if (overlay) {
+          overlay.classList.remove('show');
+          setTimeout(function () { if (overlay.parentNode) overlay.remove(); }, 200);
+        }
+      }
+
+      // ===== Helper: simulate loading on a button =====
+      function simulateLoading(btn, loadingText, duration, doneText) {
+        var originalHTML = btn.innerHTML;
+        btn.classList.add('btn-loading');
+        btn.innerHTML = '<svg class="spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>' + loadingText;
+        setTimeout(function () {
+          btn.classList.remove('btn-loading');
+          btn.innerHTML = originalHTML;
+          if (doneText) showToast(doneText);
+        }, duration);
+      }
+
+      // ===== Helper: trigger hidden file input =====
+      function triggerFileInput(onFile) {
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.style.display = 'none';
+        input.addEventListener('change', function () {
+          if (input.files && input.files.length > 0) {
+            onFile(input.files[0]);
+          }
+          input.remove();
+        });
+        document.body.appendChild(input);
+        input.click();
+      }
+
+      // ===== Helper: format current datetime =====
+      function formatNow() {
+        var d = new Date();
+        var pad = function (n) { return n < 10 ? '0' + n : n; };
+        return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) +
+          ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+      }
+
+      (function () {
+        // ════════════════════════════════════════════
+        // Phase 1: 基本信息 - 交付状态总览
+        // ════════════════════════════════════════════
+        var btnRefresh = document.getElementById('btn-refresh-status');
+        if (btnRefresh) {
+          btnRefresh.addEventListener('click', function () {
+            var icon = document.getElementById('refresh-icon');
+            if (icon) icon.classList.add('spin');
+            btnRefresh.classList.add('btn-loading');
+            setTimeout(function () {
+              if (icon) icon.classList.remove('spin');
+              btnRefresh.classList.remove('btn-loading');
+              showToast('PMS状态已刷新');
+            }, 1000);
+          });
+        }
+
+        var btnExport = document.getElementById('btn-export-report');
+        if (btnExport) {
+          btnExport.addEventListener('click', function () {
+            showToast('报告生成中...');
+            setTimeout(function () {
+              showToast('报告已导出');
+            }, 2000);
+          });
+        }
+
+        // ════════════════════════════════════════════
+        // Phase 2: 工前准备 - 交付操作
+        // ════════════════════════════════════════════
+        var btnPreConfirm = document.getElementById('btn-prework-confirm');
+        if (btnPreConfirm) {
+          btnPreConfirm.addEventListener('click', function () {
+            showToast('工前准备已确认通过');
+          });
+        }
+
+        var btnPreDownload = document.getElementById('btn-prework-download');
+        if (btnPreDownload) {
+          btnPreDownload.addEventListener('click', function () {
+            showToast('文档下载中...');
+          });
+        }
+
+        var btnPreChange = document.getElementById('btn-prework-change');
+        if (btnPreChange) {
+          btnPreChange.addEventListener('click', function () {
+            createModal('发起需求变更', '<div class="modal-info-text">确认发起需求变更申请？</div>' +
+              '<div class="modal-info-text warning" style="margin-top:12px;">变更申请提交后将通知服务经理审核，审核通过后方可执行变更。</div>', {
+              confirmText: '确认发起',
+              onConfirm: function () {
+                closeModal();
+                showToast('需求变更申请已发起，等待服务经理审核');
+              }
+            });
+          });
+        }
+
+        var btnPreAudit = document.getElementById('btn-prework-audit');
+        if (btnPreAudit) {
+          btnPreAudit.addEventListener('click', function () {
+            var html = '<table class="modal-table">' +
+              '<thead><tr><th>步骤</th><th>审核人</th><th>时间</th><th>结果</th></tr></thead>' +
+              '<tbody>' +
+              '<tr><td>工前提交</td><td>张三</td><td>2026-06-20</td><td><span class="status-tag pass">通过</span></td></tr>' +
+              '<tr><td>PM审核</td><td>赵经理</td><td>2026-06-21</td><td><span class="status-tag pass">通过</span></td></tr>' +
+              '<tr><td>客户确认</td><td>孙主管</td><td>2026-06-22</td><td><span class="status-tag pass">通过</span></td></tr>' +
+              '</tbody></table>';
+            createModal('审核记录', html, { hideFooter: true });
+          });
+        }
+
+        // ════════════════════════════════════════════
+        // Phase 3: 施工计划 - 交付操作
+        // ════════════════════════════════════════════
+        var btnPlanDraft = document.getElementById('btn-plan-draft');
+        if (btnPlanDraft) {
+          btnPlanDraft.addEventListener('click', function () {
+            showToast('草稿已保存');
+          });
+        }
+
+        var btnPlanSubmit = document.getElementById('btn-plan-submit');
+        if (btnPlanSubmit) {
+          btnPlanSubmit.addEventListener('click', function () {
+            createModal('提交钉钉审批', '<div class="modal-info-text">确认提交施工计划进行钉钉审批？</div>' +
+              '<div class="modal-info-text info">提交后将通过钉钉审批流推送给相关审核人。</div>', {
+              confirmText: '确认提交',
+              onConfirm: function () {
+                closeModal();
+                simulateLoading(btnPlanSubmit, '提交中...', 2000, '已提交钉钉审批，等待审核');
+                var badge = document.getElementById('plan-status-badge');
+                if (badge) {
+                  badge.className = 'ops-badge green';
+                  badge.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>已提交审批';
+                }
+              }
+            });
+          });
+        }
+
+        var btnPlanDownload = document.getElementById('btn-plan-download');
+        if (btnPlanDownload) {
+          btnPlanDownload.addEventListener('click', function () {
+            showToast('文档下载中...');
+          });
+        }
+
+        var btnPlanAudit = document.getElementById('btn-plan-audit');
+        if (btnPlanAudit) {
+          btnPlanAudit.addEventListener('click', function () {
+            var html = '<table class="modal-table">' +
+              '<thead><tr><th>步骤</th><th>审核人</th><th>时间</th><th>结果</th></tr></thead>' +
+              '<tbody>' +
+              '<tr><td>计划提交</td><td>张三</td><td>2026-07-05</td><td><span class="status-tag pass">已提交</span></td></tr>' +
+              '<tr><td>服务经理审核</td><td>赵经理</td><td>-</td><td><span class="status-tag pending">待审核</span></td></tr>' +
+              '<tr><td>钉钉审批</td><td>-</td><td>-</td><td><span class="status-tag wait">待发起</span></td></tr>' +
+              '</tbody></table>';
+            createModal('审批记录', html, { hideFooter: true });
+          });
+        }
+
+        // ════════════════════════════════════════════
+        // Phase 4: 实施方案 - 交付操作
+        // ════════════════════════════════════════════
+        var btnImplDraft = document.getElementById('btn-impl-draft');
+        if (btnImplDraft) {
+          btnImplDraft.addEventListener('click', function () {
+            showToast('草稿已保存');
+          });
+        }
+
+        var btnImplGenerate = document.getElementById('btn-impl-generate');
+        if (btnImplGenerate) {
+          btnImplGenerate.addEventListener('click', function () {
+            simulateLoading(btnImplGenerate, '生成中...', 2000, '方案已自动生成');
+          });
+        }
+
+        var btnImplDownload = document.getElementById('btn-impl-download');
+        if (btnImplDownload) {
+          btnImplDownload.addEventListener('click', function () {
+            showToast('方案文档下载中...');
+          });
+        }
+
+        var btnImplSubmit = document.getElementById('btn-impl-submit');
+        if (btnImplSubmit) {
+          btnImplSubmit.addEventListener('click', function () {
+            createModal('提交方案审核', '<div class="modal-info-text">确认提交方案审核？</div>' +
+              '<div class="modal-info-text info">服务经理审核，重大方案需总部复核。</div>', {
+              confirmText: '确认提交',
+              onConfirm: function () {
+                closeModal();
+                showToast('方案已提交审核');
+              }
+            });
+          });
+        }
+
+        var btnImplTemplates = document.getElementById('btn-impl-templates');
+        if (btnImplTemplates) {
+          btnImplTemplates.addEventListener('click', function () {
+            var html = '<div class="template-list">' +
+              '<label class="template-item"><input type="checkbox"><div class="template-info"><div class="template-name">标准实施方模板 v3.2</div><div class="template-desc">适用于常规网络设备实施场景</div></div></label>' +
+              '<label class="template-item"><input type="checkbox"><div class="template-info"><div class="template-name">核心网专项模板 v2.0</div><div class="template-desc">适用于核心网设备实施，含割接方案</div></div></label>' +
+              '<label class="template-item"><input type="checkbox"><div class="template-info"><div class="template-name">数据中心实施模板 v1.5</div><div class="template-desc">适用于数据中心场景实施</div></div></label>' +
+              '<label class="template-item"><input type="checkbox"><div class="template-info"><div class="template-name">云网融合模板 v1.0</div><div class="template-desc">适用于云网融合场景，含SDN配置</div></div></label>' +
+              '</div>';
+            createModal('方案模板库', html, {
+              confirmText: '添加到方案',
+              onConfirm: function () {
+                var checked = document.querySelectorAll('.template-item input[type="checkbox"]:checked');
+                if (checked.length === 0) {
+                  showToast('请至少选择一个模板');
+                  return;
+                }
+                closeModal();
+                showToast('已添加 ' + checked.length + ' 个模板到方案');
+              }
+            });
+          });
+        }
+
+        // ════════════════════════════════════════════
+        // Phase 5: 实施部署 - 交付操作
+        // ════════════════════════════════════════════
+        var btnDeployUpload = document.getElementById('btn-deploy-upload');
+        if (btnDeployUpload) {
+          btnDeployUpload.addEventListener('click', function () {
+            triggerFileInput(function (file) {
+              var tbody = document.getElementById('config-log-tbody');
+              if (tbody) {
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + file.name + '</td><td>' + formatNow() + '</td><td>张三</td><td><button class="btn-text" style="height:auto;padding:0 4px;">下载</button></td>';
+                tbody.appendChild(tr);
+              }
+              showToast('Log已上传');
+            });
+          });
+        }
+
+        var btnDeployConfirm = document.getElementById('btn-deploy-confirm');
+        if (btnDeployConfirm) {
+          btnDeployConfirm.addEventListener('click', function () {
+            createModal('提交部署确认', '<div class="modal-info-text">确认部署已完成？</div>' +
+              '<div class="modal-info-text warning">提交后部署状态将变更为"已完成"，请确保所有配置已验证通过。</div>', {
+              confirmText: '确认',
+              onConfirm: function () {
+                closeModal();
+                showToast('部署确认已提交');
+              }
+            });
+          });
+        }
+
+        var btnDeployReport = document.getElementById('btn-deploy-report');
+        if (btnDeployReport) {
+          btnDeployReport.addEventListener('click', function () {
+            showToast('部署报告下载中...');
+          });
+        }
+
+        var btnDeployParts = document.getElementById('btn-deploy-parts');
+        if (btnDeployParts) {
+          btnDeployParts.addEventListener('click', function () {
+            showToast('备件采购申请已发起');
+          });
+        }
+
+        // ════════════════════════════════════════════
+        // Phase 6: 验收交维 - 交付操作
+        // ════════════════════════════════════════════
+        var btnAccInitial = document.getElementById('btn-acceptance-initial');
+        if (btnAccInitial) {
+          btnAccInitial.addEventListener('click', function () {
+            createModal('发起初验', '<div class="modal-info-text">确认发起初验流程？</div>' +
+              '<div class="modal-info-text info">初验流程发起后，将生成初验测试报告模板并通知相关配合人员。</div>', {
+              confirmText: '确认',
+              onConfirm: function () {
+                closeModal();
+                showToast('初验流程已发起');
+              }
+            });
+          });
+        }
+
+        var btnAccUpload = document.getElementById('btn-acceptance-upload');
+        if (btnAccUpload) {
+          btnAccUpload.addEventListener('click', function () {
+            triggerFileInput(function (file) {
+              showToast('文档已上传：' + file.name);
+            });
+          });
+        }
+
+        var btnAccSign = document.getElementById('btn-acceptance-sign');
+        if (btnAccSign) {
+          btnAccSign.addEventListener('click', function () {
+            showToast('签核链接已发送给客户');
+            setTimeout(function () {
+              createModal('客户签核', '<div class="modal-info-text">签核链接已通过短信和邮件发送给客户联系人：<strong>孙主管</strong>。</div>' +
+                '<div class="modal-info-text info">客户可通过移动端完成签核，签核结果将自动同步至系统。</div>', {
+                hideFooter: true
+              });
+            }, 1000);
+          });
+        }
+
+        var btnAccTraining = document.getElementById('btn-acceptance-training');
+        if (btnAccTraining) {
+          btnAccTraining.addEventListener('click', function () {
+            var html = '<div class="modal-form-group">' +
+              '<label class="modal-form-label">培训时间<span class="required">*</span></label>' +
+              '<input type="date" class="modal-form-input" id="training-time">' +
+              '</div>' +
+              '<div class="modal-form-group">' +
+              '<label class="modal-form-label">培训内容<span class="required">*</span></label>' +
+              '<textarea class="modal-form-textarea" id="training-content" placeholder="请输入培训内容..."></textarea>' +
+              '</div>' +
+              '<div class="modal-form-group">' +
+              '<label class="modal-form-label">培训工程师<span class="required">*</span></label>' +
+              '<input type="text" class="modal-form-input" id="training-engineer" placeholder="请输入培训工程师姓名">' +
+              '</div>';
+            createModal('发起培训移交', html, {
+              confirmText: '提交',
+              onConfirm: function (modal) {
+                var time = modal.querySelector('#training-time').value;
+                var content = modal.querySelector('#training-content').value;
+                var engineer = modal.querySelector('#training-engineer').value;
+                if (!time || !content || !engineer) {
+                  showToast('请填写完整培训信息');
+                  return;
+                }
+                closeModal();
+                showToast('培训移交已安排');
+              }
+            });
+          });
+        }
+
+        // ════════════════════════════════════════════
+        // Bottom Quick Action Bar
+        // ════════════════════════════════════════════
+        var qabClose = document.getElementById('qab-close');
+        if (qabClose) {
+          qabClose.addEventListener('click', function () {
+            var html = '<div class="prereq-list">' +
+              '<div class="prereq-item done"><div class="prereq-icon">&#10003;</div>工前准备已完成</div>' +
+              '<div class="prereq-item done"><div class="prereq-icon">&#10003;</div>施工计划已审批</div>' +
+              '<div class="prereq-item undone"><div class="prereq-icon">&#10007;</div>实施方案已审核</div>' +
+              '<div class="prereq-item undone"><div class="prereq-icon">&#10007;</div>实施部署已完成</div>' +
+              '<div class="prereq-item undone"><div class="prereq-icon">&#10007;</div>初验测试通过</div>' +
+              '<div class="prereq-item undone"><div class="prereq-icon">&#10007;</div>终验测试通过</div>' +
+              '<div class="prereq-item undone"><div class="prereq-icon">&#10007;</div>客户签核完成</div>' +
+              '<div class="prereq-item undone"><div class="prereq-icon">&#10007;</div>培训移交完成</div>' +
+              '<div class="prereq-item undone"><div class="prereq-icon">&#10007;</div>文档归档完成</div>' +
+              '</div>' +
+              '<div class="modal-info-text warning" style="margin-top:12px;">当前有 7 项前置条件未完成，暂无法发起闭环。</div>';
+            createModal('发起闭环 - 前置条件检查', html, {
+              confirmText: '确认闭环',
+              confirmDisabled: true,
+              onConfirm: function () {
+                closeModal();
+                showToast('项目已闭环');
+              }
+            });
+          });
+        }
+
+        var qabCutover = document.getElementById('qab-cutover');
+        if (qabCutover) {
+          qabCutover.addEventListener('click', function () {
+            __safeNav('cutover.html');
+          });
+        }
+
+        var qabWeekly = document.getElementById('qab-weekly');
+        if (qabWeekly) {
+          qabWeekly.addEventListener('click', function () {
+            var html = '<div class="modal-form-group">' +
+              '<label class="modal-form-label">本周工作<span class="required">*</span></label>' +
+              '<textarea class="modal-form-textarea" id="weekly-done" placeholder="请输入本周已完成的工作..."></textarea>' +
+              '</div>' +
+              '<div class="modal-form-group">' +
+              '<label class="modal-form-label">下周计划<span class="required">*</span></label>' +
+              '<textarea class="modal-form-textarea" id="weekly-plan" placeholder="请输入下周工作计划..."></textarea>' +
+              '</div>' +
+              '<div class="modal-form-group">' +
+              '<label class="modal-form-label">风险项</label>' +
+              '<textarea class="modal-form-textarea" id="weekly-risk" placeholder="请输入风险项及应对措施..."></textarea>' +
+              '</div>';
+            createModal('创建周报', html, {
+              confirmText: '生成周报',
+              onConfirm: function (modal) {
+                var done = modal.querySelector('#weekly-done').value;
+                var plan = modal.querySelector('#weekly-plan').value;
+                if (!done || !plan) {
+                  showToast('请填写本周工作和下周计划');
+                  return;
+                }
+                closeModal();
+                showToast('周报已生成');
+              }
+            });
+          });
+        }
+
+        var qabVisit = document.getElementById('qab-visit');
+        if (qabVisit) {
+          qabVisit.addEventListener('click', function () {
+            var html = '<div class="modal-form-row">' +
+              '<div class="modal-form-group">' +
+              '<label class="modal-form-label">回访时间<span class="required">*</span></label>' +
+              '<input type="date" class="modal-form-input" id="visit-time">' +
+              '</div>' +
+              '<div class="modal-form-group">' +
+              '<label class="modal-form-label">回访人<span class="required">*</span></label>' +
+              '<input type="text" class="modal-form-input" id="visit-person" placeholder="回访负责人">' +
+              '</div>' +
+              '</div>' +
+              '<div class="modal-form-group">' +
+              '<label class="modal-form-label">回访方式<span class="required">*</span></label>' +
+              '<select class="modal-form-select" id="visit-method">' +
+              '<option value="">请选择回访方式</option>' +
+              '<option value="phone">电话回访</option>' +
+              '<option value="onsite">现场回访</option>' +
+              '</select>' +
+              '</div>' +
+              '<div class="modal-form-group">' +
+              '<label class="modal-form-label">回访备注</label>' +
+              '<textarea class="modal-form-textarea" id="visit-note" placeholder="回访内容备注..."></textarea>' +
+              '</div>';
+            createModal('发起回访', html, {
+              confirmText: '提交',
+              onConfirm: function (modal) {
+                var time = modal.querySelector('#visit-time').value;
+                var person = modal.querySelector('#visit-person').value;
+                var method = modal.querySelector('#visit-method').value;
+                if (!time || !person || !method) {
+                  showToast('请填写完整回访信息');
+                  return;
+                }
+                closeModal();
+                showToast('回访已安排');
+              }
+            });
+          });
+        }
+
+        var qabDeliverables = document.getElementById('qab-deliverables');
+        if (qabDeliverables) {
+          qabDeliverables.addEventListener('click', function () {
+            var html = '<table class="modal-table">' +
+              '<thead><tr><th>文档名称</th><th>状态</th><th>操作</th></tr></thead>' +
+              '<tbody>' +
+              '<tr><td>工前确认书</td><td><span class="doc-status uploaded">&#10003; 已上传</span></td><td><button class="doc-download-btn">下载</button></td></tr>' +
+              '<tr><td>施工计划书</td><td><span class="doc-status reviewed">&#10003; 已审核</span></td><td><button class="doc-download-btn">下载</button></td></tr>' +
+              '<tr><td>实施方案</td><td><span class="doc-status writing">&#9203; 编写中</span></td><td><button class="doc-download-btn disabled">-</button></td></tr>' +
+              '<tr><td>配置Log</td><td><span class="doc-status uploaded">&#10003; 已上传</span></td><td><button class="doc-download-btn">下载</button></td></tr>' +
+              '<tr><td>验收报告</td><td><span class="doc-status missing">&#10007; 未生成</span></td><td><button class="doc-download-btn disabled">-</button></td></tr>' +
+              '<tr><td>培训确认书</td><td><span class="doc-status missing">&#10007; 未生成</span></td><td><button class="doc-download-btn disabled">-</button></td></tr>' +
+              '</tbody></table>';
+            createModal('交付文档清单', html, {
+              hideFooter: true
+            });
+            // Add click handlers for download buttons
+            document.querySelectorAll('.doc-download-btn:not(.disabled)').forEach(function (btn) {
+              btn.addEventListener('click', function () {
+                showToast('文档下载中...');
+              });
+            });
+          });
+        }
+      })();
+    </script>
+
+    <!-- ============ Page Styles ============ -->
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+        font-size: 14px;
+        color: #303133;
+        background: #F5F7FA;
+        overflow: hidden;
+        height: 100vh;
+      }
+
+      /* ── Header ── */
+      .admin-header {
+        height: 60px;
+        background: #FFFFFF;
+        border-bottom: 1px solid #DCDFE6;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+      }
+      .header-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+        width: 208px;
+      }
+      .header-logo .logo-icon {
+        width: 32px;
+        height: 32px;
+        background: #1A6FD4;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .header-logo .logo-text {
+        font-size: 16px;
+        font-weight: 600;
+        color: #303133;
+        white-space: nowrap;
+      }
+      .header-search {
+        flex: 1;
+        max-width: 480px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .header-search input {
+        width: 100%;
+        height: 36px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        padding: 0 12px 0 36px;
+        font-size: 14px;
+        color: #303133;
+        background: #F5F7FA;
+        outline: none;
+        transition: border-color 0.2s;
+        font-family: inherit;
+      }
+      .header-search input::placeholder { color: #C0C4CC; }
+      .header-search input:focus {
+        border-color: #1A6FD4;
+        background: #FFFFFF;
+      }
+      .header-search .search-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #C0C4CC;
+        pointer-events: none;
+      }
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-shrink: 0;
+      }
+      .header-bell {
+        position: relative;
+        cursor: pointer;
+        color: #606266;
+        transition: color 0.2s;
+      }
+      .header-bell:hover { color: #1A6FD4; }
+      .header-bell .bell-badge {
+        position: absolute;
+        top: -6px;
+        right: -8px;
+        background: #E74C3C;
+        color: #FFFFFF;
+        font-size: 11px;
+        font-weight: 600;
+        min-width: 16px;
+        height: 16px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4px;
+        line-height: 1;
+      }
+      .header-user {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: background 0.2s;
+      }
+      .header-user:hover { background: #F5F7FA; }
+      .header-user .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #1A6FD4;
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .header-user .user-name { font-size: 14px; color: #303133; }
+      .header-user .chevron { color: #909399; transition: transform 0.2s; }
+
+      /* ── Admin Sidebar ── */
+      .admin-sidebar {
+        width: 208px;
+        background: #FFFFFF;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        bottom: 0;
+        border-right: 1px solid #DCDFE6;
+        overflow-y: auto;
+        z-index: 900;
+      }
+      .admin-sidebar::-webkit-scrollbar { width: 4px; }
+      .admin-sidebar::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 2px; }
+      .admin-sidebar::-webkit-scrollbar-track { background: transparent; }
+
+      .sidebar-group-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #303133;
+        font-weight: 500;
+        transition: background 0.2s;
+        user-select: none;
+      }
+      .sidebar-group-header:hover { background: #F5F7FA; }
+      .sidebar-group-header .group-icon {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .sidebar-group-header .chevron-icon {
+        transition: transform 0.2s;
+        color: #909399;
+      }
+      .sidebar-group-header .chevron-icon.collapsed { transform: rotate(-90deg); }
+
+      .sidebar-menu { list-style: none; }
+      .sidebar-menu li { position: relative; }
+      .sidebar-menu li a {
+        display: block;
+        padding: 0 20px 0 44px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        color: #606266;
+        text-decoration: none;
+        transition: all 0.2s;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .sidebar-menu li a:hover { background: #F5F7FA; color: #1A6FD4; }
+      .sidebar-menu li a.active {
+        color: #1A6FD4;
+        background: #E8F2FC;
+        font-weight: 500;
+      }
+      .sidebar-menu li a.active::before {
+        content: '';
+        position: absolute;
+        left: 0; top: 0; bottom: 0;
+        width: 3px;
+        background: #1A6FD4;
+        border-radius: 0 2px 2px 0;
+      }
+
+      /* ── TagsView ── */
+      .tags-view {
+        height: 36px;
+        background: #FFFFFF;
+        border-bottom: 1px solid #DCDFE6;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        gap: 8px;
+        position: fixed;
+        top: 60px;
+        left: 208px;
+        right: 0;
+        z-index: 800;
+        overflow-x: auto;
+      }
+      .tags-view::-webkit-scrollbar { display: none; }
+      .tag-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        height: 26px;
+        padding: 0 10px;
+        border-radius: 3px;
+        font-size: 12px;
+        cursor: pointer;
+        white-space: nowrap;
+        border: 1px solid #DCDFE6;
+        color: #606266;
+        background: #FFFFFF;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+      .tag-item:hover { color: #1A6FD4; }
+      .tag-item.active {
+        background: #E8F2FC;
+        color: #1A6FD4;
+        border-color: #1A6FD4;
+      }
+      .tag-item .tag-close {
+        width: 14px; height: 14px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        transition: background 0.2s;
+        margin-left: 2px;
+      }
+      .tag-item .tag-close:hover { background: rgba(26,111,212,0.2); color: #1A6FD4; }
+      .tags-add {
+        width: 26px; height: 26px;
+        border-radius: 3px;
+        border: 1px solid #DCDFE6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #909399;
+        flex-shrink: 0;
+        transition: all 0.2s;
+        background: #FFFFFF;
+      }
+      .tags-add:hover { color: #1A6FD4; border-color: #1A6FD4; }
+
+      /* ── Main Layout ── */
+      .admin-main {
+        margin-left: 208px;
+        margin-top: 96px;
+        height: calc(100vh - 96px);
+        overflow: hidden;
+        background: #F5F7FA;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* ── Breadcrumb ── */
+      .breadcrumb-bar {
+        height: 32px;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        font-size: 13px;
+        color: #909399;
+        background: #FFFFFF;
+        border-bottom: 1px solid #EBEEF5;
+        flex-shrink: 0;
+      }
+      .breadcrumb-bar a {
+        color: #606266;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .breadcrumb-bar a:hover { color: #1A6FD4; }
+      .breadcrumb-bar .sep { margin: 0 8px; color: #C0C4CC; }
+      .breadcrumb-bar .current { color: #303133; }
+
+      /* ── Project Body (Left-Right Split) ── */
+      .project-body {
+        flex: 1;
+        display: flex;
+        overflow: hidden;
+      }
+
+      /* ── Phase Sidebar (Left) ── */
+      .phase-sidebar {
+        width: 200px;
+        background: #FFFFFF;
+        border-right: 1px solid #DCDFE6;
+        overflow-y: auto;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .phase-sidebar::-webkit-scrollbar { width: 4px; }
+      .phase-sidebar::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 2px; }
+      .phase-sidebar::-webkit-scrollbar-track { background: transparent; }
+
+      .phase-nav-title {
+        padding: 16px 16px 8px;
+        font-size: 12px;
+        color: #909399;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .phase-nav { flex: 1; }
+      .phase-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        font-size: 14px;
+        color: #303133;
+        cursor: pointer;
+        transition: background 0.2s;
+        position: relative;
+        user-select: none;
+      }
+      .phase-item:hover { background: #F5F7FA; }
+      .phase-item.active {
+        color: #1A6FD4;
+        background: #E8F2FC;
+        font-weight: 500;
+      }
+      .phase-item.active::before {
+        content: '';
+        position: absolute;
+        left: 0; top: 0; bottom: 0;
+        width: 3px;
+        background: #1A6FD4;
+        border-radius: 0 2px 2px 0;
+      }
+      .phase-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .phase-dot.green { background: #27AE60; }
+      .phase-dot.blue { background: #2E8BE6; box-shadow: 0 0 0 3px rgba(46,139,230,0.2); }
+      .phase-dot.gray { background: #C0C4CC; }
+      .phase-text { flex: 1; }
+      .phase-arrow {
+        color: #C0C4CC;
+        flex-shrink: 0;
+      }
+      .phase-separator {
+        height: 1px;
+        background: #EBEEF5;
+        margin: 8px 16px;
+      }
+
+      /* ── Mini Progress Card ── */
+      .mini-progress-card {
+        padding: 16px;
+        border-top: 1px solid #EBEEF5;
+        margin-top: 8px;
+      }
+      .mp-label {
+        font-size: 12px;
+        color: #909399;
+        margin-bottom: 8px;
+      }
+      .mp-bar {
+        height: 6px;
+        background: #EBEEF5;
+        border-radius: 3px;
+        overflow: hidden;
+        margin-bottom: 6px;
+      }
+      .mp-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #1A6FD4, #2E8BE6);
+        border-radius: 3px;
+        transition: width 0.4s ease;
+      }
+      .mp-text {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1A6FD4;
+      }
+
+      /* ── Content Area (Right) ── */
+      .content-area {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px;
+      }
+      .content-area::-webkit-scrollbar { width: 6px; }
+      .content-area::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 3px; }
+      .content-area::-webkit-scrollbar-track { background: transparent; }
+
+      /* ── Panel ── */
+      .panel { display: none; }
+      .panel.fade-in {
+        animation: fadeIn 0.3s ease;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* ── Info Card ── */
+      .info-card {
+        background: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        padding: 20px;
+        margin-bottom: 16px;
+      }
+      .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #EBEEF5;
+      }
+      .card-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #303133;
+      }
+      .card-title svg { color: #1A6FD4; }
+      .progress-label-text {
+        font-size: 13px;
+        color: #606266;
+        font-weight: 500;
+      }
+
+      /* ── Badges ── */
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 1.5;
+      }
+      .badge-blue { color: #2E8BE6; background: #E8F2FC; }
+      .badge-green { color: #27AE60; background: #E8F8EE; }
+      .badge-orange { color: #F39C12; background: #FEF5E7; }
+      .badge-red { color: #E74C3C; background: #FDECEA; }
+      .badge-gray { color: #909399; background: #F4F4F5; }
+
+      /* ── Info Grid ── */
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .info-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        border-bottom: 1px solid #F5F7FA;
+      }
+      .info-item:nth-last-child(-n+3) { border-bottom: none; }
+      .info-label {
+        font-size: 13px;
+        color: #909399;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .info-value {
+        font-size: 14px;
+        color: #303133;
+        font-weight: 500;
+      }
+      .text-orange { color: #F39C12; }
+      .text-green { color: #27AE60; }
+      .text-blue { color: #2E8BE6; }
+      .text-red { color: #E74C3C; }
+      .text-gray { color: #909399; }
+      .text-bold { font-weight: 600; }
+
+      /* ── Lifecycle Flow ── */
+      .lifecycle-flow {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 16px 8px 8px;
+      }
+      .lc-node {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+        width: 80px;
+      }
+      .lc-circle {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .lc-circle.green {
+        background: #27AE60;
+      }
+      .lc-circle.blue {
+        background: #2E8BE6;
+      }
+      .lc-circle.blue.pulse {
+        animation: lcPulse 2s infinite;
+      }
+      .lc-circle.gray {
+        background: transparent;
+        border: 2px dashed #C0C4CC;
+      }
+      @keyframes lcPulse {
+        0% { box-shadow: 0 0 0 0 rgba(46,139,230,0.4); }
+        70% { box-shadow: 0 0 0 12px rgba(46,139,230,0); }
+        100% { box-shadow: 0 0 0 0 rgba(46,139,230,0); }
+      }
+      .lc-code {
+        font-size: 14px;
+        font-weight: 600;
+        color: #303133;
+      }
+      .lc-node.completed .lc-code { color: #27AE60; }
+      .lc-node.current .lc-code { color: #2E8BE6; }
+      .lc-node.pending .lc-code { color: #C0C4CC; }
+      .lc-label {
+        font-size: 12px;
+        color: #606266;
+      }
+      .lc-node.pending .lc-label { color: #C0C4CC; }
+      .lc-line {
+        flex: 1;
+        height: 2px;
+        margin-top: 17px;
+        min-width: 20px;
+      }
+      .lc-line.green.solid { background: #27AE60; }
+      .lc-line.blue.solid { background: #2E8BE6; }
+      .lc-line.gray.dashed {
+        background: repeating-linear-gradient(90deg, #C0C4CC 0, #C0C4CC 4px, transparent 4px, transparent 8px);
+      }
+
+      /* ── Sub-stage Flow ── */
+      .substage-card {
+        background: #FAFCFE;
+      }
+      .substage-flow {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 12px 0;
+      }
+      .ss-node {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+        width: 100px;
+      }
+      .ss-circle {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ss-circle.green { background: #27AE60; }
+      .ss-circle.blue { background: #2E8BE6; }
+      .ss-circle.gray {
+        background: transparent;
+        border: 2px solid #DCDFE6;
+      }
+      .ss-label {
+        font-size: 12px;
+        color: #606266;
+        text-align: center;
+      }
+      .ss-node.pending .ss-label { color: #C0C4CC; }
+      .ss-pct {
+        font-size: 12px;
+        font-weight: 600;
+        color: #2E8BE6;
+      }
+      .ss-line {
+        flex: 1;
+        height: 2px;
+        margin-top: 13px;
+        min-width: 12px;
+      }
+      .ss-line.green.solid { background: #27AE60; }
+      .ss-line.gray.dashed {
+        background: repeating-linear-gradient(90deg, #C0C4CC 0, #C0C4CC 4px, transparent 4px, transparent 8px);
+      }
+
+      /* ── Progress Bar ── */
+      .progress-bar-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 16px;
+      }
+      .progress-bar-track {
+        flex: 1;
+        height: 8px;
+        background: #EBEEF5;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #1A6FD4, #2E8BE6);
+        border-radius: 4px;
+        transition: width 0.4s ease;
+      }
+      .progress-bar-text {
+        font-size: 13px;
+        font-weight: 600;
+        color: #1A6FD4;
+        white-space: nowrap;
+      }
+      .chapter-progress {
+        margin-bottom: 16px;
+      }
+      .chapter-progress-text {
+        font-size: 14px;
+        color: #606266;
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+
+      /* ── Summary Grid ── */
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      .summary-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        background: #F5F7FA;
+        border-radius: 6px;
+      }
+      .summary-label {
+        font-size: 13px;
+        color: #909399;
+        white-space: nowrap;
+      }
+      .summary-value {
+        font-size: 14px;
+        color: #303133;
+        font-weight: 500;
+      }
+      .detail-link {
+        font-size: 12px;
+        color: #1A6FD4;
+        text-decoration: none;
+        margin-left: 4px;
+        cursor: pointer;
+      }
+      .detail-link:hover { text-decoration: underline; }
+
+      /* ── Card Sub Title ── */
+      .card-sub-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #303133;
+        margin-bottom: 12px;
+        padding-left: 8px;
+        border-left: 3px solid #1A6FD4;
+      }
+
+      /* ── Table ── */
+      .table-wrap {
+        overflow-x: auto;
+        margin-bottom: 16px;
+      }
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .data-table thead th {
+        background: #F5F7FA;
+        padding: 10px 12px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #303133;
+        text-align: left;
+        border-bottom: 1px solid #EBEEF5;
+        white-space: nowrap;
+      }
+      .data-table tbody td {
+        padding: 10px 12px;
+        font-size: 14px;
+        color: #303133;
+        border-bottom: 1px solid #F5F7FA;
+      }
+      .data-table.compact tbody td { padding: 8px 12px; font-size: 13px; }
+      .data-table tbody tr { transition: background 0.15s; }
+      .data-table tbody tr:hover { background: #F5F7FA; }
+      .data-table tbody tr:last-child td { border-bottom: none; }
+      .data-table tr.row-danger { background: #FFFBF5; }
+      .data-table tr.row-danger:hover { background: #FFF6E8; }
+      .tag-danger {
+        display: inline-block;
+        padding: 1px 6px;
+        background: #FDECEA;
+        color: #E74C3C;
+        font-size: 11px;
+        border-radius: 3px;
+        margin-left: 4px;
+        font-weight: 500;
+      }
+
+      /* ── Alert ── */
+      .alert {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        margin-bottom: 16px;
+      }
+      .alert-warning {
+        background: #FEF5E7;
+        color: #F39C12;
+        border: 1px solid #FCE4B8;
+      }
+      .alert-error {
+        background: #FDECEA;
+        color: #E74C3C;
+        border: 1px solid #F8C9C2;
+      }
+      .alert svg { flex-shrink: 0; }
+
+      /* ── Panel Footer ── */
+      .panel-footer {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #F5F7FA;
+      }
+
+      /* ── Buttons ── */
+      .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 14px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        background: #FFFFFF;
+        color: #606266;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+      .btn-outline:hover { color: #1A6FD4; border-color: #1A6FD4; }
+      .btn-outline:active { color: #1565C0; border-color: #1565C0; }
+
+      .btn-disabled {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 14px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        background: #F5F7FA;
+        color: #C0C4CC;
+        font-size: 14px;
+        cursor: not-allowed;
+        font-family: inherit;
+      }
+      .footer-hint {
+        font-size: 12px;
+        color: #C0C4CC;
+      }
+
+      /* ── Chapter List ── */
+      .chapter-list {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .chapter-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border-radius: 6px;
+        transition: background 0.15s;
+      }
+      .chapter-item:hover { background: #F5F7FA; }
+      .chapter-num {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #F5F7FA;
+        color: #909399;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+      .chapter-item.done .chapter-num { background: #E8F8EE; color: #27AE60; }
+      .chapter-item.current .chapter-num { background: #E8F2FC; color: #2E8BE6; }
+      .chapter-name {
+        flex: 1;
+        font-size: 14px;
+        color: #303133;
+      }
+      .chapter-status {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+      }
+      .chapter-status.done { color: #27AE60; }
+      .chapter-status.current { color: #2E8BE6; }
+      .chapter-status.pending { color: #C0C4CC; }
+
+      /* ── Deploy Steps ── */
+      .deploy-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .deploy-step {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        background: #F5F7FA;
+        border-radius: 6px;
+      }
+      .deploy-step.done { background: #F0FBF4; }
+      .deploy-step.current { background: #F0F7FE; }
+      .ds-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .ds-icon.green { background: #27AE60; }
+      .ds-icon.blue { background: #2E8BE6; }
+      .ds-icon.gray {
+        background: transparent;
+        border: 2px solid #DCDFE6;
+      }
+      .ds-info { display: flex; flex-direction: column; gap: 2px; }
+      .ds-name { font-size: 14px; color: #303133; font-weight: 500; }
+      .ds-status { font-size: 12px; }
+
+      /* ── Placeholder ── */
+      .placeholder-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 0;
+        gap: 8px;
+      }
+      .placeholder-text {
+        font-size: 14px;
+        color: #C0C4CC;
+      }
+
+      /* ── Checklist ── */
+      .checklist {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .checklist-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border: 1px solid #EBEEF5;
+        border-radius: 6px;
+      }
+      .check-box {
+        width: 16px;
+        height: 16px;
+        border: 2px solid #DCDFE6;
+        border-radius: 3px;
+        flex-shrink: 0;
+      }
+      .check-text {
+        font-size: 14px;
+        color: #606266;
+      }
+
+      /* ── Delivery Operations Bar ── */
+      .delivery-ops {
+        background: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        padding: 16px 20px;
+        margin-top: 16px;
+        border: 1px solid #EBEEF5;
+      }
+      .delivery-ops-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #F5F7FA;
+      }
+      .delivery-ops-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #303133;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .delivery-ops-title svg { color: #1A6FD4; }
+      .ops-body {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .ops-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .ops-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+      .ops-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        border-radius: 4px;
+        font-size: 13px;
+        font-weight: 500;
+      }
+      .ops-badge.green { color: #27AE60; background: #E8F8EE; }
+      .ops-badge.blue { color: #2E8BE6; background: #E8F2FC; }
+      .ops-badge.orange { color: #F39C12; background: #FEF5E7; }
+      .ops-badge.gray { color: #909399; background: #F4F4F5; }
+      .ops-badge.red { color: #E74C3C; background: #FDECEA; }
+      .ops-badge .progress-mini {
+        width: 36px;
+        height: 4px;
+        background: rgba(46,139,230,0.2);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .ops-badge .progress-mini-fill {
+        height: 100%;
+        background: #2E8BE6;
+        border-radius: 2px;
+      }
+
+      /* ── Primary / Danger Buttons ── */
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 14px;
+        border: 1px solid #1A6FD4;
+        border-radius: 4px;
+        background: #1A6FD4;
+        color: #FFFFFF;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+        white-space: nowrap;
+      }
+      .btn-primary:hover { background: #3B8AE0; border-color: #3B8AE0; }
+      .btn-primary:active { background: #1565C0; border-color: #1565C0; }
+      .btn-primary:disabled {
+        background: #A0CFFF;
+        border-color: #A0CFFF;
+        cursor: not-allowed;
+      }
+      .btn-danger {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 14px;
+        border: 1px solid #E74C3C;
+        border-radius: 4px;
+        background: #E74C3C;
+        color: #FFFFFF;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+        white-space: nowrap;
+      }
+      .btn-danger:hover { background: #F0553E; border-color: #F0553E; }
+      .btn-danger:disabled {
+        background: #C0C4CC;
+        border-color: #C0C4CC;
+        color: #FFFFFF;
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+      .btn-text {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        height: 32px;
+        padding: 0 8px;
+        border: none;
+        background: transparent;
+        color: #1A6FD4;
+        font-size: 13px;
+        cursor: pointer;
+        font-family: inherit;
+        white-space: nowrap;
+      }
+      .btn-text:hover { text-decoration: underline; }
+
+      /* ── Spinning / Loading ── */
+      .spin { animation: spin360 1s linear infinite; }
+      @keyframes spin360 {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      .btn-loading { pointer-events: none; opacity: 0.7; }
+
+      /* ── Tooltip ── */
+      .tooltip-wrap { position: relative; display: inline-block; }
+      .tooltip-wrap .tooltip-text {
+        visibility: hidden;
+        opacity: 0;
+        position: absolute;
+        bottom: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: #303133;
+        color: #FFFFFF;
+        font-size: 12px;
+        padding: 6px 12px;
+        border-radius: 4px;
+        white-space: nowrap;
+        z-index: 1001;
+        transition: opacity 0.2s;
+        pointer-events: none;
+      }
+      .tooltip-wrap:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+      }
+      .tooltip-wrap .tooltip-text::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 5px solid transparent;
+        border-top-color: #303133;
+      }
+
+      /* ── Modal ── */
+      .modal-overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .modal-overlay.show { opacity: 1; }
+      .modal {
+        background: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        width: 520px;
+        max-width: 90vw;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        transform: translateY(-20px);
+        transition: transform 0.2s;
+      }
+      .modal-overlay.show .modal { transform: translateY(0); }
+      .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        border-bottom: 1px solid #EBEEF5;
+      }
+      .modal-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #303133;
+      }
+      .modal-close {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        color: #909399;
+        border-radius: 4px;
+        font-size: 20px;
+        transition: all 0.2s;
+        line-height: 1;
+      }
+      .modal-close:hover { background: #F5F7FA; color: #303133; }
+      .modal-body {
+        padding: 20px;
+        overflow-y: auto;
+        flex: 1;
+      }
+      .modal-footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        padding: 12px 20px;
+        border-top: 1px solid #EBEEF5;
+      }
+
+      /* ── Modal Form ── */
+      .modal-form-group { margin-bottom: 16px; }
+      .modal-form-group:last-child { margin-bottom: 0; }
+      .modal-form-label {
+        display: block;
+        font-size: 13px;
+        color: #606266;
+        margin-bottom: 6px;
+        font-weight: 500;
+      }
+      .modal-form-label .required { color: #E74C3C; margin-left: 2px; }
+      .modal-form-input,
+      .modal-form-select,
+      .modal-form-textarea {
+        width: 100%;
+        height: 36px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        padding: 0 12px;
+        font-size: 14px;
+        color: #303133;
+        background: #FFFFFF;
+        outline: none;
+        transition: border-color 0.2s;
+        font-family: inherit;
+        box-sizing: border-box;
+      }
+      .modal-form-input:focus,
+      .modal-form-select:focus,
+      .modal-form-textarea:focus { border-color: #1A6FD4; }
+      .modal-form-textarea {
+        height: auto;
+        padding: 8px 12px;
+        resize: vertical;
+        min-height: 72px;
+      }
+      .modal-form-row { display: flex; gap: 12px; }
+      .modal-form-row .modal-form-group { flex: 1; }
+      .modal-info-text {
+        font-size: 14px;
+        color: #606266;
+        line-height: 1.6;
+      }
+      .modal-info-text.warning {
+        color: #F39C12;
+        background: #FEF5E7;
+        padding: 10px 12px;
+        border-radius: 4px;
+        border: 1px solid #FCE4B8;
+      }
+      .modal-info-text.info {
+        color: #2E8BE6;
+        background: #E8F2FC;
+        padding: 10px 12px;
+        border-radius: 4px;
+        border: 1px solid #B3D7F5;
+        margin-top: 12px;
+      }
+
+      /* ── Modal Table ── */
+      .modal-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .modal-table thead th {
+        background: #F5F7FA;
+        padding: 10px 12px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #303133;
+        text-align: left;
+        border-bottom: 1px solid #EBEEF5;
+        white-space: nowrap;
+      }
+      .modal-table tbody td {
+        padding: 10px 12px;
+        font-size: 13px;
+        color: #303133;
+        border-bottom: 1px solid #F5F7FA;
+      }
+      .modal-table tbody tr:last-child td { border-bottom: none; }
+      .status-tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 8px;
+        border-radius: 3px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .status-tag.pass { color: #27AE60; background: #E8F8EE; }
+      .status-tag.pending { color: #F39C12; background: #FEF5E7; }
+      .status-tag.wait { color: #909399; background: #F4F4F5; }
+
+      /* ── Template List ── */
+      .template-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .template-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px;
+        border: 1px solid #EBEEF5;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .template-item:hover { border-color: #1A6FD4; background: #F8FBFF; }
+      .template-item input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        accent-color: #1A6FD4;
+        cursor: pointer;
+      }
+      .template-info { flex: 1; }
+      .template-name { font-size: 14px; color: #303133; font-weight: 500; }
+      .template-desc { font-size: 12px; color: #909399; margin-top: 2px; }
+
+      /* ── Prerequisite Checklist ── */
+      .prereq-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .prereq-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      .prereq-item.done { background: #F0FBF4; color: #27AE60; }
+      .prereq-item.undone { background: #FDECEA; color: #E74C3C; }
+      .prereq-icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 12px;
+        font-weight: 700;
+        color: #FFFFFF;
+      }
+      .prereq-item.done .prereq-icon { background: #27AE60; }
+      .prereq-item.undone .prereq-icon { background: #E74C3C; }
+
+      /* ── Delivery Status Overview (Phase 1) ── */
+      .delivery-status-overview {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+      .dso-stage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+        min-width: 90px;
+      }
+      .dso-circle {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .dso-circle.green { background: #27AE60; color: #FFFFFF; }
+      .dso-circle.blue { background: #2E8BE6; color: #FFFFFF; }
+      .dso-circle.gray {
+        background: transparent;
+        border: 2px dashed #C0C4CC;
+      }
+      .dso-label {
+        font-size: 12px;
+        color: #606266;
+        text-align: center;
+      }
+      .dso-stage.pending .dso-label { color: #C0C4CC; }
+      .dso-connector {
+        flex: 1;
+        height: 2px;
+        min-width: 20px;
+        margin-top: 15px;
+      }
+      .dso-connector.green { background: #27AE60; }
+      .dso-connector.gray {
+        background: repeating-linear-gradient(90deg, #C0C4CC 0, #C0C4CC 4px, transparent 4px, transparent 8px);
+      }
+
+      /* ── Config Log Table ── */
+      .config-log-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
+      }
+      .config-log-table thead th {
+        background: #F5F7FA;
+        padding: 8px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #303133;
+        text-align: left;
+        border-bottom: 1px solid #EBEEF5;
+        white-space: nowrap;
+      }
+      .config-log-table tbody td {
+        padding: 8px 12px;
+        font-size: 13px;
+        color: #303133;
+        border-bottom: 1px solid #F5F7FA;
+      }
+      .config-log-table tbody tr:last-child td { border-bottom: none; }
+      .config-log-empty {
+        font-size: 13px;
+        color: #C0C4CC;
+        text-align: center;
+        padding: 12px;
+      }
+
+      /* ── Quick Action Bar ── */
+      .quick-action-bar {
+        height: 56px;
+        background: #FFFFFF;
+        border-top: 1px solid #DCDFE6;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .quick-action-bar .qab-label {
+        font-size: 13px;
+        color: #909399;
+        font-weight: 500;
+        margin-right: 8px;
+        white-space: nowrap;
+      }
+      .quick-action-bar .qab-spacer { flex: 1; }
+
+      /* ── Document Checklist ── */
+      .doc-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 13px;
+      }
+      .doc-status.uploaded { color: #27AE60; }
+      .doc-status.reviewed { color: #27AE60; }
+      .doc-status.writing { color: #F39C12; }
+      .doc-status.missing { color: #C0C4CC; }
+      .doc-download-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 2px 10px;
+        border: 1px solid #DCDFE6;
+        border-radius: 3px;
+        background: #FFFFFF;
+        color: #1A6FD4;
+        font-size: 12px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.2s;
+      }
+      .doc-download-btn:hover { border-color: #1A6FD4; background: #E8F2FC; }
+      .doc-download-btn.disabled {
+        color: #C0C4CC;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      /* ===== Phase active highlight animation ===== */
+      .phase-item.active {
+        animation: phase-active-glow 0.4s ease;
+      }
+      @keyframes phase-active-glow {
+        0% { background: transparent; }
+        50% { background: rgba(26,111,212,0.10); }
+        100% { background: #E8F2FC; }
+      }
+      .phase-item.active::before {
+        animation: phase-bar-slide 0.3s ease;
+      }
+      @keyframes phase-bar-slide {
+        0% { transform: scaleY(0); }
+        100% { transform: scaleY(1); }
+      }
+
+      /* ===== Phase status dot tooltip ===== */
+      .phase-dot { position: relative; cursor: help; }
+      .phase-dot[data-tooltip]:hover::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: #303133;
+        color: #fff;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        white-space: nowrap;
+        z-index: 1000;
+        pointer-events: none;
+      }
+      .phase-dot[data-tooltip]:hover::before {
+        content: '';
+        position: absolute;
+        bottom: calc(100% + 2px);
+        left: 50%;
+        transform: translateX(-50%);
+        border: 4px solid transparent;
+        border-top-color: #303133;
+        z-index: 1000;
+        pointer-events: none;
+      }
+
+      /* ===== Checklist checked state ===== */
+      .checklist-item {
+        cursor: pointer;
+        transition: border-color 0.2s, background 0.2s;
+      }
+      .checklist-item:hover { border-color: #1A6FD4; }
+      .checklist-item.checked {
+        border-color: #27AE60;
+        background: rgba(39,174,96,0.04);
+      }
+      .checklist-item.checked .check-box {
+        background: #27AE60;
+        border-color: #27AE60;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .checklist-item.checked .check-box::after {
+        content: '\2713';
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .checklist-item.checked .check-text {
+        color: #27AE60;
+        text-decoration: line-through;
+      }
+
+      /* ===== Progress bar shimmer animation ===== */
+      .progress-bar-fill,
+      .mp-fill {
+        position: relative;
+        overflow: hidden;
+      }
+      .progress-bar-fill::after,
+      .mp-fill::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+        animation: pms-progress-shimmer 2.5s ease-in-out infinite;
+      }
+      @keyframes pms-progress-shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(200%); }
+      }
+    </style>
+    <!-- ============ Enhanced Interactions ============ -->
+    <script>
+      (function () {
+        // ===== Phase status dot tooltips =====
+        document.querySelectorAll('.phase-dot').forEach(function (dot) {
+          var status = '未开始';
+          if (dot.classList.contains('green')) status = '已完成';
+          else if (dot.classList.contains('blue')) status = '进行中';
+          else if (dot.classList.contains('gray')) status = '未开始';
+          dot.setAttribute('data-tooltip', status);
+        });
+
+        // ===== Checklist toggle + all-checked detection =====
+        var checklistItems = document.querySelectorAll('.checklist .checklist-item');
+        checklistItems.forEach(function (item) {
+          item.addEventListener('click', function () {
+            item.classList.toggle('checked');
+            var allChecked = true;
+            checklistItems.forEach(function (ci) {
+              if (!ci.classList.contains('checked')) allChecked = false;
+            });
+            if (allChecked) {
+              showToast('前置条件已满足');
+            }
+          });
+        });
+
+        // ===== Progress bar dynamic fill animation =====
+        var progressFills = document.querySelectorAll('.progress-bar-fill, .mp-fill');
+        progressFills.forEach(function (fill, idx) {
+          var targetWidth = fill.style.width;
+          if (!targetWidth || targetWidth === '0%' || targetWidth === '0') return;
+          fill.style.width = '0';
+          fill.style.transition = 'width 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+          setTimeout(function () {
+            fill.style.width = targetWidth;
+          }, 200 + idx * 120);
+        });
+      })();
+    </script>
+</body>
+</html>

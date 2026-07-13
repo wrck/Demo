@@ -1,0 +1,48 @@
+{
+  "root": {
+    "nodeId": "gen-project-shell",
+    "kind": "project-shell",
+    "pageIds": ["page-overall-tracking", "page-project-tracking"],
+    "output": "partials/project-shell.html",
+    "sharedRegions": [
+      "header (logo, global-search, notifications, user-menu)",
+      "sidebar (nav-menu with 5 domains)",
+      "tags-view bar",
+      "breadcrumb",
+      "page background and container",
+      "brand CSS variables and typography"
+    ],
+    "privateRegions": [],
+    "mutableSlots": [
+      "SLOT: breadcrumbText",
+      "SLOT: tagsViewItems",
+      "SLOT: activeNavKey",
+      "SLOT: pageContent"
+    ],
+    "status": "planned",
+    "children": [
+      {
+        "nodeId": "gen-page-overall-tracking",
+        "kind": "page-leaf",
+        "pageIds": ["page-overall-tracking"],
+        "output": "pages/overall-tracking.html",
+        "sharedRegions": [],
+        "privateRegions": ["8 stage stat cards", "search/filter bar", "project list table with pagination"],
+        "mutableSlots": [],
+        "status": "planned",
+        "children": []
+      },
+      {
+        "nodeId": "gen-page-project-tracking",
+        "kind": "page-leaf",
+        "pageIds": ["page-project-tracking"],
+        "output": "pages/project-tracking.html",
+        "sharedRegions": [],
+        "privateRegions": ["left sidebar nav (200px, 2-level)", "project info card", "lifecycle state machine", "sub-stage progress bar", "content area with quick actions"],
+        "mutableSlots": [],
+        "status": "planned",
+        "children": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,2148 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目总体跟踪 - PMS项目交付管理系统</title>
+    <style id="theme-vars">
+:root {
+  /* ── Brand ── */
+  --color-primary: #1A6FD4;
+  --color-primary-hover: #3B8AE0;
+  --color-primary-light: #E8F2FC;
+  --color-text-muted: #5A6477;
+  --color-border: #DCDFE6;
+
+  /* ── State Colors ── */
+  --state-success: #27AE60;
+  --state-info: #2E8BE6;
+  --state-warning: #F39C12;
+  --state-error: #E74C3C;
+  --state-locked: #8E44AD;
+  --state-disabled: #BDBDBD;
+
+  /* ── Surface ── */
+  --bg-page: #F5F7FA;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F5F7FA;
+  --bg-active: #E8F2FC;
+
+  /* ── Text ── */
+  --text-primary: #303133;
+  --text-tertiary: #909399;
+  --text-white: #FFFFFF;
+
+  /* ── Typography ── */
+  --font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  --text-h1: 600 24px/1.5 var(--font-family);
+  --text-h2: 600 20px/1.5 var(--font-family);
+  --text-h3: 600 16px/1.5 var(--font-family);
+  --text-body: 400 14px/1.5 var(--font-family);
+  --text-caption: 400 12px/1.5 var(--font-family);
+  --text-stat: 600 28px/1.5 var(--font-family);
+
+  /* ── Semantic Token Aliases (Tailwind bridge) ── */
+  --background: #F5F7FA;
+  --foreground: #303133;
+  --card: #FFFFFF;
+  --card-foreground: #303133;
+  --muted: #F5F7FA;
+  --muted-foreground: #909399;
+  --primary-foreground: #FFFFFF;
+  --border: #DCDFE6;
+  --input: #DCDFE6;
+  --ring: #1A6FD4;
+
+  /* ── Radius ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* ── Shadow ── */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  /* ── Spacing ── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+    </style>
+    <script type="application/json" data-cdn="@tailwindcss/browser@4.3.1"></script>
+    <script type="application/json" data-cdn="lucide@1.8.0"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-primary: var(--color-primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+  }
+  @layer base {
+    body { background: var(--background); color: var(--foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--background); }
+      .text-background { color: var(--background); }
+      .border-background { border-color: var(--background); }
+      .ring-background { --tw-ring-color: var(--background); }
+      .bg-foreground { background-color: var(--foreground); }
+      .text-foreground { color: var(--foreground); }
+      .border-foreground { border-color: var(--foreground); }
+      .ring-foreground { --tw-ring-color: var(--foreground); }
+      .bg-card { background-color: var(--card); }
+      .text-card { color: var(--card); }
+      .border-card { border-color: var(--card); }
+      .ring-card { --tw-ring-color: var(--card); }
+      .bg-card-foreground { background-color: var(--card-foreground); }
+      .text-card-foreground { color: var(--card-foreground); }
+      .border-card-foreground { border-color: var(--card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--card-foreground); }
+      .bg-primary { background-color: var(--color-primary); }
+      .text-primary { color: var(--color-primary); }
+      .border-primary { border-color: var(--color-primary); }
+      .ring-primary { --tw-ring-color: var(--color-primary); }
+      .bg-primary-foreground { background-color: var(--primary-foreground); }
+      .text-primary-foreground { color: var(--primary-foreground); }
+      .border-primary-foreground { border-color: var(--primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--primary-foreground); }
+      .bg-muted { background-color: var(--muted); }
+      .text-muted { color: var(--muted); }
+      .border-muted { border-color: var(--muted); }
+      .ring-muted { --tw-ring-color: var(--muted); }
+      .bg-muted-foreground { background-color: var(--muted-foreground); }
+      .text-muted-foreground { color: var(--muted-foreground); }
+      .border-muted-foreground { border-color: var(--muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--muted-foreground); }
+      .bg-border { background-color: var(--border); }
+      .text-border { color: var(--border); }
+      .border-border { border-color: var(--border); }
+      .ring-border { --tw-ring-color: var(--border); }
+      .bg-input { background-color: var(--input); }
+      .text-input { color: var(--input); }
+      .border-input { border-color: var(--input); }
+      .ring-input { --tw-ring-color: var(--input); }
+      .bg-ring { background-color: var(--ring); }
+      .text-ring { color: var(--ring); }
+      .border-ring { border-color: var(--ring); }
+      .ring-ring { --tw-ring-color: var(--ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+<script>
+(function(){
+  var __lastNav = '';
+  var __lastNavTime = 0;
+  window.__safeNav = function(url) {
+    var now = Date.now();
+    if (url === __lastNav && (now - __lastNavTime) < 800) return;
+    __lastNav = url;
+    __lastNavTime = now;
+    try { window.parent.postMessage({ type: 'design-navigate', url: url }, '*'); } catch(e) {}
+    var name = url.replace(/\.html$/, '').replace(/-/g, ' ');
+    if (typeof window.showToast === 'function') {
+      window.showToast('页面跳转: ' + name);
+    } else if (typeof window.showToastDelivery === 'function') {
+      window.showToastDelivery('页面跳转: ' + name);
+    } else {
+      var t = document.createElement('div');
+      t.textContent = '页面跳转: ' + name;
+      t.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1A6FD4;color:#fff;padding:10px 24px;border-radius:8px;z-index:99999;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-family:sans-serif;';
+      document.body.appendChild(t);
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 2000);
+    }
+  };
+  document.addEventListener('click', function(e) {
+    var el = e.target;
+    while (el && el !== document) {
+      if (el.hasAttribute && el.hasAttribute('data-nav-target')) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.__safeNav(el.getAttribute('data-nav-target'));
+        return false;
+      }
+      el = el.parentElement;
+    }
+  }, true);
+})();
+</script>
+<script>
+(function(){
+  // Suppress cross-origin security errors that occur when canvas SDK
+  // cleans up the srcdoc iframe during page switching.
+  // The iframe has null origin (srcdoc mode) while the host has vscode-file:// origin.
+  var origError = window.onerror;
+  window.onerror = function(msg, url, line, col, err) {
+    if (typeof msg === 'string' && (msg.indexOf('removeEventListener') !== -1 || msg.indexOf('cross-origin') !== -1 || msg.indexOf('security policy') !== -1)) {
+      return true; // suppress
+    }
+    if (origError) return origError.apply(this, arguments);
+    return false;
+  };
+  window.addEventListener('unhandledrejection', function(e) {
+    if (e.reason && typeof e.reason.message === 'string' && (e.reason.message.indexOf('removeEventListener') !== -1 || e.reason.message.indexOf('cross-origin') !== -1)) {
+      e.preventDefault();
+    }
+  });
+})();
+</script>
+    <!-- ==================== Header ==================== -->
+    <header class="admin-header">
+        <div class="header-logo">
+            <div class="logo-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <span class="logo-text">PMS 项目交付管理系统</span>
+        </div>
+        <div class="header-search">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input type="text" placeholder="搜索办事处/项目名称/合同号...">
+        </div>
+        <div class="header-right">
+            <div class="header-bell">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span class="bell-badge">3</span>
+            </div>
+            <div class="header-user">
+                <div class="avatar">张</div>
+                <span class="user-name">张三</span>
+                <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== Sidebar ==================== -->
+    <aside class="admin-sidebar">
+        <!-- 交付跟踪 (expanded) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    交付跟踪
+                </span>
+                <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active">项目总体跟踪</a></li>
+                <li><a href="#">售前测试管理</a></li>
+                <li><a href="#">项目转包（代施）</a></li>
+            </ul>
+        </div>
+
+        <!-- 交付执行 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                    </svg>
+                    交付执行
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+
+        <!-- 交付支撑 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                    交付支撑
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+
+        <!-- 集成与报表 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                    集成与报表
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+
+        <!-- 系统管理 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                    系统管理
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+    </aside>
+
+    <!-- ==================== TagsView ==================== -->
+    <div class="tags-view">
+        <div class="tag-item active">
+            <span>项目总体跟踪</span>
+            <span class="tag-close">&times;</span>
+        </div>
+        <div class="tag-item">
+            <span>单项目跟踪</span>
+            <span class="tag-close">&times;</span>
+        </div>
+        <div class="tag-item">
+            <span>割接管理</span>
+            <span class="tag-close">&times;</span>
+        </div>
+        <div style="flex:1;"></div>
+        <div class="tags-add">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- ==================== Main Content ==================== -->
+    <div class="admin-main">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar">
+            <a href="#">交付跟踪</a>
+            <span class="sep">/</span>
+            <span class="current">项目总体跟踪</span>
+        </div>
+
+        <div class="page-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">项目总体跟踪</h1>
+                <div class="page-actions">
+                    <button class="btn-outline">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        导出
+                    </button>
+                    <button class="btn-outline">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="23 4 23 10 17 10"/>
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                        </svg>
+                        刷新
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stat Cards -->
+            <div class="stat-cards">
+                <div class="stat-card">
+                    <div class="stat-label">全部</div>
+                    <a href="#" class="stat-number link-blue">128</a>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">未开始</div>
+                    <a href="#" class="stat-number link-blue">12</a>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">工前准备</div>
+                    <a href="#" class="stat-number link-blue">18</a>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">制定施工计划</div>
+                    <a href="#" class="stat-number link-blue">9</a>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">编写实施方案</div>
+                    <a href="#" class="stat-number link-blue">15</a>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">实施部署</div>
+                    <a href="#" class="stat-number link-blue">40</a>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">验收交维</div>
+                    <a href="#" class="stat-number link-blue">22</a>
+                </div>
+                <div class="stat-card overdue">
+                    <div class="stat-label">
+                        <span class="red-dot"></span>
+                        超期项目
+                    </div>
+                    <a href="#" class="stat-number red">12</a>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-card">
+                <div class="filter-row">
+                    <div class="filter-item">
+                        <label>办事处</label>
+                        <select>
+                            <option value="">全部</option>
+                            <option>华东</option>
+                            <option>华南</option>
+                            <option>华北</option>
+                            <option>西南</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label>项目名称</label>
+                        <input type="text" class="w-180" placeholder="请输入项目名称">
+                    </div>
+                    <div class="filter-item">
+                        <label>合同号</label>
+                        <input type="text" placeholder="请输入合同号">
+                    </div>
+                    <div class="filter-item">
+                        <label>项目级别</label>
+                        <select>
+                            <option value="">全部</option>
+                            <option>A级</option>
+                            <option>B级</option>
+                            <option>C级</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label>客户单位</label>
+                        <input type="text" class="w-180" placeholder="请输入客户单位">
+                    </div>
+                    <button class="btn-primary">查询</button>
+                    <button class="btn-outline">重置</button>
+                </div>
+            </div>
+
+            <!-- Batch Delivery Operations -->
+            <div class="delivery-ops-card" id="batchOpsCard">
+                <div class="delivery-ops-title">批量交付操作</div>
+                <div class="delivery-ops-buttons">
+                    <button class="btn-primary" id="btn-batch-assign-pm">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
+                        </svg>
+                        批量分配PM
+                    </button>
+                    <button class="btn-outline" id="btn-batch-export">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        批量导出
+                    </button>
+                    <button class="btn-outline" id="btn-batch-status-flow">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        </svg>
+                        批量状态流转
+                    </button>
+                    <button class="btn-outline btn-danger-text" id="btn-batch-alert">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                        批量发起预警
+                    </button>
+                    <button class="btn-outline" id="btn-batch-refresh">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="batch-refresh-icon">
+                            <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                        </svg>
+                        刷新数据
+                    </button>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-card">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width:80px;">
+                                办事处
+                                <span class="sort-icon">
+                                    <svg viewBox="0 0 10 6"><polygon points="5,0 10,6 0,6" fill="currentColor"/></svg>
+                                    <svg viewBox="0 0 10 6"><polygon points="0,0 10,0 5,6" fill="currentColor"/></svg>
+                                </span>
+                            </th>
+                            <th>
+                                项目名称
+                                <span class="sort-icon">
+                                    <svg viewBox="0 0 10 6"><polygon points="5,0 10,6 0,6" fill="currentColor"/></svg>
+                                    <svg viewBox="0 0 10 6"><polygon points="0,0 10,0 5,6" fill="currentColor"/></svg>
+                                </span>
+                            </th>
+                            <th style="width:120px;">
+                                合同号
+                                <span class="sort-icon">
+                                    <svg viewBox="0 0 10 6"><polygon points="5,0 10,6 0,6" fill="currentColor"/></svg>
+                                    <svg viewBox="0 0 10 6"><polygon points="0,0 10,0 5,6" fill="currentColor"/></svg>
+                                </span>
+                            </th>
+                            <th style="width:60px;">
+                                级别
+                                <span class="sort-icon">
+                                    <svg viewBox="0 0 10 6"><polygon points="5,0 10,6 0,6" fill="currentColor"/></svg>
+                                    <svg viewBox="0 0 10 6"><polygon points="0,0 10,0 5,6" fill="currentColor"/></svg>
+                                </span>
+                            </th>
+                            <th style="width:140px;">
+                                客户单位
+                                <span class="sort-icon">
+                                    <svg viewBox="0 0 10 6"><polygon points="5,0 10,6 0,6" fill="currentColor"/></svg>
+                                    <svg viewBox="0 0 10 6"><polygon points="0,0 10,0 5,6" fill="currentColor"/></svg>
+                                </span>
+                            </th>
+                            <th style="width:120px;">
+                                阶段
+                                <span class="sort-icon">
+                                    <svg viewBox="0 0 10 6"><polygon points="5,0 10,6 0,6" fill="currentColor"/></svg>
+                                    <svg viewBox="0 0 10 6"><polygon points="0,0 10,0 5,6" fill="currentColor"/></svg>
+                                </span>
+                            </th>
+                            <th style="width:70px;">
+                                PM
+                                <span class="sort-icon">
+                                    <svg viewBox="0 0 10 6"><polygon points="5,0 10,6 0,6" fill="currentColor"/></svg>
+                                    <svg viewBox="0 0 10 6"><polygon points="0,0 10,0 5,6" fill="currentColor"/></svg>
+                                </span>
+                            </th>
+                            <th style="width:80px;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Row 1: 实施中 -->
+                        <tr>
+                            <td>华东</td>
+                            <td>XX银行核心网</td>
+                            <td>HT202601</td>
+                            <td>A级</td>
+                            <td><a href="#" class="cell-link">XX银行</a></td>
+                            <td>
+                                <span class="cell-badge blue">
+                                    <span class="dot"></span>
+                                    40 实施中
+                                </span>
+                            </td>
+                            <td>张三</td>
+                            <td>
+                                <button class="btn-sm-primary" data-dom-id="btn-track-project">跟踪</button>
+                            </td>
+                        </tr>
+                        <!-- Row 2: 验收交维 -->
+                        <tr>
+                            <td>华南</td>
+                            <td>YY公司扩容</td>
+                            <td>HT202602</td>
+                            <td>B级</td>
+                            <td><a href="#" class="cell-link">YY公司</a></td>
+                            <td>验收交维</td>
+                            <td>李四</td>
+                            <td>
+                                <button class="btn-sm-primary" data-dom-id="btn-track-project">跟踪</button>
+                            </td>
+                        </tr>
+                        <!-- Row 3: 超期 (RED) -->
+                        <tr>
+                            <td>华北</td>
+                            <td>ZZ项目</td>
+                            <td>HT202603</td>
+                            <td>A级</td>
+                            <td><a href="#" class="cell-link">ZZ集团</a></td>
+                            <td>
+                                <span class="cell-badge red">
+                                    <span class="dot"></span>
+                                    超期
+                                </span>
+                            </td>
+                            <td>王五</td>
+                            <td>
+                                <button class="btn-sm-primary" data-dom-id="btn-track-project">跟踪</button>
+                            </td>
+                        </tr>
+                        <!-- Row 4: 工前准备 -->
+                        <tr>
+                            <td>华东</td>
+                            <td>AA数据中心</td>
+                            <td>HT202604</td>
+                            <td>B级</td>
+                            <td><a href="#" class="cell-link">AA科技</a></td>
+                            <td>工前准备</td>
+                            <td>赵六</td>
+                            <td>
+                                <button class="btn-sm-primary" data-dom-id="btn-track-project">跟踪</button>
+                            </td>
+                        </tr>
+                        <!-- Row 5: 未开始 -->
+                        <tr>
+                            <td>华北</td>
+                            <td>BB网络改造</td>
+                            <td>HT202605</td>
+                            <td>A级</td>
+                            <td><a href="#" class="cell-link">BB集团</a></td>
+                            <td>未开始</td>
+                            <td>孙七</td>
+                            <td>
+                                <button class="btn-sm-primary" data-dom-id="btn-track-project">跟踪</button>
+                            </td>
+                        </tr>
+                        <!-- Row 6: 制定施工计划 -->
+                        <tr>
+                            <td>西南</td>
+                            <td>CC安全项目</td>
+                            <td>HT202606</td>
+                            <td>C级</td>
+                            <td><a href="#" class="cell-link">CC公司</a></td>
+                            <td>制定施工计划</td>
+                            <td>周八</td>
+                            <td>
+                                <button class="btn-sm-primary" data-dom-id="btn-track-project">跟踪</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Pagination -->
+                <div class="pagination-bar">
+                    <span class="pagination-total">共 128 条</span>
+                    <div class="pagination-list">
+                        <button class="page-btn disabled">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="15 18 9 12 15 6"/>
+                            </svg>
+                        </button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <span class="page-ellipsis">...</span>
+                        <button class="page-btn">13</button>
+                        <button class="page-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle
+        document.querySelectorAll('.sidebar-group-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const menu = this.nextElementSibling;
+                const chevron = this.querySelector('.chevron-icon');
+                if (menu && menu.tagName === 'UL') {
+                    const isHidden = menu.style.display === 'none';
+                    menu.style.display = isHidden ? 'block' : 'none';
+                    if (chevron) {
+                        chevron.classList.toggle('collapsed', !isHidden);
+                    }
+                }
+            });
+        });
+    </script>
+
+    <!-- ============ Page Interactions ============ -->
+    <script>
+      // ===== Toast helper =====
+      function showToast(msg) {
+        var existing = document.querySelector('.__pms_toast');
+        if (existing) existing.remove();
+        var toast = document.createElement('div');
+        toast.className = '__pms_toast';
+        toast.style.cssText = 'position:fixed;top:16px;right:16px;z-index:9999;background:#303133;color:#fff;padding:12px 20px;border-radius:4px;font-size:14px;opacity:0;transition:opacity 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.15);max-width:360px;font-family:inherit;';
+        toast.textContent = msg;
+        document.body.appendChild(toast);
+        requestAnimationFrame(function () { toast.style.opacity = '1'; });
+        setTimeout(function () {
+          toast.style.opacity = '0';
+          setTimeout(function () { if (toast.parentNode) toast.remove(); }, 300);
+        }, 2500);
+      }
+
+      (function () {
+        // ===== Sidebar navigation mapping =====
+        var pageMap = {
+          '项目总体跟踪': null,
+          '售前测试管理': '__toast__',
+          '项目转包（代施）': '__toast__',
+          '项目转包': '__toast__',
+          '工前准备': 'pre-work.html',
+          '施工计划': 'construction-plan.html',
+          '制定施工计划': 'construction-plan.html',
+          '实施方案': 'implementation-plan.html',
+          '编写实施方案': 'implementation-plan.html',
+          '实施部署': 'deployment.html',
+          '割接管理': 'cutover.html',
+          '客户资产库': 'customer-asset.html',
+          'AI排障与知识库': 'ai-troubleshoot.html',
+          '验收交维': '__toast__',
+          '技术公告': '__toast__',
+          '回访与维保': '__toast__',
+          'ITR故障': '__toast__',
+          '集成与报表': '__toast__',
+          '系统管理': '__toast__'
+        };
+
+        function bindSidebarItem(a) {
+          var text = a.textContent.trim();
+          var target = pageMap[text];
+          if (target === null || target === undefined) return;
+          if (target === '__toast__') {
+            a.addEventListener('click', function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              showToast('功能开发中');
+            });
+          } else {
+            a.addEventListener('click', function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              __safeNav(target);
+            });
+          }
+        }
+
+        // Populate empty sidebar menus (交付执行 / 交付支撑)
+        var groups = document.querySelectorAll('.sidebar-group');
+        groups.forEach(function (group) {
+          var header = group.querySelector('.sidebar-group-header');
+          var menu = group.querySelector('.sidebar-menu');
+          if (!header || !menu) return;
+          var groupName = header.textContent.trim();
+          var items = [];
+          if (groupName.indexOf('交付执行') >= 0 && menu.children.length === 0) {
+            items = ['工前准备', '施工计划', '实施方案', '实施部署', '割接管理'];
+          } else if (groupName.indexOf('交付支撑') >= 0 && menu.children.length === 0) {
+            items = ['客户资产库', 'AI排障与知识库'];
+          }
+          items.forEach(function (name) {
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.href = '#';
+            a.textContent = name;
+            li.appendChild(a);
+            menu.appendChild(li);
+            bindSidebarItem(a);
+          });
+        });
+
+        // Bind existing sidebar items
+        document.querySelectorAll('.sidebar-menu li a').forEach(bindSidebarItem);
+
+        // ===== Stat cards: hover + click filter =====
+        var statCards = document.querySelectorAll('.stat-card');
+        statCards.forEach(function (card) {
+          card.style.cursor = 'pointer';
+          card.style.transition = 'transform 0.2s, box-shadow 0.2s';
+          card.addEventListener('mouseenter', function () {
+            card.style.transform = 'translateY(-2px)';
+            card.style.boxShadow = '0 6px 16px rgba(0,0,0,0.15)';
+          });
+          card.addEventListener('mouseleave', function () {
+            card.style.transform = '';
+            card.style.boxShadow = '';
+          });
+          card.addEventListener('click', function () {
+            var label = card.querySelector('.stat-label');
+            if (!label) return;
+            var stageText = label.textContent.trim().replace('超期项目', '超期');
+            // Highlight current card, remove highlight from others
+            statCards.forEach(function (c) { c.classList.remove('stat-active'); });
+            card.classList.add('stat-active');
+            filterTableByStage(stageText);
+            showToast('已筛选: ' + stageText);
+          });
+        });
+
+        // ===== Table helpers =====
+        var table = document.querySelector('.data-table');
+        var tbody = table ? table.querySelector('tbody') : null;
+
+        function getStageText(row) {
+          var cells = row.querySelectorAll('td');
+          if (cells.length < 6) return '';
+          var stageCell = cells[5];
+          var badge = stageCell.querySelector('.cell-badge');
+          if (badge) return badge.textContent.trim();
+          return stageCell.textContent.trim();
+        }
+
+        function showEmptyRow() {
+          hideEmptyRow();
+          if (!tbody) return;
+          var tr = document.createElement('tr');
+          tr.className = '__empty_row';
+          var td = document.createElement('td');
+          td.colSpan = 8;
+          td.style.cssText = 'text-align:center;color:#909399;padding:32px 0;font-size:14px;';
+          td.textContent = '暂无数据';
+          tr.appendChild(td);
+          tbody.appendChild(tr);
+        }
+        function hideEmptyRow() {
+          var r = tbody ? tbody.querySelector('.__empty_row') : null;
+          if (r) r.remove();
+        }
+
+        function filterTableByStage(stage) {
+          if (!tbody) return;
+          hideEmptyRow();
+          var rows = tbody.querySelectorAll('tr:not(.__empty_row)');
+          var matchCount = 0;
+          rows.forEach(function (row) {
+            var rowStage = getStageText(row);
+            var match = false;
+            if (stage === '全部') {
+              match = true;
+            } else {
+              match = rowStage.indexOf(stage) >= 0;
+            }
+            row.style.display = match ? '' : 'none';
+            if (match) matchCount++;
+          });
+          if (matchCount === 0) showEmptyRow();
+        }
+
+        // ===== Search/Filter bar =====
+        var filterInputs = document.querySelectorAll('.filter-item input, .filter-item select');
+        var queryBtn = document.querySelector('.filter-row .btn-primary');
+        var resetBtn = null;
+        document.querySelectorAll('.filter-row .btn-outline').forEach(function (b) {
+          if (b.textContent.trim() === '重置') resetBtn = b;
+        });
+
+        function applySearchFilter() {
+          if (!tbody) return;
+          hideEmptyRow();
+          var vals = [];
+          filterInputs.forEach(function (inp) { vals.push(inp.value.trim().toLowerCase()); });
+          var rows = tbody.querySelectorAll('tr:not(.__empty_row)');
+          var matchCount = 0;
+          rows.forEach(function (row) {
+            var cells = row.querySelectorAll('td');
+            var match = true;
+            for (var i = 0; i < vals.length && i < 5; i++) {
+              if (!vals[i]) continue;
+              var cellText = cells[i] ? cells[i].textContent.trim().toLowerCase() : '';
+              if (cellText.indexOf(vals[i]) < 0) { match = false; break; }
+            }
+            row.style.display = match ? '' : 'none';
+            if (match) matchCount++;
+          });
+          if (matchCount === 0) showEmptyRow();
+        }
+
+        if (queryBtn) queryBtn.addEventListener('click', applySearchFilter);
+        if (resetBtn) {
+          resetBtn.addEventListener('click', function () {
+            filterInputs.forEach(function (inp) { inp.value = ''; });
+            statCards.forEach(function (c) { c.classList.remove('stat-active'); });
+            filterTableByStage('全部');
+          });
+        }
+
+        // ===== Real-time search: filter card inputs & selects =====
+        filterInputs.forEach(function (inp) {
+          if (inp.tagName === 'SELECT') {
+            inp.addEventListener('change', applySearchFilter);
+          } else {
+            inp.addEventListener('input', applySearchFilter);
+          }
+        });
+
+        // ===== Real-time search: header search box =====
+        var headerSearch = document.querySelector('.header-search input');
+        if (headerSearch) {
+          headerSearch.addEventListener('input', function () {
+            var keyword = headerSearch.value.trim().toLowerCase();
+            if (!tbody) return;
+            hideEmptyRow();
+            var rows = tbody.querySelectorAll('tr:not(.__empty_row)');
+            var matchCount = 0;
+            rows.forEach(function (row) {
+              if (!keyword) { row.style.display = ''; matchCount++; return; }
+              var cells = row.querySelectorAll('td');
+              var match = false;
+              for (var i = 0; i < cells.length - 1; i++) {
+                var text = cells[i].textContent.trim().toLowerCase();
+                if (text.indexOf(keyword) >= 0) { match = true; break; }
+              }
+              row.style.display = match ? '' : 'none';
+              if (match) matchCount++;
+            });
+            if (matchCount === 0) showEmptyRow();
+          });
+        }
+
+        // ===== Table sorting =====
+        var sortState = { col: -1, dir: 1 };
+        var ths = document.querySelectorAll('.data-table thead th');
+        ths.forEach(function (th, idx) {
+          th.style.cursor = 'pointer';
+          th.addEventListener('click', function () {
+            var allThs = th.parentNode.querySelectorAll('th');
+            if (idx === allThs.length - 1) return; // skip 操作 column
+            if (sortState.col === idx) {
+              sortState.dir = -sortState.dir;
+            } else {
+              sortState.col = idx;
+              sortState.dir = 1;
+            }
+            ths.forEach(function (t) {
+              var ea = t.querySelector('.__sort_arrow');
+              if (ea) ea.remove();
+            });
+            var arrow = document.createElement('span');
+            arrow.className = '__sort_arrow';
+            arrow.textContent = sortState.dir === 1 ? ' ▲' : ' ▼';
+            arrow.style.cssText = 'color:#1A6FD4;font-size:12px;margin-left:2px;';
+            th.appendChild(arrow);
+            sortTable(idx, sortState.dir);
+          });
+        });
+
+        function sortTable(colIdx, dir) {
+          if (!tbody) return;
+          var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr:not(.__empty_row)'));
+          rows.sort(function (a, b) {
+            var av = a.querySelectorAll('td')[colIdx];
+            var bv = b.querySelectorAll('td')[colIdx];
+            if (!av || !bv) return 0;
+            var at = av.textContent.trim();
+            var bt = bv.textContent.trim();
+            if (at < bt) return -1 * dir;
+            if (at > bt) return 1 * dir;
+            return 0;
+          });
+          rows.forEach(function (r) { tbody.appendChild(r); });
+        }
+
+        // ===== Track buttons =====
+        document.querySelectorAll('[data-dom-id="btn-track-project"]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            __safeNav('project-tracking.html');
+          });
+        });
+
+        // ===== Pagination =====
+        var pageList = document.querySelector('.pagination-list');
+        if (pageList) {
+          var pageButtons = Array.prototype.slice.call(pageList.querySelectorAll('.page-btn'));
+          var numberBtns = pageButtons.filter(function (b) { return !b.querySelector('svg'); });
+          var prevBtn = pageButtons[0];
+          var nextBtn = pageButtons[pageButtons.length - 1];
+
+          function setActivePage(idx) {
+            numberBtns.forEach(function (b) { b.classList.remove('active'); });
+            if (numberBtns[idx]) numberBtns[idx].classList.add('active');
+            if (prevBtn) prevBtn.classList.toggle('disabled', idx === 0);
+            if (nextBtn) nextBtn.classList.toggle('disabled', idx === numberBtns.length - 1);
+            // Simulate data update with loading transition
+            if (table) {
+              table.style.transition = 'opacity 0.3s ease';
+              table.style.opacity = '0.4';
+              setTimeout(function () {
+                table.style.opacity = '1';
+                showToast('已切换至第 ' + (idx + 1) + ' 页');
+              }, 400);
+            }
+          }
+
+          numberBtns.forEach(function (btn, i) {
+            btn.addEventListener('click', function () { setActivePage(i); });
+          });
+          if (prevBtn) prevBtn.addEventListener('click', function () {
+            if (prevBtn.classList.contains('disabled')) return;
+            var cur = numberBtns.findIndex(function (b) { return b.classList.contains('active'); });
+            if (cur > 0) setActivePage(cur - 1);
+          });
+          if (nextBtn) nextBtn.addEventListener('click', function () {
+            if (nextBtn.classList.contains('disabled')) return;
+            var cur = numberBtns.findIndex(function (b) { return b.classList.contains('active'); });
+            if (cur >= 0 && cur < numberBtns.length - 1) setActivePage(cur + 1);
+          });
+        }
+
+        // ===== Export / Refresh =====
+        var actionBtns = document.querySelectorAll('.page-actions .btn-outline');
+        actionBtns.forEach(function (btn) {
+          var txt = btn.textContent.trim();
+          if (txt.indexOf('导出') >= 0) {
+            btn.addEventListener('click', function () {
+              showToast('导出中，请稍候...');
+              setTimeout(function () { showToast('导出成功'); }, 2000);
+            });
+          } else if (txt.indexOf('刷新') >= 0) {
+            btn.addEventListener('click', function () {
+              var svg = btn.querySelector('svg');
+              if (svg) {
+                svg.style.transition = 'transform 1s';
+                svg.style.transform = 'rotate(360deg)';
+              }
+              setTimeout(function () {
+                if (svg) svg.style.transform = '';
+                showToast('数据已刷新');
+              }, 1000);
+            });
+          }
+        });
+
+        // ===== Tags view =====
+        var tagItems = document.querySelectorAll('.tags-view .tag-item');
+        tagItems.forEach(function (tag) {
+          tag.addEventListener('click', function (e) {
+            if (e.target.classList.contains('tag-close')) return;
+            var txt = tag.textContent.trim();
+            if (txt.indexOf('单项目跟踪') >= 0) {
+              __safeNav('project-tracking.html');
+            } else if (txt.indexOf('割接管理') >= 0) {
+              __safeNav('cutover.html');
+            }
+          });
+        });
+      })();
+    </script>
+
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+        font-size: 14px;
+        color: #303133;
+        background: #F5F7FA;
+        overflow: hidden;
+        height: 100vh;
+      }
+
+      /* ── Header ── */
+      .admin-header {
+        height: 60px;
+        background: #FFFFFF;
+        border-bottom: 1px solid #DCDFE6;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+      }
+      .header-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+        width: 208px;
+      }
+      .header-logo .logo-icon {
+        width: 32px;
+        height: 32px;
+        background: #1A6FD4;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .header-logo .logo-text {
+        font-size: 16px;
+        font-weight: 600;
+        color: #303133;
+        white-space: nowrap;
+      }
+      .header-search {
+        flex: 1;
+        max-width: 480px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .header-search input {
+        width: 100%;
+        height: 36px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        padding: 0 12px 0 36px;
+        font-size: 14px;
+        color: #303133;
+        background: #F5F7FA;
+        outline: none;
+        transition: border-color 0.2s;
+        font-family: inherit;
+      }
+      .header-search input::placeholder { color: #C0C4CC; }
+      .header-search input:focus {
+        border-color: #1A6FD4;
+        background: #FFFFFF;
+      }
+      .header-search .search-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #C0C4CC;
+        pointer-events: none;
+      }
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-shrink: 0;
+      }
+      .header-bell {
+        position: relative;
+        cursor: pointer;
+        color: #606266;
+        transition: color 0.2s;
+      }
+      .header-bell:hover { color: #1A6FD4; }
+      .header-bell .bell-badge {
+        position: absolute;
+        top: -6px;
+        right: -8px;
+        background: #E74C3C;
+        color: #FFFFFF;
+        font-size: 11px;
+        font-weight: 600;
+        min-width: 16px;
+        height: 16px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4px;
+        line-height: 1;
+      }
+      .header-user {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: background 0.2s;
+      }
+      .header-user:hover { background: #F5F7FA; }
+      .header-user .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #1A6FD4;
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .header-user .user-name {
+        font-size: 14px;
+        color: #303133;
+      }
+      .header-user .chevron {
+        color: #909399;
+        transition: transform 0.2s;
+      }
+
+      /* ── Sidebar ── */
+      .admin-sidebar {
+        width: 208px;
+        background: #FFFFFF;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        bottom: 0;
+        border-right: 1px solid #DCDFE6;
+        overflow-y: auto;
+        z-index: 900;
+      }
+      .admin-sidebar::-webkit-scrollbar { width: 4px; }
+      .admin-sidebar::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 2px; }
+      .admin-sidebar::-webkit-scrollbar-track { background: transparent; }
+
+      .sidebar-group {}
+      .sidebar-group-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #303133;
+        font-weight: 500;
+        transition: background 0.2s;
+        user-select: none;
+      }
+      .sidebar-group-header:hover { background: #F5F7FA; }
+      .sidebar-group-header .group-icon {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .sidebar-group-header .chevron-icon {
+        transition: transform 0.2s;
+        color: #909399;
+      }
+      .sidebar-group-header .chevron-icon.collapsed { transform: rotate(-90deg); }
+
+      .sidebar-menu { list-style: none; }
+      .sidebar-menu li {
+        position: relative;
+      }
+      .sidebar-menu li a {
+        display: block;
+        padding: 0 20px 0 44px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        color: #606266;
+        text-decoration: none;
+        transition: all 0.2s;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .sidebar-menu li a:hover {
+        background: #F5F7FA;
+        color: #1A6FD4;
+      }
+      .sidebar-menu li a.active {
+        color: #1A6FD4;
+        background: #E8F2FC;
+        font-weight: 500;
+      }
+      .sidebar-menu li a.active::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: #1A6FD4;
+        border-radius: 0 2px 2px 0;
+      }
+
+      /* ── TagsView ── */
+      .tags-view {
+        height: 36px;
+        background: #FFFFFF;
+        border-bottom: 1px solid #DCDFE6;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        gap: 8px;
+        position: fixed;
+        top: 60px;
+        left: 208px;
+        right: 0;
+        z-index: 800;
+        overflow-x: auto;
+      }
+      .tags-view::-webkit-scrollbar { display: none; }
+      .tag-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        height: 26px;
+        padding: 0 10px;
+        border-radius: 3px;
+        font-size: 12px;
+        cursor: pointer;
+        white-space: nowrap;
+        border: 1px solid #DCDFE6;
+        color: #606266;
+        background: #FFFFFF;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+      .tag-item:hover { color: #1A6FD4; }
+      .tag-item.active {
+        background: #E8F2FC;
+        color: #1A6FD4;
+        border-color: #1A6FD4;
+      }
+      .tag-item .tag-close {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        transition: background 0.2s;
+        margin-left: 2px;
+      }
+      .tag-item .tag-close:hover { background: rgba(26,111,212,0.2); color: #1A6FD4; }
+      .tags-add {
+        width: 26px;
+        height: 26px;
+        border-radius: 3px;
+        border: 1px solid #DCDFE6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #909399;
+        flex-shrink: 0;
+        transition: all 0.2s;
+        background: #FFFFFF;
+      }
+      .tags-add:hover { color: #1A6FD4; border-color: #1A6FD4; }
+
+      /* ── Main Layout ── */
+      .admin-main {
+        margin-left: 208px;
+        margin-top: 96px;
+        height: calc(100vh - 96px);
+        overflow-y: auto;
+        background: #F5F7FA;
+      }
+      .admin-main::-webkit-scrollbar { width: 6px; }
+      .admin-main::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 3px; }
+      .admin-main::-webkit-scrollbar-track { background: transparent; }
+
+      /* ── Breadcrumb ── */
+      .breadcrumb-bar {
+        height: 32px;
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        font-size: 13px;
+        color: #909399;
+        background: #FFFFFF;
+        border-bottom: 1px solid #EBEEF5;
+      }
+      .breadcrumb-bar a {
+        color: #606266;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .breadcrumb-bar a:hover { color: #1A6FD4; }
+      .breadcrumb-bar .sep { margin: 0 8px; color: #C0C4CC; }
+      .breadcrumb-bar .current { color: #303133; }
+
+      /* ── Content ── */
+      .page-content {
+        padding: 16px 24px 24px;
+        max-width: 1400px;
+      }
+
+      /* ── Page Header ── */
+      .page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .page-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #303133;
+      }
+      .page-actions {
+        display: flex;
+        gap: 10px;
+      }
+      .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 14px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        background: #FFFFFF;
+        color: #606266;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+      .btn-outline:hover {
+        color: #1A6FD4;
+        border-color: #1A6FD4;
+      }
+      .btn-outline:active {
+        color: #1565C0;
+        border-color: #1565C0;
+      }
+
+      /* ── Stat Cards ── */
+      .stat-cards {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .stat-card {
+        background: #FFFFFF;
+        border-radius: 8px;
+        padding: 16px 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 2px solid transparent;
+        transition: box-shadow 0.2s;
+      }
+      .stat-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      }
+      .stat-card.overdue {
+        border: 2px solid #E74C3C;
+      }
+      .stat-card.stat-active {
+        border-color: #1A6FD4;
+        background: #E8F2FC;
+        box-shadow: 0 4px 12px rgba(26,111,212,0.20);
+      }
+      .stat-label {
+        font-size: 14px;
+        color: #909399;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .stat-label .red-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #E74C3C;
+        display: inline-block;
+        animation: pulse-dot 1.5s infinite;
+      }
+      @keyframes pulse-dot {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+      }
+      .stat-number {
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 1.5;
+        color: #303133;
+        cursor: pointer;
+        transition: color 0.2s;
+        text-decoration: none;
+      }
+      .stat-number:hover { color: #3B8AE0; }
+      .stat-number.link-blue { color: #1A6FD4; }
+      .stat-number.link-blue:hover { color: #3B8AE0; }
+      .stat-number.red { color: #E74C3C; }
+      .stat-number.red:hover { color: #C0392B; }
+
+      /* ── Filter Bar ── */
+      .filter-card {
+        background: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        padding: 16px 20px;
+        margin-bottom: 16px;
+      }
+      .filter-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .filter-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .filter-item label {
+        font-size: 14px;
+        color: #606266;
+        white-space: nowrap;
+      }
+      .filter-item input,
+      .filter-item select {
+        height: 32px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        padding: 0 10px;
+        font-size: 14px;
+        color: #303133;
+        outline: none;
+        transition: border-color 0.2s;
+        font-family: inherit;
+        background: #FFFFFF;
+      }
+      .filter-item input { width: 160px; }
+      .filter-item input.w-180 { width: 180px; }
+      .filter-item select { width: 120px; }
+      .filter-item input:focus,
+      .filter-item select:focus { border-color: #1A6FD4; }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 32px;
+        padding: 0 16px;
+        border: 1px solid #1A6FD4;
+        border-radius: 4px;
+        background: #1A6FD4;
+        color: #FFFFFF;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+      .btn-primary:hover { background: #3B8AE0; border-color: #3B8AE0; }
+      .btn-primary:active { background: #1565C0; border-color: #1565C0; }
+
+      /* ── Table ── */
+      .table-card {
+        background: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .data-table thead th {
+        position: sticky;
+        top: 0;
+        background: #F5F7FA;
+        padding: 10px 12px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #303133;
+        text-align: left;
+        border-bottom: 1px solid #EBEEF5;
+        white-space: nowrap;
+        user-select: none;
+      }
+      .data-table thead th .sort-icon {
+        display: inline-flex;
+        flex-direction: column;
+        margin-left: 4px;
+        vertical-align: middle;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .data-table thead th .sort-icon svg {
+        width: 10px;
+        height: 6px;
+        color: #C0C4CC;
+      }
+      .data-table tbody td {
+        padding: 12px 12px;
+        font-size: 14px;
+        color: #303133;
+        border-bottom: 1px solid #EBEEF5;
+        white-space: nowrap;
+      }
+      .data-table tbody tr { transition: background 0.15s; }
+      .data-table tbody tr:hover { background: #E8F2FC; }
+      .data-table tbody tr:last-child td { border-bottom: none; }
+
+      .cell-link {
+        color: #1A6FD4;
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+      .cell-link:hover { color: #3B8AE0; text-decoration: underline; }
+
+      .cell-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 13px;
+      }
+      .cell-badge.blue {
+        color: #1A6FD4;
+        background: #E8F2FC;
+      }
+      .cell-badge.red {
+        color: #E74C3C;
+        background: #FDECEA;
+      }
+      .cell-badge .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+      }
+      .cell-badge.blue .dot { background: #1A6FD4; }
+      .cell-badge.red .dot { background: #E74C3C; }
+
+      .btn-sm-primary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 28px;
+        padding: 0 12px;
+        border: 1px solid #1A6FD4;
+        border-radius: 4px;
+        background: #1A6FD4;
+        color: #FFFFFF;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+      .btn-sm-primary:hover { background: #3B8AE0; border-color: #3B8AE0; }
+      .btn-sm-primary:active { background: #1565C0; border-color: #1565C0; }
+
+      /* ── Pagination ── */
+      .pagination-bar {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 12px 20px;
+        gap: 6px;
+      }
+      .pagination-total {
+        font-size: 14px;
+        color: #909399;
+        margin-right: 12px;
+      }
+      .pagination-list {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .page-btn {
+        min-width: 30px;
+        height: 30px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        background: #FFFFFF;
+        color: #606266;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 8px;
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+      .page-btn:hover { color: #1A6FD4; border-color: #1A6FD4; }
+      .page-btn.active {
+        background: #1A6FD4;
+        color: #FFFFFF;
+        border-color: #1A6FD4;
+      }
+      .page-btn.disabled {
+        color: #C0C4CC;
+        cursor: not-allowed;
+        border-color: #DCDFE6;
+      }
+      .page-btn.disabled:hover { color: #C0C4CC; border-color: #DCDFE6; }
+      .page-ellipsis {
+        min-width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #909399;
+        font-size: 14px;
+      }
+
+      /* ── Delivery Ops Card ── */
+      .delivery-ops-card {
+        background: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        padding: 20px;
+        margin-bottom: 16px;
+      }
+      .delivery-ops-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #303133;
+        margin-bottom: 16px;
+      }
+      .delivery-ops-buttons {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .btn-danger-text {
+        color: #E74C3C !important;
+        border-color: #FDC9C2 !important;
+      }
+      .btn-danger-text:hover {
+        color: #C0392B !important;
+        border-color: #E74C3C !important;
+        background: #FDECEA !important;
+      }
+
+      /* ── Row More Actions Dropdown ── */
+      .row-actions-wrap {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .row-more-trigger {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 28px;
+        padding: 0 8px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        background: #FFFFFF;
+        color: #606266;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+        gap: 2px;
+      }
+      .row-more-trigger:hover {
+        color: #1A6FD4;
+        border-color: #1A6FD4;
+      }
+      .row-more-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 4px;
+        background: #FFFFFF;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        min-width: 140px;
+        z-index: 100;
+        display: none;
+        overflow: hidden;
+      }
+      .row-more-dropdown.show {
+        display: block;
+      }
+      .row-more-dropdown .dropdown-item {
+        padding: 8px 16px;
+        font-size: 13px;
+        color: #303133;
+        cursor: pointer;
+        transition: all 0.15s;
+        white-space: nowrap;
+      }
+      .row-more-dropdown .dropdown-item:hover {
+        background: #E8F2FC;
+        color: #1A6FD4;
+      }
+
+      /* ── Delivery Modal ── */
+      .delivery-modal-field {
+        margin-bottom: 16px;
+      }
+      .delivery-modal-field label {
+        display: block;
+        font-size: 14px;
+        color: #606266;
+        margin-bottom: 8px;
+      }
+      .delivery-modal-field select,
+      .delivery-modal-field input {
+        width: 100%;
+        height: 36px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        padding: 0 10px;
+        font-size: 14px;
+        color: #303133;
+        outline: none;
+        transition: border-color 0.2s;
+        font-family: inherit;
+        background: #FFFFFF;
+      }
+      .delivery-modal-field select:focus,
+      .delivery-modal-field input:focus {
+        border-color: #1A6FD4;
+      }
+      .delivery-modal-radio-group {
+        display: flex;
+        gap: 16px;
+      }
+      .delivery-modal-radio-group label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #303133;
+      }
+      .delivery-modal-info {
+        padding: 8px 12px;
+        background: #F5F7FA;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #303133;
+      }
+    </style>
+
+    <!-- ============ Delivery Operations Script ============ -->
+    <script>
+      /* ===== Toast helper (delivery-specific) ===== */
+      function showToastDelivery(msg) {
+        var existing = document.querySelector('.__delivery_toast');
+        if (existing) existing.remove();
+        var toast = document.createElement('div');
+        toast.className = '__delivery_toast';
+        toast.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-20px);z-index:99999;background:#303133;color:#fff;padding:12px 24px;border-radius:6px;font-size:14px;opacity:0;transition:all 0.3s ease;box-shadow:0 4px 12px rgba(0,0,0,0.15);max-width:420px;font-family:inherit;pointer-events:none;';
+        toast.textContent = msg;
+        document.body.appendChild(toast);
+        requestAnimationFrame(function () {
+          toast.style.opacity = '1';
+          toast.style.transform = 'translateX(-50%) translateY(0)';
+        });
+        setTimeout(function () {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateX(-50%) translateY(-20px)';
+          setTimeout(function () { if (toast.parentNode) toast.remove(); }, 300);
+        }, 2500);
+      }
+
+      /* ===== Modal helper ===== */
+      function createDeliveryModal(title, contentHTML, confirmCallback, opts) {
+        opts = opts || {};
+        var overlay = document.getElementById('__deliveryModalOverlay');
+        if (!overlay) {
+          overlay = document.createElement('div');
+          overlay.id = '__deliveryModalOverlay';
+          overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);z-index:99998;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.25s ease;';
+          document.body.appendChild(overlay);
+          overlay.addEventListener('click', function (e) {
+            if (e.target === overlay) {
+              overlay.style.opacity = '0';
+              setTimeout(function () { overlay.style.display = 'none'; }, 250);
+            }
+          });
+        }
+        var confirmText = opts.confirmText || '确认';
+        var cancelText = opts.cancelText || '取消';
+        var confirmDisabled = opts.confirmDisabled ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : '';
+        var dialogHTML =
+          '<div style="background:#fff;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,0.25);width:90%;max-width:480px;transform:translateY(20px);transition:transform 0.25s ease;overflow:hidden;">' +
+            '<div style="padding:16px 24px;border-bottom:1px solid #EBEEF5;display:flex;align-items:center;justify-content:space-between;">' +
+              '<span style="font-size:16px;font-weight:600;color:#303133;">' + title + '</span>' +
+              '<span style="cursor:pointer;color:#909399;font-size:20px;line-height:1;" id="__deliveryModalClose">&times;</span>' +
+            '</div>' +
+            '<div style="padding:24px;max-height:60vh;overflow-y:auto;">' + contentHTML + '</div>' +
+            '<div style="display:flex;justify-content:flex-end;gap:12px;padding:16px 24px;border-top:1px solid #EBEEF5;">' +
+              '<button id="__deliveryModalCancel" style="height:36px;padding:0 20px;border:1px solid #DCDFE6;border-radius:4px;background:#fff;color:#606266;font-size:14px;cursor:pointer;font-family:inherit;">' + cancelText + '</button>' +
+              '<button id="__deliveryModalConfirm" ' + confirmDisabled + ' style="height:36px;padding:0 20px;border:1px solid #1A6FD4;border-radius:4px;background:#1A6FD4;color:#fff;font-size:14px;cursor:pointer;font-family:inherit;">' + confirmText + '</button>' +
+            '</div>' +
+          '</div>';
+        overlay.innerHTML = dialogHTML;
+        overlay.style.display = 'flex';
+        setTimeout(function () {
+          overlay.style.opacity = '1';
+          var dlg = overlay.querySelector('div');
+          if (dlg) dlg.style.transform = 'translateY(0)';
+        }, 10);
+        function closeDeliveryModal() {
+          overlay.style.opacity = '0';
+          setTimeout(function () { overlay.style.display = 'none'; }, 250);
+        }
+        document.getElementById('__deliveryModalClose').addEventListener('click', closeDeliveryModal);
+        document.getElementById('__deliveryModalCancel').addEventListener('click', closeDeliveryModal);
+        var confirmBtn = document.getElementById('__deliveryModalConfirm');
+        if (!opts.confirmDisabled && confirmCallback) {
+          confirmBtn.addEventListener('click', function () {
+            var result = confirmCallback(overlay);
+            if (result !== false) closeDeliveryModal();
+          });
+        }
+        return overlay;
+      }
+
+      (function () {
+        /* ===== Batch Assign PM ===== */
+        document.getElementById('btn-batch-assign-pm').addEventListener('click', function () {
+          var content =
+            '<div class="delivery-modal-field">' +
+              '<label>选择PM</label>' +
+              '<select id="batch-pm-select">' +
+                '<option value="张三">张三</option>' +
+                '<option value="李四">李四</option>' +
+                '<option value="王五">王五</option>' +
+                '<option value="赵六">赵六</option>' +
+                '<option value="孙七">孙七</option>' +
+                '<option value="周八">周八</option>' +
+              '</select>' +
+            '</div>' +
+            '<div class="delivery-modal-field">' +
+              '<label>分配项目数</label>' +
+              '<div class="delivery-modal-info" id="batch-pm-count">当前选中 0 个项目</div>' +
+            '</div>';
+          createDeliveryModal('批量分配PM', content, function (overlay) {
+            var pm = overlay.querySelector('#batch-pm-select').value;
+            showToastDelivery('已批量分配PM：' + pm);
+          });
+          /* Simulate project count */
+          var countEl = document.getElementById('batch-pm-count');
+          if (countEl) countEl.textContent = '当前选中 128 个项目';
+        });
+
+        /* ===== Batch Export ===== */
+        document.getElementById('btn-batch-export').addEventListener('click', function () {
+          var btn = this;
+          var originalHTML = btn.innerHTML;
+          btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:__spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>导出中...';
+          btn.disabled = true;
+          showToastDelivery('导出中...');
+          setTimeout(function () {
+            btn.innerHTML = originalHTML;
+            btn.disabled = false;
+            showToastDelivery('导出成功，共128条记录');
+          }, 2000);
+        });
+
+        /* ===== Batch Status Flow ===== */
+        document.getElementById('btn-batch-status-flow').addEventListener('click', function () {
+          var content =
+            '<div class="delivery-modal-field">' +
+              '<label>当前状态</label>' +
+              '<div class="delivery-modal-info">工前准备</div>' +
+            '</div>' +
+            '<div class="delivery-modal-field">' +
+              '<label>目标状态</label>' +
+              '<select id="batch-target-status">' +
+                '<option value="工前准备">工前准备</option>' +
+                '<option value="施工计划">施工计划</option>' +
+                '<option value="实施方案">实施方案</option>' +
+                '<option value="实施部署">实施部署</option>' +
+                '<option value="验收交维">验收交维</option>' +
+              '</select>' +
+            '</div>';
+          createDeliveryModal('批量状态流转', content, function (overlay) {
+            var target = overlay.querySelector('#batch-target-status').value;
+            showToastDelivery('状态流转已提交：工前准备 → ' + target);
+          });
+        });
+
+        /* ===== Batch Alert ===== */
+        document.getElementById('btn-batch-alert').addEventListener('click', function () {
+          var content =
+            '<div class="delivery-modal-field">' +
+              '<label>预警类型</label>' +
+              '<select id="batch-alert-type">' +
+                '<option value="工期预警">工期预警</option>' +
+                '<option value="物料预警">物料预警</option>' +
+                '<option value="资源预警">资源预警</option>' +
+              '</select>' +
+            '</div>' +
+            '<div class="delivery-modal-field">' +
+              '<label>预警范围</label>' +
+              '<div class="delivery-modal-radio-group">' +
+                '<label><input type="radio" name="batch-alert-scope" value="all" checked> 全部超期项目</label>' +
+                '<label><input type="radio" name="batch-alert-scope" value="selected"> 指定项目</label>' +
+              '</div>' +
+            '</div>';
+          createDeliveryModal('批量发起预警', content, function (overlay) {
+            var alertType = overlay.querySelector('#batch-alert-type').value;
+            showToastDelivery('预警已发送给相关PM（' + alertType + '）');
+          });
+        });
+
+        /* ===== Refresh Data ===== */
+        document.getElementById('btn-batch-refresh').addEventListener('click', function () {
+          var icon = document.getElementById('batch-refresh-icon');
+          var btn = this;
+          var originalHTML = btn.innerHTML;
+          if (icon) {
+            icon.style.transition = 'transform 1s';
+            icon.style.transform = 'rotate(360deg)';
+          }
+          btn.disabled = true;
+          setTimeout(function () {
+            if (icon) {
+              icon.style.transition = '';
+              icon.style.transform = '';
+            }
+            btn.disabled = false;
+            showToastDelivery('数据已刷新');
+          }, 1000);
+        });
+
+        /* ===== Add "更多操作" dropdown to each table row ===== */
+        var opCells = document.querySelectorAll('.data-table tbody tr td:last-child');
+        opCells.forEach(function (cell) {
+          var existingBtn = cell.querySelector('[data-dom-id="btn-track-project"]');
+          var wrapper = document.createElement('div');
+          wrapper.className = 'row-actions-wrap';
+          wrapper.style.position = 'relative';
+          if (existingBtn) {
+            cell.insertBefore(wrapper, existingBtn.nextSibling);
+          } else {
+            cell.appendChild(wrapper);
+          }
+          var moreBtn = document.createElement('button');
+          moreBtn.className = 'row-more-trigger';
+          moreBtn.innerHTML = '更多 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+          var dropdown = document.createElement('div');
+          dropdown.className = 'row-more-dropdown';
+          dropdown.innerHTML =
+            '<div class="dropdown-item" data-row-action="detail">查看详情</div>' +
+            '<div class="dropdown-item" data-row-action="edit">编辑</div>' +
+            '<div class="dropdown-item" data-row-action="assign-pm">分配PM</div>' +
+            '<div class="dropdown-item" data-row-action="status-flow">状态流转</div>' +
+            '<div class="dropdown-item" data-row-action="export-report">导出报告</div>' +
+            '<div class="dropdown-item" data-row-action="alert">发起预警</div>' +
+            '<div class="dropdown-item" data-row-action="delete" style="color:#E74C3C;">删除</div>';
+          wrapper.appendChild(moreBtn);
+          wrapper.appendChild(dropdown);
+          moreBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.querySelectorAll('.row-more-dropdown.show').forEach(function (d) {
+              if (d !== dropdown) d.classList.remove('show');
+            });
+            dropdown.classList.toggle('show');
+          });
+          dropdown.querySelectorAll('.dropdown-item').forEach(function (item) {
+            item.addEventListener('click', function () {
+              var action = item.getAttribute('data-row-action');
+              dropdown.classList.remove('show');
+              if (action === 'detail') {
+                __safeNav('project-tracking.html');
+              } else if (action === 'edit') {
+                var row = cell.closest('tr');
+                var rCells = row ? row.querySelectorAll('td') : [];
+                var projName = rCells[1] ? rCells[1].textContent.trim() : '';
+                var editContent =
+                  '<div class="delivery-modal-field">' +
+                    '<label>项目名称</label>' +
+                    '<input type="text" value="' + projName + '">' +
+                  '</div>' +
+                  '<div class="delivery-modal-field">' +
+                    '<label>项目级别</label>' +
+                    '<select><option>A级</option><option>B级</option><option>C级</option></select>' +
+                  '</div>';
+                createDeliveryModal('编辑项目', editContent, function () {
+                  showToastDelivery('项目信息已更新');
+                });
+              } else if (action === 'delete') {
+                createDeliveryModal('确认删除', '<div class="delivery-modal-info" style="color:#E74C3C;">确认删除该项目？此操作不可撤销。</div>', function () {
+                  showToastDelivery('项目已删除');
+                }, { confirmText: '确认删除' });
+              } else if (action === 'assign-pm') {
+                var pmContent =
+                  '<div class="delivery-modal-field">' +
+                    '<label>选择PM</label>' +
+                    '<select>' +
+                      '<option>张三</option><option>李四</option><option>王五</option><option>赵六</option>' +
+                    '</select>' +
+                  '</div>';
+                createDeliveryModal('分配PM', pmContent, function () {
+                  showToastDelivery('PM已分配');
+                });
+              } else if (action === 'status-flow') {
+                var sfContent =
+                  '<div class="delivery-modal-field">' +
+                    '<label>当前状态</label>' +
+                    '<div class="delivery-modal-info">实施中</div>' +
+                  '</div>' +
+                  '<div class="delivery-modal-field">' +
+                    '<label>目标状态</label>' +
+                    '<select>' +
+                      '<option>工前准备</option><option>施工计划</option><option>实施方案</option><option>实施部署</option><option>验收交维</option>' +
+                    '</select>' +
+                  '</div>';
+                createDeliveryModal('状态流转', sfContent, function () {
+                  showToastDelivery('状态流转已提交');
+                });
+              } else if (action === 'export-report') {
+                showToastDelivery('报告导出中...');
+                setTimeout(function () { showToastDelivery('报告导出成功'); }, 1500);
+              } else if (action === 'alert') {
+                var alertContent =
+                  '<div class="delivery-modal-field">' +
+                    '<label>预警类型</label>' +
+                    '<select>' +
+                      '<option>工期预警</option><option>物料预警</option><option>资源预警</option>' +
+                    '</select>' +
+                  '</div>' +
+                  '<div class="delivery-modal-field">' +
+                    '<label>预警范围</label>' +
+                    '<div class="delivery-modal-radio-group">' +
+                      '<label><input type="radio" name="row-alert-scope" checked> 全部超期项目</label>' +
+                      '<label><input type="radio" name="row-alert-scope"> 指定项目</label>' +
+                    '</div>' +
+                  '</div>';
+                createDeliveryModal('发起预警', alertContent, function () {
+                  showToastDelivery('预警已发送给相关PM');
+                });
+              }
+            });
+          });
+        });
+
+        /* Close dropdowns on outside click */
+        document.addEventListener('click', function (e) {
+          if (!e.target.closest('.row-actions-wrap')) {
+            document.querySelectorAll('.row-more-dropdown.show').forEach(function (d) {
+              d.classList.remove('show');
+            });
+          }
+        });
+
+        /* Spin animation */
+        var spinStyle = document.createElement('style');
+        spinStyle.textContent = '@keyframes __spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+        document.head.appendChild(spinStyle);
+      })();
+    </script>
+</body>
+</html>

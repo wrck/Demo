@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工程师工作台 - PMS</title>
+    <style id="theme-vars">
+:root {
+  /* ── Brand ── */
+  --color-primary: #1A6FD4;
+  --color-primary-hover: #3B8AE0;
+  --color-primary-light: #E8F2FC;
+  --color-text-muted: #5A6477;
+  --color-border: #DCDFE6;
+
+  /* ── State Colors ── */
+  --state-success: #27AE60;
+  --state-info: #2E8BE6;
+  --state-warning: #F39C12;
+  --state-error: #E74C3C;
+  --state-locked: #8E44AD;
+  --state-disabled: #BDBDBD;
+
+  /* ── Surface ── */
+  --bg-page: #F5F7FA;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F5F7FA;
+  --bg-active: #E8F2FC;
+
+  /* ── Text ── */
+  --text-primary: #303133;
+  --text-tertiary: #909399;
+  --text-white: #FFFFFF;
+
+  /* ── Typography ── */
+  --font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  --text-h1: 600 24px/1.5 var(--font-family);
+  --text-h2: 600 20px/1.5 var(--font-family);
+  --text-h3: 600 16px/1.5 var(--font-family);
+  --text-body: 400 14px/1.5 var(--font-family);
+  --text-caption: 400 12px/1.5 var(--font-family);
+  --text-stat: 600 28px/1.5 var(--font-family);
+
+  /* ── Semantic Token Aliases (Tailwind bridge) ── */
+  --background: #F5F7FA;
+  --foreground: #303133;
+  --card: #FFFFFF;
+  --card-foreground: #303133;
+  --muted: #F5F7FA;
+  --muted-foreground: #909399;
+  --primary-foreground: #FFFFFF;
+  --border: #DCDFE6;
+  --input: #DCDFE6;
+  --ring: #1A6FD4;
+
+  /* ── Radius ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* ── Shadow ── */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  /* ── Spacing ── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+    </style>
+    <script type="application/json" data-cdn="@tailwindcss/browser@4.3.1"></script>
+    <script type="application/json" data-cdn="lucide@1.8.0"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-primary: var(--color-primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+  }
+  @layer base {
+    body { background: var(--background); color: var(--foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--background); }
+      .text-background { color: var(--background); }
+      .border-background { border-color: var(--background); }
+      .ring-background { --tw-ring-color: var(--background); }
+      .bg-foreground { background-color: var(--foreground); }
+      .text-foreground { color: var(--foreground); }
+      .border-foreground { border-color: var(--foreground); }
+      .ring-foreground { --tw-ring-color: var(--foreground); }
+      .bg-card { background-color: var(--card); }
+      .text-card { color: var(--card); }
+      .border-card { border-color: var(--card); }
+      .ring-card { --tw-ring-color: var(--card); }
+      .bg-card-foreground { background-color: var(--card-foreground); }
+      .text-card-foreground { color: var(--card-foreground); }
+      .border-card-foreground { border-color: var(--card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--card-foreground); }
+      .bg-primary { background-color: var(--color-primary); }
+      .text-primary { color: var(--color-primary); }
+      .border-primary { border-color: var(--color-primary); }
+      .ring-primary { --tw-ring-color: var(--color-primary); }
+      .bg-primary-foreground { background-color: var(--primary-foreground); }
+      .text-primary-foreground { color: var(--primary-foreground); }
+      .border-primary-foreground { border-color: var(--primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--primary-foreground); }
+      .bg-muted { background-color: var(--muted); }
+      .text-muted { color: var(--muted); }
+      .border-muted { border-color: var(--muted); }
+      .ring-muted { --tw-ring-color: var(--muted); }
+      .bg-muted-foreground { background-color: var(--muted-foreground); }
+      .text-muted-foreground { color: var(--muted-foreground); }
+      .border-muted-foreground { border-color: var(--muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--muted-foreground); }
+      .bg-border { background-color: var(--border); }
+      .text-border { color: var(--border); }
+      .border-border { border-color: var(--border); }
+      .ring-border { --tw-ring-color: var(--border); }
+      .bg-input { background-color: var(--input); }
+      .text-input { color: var(--input); }
+      .border-input { border-color: var(--input); }
+      .ring-input { --tw-ring-color: var(--input); }
+      .bg-ring { background-color: var(--ring); }
+      .text-ring { color: var(--ring); }
+      .border-ring { border-color: var(--ring); }
+      .ring-ring { --tw-ring-color: var(--ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+<script>
+(function(){
+  var __lastNav = '';
+  var __lastNavTime = 0;
+  window.__safeNav = function(url) {
+    var now = Date.now();
+    if (url === __lastNav && (now - __lastNavTime) < 800) return;
+    __lastNav = url;
+    __lastNavTime = now;
+    try { window.parent.postMessage({ type: 'design-navigate', url: url }, '*'); } catch(e) {}
+    var name = url.replace(/\.html$/, '').replace(/-/g, ' ');
+    if (typeof window.showToast === 'function') {
+      window.showToast('页面跳转: ' + name);
+    } else if (typeof window.showToastDelivery === 'function') {
+      window.showToastDelivery('页面跳转: ' + name);
+    } else {
+      var t = document.createElement('div');
+      t.textContent = '页面跳转: ' + name;
+      t.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1A6FD4;color:#fff;padding:10px 24px;border-radius:8px;z-index:99999;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-family:sans-serif;';
+      document.body.appendChild(t);
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 2000);
+    }
+  };
+  document.addEventListener('click', function(e) {
+    var el = e.target;
+    while (el && el !== document) {
+      if (el.hasAttribute && el.hasAttribute('data-nav-target')) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.__safeNav(el.getAttribute('data-nav-target'));
+        return false;
+      }
+      el = el.parentElement;
+    }
+  }, true);
+})();
+</script>
+<script>
+(function(){
+  // Suppress cross-origin security errors that occur when canvas SDK
+  // cleans up the srcdoc iframe during page switching.
+  // The iframe has null origin (srcdoc mode) while the host has vscode-file:// origin.
+  var origError = window.onerror;
+  window.onerror = function(msg, url, line, col, err) {
+    if (typeof msg === 'string' && (msg.indexOf('removeEventListener') !== -1 || msg.indexOf('cross-origin') !== -1 || msg.indexOf('security policy') !== -1)) {
+      return true; // suppress
+    }
+    if (origError) return origError.apply(this, arguments);
+    return false;
+  };
+  window.addEventListener('unhandledrejection', function(e) {
+    if (e.reason && typeof e.reason.message === 'string' && (e.reason.message.indexOf('removeEventListener') !== -1 || e.reason.message.indexOf('cross-origin') !== -1)) {
+      e.preventDefault();
+    }
+  });
+})();
+</script>
+    <main>
+      <!-- ============ Phone Frame (desktop preview) ============ -->
+      <div class="phone-frame">
+
+        <!-- ============ Scrollable App Content ============ -->
+        <div class="app-scroll no-scrollbar">
+
+          <!-- ============ Top Navigation Bar ============ -->
+          <header class="nav-bar">
+            <button class="nav-btn" aria-label="返回">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="nav-title">工作台</h1>
+            <button class="nav-btn" aria-label="菜单">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </button>
+          </header>
+
+          <!-- ============ Page Body ============ -->
+          <div class="page-body">
+
+            <!-- ===== Welcome Card ===== -->
+            <section class="welcome-card">
+              <div class="welcome-head">
+                <div class="welcome-name-row">
+                  <span class="welcome-name">欢迎张三</span>
+                  <span class="welcome-role">(工程师)</span>
+                </div>
+                <div class="welcome-avatar">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                </div>
+              </div>
+              <div class="welcome-stats">
+                <div class="stat-item">
+                  <span class="stat-label">今日任务</span>
+                  <span class="stat-value">3</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                  <span class="stat-label">待上报</span>
+                  <span class="stat-value">2</span>
+                </div>
+              </div>
+              <div class="welcome-status">
+                <span class="status-dot status-online"></span>
+                <span class="status-text">在线</span>
+              </div>
+            </section>
+
+            <!-- ===== Quick Actions Grid ===== -->
+            <section class="card quick-actions">
+              <button class="action-btn" data-action="signin">
+                <span class="action-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                </span>
+                <span class="action-label">签到</span>
+              </button>
+              <button class="action-btn" data-action="report">
+                <span class="action-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                  </svg>
+                </span>
+                <span class="action-label">施工上报</span>
+              </button>
+              <button class="action-btn" data-action="task">
+                <span class="action-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 2h6a1 1 0 011 1v1h3a2 2 0 012 2v13a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2h3V3a1 1 0 011-1z"></path>
+                    <path d="M9 12l2 2 4-4"></path>
+                  </svg>
+                </span>
+                <span class="action-label">任务</span>
+              </button>
+              <button class="action-btn" data-action="deliverable">
+                <span class="action-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="8" y1="13" x2="16" y2="13"></line>
+                    <line x1="8" y1="17" x2="13" y2="17"></line>
+                  </svg>
+                </span>
+                <span class="action-label">交付件</span>
+              </button>
+            </section>
+
+            <!-- ===== Today's Tasks ===== -->
+            <section class="card section-tasks">
+              <div class="section-head">
+                <h2 class="section-title">今日任务</h2>
+                <a href="#" class="section-link">查看全部</a>
+              </div>
+              <div class="task-list">
+                <div class="task-item" tabindex="0">
+                  <div class="task-main">
+                    <p class="task-title">XX银行-硬件安装</p>
+                    <span class="badge badge-active">进行中</span>
+                  </div>
+                  <span class="task-arrow">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 6l6 6-6 6"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div class="task-item" tabindex="0">
+                  <div class="task-main">
+                    <p class="task-title">YY公司-配置调试</p>
+                    <span class="badge badge-pending">待开始</span>
+                  </div>
+                  <span class="task-arrow">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 6l6 6-6 6"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div class="task-item" tabindex="0">
+                  <div class="task-main">
+                    <p class="task-title">ZZ项目-割接辅助</p>
+                    <span class="badge badge-pending">待开始</span>
+                  </div>
+                  <span class="task-arrow">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 6l6 6-6 6"></path>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </section>
+
+            <!-- ===== Construction Report (Collapsible) ===== -->
+            <section class="card section-report">
+              <div class="section-head section-head-collapse" id="reportToggle" role="button" aria-expanded="true">
+                <h2 class="section-title">施工上报</h2>
+                <span class="chevron">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </div>
+              <div class="report-body" id="reportBody">
+                <div class="report-inner">
+                  <!-- 项目 -->
+                  <div class="form-row">
+                    <label class="form-label">项目</label>
+                    <div class="form-select form-select-disabled">
+                      <span>XX银行核心网</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9l6 6 6-6"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <!-- 类型 -->
+                  <div class="form-row">
+                    <label class="form-label">类型</label>
+                    <div class="form-select">
+                      <span>配置 Log</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9l6 6 6-6"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <!-- 拍照上传 -->
+                  <div class="form-row">
+                    <label class="form-label">现场照片</label>
+                    <button class="upload-area" id="uploadArea">
+                      <span class="upload-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"></path>
+                          <circle cx="12" cy="13" r="4"></circle>
+                        </svg>
+                      </span>
+                      <span class="upload-text">拍照上传</span>
+                    </button>
+                  </div>
+                  <!-- 选择文件 -->
+                  <div class="form-row">
+                    <label class="form-label">附件</label>
+                    <button class="btn-outline btn-file">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"></path>
+                      </svg>
+                      选择文件
+                    </button>
+                  </div>
+                  <!-- 备注 -->
+                  <div class="form-row">
+                    <label class="form-label">备注</label>
+                    <textarea class="form-textarea" rows="3" placeholder="请输入备注说明..."></textarea>
+                  </div>
+                  <!-- 按钮 -->
+                  <div class="form-actions">
+                    <button class="btn-outline btn-draft">保存草稿</button>
+                    <button class="btn-primary">提交</button>
+                  </div>
+                  <p class="form-note">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M12 8v4M12 16h.01"></path>
+                    </svg>
+                    离线时暂存，联网同步
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- bottom spacer for tab bar -->
+            <div class="bottom-spacer"></div>
+          </div>
+        </div>
+
+        <!-- ============ Bottom Tab Bar ============ -->
+        <nav class="tab-bar">
+          <button class="tab-item active" data-tab="home">
+            <span class="tab-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+            </span>
+            <span class="tab-label">首页</span>
+          </button>
+          <button class="tab-item" data-tab="task">
+            <span class="tab-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 2h6a1 1 0 011 1v1h3a2 2 0 012 2v13a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2h3V3a1 1 0 011-1z"></path>
+                <path d="M9 12l2 2 4-4"></path>
+              </svg>
+            </span>
+            <span class="tab-label">任务</span>
+          </button>
+          <button class="tab-item" data-tab="report">
+            <span class="tab-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+            </span>
+            <span class="tab-label">上报</span>
+          </button>
+          <button class="tab-item" data-tab="me">
+            <span class="tab-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </span>
+            <span class="tab-label">我</span>
+          </button>
+        </nav>
+
+      </div>
+
+      <!-- ============ Page Custom Styles ============ -->
+      <style>
+        /* ===== Phone Frame ===== */
+        .phone-frame {
+          position: relative;
+          width: 375px;
+          height: 812px;
+          margin: 24px auto;
+          background: var(--bg-page);
+          border-radius: 40px;
+          overflow: hidden;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.18), 0 0 0 10px #1d1d1f, 0 0 0 11px #2c2c2e;
+          display: flex;
+          flex-direction: column;
+        }
+        @media (max-width: 420px) {
+          .phone-frame {
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            border-radius: 0;
+            box-shadow: none;
+          }
+        }
+
+        /* ===== App Scroll Area ===== */
+        .app-scroll {
+          flex: 1;
+          overflow-y: auto;
+          overflow-x: hidden;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        /* ===== Top Navigation Bar ===== */
+        .nav-bar {
+          position: sticky;
+          top: 0;
+          z-index: 20;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 8px;
+          background: rgba(255,255,255,0.92);
+          backdrop-filter: saturate(180%) blur(12px);
+          -webkit-backdrop-filter: saturate(180%) blur(12px);
+          border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .nav-btn {
+          width: 44px;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: transparent;
+          border: none;
+          color: var(--text-primary);
+          cursor: pointer;
+          transition: background 0.15s, transform 0.1s;
+          border-radius: 8px;
+        }
+        .nav-btn:active { background: var(--bg-hover); transform: scale(0.92); }
+        .nav-title {
+          margin: 0;
+          font-size: 16px;
+          font-weight: 600;
+          color: var(--text-primary);
+          text-align: center;
+          letter-spacing: 0.3px;
+        }
+
+        /* ===== Page Body ===== */
+        .page-body {
+          padding: 12px 12px 0;
+        }
+        .bottom-spacer { height: 20px; }
+
+        /* ===== Card base ===== */
+        .card {
+          background: var(--bg-card);
+          border-radius: var(--radius-md);
+          box-shadow: var(--shadow-card);
+          margin-bottom: 12px;
+          overflow: hidden;
+        }
+
+        /* ===== Welcome Card ===== */
+        .welcome-card {
+          position: relative;
+          background: linear-gradient(135deg, #1A6FD4 0%, #3B8AE0 100%);
+          border-radius: var(--radius-md);
+          padding: 16px;
+          margin-bottom: 12px;
+          color: #FFFFFF;
+          overflow: hidden;
+          box-shadow: 0 4px 14px rgba(26,111,212,0.28);
+        }
+        .welcome-card::before {
+          content: '';
+          position: absolute;
+          top: -30px;
+          right: -30px;
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.10);
+        }
+        .welcome-card::after {
+          content: '';
+          position: absolute;
+          bottom: -40px;
+          right: 40px;
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.06);
+        }
+        .welcome-head {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .welcome-name-row { display: flex; align-items: baseline; gap: 6px; }
+        .welcome-name { font-size: 18px; font-weight: 600; color: #FFFFFF; }
+        .welcome-role { font-size: 14px; color: rgba(255,255,255,0.80); font-weight: 400; }
+        .welcome-avatar {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.20);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #FFFFFF;
+          border: 1px solid rgba(255,255,255,0.30);
+        }
+        .welcome-stats {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          margin-top: 16px;
+        }
+        .stat-item { display: flex; align-items: baseline; gap: 6px; }
+        .stat-label { font-size: 13px; color: rgba(255,255,255,0.80); }
+        .stat-value { font-size: 18px; font-weight: 700; color: #FFFFFF; }
+        .stat-divider { width: 1px; height: 16px; background: rgba(255,255,255,0.25); }
+        .welcome-status {
+          position: relative;
+          z-index: 1;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          margin-top: 14px;
+          padding: 4px 10px;
+          background: rgba(255,255,255,0.15);
+          border-radius: 999px;
+          backdrop-filter: blur(4px);
+          -webkit-backdrop-filter: blur(4px);
+        }
+        .status-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          flex-shrink: 0;
+        }
+        .status-online {
+          background: #4ADE80;
+          box-shadow: 0 0 0 3px rgba(74,222,128,0.25);
+          animation: pulseOnline 2.4s ease-in-out infinite;
+        }
+        .status-offline {
+          background: #F39C12;
+          box-shadow: 0 0 0 3px rgba(243,156,18,0.25);
+        }
+        @keyframes pulseOnline {
+          0%, 100% { box-shadow: 0 0 0 3px rgba(74,222,128,0.25); }
+          50% { box-shadow: 0 0 0 5px rgba(74,222,128,0.10); }
+        }
+        .status-text { font-size: 12px; color: rgba(255,255,255,0.95); font-weight: 500; }
+
+        /* ===== Quick Actions ===== */
+        .quick-actions {
+          display: flex;
+          padding: 8px 4px;
+        }
+        .action-btn {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          padding: 12px 4px;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          transition: transform 0.12s ease, background 0.15s;
+          border-radius: 8px;
+        }
+        .action-btn:active { transform: scale(0.88); background: var(--bg-hover); }
+        .action-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: var(--color-primary-light);
+          color: var(--color-primary);
+          transition: background 0.2s, color 0.2s;
+        }
+        .action-btn:active .action-icon {
+          background: var(--color-primary);
+          color: #FFFFFF;
+        }
+        .action-label { font-size: 12px; color: var(--text-primary); font-weight: 500; }
+
+        /* ===== Section Head ===== */
+        .section-head {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 14px 16px 10px;
+        }
+        .section-head-collapse {
+          cursor: pointer;
+          user-select: none;
+          transition: background 0.15s;
+          padding: 14px 16px;
+        }
+        .section-head-collapse:active { background: var(--bg-hover); }
+        .section-title {
+          margin: 0;
+          font-size: 16px;
+          font-weight: 600;
+          color: var(--text-primary);
+        }
+        .section-link {
+          font-size: 14px;
+          color: var(--color-primary);
+          text-decoration: none;
+          font-weight: 500;
+          display: inline-flex;
+          align-items: center;
+          gap: 2px;
+        }
+        .section-link:active { opacity: 0.6; }
+        .chevron {
+          display: inline-flex;
+          color: var(--text-secondary);
+          transition: transform 0.3s ease;
+        }
+        .section-head-collapse.collapsed .chevron { transform: rotate(-90deg); }
+
+        /* ===== Task List ===== */
+        .task-list { padding: 0 16px 12px; }
+        .task-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px 12px;
+          margin-bottom: 8px;
+          border-radius: var(--radius-md);
+          background: var(--bg-page);
+          transition: background 0.15s, transform 0.1s;
+          cursor: pointer;
+          outline: none;
+          position: relative;
+          overflow: hidden;
+        }
+        .task-item:last-child { margin-bottom: 0; }
+        .task-item:active { background: var(--bg-active); transform: scale(0.99); }
+        .task-item:focus-visible { box-shadow: 0 0 0 2px var(--color-primary); }
+        .task-main { display: flex; flex-direction: column; gap: 6px; min-width: 0; flex: 1; }
+        .task-title {
+          margin: 0;
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--text-primary);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .badge {
+          display: inline-flex;
+          align-items: center;
+          align-self: flex-start;
+          padding: 2px 8px;
+          border-radius: 4px;
+          font-size: 11px;
+          font-weight: 500;
+          line-height: 1.6;
+        }
+        .badge-active { background: #E8F2FC; color: #2E8BE6; }
+        .badge-pending { background: #F5F7FA; color: #909399; }
+        .task-arrow {
+          display: inline-flex;
+          color: var(--text-secondary);
+          flex-shrink: 0;
+          margin-left: 8px;
+        }
+
+        /* ===== Report Body (Collapsible) ===== */
+        .report-body {
+          max-height: 900px;
+          overflow: hidden;
+          transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .report-body.collapsed { max-height: 0; }
+        .report-inner { padding: 0 16px 16px; }
+
+        .form-row { margin-bottom: 14px; }
+        .form-label {
+          display: block;
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--text-primary);
+          margin-bottom: 6px;
+        }
+        .form-select {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          height: 40px;
+          padding: 0 12px;
+          background: #FFFFFF;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-sm);
+          font-size: 14px;
+          color: var(--text-primary);
+          transition: border-color 0.2s;
+          cursor: pointer;
+        }
+        .form-select:active { border-color: var(--color-primary); }
+        .form-select svg { color: var(--text-secondary); flex-shrink: 0; }
+        .form-select-disabled {
+          background: #F5F7FA;
+          color: var(--text-secondary);
+          cursor: not-allowed;
+        }
+        .form-select-disabled:active { border-color: var(--color-border); }
+
+        .upload-area {
+          width: 100%;
+          height: 96px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background: #FAFBFC;
+          border: 1.5px dashed var(--color-border);
+          border-radius: var(--radius-md);
+          cursor: pointer;
+          transition: border-color 0.2s, background 0.2s, transform 0.1s;
+        }
+        .upload-area:active {
+          transform: scale(0.98);
+          border-color: var(--color-primary);
+          background: var(--color-primary-light);
+        }
+        .upload-icon { color: var(--color-primary); display: flex; }
+        .upload-text { font-size: 13px; color: var(--text-secondary); }
+
+        .form-textarea {
+          width: 100%;
+          padding: 10px 12px;
+          font-size: 14px;
+          color: var(--text-primary);
+          background: #FFFFFF;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-sm);
+          outline: none;
+          resize: none;
+          font-family: var(--font-family);
+          box-sizing: border-box;
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-textarea::placeholder { color: var(--text-secondary); }
+        .form-textarea:focus {
+          border-color: var(--color-primary);
+          box-shadow: 0 0 0 3px rgba(26,111,212,0.10);
+        }
+
+        .btn-outline {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          height: 36px;
+          padding: 0 16px;
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--color-primary);
+          background: #FFFFFF;
+          border: 1px solid var(--color-primary);
+          border-radius: var(--radius-sm);
+          cursor: pointer;
+          transition: background 0.15s, transform 0.1s;
+          font-family: var(--font-family);
+        }
+        .btn-outline:active { background: var(--color-primary-light); transform: scale(0.97); }
+        .btn-file { width: 100%; }
+
+        .form-actions {
+          display: flex;
+          gap: 12px;
+          margin-top: 4px;
+        }
+        .btn-draft { flex: 1; }
+        .btn-primary {
+          flex: 1;
+          height: 36px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          font-weight: 600;
+          color: #FFFFFF;
+          background: var(--color-primary);
+          border: none;
+          border-radius: var(--radius-sm);
+          cursor: pointer;
+          transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+          font-family: var(--font-family);
+        }
+        .btn-primary:active {
+          background: #1559B3;
+          transform: scale(0.97);
+          box-shadow: 0 2px 8px rgba(26,111,212,0.30);
+        }
+        .form-note {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          margin: 12px 0 0;
+          font-size: 12px;
+          color: var(--text-secondary);
+        }
+        .form-note svg { color: var(--text-secondary); flex-shrink: 0; }
+
+        /* ===== Bottom Tab Bar ===== */
+        .tab-bar {
+          position: relative;
+          z-index: 20;
+          height: 49px;
+          display: flex;
+          background: rgba(255,255,255,0.96);
+          backdrop-filter: saturate(180%) blur(12px);
+          -webkit-backdrop-filter: saturate(180%) blur(12px);
+          border-top: 1px solid rgba(0,0,0,0.06);
+          padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+        .tab-item {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 2px;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          color: var(--text-secondary);
+          transition: color 0.2s, transform 0.1s;
+          padding: 4px 0;
+          position: relative;
+        }
+        .tab-item:active { transform: scale(0.92); }
+        .tab-item.active { color: var(--color-primary); }
+        .tab-icon { display: flex; }
+        .tab-label { font-size: 10px; font-weight: 500; }
+        .tab-item.active .tab-label { font-weight: 600; }
+        .tab-item.active::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 24px;
+          height: 2px;
+          border-radius: 0 0 2px 2px;
+          background: var(--color-primary);
+        }
+
+        /* ===== Ripple effect for task items ===== */
+        .ripple {
+          position: absolute;
+          border-radius: 50%;
+          background: rgba(26,111,212,0.15);
+          transform: scale(0);
+          animation: rippleAnim 0.5s ease-out;
+          pointer-events: none;
+        }
+        @keyframes rippleAnim {
+          to { transform: scale(2.5); opacity: 0; }
+        }
+      </style>
+
+      <!-- ============ Interactions ============ -->
+      <script>
+        (function () {
+          /* ----- Tab Bar Switching ----- */
+          var tabs = document.querySelectorAll('.tab-item');
+          tabs.forEach(function (tab) {
+            tab.addEventListener('click', function () {
+              tabs.forEach(function (t) { t.classList.remove('active'); });
+              tab.classList.add('active');
+            });
+          });
+
+          /* ----- Collapsible Report Section ----- */
+          var toggle = document.getElementById('reportToggle');
+          var body = document.getElementById('reportBody');
+          if (toggle && body) {
+            toggle.addEventListener('click', function () {
+              var collapsed = toggle.classList.toggle('collapsed');
+              body.classList.toggle('collapsed', collapsed);
+              toggle.setAttribute('aria-expanded', String(!collapsed));
+            });
+          }
+
+          /* ----- Ripple effect on task items ----- */
+          document.querySelectorAll('.task-item').forEach(function (item) {
+            item.addEventListener('click', function (e) {
+              var rect = item.getBoundingClientRect();
+              var size = Math.max(rect.width, rect.height);
+              var ripple = document.createElement('span');
+              ripple.className = 'ripple';
+              ripple.style.width = ripple.style.height = size + 'px';
+              ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+              ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+              item.appendChild(ripple);
+              setTimeout(function () { ripple.remove(); }, 500);
+            });
+          });
+
+          /* ----- Upload area tap feedback ----- */
+          var uploadArea = document.getElementById('uploadArea');
+          if (uploadArea) {
+            uploadArea.addEventListener('click', function () {
+              uploadArea.style.borderColor = 'var(--color-primary)';
+              setTimeout(function () {
+                uploadArea.style.borderColor = '';
+              }, 400);
+            });
+          }
+
+          /* ----- Prevent form submission ----- */
+          document.querySelectorAll('.btn-draft, .btn-primary, .btn-file').forEach(function (btn) {
+            btn.addEventListener('click', function (e) { e.preventDefault(); });
+          });
+        })();
+      </script>
+    </main>
+
+    <style>
+      * { -webkit-tap-highlight-color: transparent; }
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: var(--font-family);
+        background: #E9EDF2;
+        color: var(--text-primary);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+
+      <!-- ============ Additional Interactions ============ -->
+      <script>
+        (function () {
+          /* ===== Toast Helper (mobile: top center, full width w/ 16px margin, 2s) ===== */
+          var toastEl = null;
+          var toastTimer = null;
+          function showToast(msg) {
+            if (!toastEl) {
+              toastEl = document.createElement('div');
+              toastEl.style.cssText = [
+                'position:fixed', 'top:16px', 'left:16px', 'right:16px',
+                'z-index:9999', 'background:rgba(0,0,0,0.78)', 'color:#fff',
+                'font-size:14px', 'font-family:var(--font-family)',
+                'padding:12px 16px', 'border-radius:8px', 'text-align:center',
+                'line-height:1.5', 'opacity:0', 'transform:translateY(-12px)',
+                'transition:opacity 0.25s ease, transform 0.25s ease',
+                'pointer-events:none', 'box-shadow:0 4px 16px rgba(0,0,0,0.2)',
+                'word-break:break-word'
+              ].join(';');
+              document.body.appendChild(toastEl);
+            }
+            toastEl.textContent = msg;
+            void toastEl.offsetWidth;
+            toastEl.style.opacity = '1';
+            toastEl.style.transform = 'translateY(0)';
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(function () {
+              toastEl.style.opacity = '0';
+              toastEl.style.transform = 'translateY(-12px)';
+            }, 2000);
+          }
+          window.showToast = showToast;
+
+          /* ===== Top Navigation ===== */
+          var navBtns = document.querySelectorAll('.nav-bar .nav-btn');
+          if (navBtns.length >= 1) {
+            navBtns[0].addEventListener('click', function () { showToast('返回上一页'); });
+          }
+          if (navBtns.length >= 2) {
+            navBtns[1].addEventListener('click', toggleMenu);
+          }
+
+          /* ===== Slide-in Menu Panel ===== */
+          var menuPanel = null;
+          var menuOverlay = null;
+          function buildMenu() {
+            if (menuPanel) return;
+            menuOverlay = document.createElement('div');
+            menuOverlay.style.cssText = [
+              'position:fixed', 'top:0', 'left:0', 'right:0', 'bottom:0',
+              'background:rgba(0,0,0,0.4)', 'z-index:9998',
+              'opacity:0', 'transition:opacity 0.3s ease', 'pointer-events:none'
+            ].join(';');
+            document.body.appendChild(menuOverlay);
+
+            menuPanel = document.createElement('div');
+            menuPanel.style.cssText = [
+              'position:fixed', 'top:0', 'right:0', 'bottom:0',
+              'width:220px', 'background:#fff', 'z-index:9999',
+              'transform:translateX(100%)', 'transition:transform 0.3s ease',
+              'box-shadow:-4px 0 16px rgba(0,0,0,0.12)',
+              'padding-top:48px', 'font-family:var(--font-family)'
+            ].join(';');
+            var items = [
+              { label: '个人中心', msg: '进入个人中心' },
+              { label: '设置', msg: '进入设置' },
+              { label: '退出登录', msg: '已退出登录' }
+            ];
+            items.forEach(function (it) {
+              var row = document.createElement('div');
+              row.textContent = it.label;
+              row.style.cssText = [
+                'padding:16px 20px', 'font-size:15px', 'color:#303133',
+                'border-bottom:1px solid #f0f0f0', 'cursor:pointer'
+              ].join(';');
+              row.addEventListener('click', function () {
+                showToast(it.msg);
+                closeMenu();
+              });
+              menuPanel.appendChild(row);
+            });
+            menuOverlay.addEventListener('click', closeMenu);
+            document.body.appendChild(menuPanel);
+          }
+          function openMenu() {
+            buildMenu();
+            menuPanel.style.transform = 'translateX(0)';
+            menuOverlay.style.opacity = '1';
+            menuOverlay.style.pointerEvents = 'auto';
+          }
+          function closeMenu() {
+            if (!menuPanel) return;
+            menuPanel.style.transform = 'translateX(100%)';
+            menuOverlay.style.opacity = '0';
+            menuOverlay.style.pointerEvents = 'none';
+          }
+          function toggleMenu() {
+            if (!menuPanel) { openMenu(); return; }
+            var open = menuPanel.style.transform === 'translateX(0px)' ||
+                       menuPanel.style.transform === 'translateX(0)';
+            if (open) closeMenu(); else openMenu();
+          }
+
+          /* ===== Welcome Card - Online indicator ===== */
+          var welcomeStatus = document.querySelector('.welcome-status');
+          if (welcomeStatus) {
+            welcomeStatus.style.cursor = 'pointer';
+            welcomeStatus.addEventListener('click', function () {
+              showToast('当前在线状态：在线');
+            });
+          }
+
+          /* ===== Quick Actions ===== */
+          var signinBtn = document.querySelector('.action-btn[data-action="signin"]');
+          var reportBtn = document.querySelector('.action-btn[data-action="report"]');
+          var taskBtn = document.querySelector('.action-btn[data-action="task"]');
+          var delivBtn = document.querySelector('.action-btn[data-action="deliverable"]');
+
+          if (signinBtn) {
+            signinBtn.addEventListener('click', function () {
+              showToast('正在获取定位...');
+              setTimeout(function () { showToast('签到成功'); }, 1500);
+            });
+          }
+          if (reportBtn) {
+            reportBtn.addEventListener('click', function () {
+              expandReport();
+              var section = document.querySelector('.section-report');
+              if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+          }
+          if (taskBtn) {
+            taskBtn.addEventListener('click', function () {
+              var section = document.querySelector('.section-tasks');
+              if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+          }
+          if (delivBtn) {
+            delivBtn.addEventListener('click', function () {
+              showToast('交付件列表加载中...');
+            });
+          }
+
+          /* ===== Today's Tasks ===== */
+          var viewAll = document.querySelector('.section-tasks .section-link');
+          if (viewAll) {
+            viewAll.addEventListener('click', function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              showToast('任务列表加载中...');
+            });
+          }
+
+          /* ===== Task Detail Modal ===== */
+          var taskModalOverlay = null;
+          var taskModal = null;
+          function openTaskModal(title, badgeText) {
+            if (!taskModalOverlay) {
+              taskModalOverlay = document.createElement('div');
+              taskModalOverlay.style.cssText = [
+                'position:fixed', 'top:0', 'left:0', 'right:0', 'bottom:0',
+                'background:rgba(0,0,0,0.45)', 'z-index:9998',
+                'display:flex', 'align-items:center', 'justify-content:center',
+                'padding:24px', 'opacity:0', 'transition:opacity 0.25s ease'
+              ].join(';');
+              taskModal = document.createElement('div');
+              taskModal.style.cssText = [
+                'background:#fff', 'border-radius:12px', 'width:100%',
+                'max-width:300px', 'padding:20px', 'font-family:var(--font-family)',
+                'transform:scale(0.9)', 'transition:transform 0.25s ease'
+              ].join(';');
+              taskModalOverlay.appendChild(taskModal);
+              taskModalOverlay.addEventListener('click', function (e) {
+                if (e.target === taskModalOverlay) closeTaskModal();
+              });
+              document.body.appendChild(taskModalOverlay);
+            }
+            taskModal.innerHTML = '';
+            var head = document.createElement('p');
+            head.textContent = '任务详情';
+            head.style.cssText = 'margin:0 0 12px;font-size:16px;font-weight:600;color:#303133';
+            taskModal.appendChild(head);
+            var rows = [
+              { label: '任务名称', value: title },
+              { label: '状态', value: badgeText },
+              { label: '负责人', value: '张三' },
+              { label: '工号', value: 'E001' }
+            ];
+            rows.forEach(function (r) {
+              var row = document.createElement('div');
+              row.style.cssText = 'display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:14px';
+              var l = document.createElement('span');
+              l.textContent = r.label;
+              l.style.color = '#909399';
+              var v = document.createElement('span');
+              v.textContent = r.value;
+              v.style.color = '#303133';
+              v.style.fontWeight = '500';
+              row.appendChild(l);
+              row.appendChild(v);
+              taskModal.appendChild(row);
+            });
+            var closeBtn = document.createElement('button');
+            closeBtn.textContent = '关闭';
+            closeBtn.style.cssText = 'margin-top:16px;width:100%;height:40px;background:#1A6FD4;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-family)';
+            closeBtn.addEventListener('click', closeTaskModal);
+            taskModal.appendChild(closeBtn);
+
+            void taskModalOverlay.offsetWidth;
+            taskModalOverlay.style.opacity = '1';
+            taskModal.style.transform = 'scale(1)';
+          }
+          function closeTaskModal() {
+            if (!taskModalOverlay) return;
+            taskModalOverlay.style.opacity = '0';
+            taskModal.style.transform = 'scale(0.9)';
+          }
+          document.querySelectorAll('.task-item').forEach(function (item) {
+            item.addEventListener('click', function () {
+              var titleEl = item.querySelector('.task-title');
+              var badgeEl = item.querySelector('.badge');
+              openTaskModal(
+                titleEl ? titleEl.textContent : '',
+                badgeEl ? badgeEl.textContent : ''
+              );
+            });
+          });
+
+          /* ===== 施工上报 Section ===== */
+          function expandReport() {
+            var toggle = document.getElementById('reportToggle');
+            var rbody = document.getElementById('reportBody');
+            if (toggle && rbody) {
+              if (toggle.classList.contains('collapsed')) {
+                toggle.classList.remove('collapsed');
+                rbody.classList.remove('collapsed');
+                toggle.setAttribute('aria-expanded', 'true');
+              }
+            }
+          }
+
+          /* ----- Type dropdown ----- */
+          var typeOptions = ['配置Log', '硬件安装', '业务联调', '割接辅助'];
+          var allSelects = document.querySelectorAll('.section-report .form-select');
+          var typeSelect = null;
+          allSelects.forEach(function (sel) {
+            if (!sel.classList.contains('form-select-disabled')) typeSelect = sel;
+          });
+          var typeDropdown = null;
+          var currentType = '配置Log';
+          if (typeSelect) {
+            typeSelect.style.position = 'relative';
+            typeDropdown = document.createElement('div');
+            typeDropdown.style.cssText = [
+              'position:absolute', 'top:100%', 'left:0', 'right:0',
+              'background:#fff', 'border:1px solid #DCDFE6', 'border-radius:4px',
+              'box-shadow:0 4px 12px rgba(0,0,0,0.12)', 'z-index:100',
+              'overflow:hidden', 'font-family:var(--font-family)', 'display:none'
+            ].join(';');
+            typeOptions.forEach(function (opt) {
+              var row = document.createElement('div');
+              row.textContent = opt;
+              row.style.cssText = 'padding:10px 12px;font-size:14px;color:#303133;cursor:pointer;border-bottom:1px solid #f0f0f0';
+              row.addEventListener('click', function (ev) {
+                ev.stopPropagation();
+                currentType = opt;
+                var span = typeSelect.querySelector('span');
+                if (span) span.textContent = opt;
+                typeDropdown.style.display = 'none';
+              });
+              typeDropdown.appendChild(row);
+            });
+            typeSelect.appendChild(typeDropdown);
+            typeSelect.addEventListener('click', function (e) {
+              e.stopPropagation();
+              typeDropdown.style.display =
+                typeDropdown.style.display === 'block' ? 'none' : 'block';
+            });
+            document.addEventListener('click', function () {
+              typeDropdown.style.display = 'none';
+            });
+          }
+
+          /* ----- Photo upload ----- */
+          var uploadArea = document.getElementById('uploadArea');
+          var fileInput = null;
+          var photoPreview = null;
+          if (uploadArea) {
+            fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = 'image/*';
+            fileInput.style.display = 'none';
+            uploadArea.parentNode.insertBefore(fileInput, uploadArea);
+
+            uploadArea.addEventListener('click', function () {
+              fileInput.click();
+            });
+            fileInput.addEventListener('change', function () {
+              if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (ev) {
+                  showPhotoPreview(ev.target.result);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+              }
+            });
+          }
+          function showPhotoPreview(src) {
+            if (photoPreview) photoPreview.remove();
+            photoPreview = document.createElement('div');
+            photoPreview.style.cssText = [
+              'position:relative', 'width:100%', 'height:96px',
+              'border-radius:8px', 'overflow:hidden', 'margin-top:0'
+            ].join(';');
+            var img = document.createElement('img');
+            img.src = src;
+            img.style.cssText = 'width:100%;height:100%;object-fit:cover';
+            photoPreview.appendChild(img);
+            var delBtn = document.createElement('button');
+            delBtn.textContent = '×';
+            delBtn.style.cssText = [
+              'position:absolute', 'top:4px', 'right:4px',
+              'width:24px', 'height:24px', 'border-radius:50%',
+              'background:rgba(0,0,0,0.6)', 'color:#fff', 'border:none',
+              'font-size:16px', 'cursor:pointer', 'line-height:1',
+              'display:flex', 'align-items:center', 'justify-content:center'
+            ].join(';');
+            delBtn.addEventListener('click', function (e) {
+              e.stopPropagation();
+              photoPreview.remove();
+              photoPreview = null;
+              uploadArea.style.display = '';
+              if (fileInput) fileInput.value = '';
+            });
+            photoPreview.appendChild(delBtn);
+            uploadArea.parentNode.insertBefore(photoPreview, uploadArea.nextSibling);
+            uploadArea.style.display = 'none';
+          }
+
+          /* ----- Draft & Submit ----- */
+          var draftBtn = document.querySelector('.section-report .btn-draft');
+          var submitBtn = document.querySelector('.section-report .btn-primary');
+          if (draftBtn) {
+            draftBtn.addEventListener('click', function () {
+              showToast('草稿已保存（离线暂存）');
+            });
+          }
+          if (submitBtn) {
+            submitBtn.addEventListener('click', function () {
+              var hasPhoto = photoPreview !== null;
+              if (!hasPhoto) {
+                showToast('请完善上报信息');
+                return;
+              }
+              var origText = submitBtn.textContent;
+              submitBtn.textContent = '提交中...';
+              submitBtn.style.opacity = '0.7';
+              setTimeout(function () {
+                showToast('施工上报已提交');
+                /* clear form */
+                if (photoPreview) {
+                  photoPreview.remove();
+                  photoPreview = null;
+                  uploadArea.style.display = '';
+                }
+                if (fileInput) fileInput.value = '';
+                currentType = '配置Log';
+                var typeSpan = typeSelect ? typeSelect.querySelector('span') : null;
+                if (typeSpan) typeSpan.textContent = '配置 Log';
+                var ta = document.querySelector('.section-report .form-textarea');
+                if (ta) ta.value = '';
+                submitBtn.textContent = origText;
+                submitBtn.style.opacity = '';
+              }, 1500);
+            });
+          }
+
+          /* ===== Bottom Tab Bar (actions layered on existing active switching) ===== */
+          var homeTab = document.querySelector('.tab-item[data-tab="home"]');
+          var taskTab = document.querySelector('.tab-item[data-tab="task"]');
+          var reportTab = document.querySelector('.tab-item[data-tab="report"]');
+          var meTab = document.querySelector('.tab-item[data-tab="me"]');
+
+          if (homeTab) {
+            homeTab.addEventListener('click', function () {
+              var scroll = document.querySelector('.app-scroll');
+              if (scroll) scroll.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+          }
+          if (taskTab) {
+            taskTab.addEventListener('click', function () {
+              showToast('任务列表加载中...');
+            });
+          }
+          if (reportTab) {
+            reportTab.addEventListener('click', function () {
+              expandReport();
+              var section = document.querySelector('.section-report');
+              if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+          }
+          if (meTab) {
+            meTab.addEventListener('click', function () {
+              showToast('张三 / 工程师 / 工号: E001');
+            });
+          }
+
+          /* ═══════════════ Enhanced Interactions ═══════════════ */
+
+          /* ===== 1. 底部标签栏: 切换页面内容 (任务/消息/我的) ===== */
+          var __pageBody = document.querySelector('.page-body');
+          var __allSections = __pageBody ? __pageBody.querySelectorAll(':scope > *') : [];
+
+          /* --- 消息面板 --- */
+          var __msgPanel = document.createElement('section');
+          __msgPanel.className = 'card';
+          __msgPanel.style.cssText = 'display:none;margin-bottom:12px;overflow:hidden;';
+          var __msgHead = document.createElement('div');
+          __msgHead.style.cssText = 'padding:14px 16px 10px;';
+          __msgHead.innerHTML = '<span style="font-size:16px;font-weight:600;color:var(--text-primary);">消息通知</span>';
+          __msgPanel.appendChild(__msgHead);
+          var __msgs = [
+            { title: '工单催办', desc: 'XX银行-硬件安装 工单需在今日完成', time: '10分钟前', unread: true },
+            { title: '审批通过', desc: '配置调试方案已通过审批', time: '1小时前', unread: true },
+            { title: '系统公告', desc: '系统将于今晚22:00进行维护', time: '3小时前', unread: false }
+          ];
+          __msgs.forEach(function(m) {
+            var row = document.createElement('div');
+            row.style.cssText = 'padding:12px 16px;border-top:1px solid #F5F7FA;cursor:pointer;transition:background .15s;';
+            row.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:flex-start;"><div style="flex:1;min-width:0;"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><span style="font-size:14px;font-weight:600;color:var(--text-primary);">' + m.title + '</span>' + (m.unread ? '<span style="width:8px;height:8px;border-radius:50%;background:var(--state-error);flex-shrink:0;"></span>' : '') + '</div><div style="font-size:13px;color:#909399;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + m.desc + '</div></div><span style="font-size:11px;color:#C0C4CC;flex-shrink:0;margin-left:8px;">' + m.time + '</span></div>';
+            row.addEventListener('click', function() { showToast('已查看消息：' + m.title); });
+            __msgPanel.appendChild(row);
+          });
+
+          /* --- 我的面板 --- */
+          var __mePanel = document.createElement('section');
+          __mePanel.style.cssText = 'display:none;';
+          __mePanel.innerHTML = '<section class="card" style="text-align:center;padding:28px 16px;margin-bottom:12px;"><div style="width:64px;height:64px;border-radius:50%;background:var(--color-primary);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:600;">张</div><div style="font-size:18px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">张三</div><div style="font-size:13px;color:#909399;">工程师 / 工号: E001</div></section><section class="card" style="margin-bottom:12px;overflow:hidden;"><div style="padding:14px 16px;font-size:16px;font-weight:600;color:var(--text-primary);border-bottom:1px solid #F5F7FA;">我的任务</div><div class="__meItem" style="padding:14px 16px;border-bottom:1px solid #F5F7FA;cursor:pointer;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:14px;color:var(--text-primary);">今日待办</span><span style="font-size:14px;font-weight:600;color:var(--color-primary);">3</span></div><div class="__meItem" style="padding:14px 16px;border-bottom:1px solid #F5F7FA;cursor:pointer;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:14px;color:var(--text-primary);">本月完成</span><span style="font-size:14px;font-weight:600;color:var(--state-success);">18</span></div><div class="__meItem" style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:14px;color:var(--text-primary);">待上报</span><span style="font-size:14px;font-weight:600;color:var(--state-warning);">2</span></div></section><section class="card" style="overflow:hidden;"><div class="__meItem" style="padding:14px 16px;border-bottom:1px solid #F5F7FA;cursor:pointer;font-size:14px;color:var(--text-primary);">个人中心</div><div class="__meItem" style="padding:14px 16px;border-bottom:1px solid #F5F7FA;cursor:pointer;font-size:14px;color:var(--text-primary);">设置</div><div class="__meItem" style="padding:14px 16px;cursor:pointer;font-size:14px;color:var(--state-error);">退出登录</div></section>';
+          __mePanel.querySelectorAll('.__meItem').forEach(function(it) {
+            it.addEventListener('click', function() { showToast(this.textContent.trim()); });
+          });
+
+          if (__pageBody) {
+            __pageBody.appendChild(__msgPanel);
+            __pageBody.appendChild(__mePanel);
+          }
+
+          function __switchTab(tabName) {
+            var welcome = __pageBody ? __pageBody.querySelector('.welcome-card') : null;
+            var quickActions = __pageBody ? __pageBody.querySelector('.quick-actions') : null;
+            var taskSection = __pageBody ? __pageBody.querySelector('.section-tasks') : null;
+            var reportSection = __pageBody ? __pageBody.querySelector('.section-report') : null;
+            var elements = [welcome, quickActions, taskSection, reportSection, __msgPanel, __mePanel];
+            elements.forEach(function(el) { if (el) el.style.display = 'none'; });
+            if (tabName === 'home') {
+              if (welcome) welcome.style.display = '';
+              if (quickActions) quickActions.style.display = '';
+              if (taskSection) taskSection.style.display = '';
+              if (reportSection) reportSection.style.display = '';
+            } else if (tabName === 'task') {
+              if (taskSection) { taskSection.style.display = ''; taskSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+              if (welcome) welcome.style.display = '';
+              if (quickActions) quickActions.style.display = '';
+            } else if (tabName === 'report') {
+              if (reportSection) { reportSection.style.display = ''; reportSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+            } else if (tabName === 'me') {
+              __mePanel.style.display = '';
+            }
+            // Also handle "message" content when on task tab
+            if (tabName === 'task') {
+              __msgPanel.style.display = '';
+            }
+          }
+
+          /* ===== 2. 任务卡片: 状态切换 (in task modal) ===== */
+          var __origOpenTaskModal = openTaskModal;
+          openTaskModal = function(title, badgeText) {
+            __origOpenTaskModal(title, badgeText);
+            if (!taskModal) return;
+            var statusWrap = document.createElement('div');
+            statusWrap.style.cssText = 'margin-top:12px;padding-top:12px;border-top:1px solid #f0f0f0;';
+            var statusLabel = document.createElement('div');
+            statusLabel.style.cssText = 'font-size:13px;color:#909399;margin-bottom:8px;';
+            statusLabel.textContent = '切换任务状态：';
+            statusWrap.appendChild(statusLabel);
+            var statusBtnRow = document.createElement('div');
+            statusBtnRow.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;';
+            var statuses = [
+              { label: '开始', color: 'var(--color-primary)', bg: 'var(--color-primary-light)' },
+              { label: '进行中', color: 'var(--state-info)', bg: '#E8F2FC' },
+              { label: '完成', color: 'var(--state-success)', bg: '#E8F8EE' },
+              { label: '暂停', color: 'var(--state-warning)', bg: '#FEF5E7' }
+            ];
+            statuses.forEach(function(st) {
+              var btn = document.createElement('button');
+              btn.textContent = st.label;
+              btn.style.cssText = 'padding:6px 14px;border:1px solid ' + st.color + ';background:' + (badgeText === st.label ? st.bg : '#fff') + ';color:' + st.color + ';border-radius:6px;font-size:13px;cursor:pointer;font-family:var(--font-family);transition:all .2s;';
+              btn.addEventListener('click', function() {
+                statusBtnRow.querySelectorAll('button').forEach(function(b) { b.style.background = '#fff'; });
+                btn.style.background = st.bg;
+                showToast('任务状态已切换为：' + st.label);
+                var taskItems = document.querySelectorAll('.task-item');
+                taskItems.forEach(function(ti) {
+                  var t = ti.querySelector('.task-title');
+                  if (t && t.textContent === title) {
+                    var badge = ti.querySelector('.badge');
+                    if (badge) {
+                      badge.textContent = st.label;
+                      badge.className = 'badge';
+                      if (st.label === '进行中') badge.classList.add('badge-active');
+                      else badge.classList.add('badge-pending');
+                    }
+                  }
+                });
+              });
+              statusBtnRow.appendChild(btn);
+            });
+            statusWrap.appendChild(statusBtnRow);
+            taskModal.appendChild(statusWrap);
+          };
+
+          /* ===== 3. 工单列表项: 左滑显示操作按钮 ===== */
+          var __swipeStyle = document.createElement('style');
+          __swipeStyle.textContent = '.__swipeActions{position:absolute;top:0;right:0;height:100%;display:flex;align-items:center;transform:translateX(100%);transition:transform .25s ease;}.__swipeActions button{width:72px;height:100%;border:none;font-size:13px;color:#fff;cursor:pointer;font-family:var(--font-family);display:flex;align-items:center;justify-content:center;}.task-item.__swiped{transform:translateX(-144px);transition:transform .25s ease;}';
+          document.head.appendChild(__swipeStyle);
+
+          document.querySelectorAll('.task-item').forEach(function(item) {
+            var actions = document.createElement('div');
+            actions.className = '__swipeActions';
+            var completeBtn = document.createElement('button');
+            completeBtn.textContent = '完成';
+            completeBtn.style.background = 'var(--state-success)';
+            completeBtn.addEventListener('click', function(e) {
+              e.stopPropagation();
+              var badge = item.querySelector('.badge');
+              if (badge) { badge.textContent = '完成'; badge.className = 'badge badge-active'; }
+              item.classList.remove('__swiped');
+              showToast('任务已标记为完成');
+            });
+            var transferBtn = document.createElement('button');
+            transferBtn.textContent = '转派';
+            transferBtn.style.background = 'var(--state-warning)';
+            transferBtn.addEventListener('click', function(e) {
+              e.stopPropagation();
+              item.classList.remove('__swiped');
+              showToast('已发起转派请求');
+            });
+            actions.appendChild(completeBtn);
+            actions.appendChild(transferBtn);
+            item.appendChild(actions);
+
+            var touchStartX = 0, touchStartY = 0, swiped = false;
+            item.addEventListener('touchstart', function(e) {
+              touchStartX = e.touches[0].clientX;
+              touchStartY = e.touches[0].clientY;
+              swiped = item.classList.contains('__swiped');
+            }, { passive: true });
+            item.addEventListener('touchend', function(e) {
+              var dx = e.changedTouches[0].clientX - touchStartX;
+              var dy = e.changedTouches[0].clientY - touchStartY;
+              if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+                if (dx < 0 && !swiped) {
+                  item.classList.add('__swiped');
+                } else if (dx > 0 && swiped) {
+                  item.classList.remove('__swiped');
+                }
+              }
+            }, { passive: true });
+          });
+
+          /* ===== 4. 顶部导航: 返回按钮 toast "返回成功" ===== */
+          var __backBtn = document.querySelector('.nav-bar .nav-btn');
+          if (__backBtn) {
+            var __newBackBtn = __backBtn.cloneNode(true);
+            __backBtn.parentNode.replaceChild(__newBackBtn, __backBtn);
+            __newBackBtn.addEventListener('click', function() { showToast('返回成功'); });
+          }
+
+          /* ===== 5. 下拉刷新 ===== */
+          var __scroll = document.querySelector('.app-scroll');
+          if (__scroll) {
+            var __pullIndicator = document.createElement('div');
+            __pullIndicator.style.cssText = 'text-align:center;padding:0;font-size:13px;color:#909399;overflow:hidden;height:0;transition:height .2s ease;display:flex;align-items:center;justify-content:center;gap:6px;';
+            __pullIndicator.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:__pullSpin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg><span>下拉刷新...</span>';
+            var __pullStyle = document.createElement('style');
+            __pullStyle.textContent = '@keyframes __pullSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}';
+            document.head.appendChild(__pullStyle);
+            __scroll.insertBefore(__pullIndicator, __scroll.firstChild);
+
+            var __pullStartY = 0, __pulling = false;
+            __scroll.addEventListener('touchstart', function(e) {
+              if (__scroll.scrollTop === 0) {
+                __pullStartY = e.touches[0].clientY;
+                __pulling = true;
+              } else { __pulling = false; }
+            }, { passive: true });
+            __scroll.addEventListener('touchmove', function(e) {
+              if (!__pulling) return;
+              var diff = e.touches[0].clientY - __pullStartY;
+              if (diff > 0 && diff < 80) {
+                __pullIndicator.style.height = diff + 'px';
+              }
+            }, { passive: true });
+            __scroll.addEventListener('touchend', function(e) {
+              if (!__pulling) return;
+              __pulling = false;
+              var h = parseInt(__pullIndicator.style.height, 10) || 0;
+              if (h > 40) {
+                __pullIndicator.style.height = '40px';
+                __pullIndicator.querySelector('span').textContent = '正在刷新...';
+                setTimeout(function() {
+                  __pullIndicator.style.height = '0';
+                  __pullIndicator.querySelector('span').textContent = '下拉刷新...';
+                  showToast('刷新成功');
+                }, 1200);
+              } else {
+                __pullIndicator.style.height = '0';
+              }
+            }, { passive: true });
+          }
+
+          /* ===== 6. 增强底部标签栏切换逻辑 ===== */
+          var __allTabs = document.querySelectorAll('.tab-item');
+          __allTabs.forEach(function(tab) {
+            var tabName = tab.getAttribute('data-tab');
+            tab.addEventListener('click', function() {
+              __allTabs.forEach(function(t) { t.classList.remove('active'); });
+              tab.classList.add('active');
+              if (tabName === 'me' || tabName === 'task') {
+                __switchTab(tabName);
+              }
+            });
+          });
+        })();
+      </script>
+</body>
+</html>

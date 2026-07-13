@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMS 登录</title>
+    <style id="theme-vars">
+:root {
+  /* ── Brand ── */
+  --color-primary: #1A6FD4;
+  --color-primary-hover: #3B8AE0;
+  --color-primary-light: #E8F2FC;
+  --color-text-muted: #5A6477;
+  --color-border: #DCDFE6;
+
+  /* ── State Colors ── */
+  --state-success: #27AE60;
+  --state-info: #2E8BE6;
+  --state-warning: #F39C12;
+  --state-error: #E74C3C;
+  --state-locked: #8E44AD;
+  --state-disabled: #BDBDBD;
+
+  /* ── Surface ── */
+  --bg-page: #F5F7FA;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F5F7FA;
+  --bg-active: #E8F2FC;
+
+  /* ── Text ── */
+  --text-primary: #303133;
+  --text-tertiary: #909399;
+  --text-white: #FFFFFF;
+
+  /* ── Typography ── */
+  --font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  --text-h1: 600 24px/1.5 var(--font-family);
+  --text-h2: 600 20px/1.5 var(--font-family);
+  --text-h3: 600 16px/1.5 var(--font-family);
+  --text-body: 400 14px/1.5 var(--font-family);
+  --text-caption: 400 12px/1.5 var(--font-family);
+  --text-stat: 600 28px/1.5 var(--font-family);
+
+  /* ── Semantic Token Aliases (Tailwind bridge) ── */
+  --background: #F5F7FA;
+  --foreground: #303133;
+  --card: #FFFFFF;
+  --card-foreground: #303133;
+  --muted: #F5F7FA;
+  --muted-foreground: #909399;
+  --primary-foreground: #FFFFFF;
+  --border: #DCDFE6;
+  --input: #DCDFE6;
+  --ring: #1A6FD4;
+
+  /* ── Radius ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* ── Shadow ── */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  /* ── Spacing ── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+    </style>
+    <script type="application/json" data-cdn="@tailwindcss/browser@4.3.1"></script>
+    <script type="application/json" data-cdn="lucide@1.8.0"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-primary: var(--color-primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+  }
+  @layer base {
+    body { background: var(--background); color: var(--foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--background); }
+      .text-background { color: var(--background); }
+      .border-background { border-color: var(--background); }
+      .ring-background { --tw-ring-color: var(--background); }
+      .bg-foreground { background-color: var(--foreground); }
+      .text-foreground { color: var(--foreground); }
+      .border-foreground { border-color: var(--foreground); }
+      .ring-foreground { --tw-ring-color: var(--foreground); }
+      .bg-card { background-color: var(--card); }
+      .text-card { color: var(--card); }
+      .border-card { border-color: var(--card); }
+      .ring-card { --tw-ring-color: var(--card); }
+      .bg-card-foreground { background-color: var(--card-foreground); }
+      .text-card-foreground { color: var(--card-foreground); }
+      .border-card-foreground { border-color: var(--card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--card-foreground); }
+      .bg-primary { background-color: var(--color-primary); }
+      .text-primary { color: var(--color-primary); }
+      .border-primary { border-color: var(--color-primary); }
+      .ring-primary { --tw-ring-color: var(--color-primary); }
+      .bg-primary-foreground { background-color: var(--primary-foreground); }
+      .text-primary-foreground { color: var(--primary-foreground); }
+      .border-primary-foreground { border-color: var(--primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--primary-foreground); }
+      .bg-muted { background-color: var(--muted); }
+      .text-muted { color: var(--muted); }
+      .border-muted { border-color: var(--muted); }
+      .ring-muted { --tw-ring-color: var(--muted); }
+      .bg-muted-foreground { background-color: var(--muted-foreground); }
+      .text-muted-foreground { color: var(--muted-foreground); }
+      .border-muted-foreground { border-color: var(--muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--muted-foreground); }
+      .bg-border { background-color: var(--border); }
+      .text-border { color: var(--border); }
+      .border-border { border-color: var(--border); }
+      .ring-border { --tw-ring-color: var(--border); }
+      .bg-input { background-color: var(--input); }
+      .text-input { color: var(--input); }
+      .border-input { border-color: var(--input); }
+      .ring-input { --tw-ring-color: var(--input); }
+      .bg-ring { background-color: var(--ring); }
+      .text-ring { color: var(--ring); }
+      .border-ring { border-color: var(--ring); }
+      .ring-ring { --tw-ring-color: var(--ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased" style="font-family: var(--font-family); margin: 0; padding: 0;">
+<script>
+(function(){
+  var __lastNav = '';
+  var __lastNavTime = 0;
+  window.__safeNav = function(url) {
+    var now = Date.now();
+    if (url === __lastNav && (now - __lastNavTime) < 800) return;
+    __lastNav = url;
+    __lastNavTime = now;
+    try { window.parent.postMessage({ type: 'design-navigate', url: url }, '*'); } catch(e) {}
+    var name = url.replace(/\.html$/, '').replace(/-/g, ' ');
+    if (typeof window.showToast === 'function') {
+      window.showToast('页面跳转: ' + name);
+    } else if (typeof window.showToastDelivery === 'function') {
+      window.showToastDelivery('页面跳转: ' + name);
+    } else {
+      var t = document.createElement('div');
+      t.textContent = '页面跳转: ' + name;
+      t.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1A6FD4;color:#fff;padding:10px 24px;border-radius:8px;z-index:99999;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-family:sans-serif;';
+      document.body.appendChild(t);
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 2000);
+    }
+  };
+  document.addEventListener('click', function(e) {
+    var el = e.target;
+    while (el && el !== document) {
+      if (el.hasAttribute && el.hasAttribute('data-nav-target')) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.__safeNav(el.getAttribute('data-nav-target'));
+        return false;
+      }
+      el = el.parentElement;
+    }
+  }, true);
+})();
+</script>
+<script>
+(function(){
+  // Suppress cross-origin security errors that occur when canvas SDK
+  // cleans up the srcdoc iframe during page switching.
+  // The iframe has null origin (srcdoc mode) while the host has vscode-file:// origin.
+  var origError = window.onerror;
+  window.onerror = function(msg, url, line, col, err) {
+    if (typeof msg === 'string' && (msg.indexOf('removeEventListener') !== -1 || msg.indexOf('cross-origin') !== -1 || msg.indexOf('security policy') !== -1)) {
+      return true; // suppress
+    }
+    if (origError) return origError.apply(this, arguments);
+    return false;
+  };
+  window.addEventListener('unhandledrejection', function(e) {
+    if (e.reason && typeof e.reason.message === 'string' && (e.reason.message.indexOf('removeEventListener') !== -1 || e.reason.message.indexOf('cross-origin') !== -1)) {
+      e.preventDefault();
+    }
+  });
+})();
+</script>
+    <main>
+      <!-- ============ Login Page Root ============ -->
+      <div class="login-root">
+
+        <!-- ============ LEFT PANEL: Brand Showcase ============ -->
+        <aside class="brand-panel">
+          <!-- Decorative animated geometric shapes -->
+          <div class="geo-overlay" aria-hidden="true">
+            <span class="geo geo-square geo-1"></span>
+            <span class="geo geo-circle geo-2"></span>
+            <span class="geo geo-square geo-3"></span>
+            <span class="geo geo-circle geo-4"></span>
+            <span class="geo geo-square geo-5"></span>
+            <span class="geo geo-ring geo-6"></span>
+            <span class="geo geo-circle geo-7"></span>
+            <span class="geo geo-square geo-8"></span>
+          </div>
+          <!-- Subtle grid lines -->
+          <div class="grid-lines" aria-hidden="true"></div>
+
+          <!-- Brand content -->
+          <div class="brand-content">
+            <div class="brand-logo-block">
+              <!-- PMS Logo Icon (white) -->
+              <div class="brand-logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2" y="2" width="36" height="36" rx="9" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
+                  <path d="M13 13h7.5c2.9 0 4.8 1.5 4.8 4.2 0 2.8-1.9 4.4-4.9 4.4H16v5.4h-3V13zm3 2.4v3.8h4.1c1.3 0 2.2-.7 2.2-1.9 0-1.2-.9-1.9-2.2-1.9H16z" fill="#FFFFFF"/>
+                  <path d="M23.2 27l3.4-9h2.4l3.4 9h-2.3l-.7-2H26l-.7 2h-2.1zm3.4-3.7h2.4l-1.2-3.4-1.2 3.4z" fill="#FFFFFF"/>
+                </svg>
+              </div>
+              <div class="brand-titles">
+                <h1 class="brand-title">PMS 项目交付管理系统</h1>
+                <p class="brand-subtitle">原厂交付体系中枢</p>
+              </div>
+            </div>
+
+            <!-- Feature highlights -->
+            <ul class="feature-list">
+              <li class="feature-item">
+                <span class="feature-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M12 7v5l3 2"></path>
+                  </svg>
+                </span>
+                <span class="feature-text">全生命周期交付跟踪</span>
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="14" height="11" rx="1.5"></rect>
+                    <rect x="16" y="8" width="6" height="11" rx="1.5"></rect>
+                    <path d="M6 18h6M9 14v4"></path>
+                  </svg>
+                </span>
+                <span class="feature-text">多终端协同作业</span>
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"></path>
+                    <path d="M9 12l2 2 4-4"></path>
+                  </svg>
+                </span>
+                <span class="feature-text">智能排障与知识库</span>
+              </li>
+            </ul>
+
+            <!-- Footer note on left panel -->
+            <div class="brand-footer-note">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+                <path d="M7 11V7a5 5 0 0110 0v4"></path>
+              </svg>
+              <span>企业级安全 · 端到端加密 · 国密合规</span>
+            </div>
+          </div>
+        </aside>
+
+        <!-- ============ RIGHT PANEL: Login Form ============ -->
+        <section class="form-panel">
+          <div class="form-card">
+            <!-- Heading -->
+            <header class="form-header">
+              <h2 class="form-heading">欢迎回来</h2>
+              <p class="form-subheading">请登录您的账户</p>
+            </header>
+
+            <!-- Form -->
+            <form class="login-form" onsubmit="return false;">
+
+              <!-- Username -->
+              <div class="field-group">
+                <label class="field-label" for="username">用户名 / 工号</label>
+                <div class="input-wrapper">
+                  <span class="input-prefix">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                  </span>
+                  <input type="text" id="username" class="field-input" placeholder="请输入用户名或工号" autocomplete="username" />
+                </div>
+              </div>
+
+              <!-- Password -->
+              <div class="field-group">
+                <label class="field-label" for="password">密码</label>
+                <div class="input-wrapper">
+                  <span class="input-prefix">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+                      <path d="M7 11V7a5 5 0 0110 0v4"></path>
+                    </svg>
+                  </span>
+                  <input type="password" id="password" class="field-input" placeholder="请输入密码" autocomplete="current-password" />
+                  <button type="button" class="toggle-pwd" id="togglePwd" aria-label="显示密码">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Auth method radio group -->
+              <div class="field-group">
+                <span class="field-label">认证方式</span>
+                <div class="auth-methods">
+                  <label class="radio-pill">
+                    <input type="radio" name="auth" value="ldap" checked />
+                    <span class="radio-mark"></span>
+                    <span class="radio-label">LDAP / AD</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="auth" value="local" />
+                    <span class="radio-mark"></span>
+                    <span class="radio-label">本地</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Remember + Forgot -->
+              <div class="form-row-between">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="remember" />
+                  <span class="checkbox-mark">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M20 6L9 17l-5-5"></path>
+                    </svg>
+                  </span>
+                  <span>记住我</span>
+                </label>
+                <a href="#" class="forgot-link">忘记密码？</a>
+              </div>
+
+              <!-- Submit -->
+              <button type="submit" class="btn-submit">
+                登录
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6"></path>
+                </svg>
+              </button>
+            </form>
+
+            <!-- Desktop client offline token status -->
+            <div class="token-status token-online" id="tokenStatus">
+              <span class="token-dot"></span>
+              <span class="token-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"></path>
+                  <path d="M9 12l2 2 4-4"></path>
+                </svg>
+              </span>
+              <span class="token-text">在线令牌有效</span>
+              <span class="token-meta">桌面端 · 剩余 5 天 12 小时</span>
+            </div>
+
+            <!-- Copyright -->
+            <footer class="form-footer">
+              © 2026 PMS v2.0
+            </footer>
+
+            <!-- Environment Switch -->
+            <div class="env-switch" role="group" aria-label="环境切换">
+              <button type="button" class="env-switch-btn active" data-env="生产环境">生产环境</button>
+              <button type="button" class="env-switch-btn" data-env="测试环境">测试环境</button>
+              <button type="button" class="env-switch-btn" data-env="开发环境">开发环境</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ============ Page Custom Styles ============ -->
+      <style>
+        /* ===== Root & Layout ===== */
+        .login-root {
+          display: flex;
+          min-height: 100vh;
+          width: 100%;
+          overflow: hidden;
+          background: var(--bg-page);
+        }
+
+        /* ===== LEFT PANEL ===== */
+        .brand-panel {
+          position: relative;
+          width: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #1A6FD4 0%, #0E7C9B 100%);
+          overflow: hidden;
+          color: var(--text-white);
+        }
+
+        /* Grid lines overlay */
+        .grid-lines {
+          position: absolute;
+          inset: 0;
+          background-image:
+            linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+          background-size: 48px 48px;
+          pointer-events: none;
+        }
+
+        /* Decorative animated shapes */
+        .geo-overlay {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+        .geo {
+          position: absolute;
+          border: 1.5px solid rgba(255,255,255,0.18);
+          opacity: 0.08;
+        }
+        .geo-square { border-radius: 6px; }
+        .geo-circle { border-radius: 50%; }
+        .geo-ring  { border-radius: 50%; border-width: 1px; }
+
+        .geo-1 { width: 120px; height: 120px; top: 8%;  left: 12%; animation: floatA 14s ease-in-out infinite; }
+        .geo-2 { width: 80px;  height: 80px;  top: 22%; right: 14%; animation: floatB 18s ease-in-out infinite; }
+        .geo-3 { width: 64px;  height: 64px;  bottom: 18%; left: 18%; animation: floatA 16s ease-in-out infinite reverse; }
+        .geo-4 { width: 140px; height: 140px; bottom: 10%; right: 10%; animation: floatB 20s ease-in-out infinite; }
+        .geo-5 { width: 40px;  height: 40px;  top: 45%; left: 8%; animation: floatA 12s ease-in-out infinite; }
+        .geo-6 { width: 100px; height: 100px; top: 12%; left: 55%; animation: floatB 22s ease-in-out infinite reverse; }
+        .geo-7 { width: 56px;  height: 56px;  bottom: 40%; right: 22%; animation: floatA 15s ease-in-out infinite; }
+        .geo-8 { width: 90px;  height: 90px;  top: 60%; right: 6%; animation: floatB 17s ease-in-out infinite reverse; }
+
+        @keyframes floatA {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          50%      { transform: translate(18px, -22px) rotate(8deg); }
+        }
+        @keyframes floatB {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          50%      { transform: translate(-20px, 16px) rotate(-6deg); }
+        }
+
+        /* Brand content */
+        .brand-content {
+          position: relative;
+          z-index: 2;
+          padding: 48px 56px;
+          width: 100%;
+          max-width: 520px;
+          display: flex;
+          flex-direction: column;
+          gap: 40px;
+        }
+
+        .brand-logo-block {
+          display: flex;
+          align-items: flex-start;
+          gap: 16px;
+        }
+        .brand-logo {
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .brand-titles { display: flex; flex-direction: column; gap: 6px; padding-top: 2px; }
+        .brand-title {
+          margin: 0;
+          font-size: 28px;
+          font-weight: 700;
+          color: #FFFFFF;
+          letter-spacing: 0.5px;
+          line-height: 1.3;
+        }
+        .brand-subtitle {
+          margin: 0;
+          font-size: 16px;
+          color: rgba(255,255,255,0.80);
+          font-weight: 400;
+          line-height: 1.5;
+        }
+
+        /* Feature list */
+        .feature-list {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+        .feature-item {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+        }
+        .feature-icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+          background: rgba(255,255,255,0.12);
+          border: 1px solid rgba(255,255,255,0.20);
+          color: #FFFFFF;
+          flex-shrink: 0;
+        }
+        .feature-text {
+          font-size: 14px;
+          color: rgba(255,255,255,0.92);
+          font-weight: 500;
+          letter-spacing: 0.3px;
+        }
+
+        /* Brand footer note */
+        .brand-footer-note {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 12px;
+          color: rgba(255,255,255,0.55);
+          letter-spacing: 0.4px;
+        }
+
+        /* ===== RIGHT PANEL ===== */
+        .form-panel {
+          width: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: var(--bg-card);
+          padding: 40px;
+        }
+
+        .form-card {
+          width: 100%;
+          max-width: 380px;
+          display: flex;
+          flex-direction: column;
+        }
+
+        /* Header */
+        .form-header { margin-bottom: 28px; }
+        .form-heading {
+          margin: 0;
+          font-size: 24px;
+          font-weight: 600;
+          color: var(--text-primary);
+          line-height: 1.4;
+        }
+        .form-subheading {
+          margin: 6px 0 0;
+          font-size: 14px;
+          color: var(--text-secondary);
+        }
+
+        /* Form */
+        .login-form {
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+        }
+
+        .field-group { display: flex; flex-direction: column; gap: 8px; }
+        .field-label {
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--text-primary);
+        }
+
+        /* Input wrapper with prefix icon */
+        .input-wrapper {
+          position: relative;
+          display: flex;
+          align-items: center;
+        }
+        .input-prefix {
+          position: absolute;
+          left: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--text-secondary);
+          pointer-events: none;
+          z-index: 1;
+        }
+        .field-input {
+          width: 100%;
+          height: 40px;
+          padding: 0 12px 0 38px;
+          font-size: 14px;
+          color: var(--text-primary);
+          background: #FFFFFF;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-sm);
+          outline: none;
+          transition: border-color 0.2s, box-shadow 0.2s;
+          box-sizing: border-box;
+          font-family: var(--font-family);
+        }
+        .field-input::placeholder { color: var(--text-secondary); }
+        .field-input:hover { border-color: #C0C4CC; }
+        .field-input:focus {
+          border-color: var(--color-primary);
+          box-shadow: 0 0 0 3px rgba(26,111,212,0.12);
+        }
+
+        .toggle-pwd {
+          position: absolute;
+          right: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 24px;
+          height: 24px;
+          border: none;
+          background: transparent;
+          cursor: pointer;
+          color: var(--text-secondary);
+          border-radius: 4px;
+          transition: color 0.2s, background 0.2s;
+        }
+        .toggle-pwd:hover { color: var(--color-primary); background: var(--bg-hover); }
+
+        /* Auth methods */
+        .auth-methods { display: flex; gap: 10px; }
+        .radio-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 7px 14px;
+          border: 1px solid var(--color-border);
+          border-radius: 999px;
+          cursor: pointer;
+          font-size: 13px;
+          color: var(--text-primary);
+          transition: all 0.2s;
+          user-select: none;
+        }
+        .radio-pill input { position: absolute; opacity: 0; width: 0; height: 0; }
+        .radio-mark {
+          width: 14px;
+          height: 14px;
+          border: 1.5px solid var(--color-border);
+          border-radius: 50%;
+          position: relative;
+          transition: all 0.2s;
+          flex-shrink: 0;
+        }
+        .radio-pill input:checked + .radio-mark { border-color: var(--color-primary); }
+        .radio-pill input:checked + .radio-mark::after {
+          content: '';
+          position: absolute;
+          top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          width: 7px; height: 7px;
+          background: var(--color-primary);
+          border-radius: 50%;
+        }
+        .radio-pill:has(input:checked) {
+          border-color: var(--color-primary);
+          background: var(--color-primary-light);
+        }
+        .radio-label { line-height: 1; }
+
+        /* Remember + Forgot row */
+        .form-row-between {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: -2px;
+        }
+        .checkbox-label {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          cursor: pointer;
+          font-size: 13px;
+          color: var(--text-primary);
+          user-select: none;
+        }
+        .checkbox-label input { position: absolute; opacity: 0; width: 0; height: 0; }
+        .checkbox-mark {
+          width: 16px;
+          height: 16px;
+          border: 1.5px solid var(--color-border);
+          border-radius: 3px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          color: #FFFFFF;
+          transition: all 0.2s;
+          flex-shrink: 0;
+        }
+        .checkbox-mark svg { opacity: 0; transition: opacity 0.15s; }
+        .checkbox-label input:checked + .checkbox-mark {
+          background: var(--color-primary);
+          border-color: var(--color-primary);
+        }
+        .checkbox-label input:checked + .checkbox-mark svg { opacity: 1; }
+
+        .forgot-link {
+          font-size: 13px;
+          color: var(--color-primary);
+          text-decoration: none;
+          transition: color 0.2s;
+        }
+        .forgot-link:hover { color: var(--color-primary-hover); text-decoration: underline; }
+
+        /* Submit button */
+        .btn-submit {
+          width: 100%;
+          height: 40px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background: var(--color-primary);
+          color: #FFFFFF;
+          border: none;
+          border-radius: var(--radius-sm);
+          font-size: 15px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background 0.2s, box-shadow 0.2s, transform 0.05s;
+          font-family: var(--font-family);
+          letter-spacing: 0.5px;
+        }
+        .btn-submit:hover {
+          background: var(--color-primary-hover);
+          box-shadow: 0 4px 12px rgba(26,111,212,0.30);
+        }
+        .btn-submit:active { transform: translateY(1px); }
+
+        /* Token status */
+        .token-status {
+          margin-top: 20px;
+          padding: 10px 14px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          border-radius: var(--radius-sm);
+          font-size: 13px;
+          border: 1px solid transparent;
+        }
+        .token-online {
+          background: rgba(39,174,96,0.06);
+          border-color: rgba(39,174,96,0.25);
+          color: var(--state-success);
+        }
+        .token-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: var(--state-success);
+          flex-shrink: 0;
+          box-shadow: 0 0 0 3px rgba(39,174,96,0.18);
+          animation: pulse 2.4s ease-in-out infinite;
+        }
+        @keyframes pulse {
+          0%, 100% { box-shadow: 0 0 0 3px rgba(39,174,96,0.18); }
+          50%      { box-shadow: 0 0 0 5px rgba(39,174,96,0.08); }
+        }
+        .token-icon { display: inline-flex; }
+        .token-text { font-weight: 600; }
+        .token-meta {
+          margin-left: auto;
+          font-size: 12px;
+          color: var(--text-secondary);
+          font-weight: 400;
+        }
+
+        /* Footer */
+        .form-footer {
+          margin-top: 28px;
+          text-align: center;
+          font-size: 12px;
+          color: var(--text-secondary);
+          letter-spacing: 0.3px;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 860px) {
+          .login-root { flex-direction: column; }
+          .brand-panel { width: 100%; min-height: 240px; padding: 24px; }
+          .brand-content { padding: 24px; max-width: 100%; gap: 24px; }
+          .brand-title { font-size: 22px; }
+          .feature-list { flex-direction: row; flex-wrap: wrap; gap: 12px; }
+          .brand-footer-note { display: none; }
+          .form-panel { width: 100%; padding: 24px; }
+        }
+
+        /* ===== Input error (shake + red border) ===== */
+        @keyframes pms-shake {
+          0%, 100% { transform: translateX(0); }
+          20%, 60% { transform: translateX(-6px); }
+          40%, 80% { transform: translateX(6px); }
+        }
+        .field-input.input-error {
+          border-color: var(--state-error) !important;
+          animation: pms-shake 0.4s ease;
+        }
+        .field-input.input-error:focus {
+          box-shadow: 0 0 0 3px rgba(231,76,60,0.12);
+        }
+
+        /* ===== Login button spinner ===== */
+        .btn-spinner {
+          display: inline-block;
+          width: 14px;
+          height: 14px;
+          border: 2px solid rgba(255,255,255,0.4);
+          border-top-color: #fff;
+          border-radius: 50%;
+          animation: pms-btn-spin 0.7s linear infinite;
+        }
+        @keyframes pms-btn-spin {
+          to { transform: rotate(360deg); }
+        }
+        .btn-submit.is-loading {
+          opacity: 0.8;
+          cursor: not-allowed;
+        }
+
+        /* ===== Environment switch ===== */
+        .env-switch {
+          display: flex;
+          gap: 4px;
+          margin-top: 16px;
+          padding: 4px;
+          background: var(--bg-hover);
+          border-radius: var(--radius-sm);
+        }
+        .env-switch-btn {
+          flex: 1;
+          height: 28px;
+          border: none;
+          background: transparent;
+          color: var(--text-tertiary);
+          font-size: 12px;
+          cursor: pointer;
+          border-radius: 3px;
+          transition: all 0.2s;
+          font-family: var(--font-family);
+        }
+        .env-switch-btn:hover { color: var(--color-primary); }
+        .env-switch-btn.active {
+          background: var(--color-primary);
+          color: #fff;
+          font-weight: 500;
+        }
+
+        /* ===== Forgot password modal ===== */
+        .pms-modal-overlay {
+          position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(0,0,0,0.45);
+          z-index: 99998;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transition: opacity 0.25s ease;
+        }
+        .pms-modal-overlay.show { opacity: 1; }
+        .pms-modal-dialog {
+          background: #fff;
+          border-radius: 8px;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+          width: 90%;
+          max-width: 420px;
+          transform: translateY(20px);
+          transition: transform 0.25s ease;
+          overflow: hidden;
+        }
+        .pms-modal-overlay.show .pms-modal-dialog { transform: translateY(0); }
+        .pms-modal-header {
+          padding: 16px 24px;
+          border-bottom: 1px solid #EBEEF5;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .pms-modal-title {
+          font-size: 16px;
+          font-weight: 600;
+          color: var(--text-primary);
+        }
+        .pms-modal-close {
+          cursor: pointer;
+          color: var(--text-tertiary);
+          font-size: 20px;
+          line-height: 1;
+          background: none;
+          border: none;
+          padding: 0;
+        }
+        .pms-modal-body { padding: 24px; }
+        .pms-modal-field { margin-bottom: 16px; }
+        .pms-modal-field label {
+          display: block;
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--text-primary);
+          margin-bottom: 6px;
+        }
+        .pms-modal-field input,
+        .pms-modal-field select {
+          width: 100%;
+          height: 36px;
+          padding: 0 12px;
+          font-size: 14px;
+          color: var(--text-primary);
+          background: #fff;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-sm);
+          outline: none;
+          box-sizing: border-box;
+          font-family: var(--font-family);
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .pms-modal-field input:focus,
+        .pms-modal-field select:focus {
+          border-color: var(--color-primary);
+          box-shadow: 0 0 0 3px rgba(26,111,212,0.12);
+        }
+        .pms-modal-footer {
+          display: flex;
+          justify-content: flex-end;
+          gap: 12px;
+          padding: 16px 24px;
+          border-top: 1px solid #EBEEF5;
+        }
+        .pms-modal-btn {
+          height: 36px;
+          padding: 0 20px;
+          border-radius: var(--radius-sm);
+          font-size: 14px;
+          cursor: pointer;
+          font-family: var(--font-family);
+          border: 1px solid var(--color-border);
+          background: #fff;
+          color: var(--text-tertiary);
+        }
+        .pms-modal-btn:hover { color: var(--text-primary); }
+        .pms-modal-btn-primary {
+          border-color: var(--color-primary);
+          background: var(--color-primary);
+          color: #fff;
+        }
+        .pms-modal-btn-primary:hover { background: var(--color-primary-hover); }
+      </style>
+
+      <!-- ============ Interactions ============ -->
+      <script>
+        // ===== Toast helper =====
+        function showToast(msg) {
+          var existing = document.querySelector('.__pms_toast');
+          if (existing) existing.remove();
+          var toast = document.createElement('div');
+          toast.className = '__pms_toast';
+          toast.style.cssText = 'position:fixed;top:16px;right:16px;z-index:9999;background:#303133;color:#fff;padding:12px 20px;border-radius:4px;font-size:14px;opacity:0;transition:opacity 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.15);max-width:360px;font-family:inherit;';
+          toast.textContent = msg;
+          document.body.appendChild(toast);
+          requestAnimationFrame(function () { toast.style.opacity = '1'; });
+          setTimeout(function () {
+            toast.style.opacity = '0';
+            setTimeout(function () { if (toast.parentNode) toast.remove(); }, 300);
+          }, 2500);
+        }
+
+        (function () {
+          var usernameInput = document.getElementById('username');
+          var passwordInput = document.getElementById('password');
+          var submitBtn = document.querySelector('.btn-submit');
+          var togglePwd = document.getElementById('togglePwd');
+          var rememberInput = document.getElementById('remember');
+          var rememberLabel = document.querySelector('.checkbox-label');
+          var forgotLink = document.querySelector('.forgot-link');
+
+          // ===== Field error helper =====
+          function showError(input, msg) {
+            var group = input.closest('.field-group');
+            if (!group) return;
+            var err = group.querySelector('.field-error');
+            if (!err) {
+              err = document.createElement('div');
+              err.className = 'field-error';
+              err.style.cssText = 'color:#E74C3C;font-size:12px;margin-top:4px;line-height:1.4;';
+              group.appendChild(err);
+            }
+            err.textContent = msg;
+            // Add red border + shake animation
+            input.classList.remove('input-error');
+            void input.offsetWidth; // restart animation
+            input.classList.add('input-error');
+          }
+          function clearError(input) {
+            var group = input.closest('.field-group');
+            if (!group) return;
+            var err = group.querySelector('.field-error');
+            if (err) err.remove();
+            input.classList.remove('input-error');
+          }
+          function clearAllErrors() {
+            document.querySelectorAll('.field-error').forEach(function (e) { e.remove(); });
+          }
+
+          // ===== Password visibility toggle =====
+          if (togglePwd && passwordInput) {
+            togglePwd.addEventListener('click', function () {
+              var isPwd = passwordInput.type === 'password';
+              passwordInput.type = isPwd ? 'text' : 'password';
+              togglePwd.setAttribute('aria-label', isPwd ? '隐藏密码' : '显示密码');
+            });
+          }
+
+          // ===== Login action =====
+          function doLogin() {
+            clearAllErrors();
+            var u = usernameInput ? usernameInput.value.trim() : '';
+            var p = passwordInput ? passwordInput.value.trim() : '';
+            var ok = true;
+            if (!u) { showError(usernameInput, '请输入用户名或工号'); ok = false; }
+            if (!p) { showError(passwordInput, '请输入密码'); ok = false; }
+            if (!ok) return;
+            if (submitBtn) {
+              submitBtn.innerHTML = '<span class="btn-spinner"></span> 登录中...';
+              submitBtn.disabled = true;
+              submitBtn.classList.add('is-loading');
+            }
+            setTimeout(function () {
+              __safeNav('overall-tracking.html');
+            }, 1500);
+          }
+          if (submitBtn) submitBtn.addEventListener('click', doLogin);
+
+          // ===== Enter key triggers login =====
+          [usernameInput, passwordInput].forEach(function (inp) {
+            if (!inp) return;
+            inp.addEventListener('keydown', function (e) {
+              if (e.key === 'Enter' || e.keyCode === 13) {
+                e.preventDefault();
+                doLogin();
+              }
+            });
+          });
+
+          // ===== Clear error on input =====
+          if (usernameInput) usernameInput.addEventListener('input', function () { clearError(usernameInput); });
+          if (passwordInput) passwordInput.addEventListener('input', function () { clearError(passwordInput); });
+
+          // ===== Remember me toggle =====
+          if (rememberLabel && rememberInput) {
+            rememberLabel.addEventListener('click', function (e) {
+              e.preventDefault();
+              rememberInput.checked = !rememberInput.checked;
+            });
+          }
+
+          // ===== Forgot password (modal) =====
+          function closeForgotModal() {
+            var ov = document.getElementById('__forgotModalOverlay');
+            if (ov) {
+              ov.classList.remove('show');
+              setTimeout(function () { if (ov.parentNode) ov.remove(); }, 250);
+            }
+          }
+          function openForgotModal() {
+            closeForgotModal();
+            var overlay = document.createElement('div');
+            overlay.className = 'pms-modal-overlay';
+            overlay.id = '__forgotModalOverlay';
+            overlay.innerHTML =
+              '<div class="pms-modal-dialog">' +
+                '<div class="pms-modal-header">' +
+                  '<span class="pms-modal-title">找回密码</span>' +
+                  '<button class="pms-modal-close" id="__forgotClose">&times;</button>' +
+                '</div>' +
+                '<div class="pms-modal-body">' +
+                  '<div class="pms-modal-field">' +
+                    '<label>用户名 / 工号</label>' +
+                    '<input type="text" id="__forgotUser" placeholder="请输入您的用户名或工号">' +
+                  '</div>' +
+                  '<div class="pms-modal-field">' +
+                    '<label>注册邮箱</label>' +
+                    '<input type="email" id="__forgotEmail" placeholder="请输入注册邮箱">' +
+                  '</div>' +
+                  '<div class="pms-modal-field" style="margin-bottom:0;">' +
+                    '<label>验证方式</label>' +
+                    '<select id="__forgotMethod">' +
+                      '<option value="email">邮箱验证</option>' +
+                      '<option value="sms">短信验证</option>' +
+                      '<option value="admin">联系管理员</option>' +
+                    '</select>' +
+                  '</div>' +
+                '</div>' +
+                '<div class="pms-modal-footer">' +
+                  '<button class="pms-modal-btn" id="__forgotCancel">取消</button>' +
+                  '<button class="pms-modal-btn pms-modal-btn-primary" id="__forgotConfirm">发送重置链接</button>' +
+                '</div>' +
+              '</div>';
+            document.body.appendChild(overlay);
+            requestAnimationFrame(function () { overlay.classList.add('show'); });
+            overlay.addEventListener('click', function (e) {
+              if (e.target === overlay) closeForgotModal();
+            });
+            document.getElementById('__forgotClose').addEventListener('click', closeForgotModal);
+            document.getElementById('__forgotCancel').addEventListener('click', closeForgotModal);
+            document.getElementById('__forgotConfirm').addEventListener('click', function () {
+              var user = document.getElementById('__forgotUser').value.trim();
+              var email = document.getElementById('__forgotEmail').value.trim();
+              if (!user) { showToast('请输入用户名或工号'); return; }
+              if (!email) { showToast('请输入注册邮箱'); return; }
+              closeForgotModal();
+              showToast('密码重置链接已发送至 ' + email);
+            });
+          }
+          if (forgotLink) {
+            forgotLink.addEventListener('click', function (e) {
+              e.preventDefault();
+              openForgotModal();
+            });
+          }
+
+          // ===== Auth method radio (switch active pill) =====
+          document.querySelectorAll('.radio-pill').forEach(function (pill) {
+            pill.addEventListener('click', function () {
+              var input = this.querySelector('input[type="radio"]');
+              if (input) input.checked = true;
+            });
+          });
+
+          // ===== Environment switch =====
+          var envButtons = document.querySelectorAll('.env-switch-btn');
+          envButtons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              var envName = btn.getAttribute('data-env');
+              envButtons.forEach(function (b) { b.classList.remove('active'); });
+              btn.classList.add('active');
+              showToast('已切换至：' + envName);
+            });
+          });
+        })();
+      </script>
+    </main>
+    <script></script>
+</body>
+</html>

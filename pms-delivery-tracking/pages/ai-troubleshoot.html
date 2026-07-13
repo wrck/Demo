@@ -1,0 +1,2159 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI排障与知识库 - PMS项目交付管理系统</title>
+    <style id="theme-vars">
+:root {
+  /* ── Brand ── */
+  --color-primary: #1A6FD4;
+  --color-primary-hover: #3B8AE0;
+  --color-primary-light: #E8F2FC;
+  --color-text-muted: #5A6477;
+  --color-border: #DCDFE6;
+
+  /* ── State Colors ── */
+  --state-success: #27AE60;
+  --state-info: #2E8BE6;
+  --state-warning: #F39C12;
+  --state-error: #E74C3C;
+  --state-locked: #8E44AD;
+  --state-disabled: #BDBDBD;
+
+  /* ── Surface ── */
+  --bg-page: #F5F7FA;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F5F7FA;
+  --bg-active: #E8F2FC;
+
+  /* ── Text ── */
+  --text-primary: #303133;
+  --text-tertiary: #909399;
+  --text-white: #FFFFFF;
+
+  /* ── Typography ── */
+  --font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  --text-h1: 600 24px/1.5 var(--font-family);
+  --text-h2: 600 20px/1.5 var(--font-family);
+  --text-h3: 600 16px/1.5 var(--font-family);
+  --text-body: 400 14px/1.5 var(--font-family);
+  --text-caption: 400 12px/1.5 var(--font-family);
+  --text-stat: 600 28px/1.5 var(--font-family);
+
+  /* ── Semantic Token Aliases (Tailwind bridge) ── */
+  --background: #F5F7FA;
+  --foreground: #303133;
+  --card: #FFFFFF;
+  --card-foreground: #303133;
+  --muted: #F5F7FA;
+  --muted-foreground: #909399;
+  --primary-foreground: #FFFFFF;
+  --border: #DCDFE6;
+  --input: #DCDFE6;
+  --ring: #1A6FD4;
+
+  /* ── Radius ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* ── Shadow ── */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  /* ── Spacing ── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+    </style>
+    <script type="application/json" data-cdn="@tailwindcss/browser@4.3.1"></script>
+    <script type="application/json" data-cdn="lucide@1.8.0"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-primary: var(--color-primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+  }
+  @layer base {
+    body { background: var(--background); color: var(--foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--background); }
+      .text-background { color: var(--background); }
+      .border-background { border-color: var(--background); }
+      .ring-background { --tw-ring-color: var(--background); }
+      .bg-foreground { background-color: var(--foreground); }
+      .text-foreground { color: var(--foreground); }
+      .border-foreground { border-color: var(--foreground); }
+      .ring-foreground { --tw-ring-color: var(--foreground); }
+      .bg-card { background-color: var(--card); }
+      .text-card { color: var(--card); }
+      .border-card { border-color: var(--card); }
+      .ring-card { --tw-ring-color: var(--card); }
+      .bg-card-foreground { background-color: var(--card-foreground); }
+      .text-card-foreground { color: var(--card-foreground); }
+      .border-card-foreground { border-color: var(--card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--card-foreground); }
+      .bg-primary { background-color: var(--color-primary); }
+      .text-primary { color: var(--color-primary); }
+      .border-primary { border-color: var(--color-primary); }
+      .ring-primary { --tw-ring-color: var(--color-primary); }
+      .bg-primary-foreground { background-color: var(--primary-foreground); }
+      .text-primary-foreground { color: var(--primary-foreground); }
+      .border-primary-foreground { border-color: var(--primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--primary-foreground); }
+      .bg-muted { background-color: var(--muted); }
+      .text-muted { color: var(--muted); }
+      .border-muted { border-color: var(--muted); }
+      .ring-muted { --tw-ring-color: var(--muted); }
+      .bg-muted-foreground { background-color: var(--muted-foreground); }
+      .text-muted-foreground { color: var(--muted-foreground); }
+      .border-muted-foreground { border-color: var(--muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--muted-foreground); }
+      .bg-border { background-color: var(--border); }
+      .text-border { color: var(--border); }
+      .border-border { border-color: var(--border); }
+      .ring-border { --tw-ring-color: var(--border); }
+      .bg-input { background-color: var(--input); }
+      .text-input { color: var(--input); }
+      .border-input { border-color: var(--input); }
+      .ring-input { --tw-ring-color: var(--input); }
+      .bg-ring { background-color: var(--ring); }
+      .text-ring { color: var(--ring); }
+      .border-ring { border-color: var(--ring); }
+      .ring-ring { --tw-ring-color: var(--ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+<script>
+(function(){
+  var __lastNav = '';
+  var __lastNavTime = 0;
+  window.__safeNav = function(url) {
+    var now = Date.now();
+    if (url === __lastNav && (now - __lastNavTime) < 800) return;
+    __lastNav = url;
+    __lastNavTime = now;
+    try { window.parent.postMessage({ type: 'design-navigate', url: url }, '*'); } catch(e) {}
+    var name = url.replace(/\.html$/, '').replace(/-/g, ' ');
+    if (typeof window.showToast === 'function') {
+      window.showToast('页面跳转: ' + name);
+    } else if (typeof window.showToastDelivery === 'function') {
+      window.showToastDelivery('页面跳转: ' + name);
+    } else {
+      var t = document.createElement('div');
+      t.textContent = '页面跳转: ' + name;
+      t.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1A6FD4;color:#fff;padding:10px 24px;border-radius:8px;z-index:99999;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-family:sans-serif;';
+      document.body.appendChild(t);
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 2000);
+    }
+  };
+  document.addEventListener('click', function(e) {
+    var el = e.target;
+    while (el && el !== document) {
+      if (el.hasAttribute && el.hasAttribute('data-nav-target')) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.__safeNav(el.getAttribute('data-nav-target'));
+        return false;
+      }
+      el = el.parentElement;
+    }
+  }, true);
+})();
+</script>
+<script>
+(function(){
+  // Suppress cross-origin security errors that occur when canvas SDK
+  // cleans up the srcdoc iframe during page switching.
+  // The iframe has null origin (srcdoc mode) while the host has vscode-file:// origin.
+  var origError = window.onerror;
+  window.onerror = function(msg, url, line, col, err) {
+    if (typeof msg === 'string' && (msg.indexOf('removeEventListener') !== -1 || msg.indexOf('cross-origin') !== -1 || msg.indexOf('security policy') !== -1)) {
+      return true; // suppress
+    }
+    if (origError) return origError.apply(this, arguments);
+    return false;
+  };
+  window.addEventListener('unhandledrejection', function(e) {
+    if (e.reason && typeof e.reason.message === 'string' && (e.reason.message.indexOf('removeEventListener') !== -1 || e.reason.message.indexOf('cross-origin') !== -1)) {
+      e.preventDefault();
+    }
+  });
+})();
+</script>
+
+  <!-- ==================== Header ==================== -->
+  <header class="admin-header">
+    <div class="header-logo">
+      <div class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <span class="logo-text">PMS 项目交付管理系统</span>
+    </div>
+    <div class="header-search">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="text" placeholder="搜索办事处/项目名称/合同号...">
+    </div>
+    <div class="header-right">
+      <div class="header-bell">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        <span class="bell-badge">3</span>
+      </div>
+      <div class="header-user">
+        <div class="avatar">张</div>
+        <span class="user-name">张三</span>
+        <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== Sidebar ==================== -->
+  <aside class="admin-sidebar">
+    <!-- 交付跟踪 (collapsed) -->
+    <div class="sidebar-group">
+      <div class="sidebar-group-header">
+        <span class="group-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+          </svg>
+          交付跟踪
+        </span>
+        <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <ul class="sidebar-menu" style="display: none;">
+        <li><a href="#" data-nav-target="overall-tracking.html">项目总体跟踪</a></li>
+        <li><a href="#" onclick="return false">售前测试管理</a></li>
+        <li><a href="#" onclick="return false">项目转包（代施）</a></li>
+      </ul>
+    </div>
+
+    <!-- 交付执行 (collapsed) -->
+    <div class="sidebar-group">
+      <div class="sidebar-group-header">
+        <span class="group-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+          </svg>
+          交付执行
+        </span>
+        <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <ul class="sidebar-menu" style="display: none;">
+        <li><a href="#" data-nav-target="pre-work.html">工前准备</a></li>
+        <li><a href="#" data-nav-target="construction-plan.html">施工计划</a></li>
+        <li><a href="#" data-nav-target="implementation-plan.html">实施方案</a></li>
+        <li><a href="#" data-nav-target="deployment.html">实施部署</a></li>
+        <li><a href="#" onclick="return false">验收交维</a></li>
+        <li><a href="#" data-nav-target="cutover.html">割接管理</a></li>
+      </ul>
+    </div>
+
+    <!-- 交付支撑 (expanded) -->
+    <div class="sidebar-group">
+      <div class="sidebar-group-header">
+        <span class="group-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+          交付支撑
+        </span>
+        <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="#" data-nav-target="customer-asset.html">客户资产库</a></li>
+        <li><a href="#" onclick="return false">技术公告与周报</a></li>
+        <li><a href="#" onclick="return false">回访与维保</a></li>
+        <li><a href="#" data-nav-target="ai-troubleshoot.html" class="active">AI排障与知识库</a></li>
+        <li><a href="#" onclick="return false">ITR故障与RMA</a></li>
+      </ul>
+    </div>
+
+    <!-- 集成与报表 (collapsed) -->
+    <div class="sidebar-group">
+      <div class="sidebar-group-header">
+        <span class="group-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          集成与报表
+        </span>
+        <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <ul class="sidebar-menu" style="display: none;"></ul>
+    </div>
+
+    <!-- 系统管理 (collapsed) -->
+    <div class="sidebar-group">
+      <div class="sidebar-group-header">
+        <span class="group-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          系统管理
+        </span>
+        <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <ul class="sidebar-menu" style="display: none;"></ul>
+    </div>
+  </aside>
+
+  <!-- ==================== TagsView ==================== -->
+  <div class="tags-view">
+    <div class="tag-item active">
+      <span>AI排障</span>
+      <span class="tag-close">&times;</span>
+    </div>
+    <div style="flex:1;"></div>
+    <div class="tags-add">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ==================== Main Content ==================== -->
+  <div class="admin-main">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar">
+      <a href="#">交付支撑</a>
+      <span class="sep">/</span>
+      <span class="current">AI排障与知识库</span>
+    </div>
+
+    <div class="page-content">
+
+      <!-- ========== Tool Selection Bar ========== -->
+      <div class="tool-bar-card">
+        <span class="tool-bar-label">解析工具</span>
+        <div class="tool-pills" id="toolPills">
+          <div class="tool-pill active" data-tool="命令解析">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+            </svg>
+            命令解析
+          </div>
+          <div class="tool-pill" data-tool="功能配置">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            功能配置
+          </div>
+          <div class="tool-pill" data-tool="日志解析">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            日志解析
+          </div>
+          <div class="tool-pill" data-tool="MIB解析">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+            </svg>
+            MIB解析
+          </div>
+          <div class="tool-pill" data-tool="API解析">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/>
+            </svg>
+            API解析
+          </div>
+          <div class="tool-pill" data-tool="场景答疑">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            场景答疑
+          </div>
+        </div>
+        <div class="scene-type">
+          <span class="scene-type-label">场景类型：</span>
+          <div class="radio-group" id="sceneRadio">
+            <div class="radio-item active" data-scene="咨询类">
+              <span class="radio-circle"><span class="radio-dot"></span></span>
+              咨询类
+            </div>
+            <div class="radio-item" data-scene="故障类">
+              <span class="radio-circle"><span class="radio-dot"></span></span>
+              故障类
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== Split Panel ========== -->
+      <div class="split-panel">
+
+        <!-- ── Chat Panel ── -->
+        <div class="chat-panel">
+          <div class="chat-header">
+            <div class="chat-header-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/>
+                <path d="M8 12h.01M12 12h.01M16 12h.01"/>
+                <path d="M12 8v8"/>
+              </svg>
+              AI 排障助手
+            </div>
+            <div class="chat-header-status">
+              <span class="status-dot"></span>
+              在线
+            </div>
+          </div>
+
+          <div class="chat-messages" id="chatMessages">
+
+            <!-- Message 1: User -->
+            <div class="message-row user">
+              <div class="msg-avatar user-avatar">张</div>
+              <div class="msg-content">
+                <div class="msg-bubble">设备 show interface 输出异常，请帮忙分析</div>
+                <div class="msg-meta">张三 · 14:23</div>
+              </div>
+            </div>
+
+            <!-- Message 2: AI -->
+            <div class="message-row ai">
+              <div class="msg-avatar ai-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="10" rx="2"/>
+                  <circle cx="12" cy="5" r="2"/>
+                  <path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/>
+                </svg>
+              </div>
+              <div class="msg-content">
+                <div class="msg-bubble">
+                  <div class="tool-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+                    </svg>
+                    已调用[命令解析]工具
+                  </div>
+                  <div>分析如下：</div>
+                  <ol class="msg-list">
+                    <li>接口 Gi0/0/1 状态 <strong>down</strong>，最后输入 00:15:32 前</li>
+                    <li>可能原因：光模块故障 / 配置错误 / 线路中断</li>
+                    <li>建议排查：
+                      <div class="msg-code">show transceiver detail interface Gi0/0/1</div>
+                    </li>
+                  </ol>
+                  <div class="msg-actions">
+                    <button class="btn-msg-action" onclick="sendMessage('请帮忙调用日志解析')">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                      </svg>
+                      调用日志解析
+                    </button>
+                    <button class="btn-msg-action" onclick="showToast('排障经验模板已生成')">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+                      </svg>
+                      生成排障经验模板
+                    </button>
+                  </div>
+                </div>
+                <div class="msg-meta">AI助手 · 14:23</div>
+              </div>
+            </div>
+
+            <!-- Message 3: User -->
+            <div class="message-row user">
+              <div class="msg-avatar user-avatar">张</div>
+              <div class="msg-content">
+                <div class="msg-bubble">已执行，光模块功率异常</div>
+                <div class="msg-meta">张三 · 14:25</div>
+              </div>
+            </div>
+
+            <!-- Message 4: AI -->
+            <div class="message-row ai">
+              <div class="msg-avatar ai-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="10" rx="2"/>
+                  <circle cx="12" cy="5" r="2"/>
+                  <path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/>
+                </svg>
+              </div>
+              <div class="msg-content">
+                <div class="msg-bubble">
+                  <div>判定光模块故障，建议更换并关联RMA流程：</div>
+                  <ol class="msg-list">
+                    <li>接收功率 -28.3 dBm，低于阈值 -20 dBm</li>
+                    <li>光模块型号：SFP-10G-LR，序列号：SN2026XXXX</li>
+                    <li>建议更换同型号光模块，并通过 ITR故障与RMA 发起备件更换</li>
+                  </ol>
+                  <div class="tool-result-summary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    <span>工具调用结果：光模块功率异常已确认，建议进入RMA更换流程</span>
+                  </div>
+                </div>
+                <div class="msg-meta">AI助手 · 14:26</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Chat Input Area -->
+          <div class="chat-input-area">
+            <div class="chat-input-wrapper">
+              <button class="chat-attach-btn" title="添加附件">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+                </svg>
+              </button>
+              <textarea class="chat-textarea" id="chatTextarea" placeholder="输入问题..." rows="1"></textarea>
+              <button class="chat-send-btn" id="chatSendBtn" title="发送">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+              </button>
+            </div>
+            <div class="chat-input-hint">
+              按 <kbd>Enter</kbd> 发送，<kbd>Shift</kbd> + <kbd>Enter</kbd> 换行
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Knowledge Panel ── -->
+        <div class="knowledge-panel">
+          <div class="knowledge-header">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            <span class="knowledge-header-title">知识库引用</span>
+            <span class="knowledge-header-count">5 条</span>
+          </div>
+
+          <div class="knowledge-list" id="knowledgeList">
+            <!-- Doc 1 -->
+            <div class="knowledge-item" onclick="showToast('打开：命令行手册 §3.2')">
+              <div class="knowledge-icon doc">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                </svg>
+              </div>
+              <div class="knowledge-info">
+                <div class="knowledge-title">命令行手册 §3.2</div>
+                <div class="knowledge-desc">show interface 命令详解 · 89% 相关</div>
+              </div>
+            </div>
+
+            <!-- Doc 2 -->
+            <div class="knowledge-item" onclick="showToast('打开：日志手册 - 错误码 0x...')">
+              <div class="knowledge-icon doc">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+              </div>
+              <div class="knowledge-info">
+                <div class="knowledge-title">日志手册 - 错误码 0x...</div>
+                <div class="knowledge-desc">光模块功率告警错误码说明 · 85% 相关</div>
+              </div>
+            </div>
+
+            <!-- Doc 3: Case -->
+            <div class="knowledge-item" onclick="showToast('打开：经典案例 #CASE-0123')">
+              <div class="knowledge-icon case">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+              </div>
+              <div class="knowledge-info">
+                <div class="knowledge-title">经典案例 #CASE-0123</div>
+                <div class="knowledge-desc">Gi接口down - 光模块故障排查实例 · 92% 相关</div>
+              </div>
+            </div>
+
+            <!-- Doc 4: FAQ -->
+            <div class="knowledge-item" onclick="showToast('打开：FAQ-0045')">
+              <div class="knowledge-icon faq">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+              </div>
+              <div class="knowledge-info">
+                <div class="knowledge-title">FAQ-0045</div>
+                <div class="knowledge-desc">光模块功率阈值是多少？ · 78% 相关</div>
+              </div>
+            </div>
+
+            <!-- Doc 5: Announcement -->
+            <div class="knowledge-item" onclick="showToast('打开：技术公告 TA-2026-007')">
+              <div class="knowledge-icon announce">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+                </svg>
+              </div>
+              <div class="knowledge-info">
+                <div class="knowledge-title">技术公告 TA-2026-007</div>
+                <div class="knowledge-desc">SFP-10G-LR 光模块批次更换通知 · 70% 相关</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="knowledge-footer">
+            <a class="view-all-link" onclick="showToast('完整引用列表加载中...')">
+              查看完整引用
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ========== Diagnosis Result Section ========== -->
+      <div class="diagnosis-card">
+        <div class="diagnosis-header">
+          <div class="diagnosis-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11H1l3-3-3-3"/><path d="M22 12A10 10 0 1 1 12 2"/><path d="M16 24h-8"/><path d="M12 18v6"/>
+            </svg>
+            诊断结果 / 经验沉淀
+          </div>
+          <div class="diagnosis-actions">
+            <button class="btn-primary" onclick="showToast('排障经验模板已保存')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+              </svg>
+              保存为排障经验模板
+            </button>
+          </div>
+        </div>
+
+        <!-- Process Flow -->
+        <div class="process-flow">
+          <!-- Step 1: 现象 -->
+          <div class="process-step">
+            <div class="process-step-header">
+              <div class="process-step-num">1</div>
+              <div class="process-step-title">现象</div>
+            </div>
+            <div class="process-step-body">
+              show interface 输出异常，接口 Gi0/0/1 状态 down，光模块功率偏低
+            </div>
+          </div>
+
+          <div class="process-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </div>
+
+          <!-- Step 2: 排查步骤 -->
+          <div class="process-step">
+            <div class="process-step-header">
+              <div class="process-step-num">2</div>
+              <div class="process-step-title">排查步骤</div>
+            </div>
+            <div class="process-step-body">
+              1. 命令解析 show transceiver detail<br>
+              2. 日志解析确认告警错误码<br>
+              3. 对比光模块功率阈值
+            </div>
+          </div>
+
+          <div class="process-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </div>
+
+          <!-- Step 3: 根因 -->
+          <div class="process-step">
+            <div class="process-step-header">
+              <div class="process-step-num">3</div>
+              <div class="process-step-title">根因</div>
+            </div>
+            <div class="process-step-body">
+              光模块硬件故障，接收功率 -28.3 dBm 远低于阈值 -20 dBm
+            </div>
+          </div>
+
+          <div class="process-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </div>
+
+          <!-- Step 4: 处置 -->
+          <div class="process-step">
+            <div class="process-step-header">
+              <div class="process-step-num">4</div>
+              <div class="process-step-title">处置</div>
+            </div>
+            <div class="process-step-body">
+              更换 SFP-10G-LR 光模块，关联 ITR故障与RMA 发起备件更换流程
+            </div>
+          </div>
+
+          <div class="process-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </div>
+
+          <!-- Step 5: 验证 -->
+          <div class="process-step">
+            <div class="process-step-header">
+              <div class="process-step-num">5</div>
+              <div class="process-step-title">验证</div>
+            </div>
+            <div class="process-step-body">
+              更换后接口 up，接收功率恢复至 -8.2 dBm，业务恢复正常
+            </div>
+          </div>
+        </div>
+
+        <div class="template-fields-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          <span><strong>模板字段：</strong>故障单号 / 现象 / 产品架构 / 触发因素 / 排查过程</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+    </svg>
+    <span id="toastText">操作成功</span>
+  </div>
+
+  <script>
+    // ── Sidebar toggle ──
+    document.querySelectorAll('.sidebar-group-header').forEach(header => {
+      header.addEventListener('click', function() {
+        const menu = this.nextElementSibling;
+        const chevron = this.querySelector('.chevron-icon');
+        if (menu && menu.tagName === 'UL') {
+          const isHidden = menu.style.display === 'none';
+          menu.style.display = isHidden ? 'block' : 'none';
+          if (chevron) {
+            chevron.classList.toggle('collapsed', !isHidden);
+          }
+        }
+      });
+    });
+
+    // ── Tool pill selection (single select) ──
+    document.querySelectorAll('.tool-pill').forEach(pill => {
+      pill.addEventListener('click', function() {
+        document.querySelectorAll('.tool-pill').forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // ── Scene type radio ──
+    document.querySelectorAll('.radio-item').forEach(item => {
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.radio-item').forEach(r => r.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // ── Chat send functionality ──
+    const chatTextarea = document.getElementById('chatTextarea');
+    const chatSendBtn = document.getElementById('chatSendBtn');
+    const chatMessages = document.getElementById('chatMessages');
+
+    // Auto-resize textarea
+    chatTextarea.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+    });
+
+    // Enter to send, Shift+Enter for newline
+    chatTextarea.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    chatSendBtn.addEventListener('click', function() {
+      sendMessage();
+    });
+
+    function sendMessage(forceText) {
+      const text = forceText || chatTextarea.value.trim();
+      if (!text) {
+        showToast('请输入问题');
+        return;
+      }
+
+      // Get currently selected tool
+      const activeTool = document.querySelector('.tool-pill.active');
+      const toolName = activeTool ? activeTool.getAttribute('data-tool') : '命令解析';
+
+      // Add user message
+      const now = new Date();
+      const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+
+      const userMsg = document.createElement('div');
+      userMsg.className = 'message-row user';
+      userMsg.innerHTML = `
+        <div class="msg-avatar user-avatar">张</div>
+        <div class="msg-content">
+          <div class="msg-bubble">${escapeHtml(text)}</div>
+          <div class="msg-meta">张三 · ${timeStr}</div>
+        </div>
+      `;
+      chatMessages.appendChild(userMsg);
+
+      // Clear input
+      if (!forceText) {
+        chatTextarea.value = '';
+        chatTextarea.style.height = 'auto';
+      }
+
+      // Scroll to bottom
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      // Show typing indicator
+      const typingMsg = document.createElement('div');
+      typingMsg.className = 'message-row ai';
+      typingMsg.id = '__typingIndicator';
+      typingMsg.innerHTML = `
+        <div class="msg-avatar ai-avatar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="10" rx="2"/>
+            <circle cx="12" cy="5" r="2"/>
+            <path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/>
+          </svg>
+        </div>
+        <div class="msg-content">
+          <div class="msg-bubble">
+            <div class="typing-indicator">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+        </div>
+      `;
+      chatMessages.appendChild(typingMsg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      // Simulate AI response after 1.5s
+      setTimeout(() => {
+        // Remove typing indicator
+        const typing = document.getElementById('__typingIndicator');
+        if (typing) typing.remove();
+
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'message-row ai';
+        aiMsg.innerHTML = `
+          <div class="msg-avatar ai-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="10" rx="2"/>
+              <circle cx="12" cy="5" r="2"/>
+              <path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/>
+            </svg>
+          </div>
+          <div class="msg-content">
+            <div class="msg-bubble">
+              <div class="tool-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+                </svg>
+                已调用[${toolName}]工具进行分析
+              </div>
+              <div>分析结果如下：</div>
+              <ol class="msg-list">
+                <li>已根据输入内容进行${toolName}处理，识别到潜在异常项</li>
+                <li>建议结合知识库文档进一步排查</li>
+                <li>推荐操作：查看右侧知识库引用获取详细说明</li>
+              </ol>
+            </div>
+            <div class="msg-meta">AI助手 · ${timeStr}</div>
+          </div>
+        `;
+        chatMessages.appendChild(aiMsg);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }, 1500);
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // ── Toast notification ──
+    let toastTimer = null;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toastText');
+      toastText.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // ── Inject typing indicator and process step hover CSS ──
+    const __aiExtraStyle = document.createElement('style');
+    __aiExtraStyle.textContent = `
+      .typing-indicator { display: flex; gap: 4px; padding: 4px 0; }
+      .typing-dot { width: 8px; height: 8px; border-radius: 50%; background: #909399; animation: __typingBounce 1.4s infinite ease-in-out; }
+      .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+      .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+      @keyframes __typingBounce {
+        0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+        30% { transform: translateY(-6px); opacity: 1; }
+      }
+      .process-step { cursor: pointer; transition: background 0.2s ease, box-shadow 0.2s ease; border-radius: 8px; }
+      .process-step:hover { background: #F5F7FA; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    `;
+    document.head.appendChild(__aiExtraStyle);
+
+    // ── Scroll chat to bottom on load ──
+    window.addEventListener('load', () => {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+
+    // ═══════════════ Enhanced Interactions ═══════════════
+
+    // ── 1. 快捷问题标签 ──
+    var __quickTags = ['光模块功率异常如何排查？', 'show interface 命令详解', '如何发起RMA流程？', '配置Log上传步骤'];
+    var __quickBar = document.createElement('div');
+    __quickBar.style.cssText = 'display:flex;gap:8px;padding:8px 12px;flex-wrap:wrap;';
+    __quickTags.forEach(function(tag) {
+      var el = document.createElement('button');
+      el.textContent = tag;
+      el.style.cssText = 'padding:5px 12px;background:var(--color-primary-light);color:var(--color-primary);border:1px solid transparent;border-radius:14px;font-size:12px;cursor:pointer;font-family:var(--font-family);transition:all .2s;white-space:nowrap;';
+      el.addEventListener('mouseenter', function() { this.style.borderColor = 'var(--color-primary)'; });
+      el.addEventListener('mouseleave', function() { this.style.borderColor = 'transparent'; });
+      el.addEventListener('click', function() {
+        chatTextarea.value = tag;
+        sendMessage();
+      });
+      __quickBar.appendChild(el);
+    });
+    var __chatInputArea = document.querySelector('.chat-input-area');
+    if (__chatInputArea && __chatInputArea.parentNode) {
+      __chatInputArea.parentNode.insertBefore(__quickBar, __chatInputArea);
+    }
+
+    // ── 2. 历史会话列表 ──
+    var __sessions = [
+      { title: 'Gi0/0/1接口down排查', time: '14:26', active: true },
+      { title: 'OSPF邻居关系抖动', time: '13:10', active: false },
+      { title: 'BGP路由优选问题', time: '11:45', active: false },
+      { title: 'MSTP环路排查', time: '09:30', active: false }
+    ];
+    var __sessionPanel = null;
+    var __sessionOverlay = null;
+    function __openSessionPanel() {
+      if (__sessionPanel) return;
+      __sessionOverlay = document.createElement('div');
+      __sessionOverlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:9998;opacity:0;transition:opacity .3s;';
+      __sessionPanel = document.createElement('div');
+      __sessionPanel.style.cssText = 'position:fixed;top:0;right:0;bottom:0;width:300px;background:#fff;z-index:9999;transform:translateX(100%);transition:transform .3s;box-shadow:-4px 0 16px rgba(0,0,0,0.12);font-family:var(--font-family);overflow-y:auto;';
+      var hdr = document.createElement('div');
+      hdr.style.cssText = 'padding:16px 20px;border-bottom:1px solid #EBEEF5;font-size:16px;font-weight:600;color:#303133;display:flex;justify-content:space-between;align-items:center;';
+      hdr.innerHTML = '<span>历史会话</span>';
+      var closeBtn = document.createElement('button');
+      closeBtn.textContent = '\u00d7';
+      closeBtn.style.cssText = 'background:none;border:none;font-size:22px;cursor:pointer;color:#909399;padding:0 4px;';
+      closeBtn.addEventListener('click', __closeSessionPanel);
+      hdr.appendChild(closeBtn);
+      __sessionPanel.appendChild(hdr);
+      __sessions.forEach(function(s) {
+        var row = document.createElement('div');
+        row.style.cssText = 'padding:14px 20px;border-bottom:1px solid #F5F7FA;cursor:pointer;transition:background .15s;' + (s.active ? 'background:var(--color-primary-light);' : '');
+        row.innerHTML = '<div style="font-size:14px;font-weight:500;color:#303133;margin-bottom:4px;">' + s.title + '</div><div style="font-size:12px;color:#909399;">' + s.time + (s.active ? ' \u00b7 当前' : '') + '</div>';
+        row.addEventListener('mouseenter', function() { if (!s.active) this.style.background = '#F9FAFB'; });
+        row.addEventListener('mouseleave', function() { if (!s.active) this.style.background = ''; });
+        row.addEventListener('click', function() {
+          if (!s.active) {
+            showToast('已切换到会话：' + s.title);
+            __closeSessionPanel();
+          }
+        });
+        __sessionPanel.appendChild(row);
+      });
+      __sessionOverlay.addEventListener('click', __closeSessionPanel);
+      document.body.appendChild(__sessionOverlay);
+      document.body.appendChild(__sessionPanel);
+      requestAnimationFrame(function() {
+        __sessionOverlay.style.opacity = '1';
+        __sessionPanel.style.transform = 'translateX(0)';
+      });
+    }
+    function __closeSessionPanel() {
+      if (!__sessionPanel) return;
+      __sessionOverlay.style.opacity = '0';
+      __sessionPanel.style.transform = 'translateX(100%)';
+      setTimeout(function() {
+        if (__sessionPanel) { __sessionPanel.remove(); __sessionPanel = null; }
+        if (__sessionOverlay) { __sessionOverlay.remove(); __sessionOverlay = null; }
+      }, 300);
+    }
+
+    // ── 3. "新建会话" + 历史会话 按钮 (add to chat header) ──
+    var __chatHeader = document.querySelector('.chat-header');
+    if (__chatHeader) {
+      __chatHeader.style.gap = '8px';
+      var historyBtn = document.createElement('button');
+      historyBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>';
+      historyBtn.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:transparent;border:none;cursor:pointer;color:#909399;border-radius:6px;transition:all .2s;flex-shrink:0;';
+      historyBtn.title = '历史会话';
+      historyBtn.addEventListener('mouseenter', function() { this.style.background = '#F5F7FA'; this.style.color = 'var(--color-primary)'; });
+      historyBtn.addEventListener('mouseleave', function() { this.style.background = 'transparent'; this.style.color = '#909399'; });
+      historyBtn.addEventListener('click', __openSessionPanel);
+      __chatHeader.appendChild(historyBtn);
+
+      var newSessionBtn = document.createElement('button');
+      newSessionBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>新建会话</span>';
+      newSessionBtn.style.cssText = 'display:inline-flex;align-items:center;gap:4px;padding:5px 12px;background:var(--color-primary);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-family:var(--font-family);transition:background .2s;flex-shrink:0;';
+      newSessionBtn.addEventListener('mouseenter', function() { this.style.background = 'var(--color-primary-hover)'; });
+      newSessionBtn.addEventListener('mouseleave', function() { this.style.background = 'var(--color-primary)'; });
+      newSessionBtn.addEventListener('click', function() {
+        chatMessages.innerHTML = '';
+        var welcome = document.createElement('div');
+        welcome.className = 'message-row ai';
+        welcome.innerHTML = '<div class="msg-avatar ai-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></div><div class="msg-content"><div class="msg-bubble">您好，我是AI排障助手，请描述您遇到的问题，我将为您分析排查。</div><div class="msg-meta">AI助手 \u00b7 刚刚</div></div>';
+        chatMessages.appendChild(welcome);
+        showToast('已新建会话');
+      });
+      __chatHeader.appendChild(newSessionBtn);
+    }
+
+    // ── 4. 消息复制 (hover show copy button) ──
+    var __copyStyle = document.createElement('style');
+    __copyStyle.textContent = '.message-row .msg-content { position: relative; } .__copyBtn { position:absolute;top:-8px;right:-6px;display:none;padding:3px 8px;background:#fff;border:1px solid var(--color-border);border-radius:4px;font-size:11px;cursor:pointer;color:#606266;z-index:10;box-shadow:0 2px 6px rgba(0,0,0,0.1);font-family:var(--font-family);align-items:center;gap:3px;} .message-row:hover .__copyBtn { display:inline-flex; } .__copyBtn:hover { border-color:var(--color-primary);color:var(--color-primary); }';
+    document.head.appendChild(__copyStyle);
+
+    function __attachCopyButton(msgRow) {
+      var content = msgRow.querySelector('.msg-content');
+      var bubble = msgRow.querySelector('.msg-bubble');
+      if (!content || !bubble || content.querySelector('.__copyBtn')) return;
+      var copyBtn = document.createElement('button');
+      copyBtn.className = '__copyBtn';
+      copyBtn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>复制';
+      copyBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var text = bubble.textContent.trim();
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(function() { showToast('已复制到剪贴板'); }).catch(function() { showToast('已复制到剪贴板'); });
+        } else {
+          showToast('已复制到剪贴板');
+        }
+      });
+      content.appendChild(copyBtn);
+    }
+    document.querySelectorAll('.message-row').forEach(__attachCopyButton);
+
+    // ── 5. 建议追问标签 (wrap sendMessage to add suggestions after AI reply) ──
+    var __origSendMessage = sendMessage;
+    sendMessage = function(forceText) {
+      __origSendMessage(forceText);
+      setTimeout(function() {
+        var rows = chatMessages.querySelectorAll('.message-row');
+        rows.forEach(function(row) {
+          if (!row.querySelector('.__copyBtn')) __attachCopyButton(row);
+        });
+        var lastAi = null;
+        for (var i = rows.length - 1; i >= 0; i--) {
+          if (rows[i].classList.contains('ai')) { lastAi = rows[i]; break; }
+        }
+        if (lastAi && !lastAi.querySelector('.__suggestionTags')) {
+          var suggestions = ['如何查看光模块功率？', '如何发起RMA更换？', '相关配置命令有哪些？'];
+          var tagBar = document.createElement('div');
+          tagBar.className = '__suggestionTags';
+          tagBar.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;';
+          var tagLabel = document.createElement('div');
+          tagLabel.style.cssText = 'font-size:11px;color:#909399;width:100%;margin-bottom:2px;';
+          tagLabel.textContent = '建议追问：';
+          tagBar.appendChild(tagLabel);
+          suggestions.forEach(function(sug) {
+            var tag = document.createElement('button');
+            tag.textContent = sug;
+            tag.style.cssText = 'padding:3px 10px;background:var(--color-primary-light);color:var(--color-primary);border:1px solid transparent;border-radius:12px;font-size:11px;cursor:pointer;font-family:var(--font-family);transition:all .2s;';
+            tag.addEventListener('mouseenter', function() { this.style.borderColor = 'var(--color-primary)'; });
+            tag.addEventListener('mouseleave', function() { this.style.borderColor = 'transparent'; });
+            tag.addEventListener('click', function() { sendMessage(sug); });
+            tagBar.appendChild(tag);
+          });
+          var bubble = lastAi.querySelector('.msg-bubble');
+          if (bubble) bubble.appendChild(tagBar);
+        }
+      }, 1600);
+    };
+
+    // ── 6. 知识库搜索 ──
+    var __knowledgeList = document.getElementById('knowledgeList');
+    if (__knowledgeList) {
+      var searchWrap = document.createElement('div');
+      searchWrap.style.cssText = 'position:relative;padding:0 12px 10px;';
+      var searchInput = document.createElement('input');
+      searchInput.type = 'text';
+      searchInput.placeholder = '搜索知识库...';
+      searchInput.style.cssText = 'width:100%;height:32px;padding:0 36px 0 10px;border:1px solid var(--color-border);border-radius:6px;font-size:13px;font-family:var(--font-family);outline:none;box-sizing:border-box;transition:border-color .2s;';
+      searchInput.addEventListener('focus', function() { this.style.borderColor = 'var(--color-primary)'; });
+      searchInput.addEventListener('blur', function() { this.style.borderColor = 'var(--color-border)'; });
+      var searchBtn = document.createElement('button');
+      searchBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>';
+      searchBtn.style.cssText = 'position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#909399;padding:4px;display:flex;align-items:center;';
+      searchBtn.addEventListener('click', function() {
+        var kw = searchInput.value.trim();
+        if (!kw) { showToast('请输入搜索关键词'); return; }
+        var items = __knowledgeList.querySelectorAll('.knowledge-item');
+        var found = 0;
+        items.forEach(function(it) {
+          var title = it.querySelector('.knowledge-title');
+          var desc = it.querySelector('.knowledge-desc');
+          var text = (title ? title.textContent : '') + (desc ? desc.textContent : '');
+          if (text.indexOf(kw) >= 0) { it.style.display = ''; found++; }
+          else { it.style.display = 'none'; }
+        });
+        if (found > 0) { showToast('找到 ' + found + ' 条相关结果'); }
+        else { showToast('未找到相关结果'); items.forEach(function(it) { it.style.display = ''; }); }
+      });
+      searchInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') searchBtn.click(); });
+      searchWrap.appendChild(searchInput);
+      searchWrap.appendChild(searchBtn);
+      __knowledgeList.parentNode.insertBefore(searchWrap, __knowledgeList);
+    }
+
+    // ── 7. 知识库文章展开/折叠 ──
+    if (__knowledgeList) {
+      var __articleDetails = [
+        '该命令用于查看接口状态、统计信息。参数：interface-type interface-number。常用场景：排查接口物理层/链路层故障，查看错包率、带宽利用率等。',
+        '光模块功率告警错误码说明：接收功率低于阈值-20dBm时触发。处理方式：检查光纤连接、清洁光纤接头、更换光模块。',
+        'CASE-0123 经典案例：某银行核心网Gi接口down，经排查为光模块接收功率-28.3dBm异常，更换SFP-10G-LR后恢复正常。',
+        'FAQ-0045 光模块功率阈值：SFP-10G-LR接收功率阈值-20~-3dBm，发射功率阈值-7~0dBm。超出范围需更换。',
+        'TA-2026-007 技术公告：因批次缺陷，SFP-10G-LR光模块（SN: 2026XXXX）需批量更换，请联系售后发起RMA流程。'
+      ];
+      var __kItems = __knowledgeList.querySelectorAll('.knowledge-item');
+      __kItems.forEach(function(item, idx) {
+        item.removeAttribute('onclick');
+        item.style.cursor = 'pointer';
+        var detail = document.createElement('div');
+        detail.className = '__kbDetail';
+        detail.style.cssText = 'display:none;padding:10px 12px;font-size:12px;color:#606266;line-height:1.6;background:#F9FAFB;border-top:1px solid #EBEEF5;';
+        detail.textContent = __articleDetails[idx] || '点击查看详细内容';
+        item.appendChild(detail);
+        item.addEventListener('click', function(e) {
+          if (e.target.closest('.__kbDetail')) return;
+          detail.style.display = detail.style.display === 'none' ? 'block' : 'none';
+        });
+      });
+    }
+  </script>
+
+
+    <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      color: #303133;
+      background: #F5F7FA;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    /* ── Header ── */
+    .admin-header {
+      height: 60px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #DCDFE6;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+    }
+    .header-logo {
+      display: flex; align-items: center; gap: 10px;
+      flex-shrink: 0; width: 208px;
+    }
+    .header-logo .logo-icon {
+      width: 32px; height: 32px;
+      background: #1A6FD4;
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .header-logo .logo-text {
+      font-size: 16px; font-weight: 600; color: #303133;
+      white-space: nowrap;
+    }
+    .header-search {
+      flex: 1; max-width: 480px; margin: 0 auto; position: relative;
+    }
+    .header-search input {
+      width: 100%; height: 36px;
+      border: 1px solid #DCDFE6; border-radius: 4px;
+      padding: 0 12px 0 36px;
+      font-size: 14px; color: #303133;
+      background: #F5F7FA; outline: none;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+    .header-search input::placeholder { color: #C0C4CC; }
+    .header-search input:focus { border-color: #1A6FD4; background: #FFFFFF; }
+    .header-search .search-icon {
+      position: absolute; left: 10px; top: 50%;
+      transform: translateY(-50%);
+      color: #C0C4CC; pointer-events: none;
+    }
+    .header-right {
+      display: flex; align-items: center; gap: 20px; flex-shrink: 0;
+    }
+    .header-bell {
+      position: relative; cursor: pointer; color: #606266;
+      transition: color 0.2s;
+    }
+    .header-bell:hover { color: #1A6FD4; }
+    .header-bell .bell-badge {
+      position: absolute; top: -6px; right: -8px;
+      background: #E74C3C; color: #FFFFFF;
+      font-size: 11px; font-weight: 600;
+      min-width: 16px; height: 16px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 4px; line-height: 1;
+    }
+    .header-user {
+      display: flex; align-items: center; gap: 8px;
+      cursor: pointer; padding: 4px 8px;
+      border-radius: 4px; transition: background 0.2s;
+    }
+    .header-user:hover { background: #F5F7FA; }
+    .header-user .avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #1A6FD4; color: #FFFFFF;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 500;
+    }
+    .header-user .user-name { font-size: 14px; color: #303133; }
+    .header-user .chevron { color: #909399; transition: transform 0.2s; }
+
+    /* ── Sidebar ── */
+    .admin-sidebar {
+      width: 208px;
+      background: #FFFFFF;
+      position: fixed;
+      top: 60px; left: 0; bottom: 0;
+      border-right: 1px solid #DCDFE6;
+      overflow-y: auto;
+      z-index: 900;
+    }
+    .admin-sidebar::-webkit-scrollbar { width: 4px; }
+    .admin-sidebar::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 2px; }
+    .admin-sidebar::-webkit-scrollbar-track { background: transparent; }
+
+    .sidebar-group-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 20px; cursor: pointer;
+      font-size: 14px; color: #303133; font-weight: 500;
+      transition: background 0.2s; user-select: none;
+    }
+    .sidebar-group-header:hover { background: #F5F7FA; }
+    .sidebar-group-header .group-icon {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .sidebar-group-header .chevron-icon {
+      transition: transform 0.2s; color: #909399;
+    }
+    .sidebar-group-header .chevron-icon.collapsed { transform: rotate(-90deg); }
+
+    .sidebar-menu { list-style: none; }
+    .sidebar-menu li { position: relative; }
+    .sidebar-menu li a {
+      display: block;
+      padding: 0 20px 0 44px;
+      height: 40px; line-height: 40px;
+      font-size: 14px; color: #606266;
+      text-decoration: none; transition: all 0.2s;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .sidebar-menu li a:hover { background: #F5F7FA; color: #1A6FD4; }
+    .sidebar-menu li a.active {
+      color: #1A6FD4; background: #E8F2FC; font-weight: 500;
+    }
+    .sidebar-menu li a.active::before {
+      content: ''; position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px; background: #1A6FD4;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* ── TagsView ── */
+    .tags-view {
+      height: 36px; background: #FFFFFF;
+      border-bottom: 1px solid #DCDFE6;
+      display: flex; align-items: center;
+      padding: 0 16px; gap: 8px;
+      position: fixed;
+      top: 60px; left: 208px; right: 0;
+      z-index: 800;
+      overflow-x: auto;
+    }
+    .tags-view::-webkit-scrollbar { display: none; }
+    .tag-item {
+      display: inline-flex; align-items: center; gap: 4px;
+      height: 26px; padding: 0 10px;
+      border-radius: 3px; font-size: 12px;
+      cursor: pointer; white-space: nowrap;
+      border: 1px solid #DCDFE6; color: #606266;
+      background: #FFFFFF; transition: all 0.2s; flex-shrink: 0;
+    }
+    .tag-item:hover { color: #1A6FD4; }
+    .tag-item.active {
+      background: #E8F2FC; color: #1A6FD4;
+      border-color: #1A6FD4;
+    }
+    .tag-item .tag-close {
+      width: 14px; height: 14px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; transition: background 0.2s; margin-left: 2px;
+    }
+    .tag-item .tag-close:hover { background: rgba(26,111,212,0.2); color: #1A6FD4; }
+    .tags-add {
+      width: 26px; height: 26px; border-radius: 3px;
+      border: 1px solid #DCDFE6;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: #909399; flex-shrink: 0;
+      transition: all 0.2s; background: #FFFFFF;
+    }
+    .tags-add:hover { color: #1A6FD4; border-color: #1A6FD4; }
+
+    /* ── Main Layout ── */
+    .admin-main {
+      margin-left: 208px; margin-top: 96px;
+      height: calc(100vh - 96px);
+      overflow-y: auto;
+      background: #F5F7FA;
+    }
+    .admin-main::-webkit-scrollbar { width: 6px; }
+    .admin-main::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 3px; }
+    .admin-main::-webkit-scrollbar-track { background: transparent; }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb-bar {
+      height: 32px;
+      display: flex; align-items: center;
+      padding: 0 24px;
+      font-size: 13px; color: #909399;
+      background: #FFFFFF;
+      border-bottom: 1px solid #EBEEF5;
+    }
+    .breadcrumb-bar a { color: #606266; text-decoration: none; transition: color 0.2s; }
+    .breadcrumb-bar a:hover { color: #1A6FD4; }
+    .breadcrumb-bar .sep { margin: 0 8px; color: #C0C4CC; }
+    .breadcrumb-bar .current { color: #303133; }
+
+    /* ── Content ── */
+    .page-content { padding: 16px; }
+
+    /* ── Tool Selection Bar ── */
+    .tool-bar-card {
+      background: #FFFFFF;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .tool-bar-label {
+      font-size: 14px; font-weight: 600; color: #303133;
+      white-space: nowrap;
+    }
+    .tool-pills {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .tool-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px; cursor: pointer;
+      border: 1px solid #DCDFE6;
+      background: #F5F7FA;
+      color: #606266;
+      transition: all 0.2s;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .tool-pill:hover {
+      border-color: #1A6FD4;
+      color: #1A6FD4;
+    }
+    .tool-pill.active {
+      background: #E8F2FC;
+      color: #1A6FD4;
+      border-color: #1A6FD4;
+      font-weight: 500;
+    }
+    .tool-pill svg { width: 14px; height: 14px; }
+
+    .scene-type {
+      display: flex; align-items: center; gap: 16px;
+      margin-left: auto;
+    }
+    .scene-type-label {
+      font-size: 13px; color: #909399;
+    }
+    .radio-group {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .radio-item {
+      display: flex; align-items: center; gap: 6px;
+      cursor: pointer; font-size: 14px; color: #303133;
+      user-select: none;
+    }
+    .radio-item .radio-circle {
+      width: 16px; height: 16px;
+      border: 2px solid #DCDFE6;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s;
+    }
+    .radio-item .radio-circle .radio-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #1A6FD4;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .radio-item.active .radio-circle { border-color: #1A6FD4; }
+    .radio-item.active .radio-circle .radio-dot { opacity: 1; }
+    .radio-item.active { color: #1A6FD4; font-weight: 500; }
+
+    /* ── Split Panel ── */
+    .split-panel {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      align-items: stretch;
+    }
+
+    /* ── Chat Panel ── */
+    .chat-panel {
+      flex: 2;
+      background: #FFFFFF;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      min-height: 520px;
+      max-height: calc(100vh - 280px);
+    }
+    .chat-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid #EBEEF5;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .chat-header-title {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 16px; font-weight: 600; color: #303133;
+    }
+    .chat-header-title svg { color: #1A6FD4; }
+    .chat-header-status {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: #27AE60;
+    }
+    .chat-header-status .status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #27AE60;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      scroll-behavior: smooth;
+    }
+    .chat-messages::-webkit-scrollbar { width: 6px; }
+    .chat-messages::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 3px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
+
+    .message-row {
+      display: flex;
+      margin-bottom: 20px;
+      gap: 12px;
+    }
+    .message-row.user {
+      flex-direction: row-reverse;
+    }
+    .msg-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .msg-avatar.user-avatar {
+      background: #1A6FD4;
+      color: #FFFFFF;
+      font-size: 13px; font-weight: 500;
+    }
+    .msg-avatar.ai-avatar {
+      background: #1A6FD4;
+      color: #FFFFFF;
+    }
+    .msg-avatar.ai-avatar svg { width: 20px; height: 20px; }
+    .msg-content {
+      max-width: 75%;
+      display: flex;
+      flex-direction: column;
+    }
+    .message-row.user .msg-content {
+      align-items: flex-end;
+    }
+    .msg-bubble {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.6;
+      word-break: break-word;
+    }
+    .message-row.user .msg-bubble {
+      background: #E8F2FC;
+      color: #303133;
+    }
+    .message-row.ai .msg-bubble {
+      background: #FFFFFF;
+      border: 1px solid #E8E8E8;
+      color: #303133;
+    }
+    .msg-meta {
+      font-size: 11px;
+      color: #909399;
+      margin-top: 4px;
+    }
+
+    .tool-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #E8F2FC;
+      color: #1A6FD4;
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .tool-badge svg { width: 12px; height: 12px; }
+
+    .msg-list {
+      margin: 8px 0;
+      padding-left: 0;
+      list-style: none;
+      counter-reset: step-counter;
+    }
+    .msg-list li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 6px;
+      counter-increment: step-counter;
+    }
+    .msg-list li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0; top: 0;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: #E8F2FC;
+      color: #1A6FD4;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .msg-list li:last-child { margin-bottom: 0; }
+
+    .msg-code {
+      background: #F5F7FA;
+      border: 1px solid #EBEEF5;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-family: "Consolas", "Monaco", "Courier New", monospace;
+      font-size: 13px;
+      color: #1A6FD4;
+      margin: 8px 0;
+      word-break: break-all;
+    }
+
+    .msg-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .btn-msg-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 12px;
+      border: 1px solid #DCDFE6;
+      border-radius: 4px;
+      background: #FFFFFF;
+      color: #606266;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .btn-msg-action:hover {
+      color: #1A6FD4;
+      border-color: #1A6FD4;
+    }
+    .btn-msg-action svg { width: 12px; height: 12px; }
+
+    .tool-result-summary {
+      margin-top: 10px;
+      padding: 10px 12px;
+      background: #F0F9EB;
+      border: 1px solid #E1F3D8;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #67C23A;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .tool-result-summary svg {
+      width: 16px; height: 16px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Chat Input ── */
+    .chat-input-area {
+      padding: 12px 20px 16px;
+      border-top: 1px solid #EBEEF5;
+      flex-shrink: 0;
+    }
+    .chat-input-wrapper {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      background: #F5F7FA;
+      border: 1px solid #DCDFE6;
+      border-radius: 8px;
+      padding: 8px 12px;
+      transition: border-color 0.2s;
+    }
+    .chat-input-wrapper:focus-within {
+      border-color: #1A6FD4;
+      background: #FFFFFF;
+    }
+    .chat-attach-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent;
+      color: #909399; cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .chat-attach-btn:hover {
+      color: #1A6FD4;
+      background: #E8F2FC;
+    }
+    .chat-attach-btn svg { width: 18px; height: 18px; }
+    .chat-textarea {
+      flex: 1;
+      border: none; outline: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 14px;
+      color: #303133;
+      resize: none;
+      min-height: 32px;
+      max-height: 120px;
+      line-height: 1.5;
+      padding: 6px 0;
+    }
+    .chat-textarea::placeholder { color: #C0C4CC; }
+    .chat-send-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px;
+      border: none;
+      background: #1A6FD4;
+      color: #FFFFFF;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .chat-send-btn:hover { background: #3B8AE0; }
+    .chat-send-btn:active { background: #1565C0; }
+    .chat-send-btn svg { width: 16px; height: 16px; }
+    .chat-input-hint {
+      font-size: 12px;
+      color: #C0C4CC;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .chat-input-hint kbd {
+      background: #F5F7FA;
+      border: 1px solid #DCDFE6;
+      border-radius: 3px;
+      padding: 0 4px;
+      font-size: 11px;
+      color: #909399;
+      font-family: inherit;
+    }
+
+    /* ── Knowledge Panel ── */
+    .knowledge-panel {
+      flex: 1;
+      background: #FFFFFF;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      min-height: 520px;
+      max-height: calc(100vh - 280px);
+    }
+    .knowledge-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid #EBEEF5;
+      display: flex; align-items: center; gap: 8px;
+      flex-shrink: 0;
+    }
+    .knowledge-header svg { color: #1A6FD4; }
+    .knowledge-header-title {
+      font-size: 16px; font-weight: 600; color: #303133;
+    }
+    .knowledge-header-count {
+      margin-left: auto;
+      font-size: 12px;
+      color: #909399;
+      background: #F5F7FA;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .knowledge-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+    }
+    .knowledge-list::-webkit-scrollbar { width: 6px; }
+    .knowledge-list::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 3px; }
+    .knowledge-list::-webkit-scrollbar-track { background: transparent; }
+
+    .knowledge-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-bottom: 4px;
+      border: 1px solid transparent;
+    }
+    .knowledge-item:hover {
+      background: #F5F7FA;
+      border-color: #EBEEF5;
+    }
+    .knowledge-item:last-child { margin-bottom: 0; }
+    .knowledge-icon {
+      width: 32px; height: 32px;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .knowledge-icon.doc { background: #E8F2FC; color: #1A6FD4; }
+    .knowledge-icon.case { background: #F0F9EB; color: #67C23A; }
+    .knowledge-icon.faq { background: #FDF6EC; color: #E6A23C; }
+    .knowledge-icon.announce { background: #FDECEA; color: #E74C3C; }
+    .knowledge-icon svg { width: 16px; height: 16px; }
+    .knowledge-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .knowledge-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: #303133;
+      margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .knowledge-item:hover .knowledge-title {
+      color: #1A6FD4;
+    }
+    .knowledge-desc {
+      font-size: 12px;
+      color: #909399;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .knowledge-footer {
+      padding: 12px 20px;
+      border-top: 1px solid #EBEEF5;
+      flex-shrink: 0;
+    }
+    .view-all-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #1A6FD4;
+      cursor: pointer;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .view-all-link:hover { color: #3B8AE0; }
+    .view-all-link svg { width: 14px; height: 14px; }
+
+    /* ── Diagnosis Section ── */
+    .diagnosis-card {
+      background: #FFFFFF;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .diagnosis-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .diagnosis-title {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 16px; font-weight: 600; color: #303133;
+    }
+    .diagnosis-title svg { color: #1A6FD4; }
+    .diagnosis-actions {
+      display: flex; gap: 8px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 32px;
+      padding: 0 16px;
+      border: 1px solid #1A6FD4;
+      border-radius: 4px;
+      background: #1A6FD4;
+      color: #FFFFFF;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .btn-primary:hover { background: #3B8AE0; border-color: #3B8AE0; }
+    .btn-primary:active { background: #1565C0; border-color: #1565C0; }
+    .btn-primary svg { width: 14px; height: 14px; }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 32px;
+      padding: 0 14px;
+      border: 1px solid #DCDFE6;
+      border-radius: 4px;
+      background: #FFFFFF;
+      color: #606266;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .btn-outline:hover { color: #1A6FD4; border-color: #1A6FD4; }
+    .btn-outline svg { width: 14px; height: 14px; }
+
+    /* ── Process Flow ── */
+    .process-flow {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .process-flow::-webkit-scrollbar { height: 4px; }
+    .process-flow::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 2px; }
+
+    .process-step {
+      flex: 1;
+      min-width: 150px;
+      background: #F5F7FA;
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      border: 1px solid #EBEEF5;
+    }
+    .process-step-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .process-step-num {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: #1A6FD4;
+      color: #FFFFFF;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .process-step-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #303133;
+    }
+    .process-step-body {
+      font-size: 12px;
+      color: #606266;
+      line-height: 1.5;
+    }
+    .process-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      flex-shrink: 0;
+      color: #C0C4CC;
+    }
+    .process-arrow svg { width: 20px; height: 20px; }
+
+    .template-fields-note {
+      margin-top: 16px;
+      padding: 10px 14px;
+      background: #F5F7FA;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #909399;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .template-fields-note svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .template-fields-note strong {
+      color: #606266;
+      font-weight: 500;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: #303133;
+      color: #FFFFFF;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .toast svg { width: 16px; height: 16px; color: #27AE60; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: #C0C4CC; border-radius: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+  </style>
+<script>
+/* === Sidebar Navigation Fix === */
+(function(){
+  function navToast(msg){
+    if(typeof window.showToast==='function'){try{window.showToast(msg);return;}catch(e){}}
+    var t=document.createElement('div');
+    t.style.cssText='position:fixed;top:16px;right:16px;background:#303133;color:#fff;padding:12px 20px;border-radius:4px;z-index:99999;font-size:14px;opacity:0;transition:opacity .3s;box-shadow:0 2px 12px rgba(0,0,0,.15)';
+    document.body.appendChild(t);
+    t.textContent=msg;
+    requestAnimationFrame(function(){t.style.opacity='1';});
+    setTimeout(function(){t.style.opacity='0';setTimeout(function(){t.remove();},300);},2500);
+  }
+  var navMap={'项目总体跟踪':'overall-tracking.html','工前准备':'pre-work.html','施工计划':'construction-plan.html','实施方案':'implementation-plan.html','实施部署':'deployment.html','割接管理':'cutover.html','客户资产库':'customer-asset.html','AI排障与知识库':'ai-troubleshoot.html'};
+  var toastLabels=['售前测试管理','项目转包（代施）','验收交维','技术公告与周报','回访与维保','ITR故障与RMA'];
+  var groupConfig={
+    '交付跟踪':[{label:'项目总体跟踪',url:'overall-tracking.html'},{label:'售前测试管理',toast:true},{label:'项目转包（代施）',toast:true}],
+    '交付执行':[{label:'工前准备',url:'pre-work.html'},{label:'施工计划',url:'construction-plan.html'},{label:'实施方案',url:'implementation-plan.html'},{label:'实施部署',url:'deployment.html'},{label:'验收交维',toast:true},{label:'割接管理',url:'cutover.html'}],
+    '交付支撑':[{label:'客户资产库',url:'customer-asset.html'},{label:'技术公告与周报',toast:true},{label:'回访与维保',toast:true},{label:'AI排障与知识库',url:'ai-troubleshoot.html'},{label:'ITR故障与RMA',toast:true}]
+  };
+  var typeA=document.querySelectorAll('.sidebar-menu').length>0;
+  var typeB=!typeA&&document.querySelectorAll('.sidebar-item').length>0;
+  function txt(el){return(el.textContent||'').trim();}
+  function createItem(cfg){
+    if(typeA){
+      var li=document.createElement('li');
+      var a=document.createElement('a');
+      a.textContent=cfg.label;
+      if(cfg.toast){a.setAttribute('href','#');a.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});}
+      else if(cfg.url){a.setAttribute('href',cfg.url);}
+      li.appendChild(a);
+      return li;
+    }else{
+      var div=document.createElement('div');
+      div.className='sidebar-item';
+      div.textContent=cfg.label;
+      div.style.cursor='pointer';
+      if(cfg.toast){div.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});}
+      else if(cfg.url){div.addEventListener('click',function(e){e.preventDefault();__safeNav(cfg.url);});}
+      return div;
+    }
+  }
+  Object.keys(groupConfig).forEach(function(gName){
+    var container=null;
+    if(typeA){document.querySelectorAll('.sidebar-group-header').forEach(function(h){if(txt(h).indexOf(gName)>=0){container=h.parentElement.querySelector('.sidebar-menu');}});}
+    else if(typeB){document.querySelectorAll('.sidebar-group-title').forEach(function(t2){if(txt(t2).indexOf(gName)>=0){container=t2.parentElement.querySelector('.sidebar-group-items');}});}
+    if(!container)return;
+    var existing={};
+    var sel=typeA?'a':'.sidebar-item';
+    container.querySelectorAll(sel).forEach(function(el){existing[txt(el)]=true;});
+    groupConfig[gName].forEach(function(cfg){if(!existing[cfg.label]){container.appendChild(createItem(cfg));}});
+  });
+  var allLinks=typeA?document.querySelectorAll('.sidebar-menu a'):document.querySelectorAll('.sidebar-item');
+  allLinks.forEach(function(item){
+    var t=txt(item);
+    if(navMap[t]){
+      var url=navMap[t];
+      if(typeA){
+        if(item.tagName==='A'&&item.getAttribute('href')!==url){item.setAttribute('href',url);item.removeAttribute('onclick');}
+      }else{
+        item.removeAttribute('onclick');
+        item.style.cursor='pointer';
+        var ni=item.cloneNode(true);
+        ni.addEventListener('click',function(e){e.preventDefault();__safeNav(url);});
+        if(item.parentNode)item.parentNode.replaceChild(ni,item);
+      }
+      return;
+    }
+    if(toastLabels.indexOf(t)>=0){
+      if(typeA){
+        var href=item.getAttribute('href')||'';
+        var oc=item.getAttribute('onclick')||'';
+        if(href==='#'||oc.indexOf('return false')>=0||href===''){
+          var na=item.cloneNode(true);
+          na.setAttribute('href','#');
+          na.removeAttribute('onclick');
+          na.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});
+          if(item.parentNode)item.parentNode.replaceChild(na,item);
+        }
+      }else{
+        var oc2=item.getAttribute('onclick')||'';
+        if(oc2.indexOf('return false')>=0){
+          item.removeAttribute('onclick');
+          item.style.cursor='pointer';
+          var nd=item.cloneNode(true);
+          nd.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});
+          if(item.parentNode)item.parentNode.replaceChild(nd,item);
+        }
+      }
+    }
+  });
+  ['集成与报表','系统管理'].forEach(function(gName){
+    if(typeA){
+      document.querySelectorAll('.sidebar-group-header').forEach(function(h){
+        if(txt(h)===gName){
+          h.style.cursor='pointer';
+          h.addEventListener('click',function(){var m=h.parentElement.querySelector('.sidebar-menu');if(m&&m.children.length===0)navToast('功能开发中');});
+        }
+      });
+    }else if(typeB){
+      document.querySelectorAll('.sidebar-group-title').forEach(function(t2){
+        if(txt(t2)===gName){
+          t2.addEventListener('click',function(){var it=t2.parentElement.querySelector('.sidebar-group-items');if(it&&it.children.length===0)navToast('功能开发中');});
+        }
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

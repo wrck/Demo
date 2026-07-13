@@ -1,0 +1,220 @@
+{
+  "data": [
+    {
+      "id": "page-login",
+      "title": "登录页",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752177600000,
+      "canvasData": {
+        "x": 0,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/login.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "page-overall-tracking",
+      "title": "项目总体跟踪",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752177600000,
+      "canvasData": {
+        "x": 620,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/overall-tracking.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "page-project-tracking",
+      "title": "单项目跟踪",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752177600000,
+      "canvasData": {
+        "x": 1240,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/project-tracking.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "page-pre-work",
+      "title": "工前准备",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752177600000,
+      "canvasData": {
+        "x": 1860,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/pre-work.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "page-construction-plan",
+      "title": "施工计划",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752177600000,
+      "canvasData": {
+        "x": 2480,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/construction-plan.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "page-implementation-plan",
+      "title": "实施方案",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752177600000,
+      "canvasData": {
+        "x": 3100,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/implementation-plan.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "page-deployment",
+      "title": "实施部署",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752177600000,
+      "canvasData": {
+        "x": 3720,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/deployment.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "page-cutover",
+      "title": "割接管理",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752177600000,
+      "canvasData": {
+        "x": 4340,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/cutover.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "page-customer-asset",
+      "title": "客户资产库",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752177600000,
+      "canvasData": {
+        "x": 4960,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/customer-asset.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "page-offline-mode",
+      "title": "桌面客户端离线模式",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752177600000,
+      "canvasData": {
+        "x": 5580,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/offline-mode.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "page-ai-troubleshoot",
+      "title": "AI 排障",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752177600000,
+      "canvasData": {
+        "x": 6200,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/ai-troubleshoot.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "page-mobile-workbench",
+      "title": "工程师工作台(移动端)",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752177600000,
+      "canvasData": {
+        "x": 0,
+        "y": 377,
+        "group": 1
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/mobile-workbench.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "page-mobile-signoff",
+      "title": "客户签核(移动端)",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752177600000,
+      "canvasData": {
+        "x": 620,
+        "y": 377,
+        "group": 1
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/mobile-signoff.html",
+        "interactions": []
+      }
+    }
+  ],
+  "config": {
+    "autoLayout": true,
+    "deviceType": "desktop",
+    "projectName": "PMS 交付管理系统",
+    "designLibrary": null,
+    "showEdge": false,
+    "visualEditorEnabled": true
+  }
+}

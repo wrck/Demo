@@ -1,0 +1,71 @@
+{
+  "project": {
+    "name": "PMS 交付跟踪",
+    "operation": "create",
+    "operatingMode": "free-explore",
+    "deviceType": "desktop",
+    "designRead": "enterprise-admin-dashboard / project-managers / professional-restrained / information-dense / generic-SaaS-look",
+    "designDials": { "layoutVariance": 2, "motionIntensity": 1, "visualDensity": 4 },
+    "pageCount": 2,
+    "generationTree": {
+      "root": {
+        "nodeId": "gen-project-shell",
+        "kind": "project-shell",
+        "pageIds": ["page-overall-tracking", "page-project-tracking"],
+        "output": "partials/project-shell.html",
+        "status": "planned",
+        "children": [
+          {
+            "nodeId": "gen-page-overall-tracking",
+            "kind": "page-leaf",
+            "pageIds": ["page-overall-tracking"],
+            "output": "pages/overall-tracking.html",
+            "status": "planned",
+            "children": []
+          },
+          {
+            "nodeId": "gen-page-project-tracking",
+            "kind": "page-leaf",
+            "pageIds": ["page-project-tracking"],
+            "output": "pages/project-tracking.html",
+            "status": "planned",
+            "children": []
+          }
+        ]
+      }
+    }
+  },
+  "designSource": {
+    "operatingMode": "free-explore",
+    "brandCssPath": "colors_and_type.css"
+  },
+  "pages": [
+    {
+      "nodeId": "page-overall-tracking",
+      "title": "项目总体跟踪",
+      "htmlSrc": "pages/overall-tracking.html",
+      "pageIndex": 1,
+      "pageType": "information-dense",
+      "visualNorthStar": "PMS management dashboard with 8 stat cards row, search filters, and data table. Element Plus component style, professional blue theme.",
+      "chartsRequired": false
+    },
+    {
+      "nodeId": "page-project-tracking",
+      "title": "单项目跟踪",
+      "htmlSrc": "pages/project-tracking.html",
+      "pageIndex": 2,
+      "pageType": "information-dense",
+      "visualNorthStar": "Single project tracking with left 200px 2-level nav, project info card, lifecycle state machine (30->31->32->40->100), nested sub-stage progress bar, and content area.",
+      "chartsRequired": false
+    }
+  ],
+  "assets": [],
+  "wiringPlan": [
+    {
+      "from": "page-overall-tracking",
+      "to": "page-project-tracking",
+      "domId": "btn-track-project",
+      "label": "进入单项目跟踪"
+    }
+  ]
+}

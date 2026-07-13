@@ -1,0 +1,2472 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>割接管理 - PMS项目交付管理系统</title>
+    <style id="theme-vars">
+:root {
+  /* ── Brand ── */
+  --color-primary: #1A6FD4;
+  --color-primary-hover: #3B8AE0;
+  --color-primary-light: #E8F2FC;
+  --color-text-muted: #5A6477;
+  --color-border: #DCDFE6;
+
+  /* ── State Colors ── */
+  --state-success: #27AE60;
+  --state-info: #2E8BE6;
+  --state-warning: #F39C12;
+  --state-error: #E74C3C;
+  --state-locked: #8E44AD;
+  --state-disabled: #BDBDBD;
+
+  /* ── Surface ── */
+  --bg-page: #F5F7FA;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F5F7FA;
+  --bg-active: #E8F2FC;
+
+  /* ── Text ── */
+  --text-primary: #303133;
+  --text-tertiary: #909399;
+  --text-white: #FFFFFF;
+
+  /* ── Typography ── */
+  --font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  --text-h1: 600 24px/1.5 var(--font-family);
+  --text-h2: 600 20px/1.5 var(--font-family);
+  --text-h3: 600 16px/1.5 var(--font-family);
+  --text-body: 400 14px/1.5 var(--font-family);
+  --text-caption: 400 12px/1.5 var(--font-family);
+  --text-stat: 600 28px/1.5 var(--font-family);
+
+  /* ── Semantic Token Aliases (Tailwind bridge) ── */
+  --background: #F5F7FA;
+  --foreground: #303133;
+  --card: #FFFFFF;
+  --card-foreground: #303133;
+  --muted: #F5F7FA;
+  --muted-foreground: #909399;
+  --primary-foreground: #FFFFFF;
+  --border: #DCDFE6;
+  --input: #DCDFE6;
+  --ring: #1A6FD4;
+
+  /* ── Radius ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* ── Shadow ── */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  /* ── Spacing ── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+    </style>
+    <script type="application/json" data-cdn="@tailwindcss/browser@4.3.1"></script>
+    <script type="application/json" data-cdn="lucide@1.8.0"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-primary: var(--color-primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+  }
+  @layer base {
+    body { background: var(--background); color: var(--foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--background); }
+      .text-background { color: var(--background); }
+      .border-background { border-color: var(--background); }
+      .ring-background { --tw-ring-color: var(--background); }
+      .bg-foreground { background-color: var(--foreground); }
+      .text-foreground { color: var(--foreground); }
+      .border-foreground { border-color: var(--foreground); }
+      .ring-foreground { --tw-ring-color: var(--foreground); }
+      .bg-card { background-color: var(--card); }
+      .text-card { color: var(--card); }
+      .border-card { border-color: var(--card); }
+      .ring-card { --tw-ring-color: var(--card); }
+      .bg-card-foreground { background-color: var(--card-foreground); }
+      .text-card-foreground { color: var(--card-foreground); }
+      .border-card-foreground { border-color: var(--card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--card-foreground); }
+      .bg-primary { background-color: var(--color-primary); }
+      .text-primary { color: var(--color-primary); }
+      .border-primary { border-color: var(--color-primary); }
+      .ring-primary { --tw-ring-color: var(--color-primary); }
+      .bg-primary-foreground { background-color: var(--primary-foreground); }
+      .text-primary-foreground { color: var(--primary-foreground); }
+      .border-primary-foreground { border-color: var(--primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--primary-foreground); }
+      .bg-muted { background-color: var(--muted); }
+      .text-muted { color: var(--muted); }
+      .border-muted { border-color: var(--muted); }
+      .ring-muted { --tw-ring-color: var(--muted); }
+      .bg-muted-foreground { background-color: var(--muted-foreground); }
+      .text-muted-foreground { color: var(--muted-foreground); }
+      .border-muted-foreground { border-color: var(--muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--muted-foreground); }
+      .bg-border { background-color: var(--border); }
+      .text-border { color: var(--border); }
+      .border-border { border-color: var(--border); }
+      .ring-border { --tw-ring-color: var(--border); }
+      .bg-input { background-color: var(--input); }
+      .text-input { color: var(--input); }
+      .border-input { border-color: var(--input); }
+      .ring-input { --tw-ring-color: var(--input); }
+      .bg-ring { background-color: var(--ring); }
+      .text-ring { color: var(--ring); }
+      .border-ring { border-color: var(--ring); }
+      .ring-ring { --tw-ring-color: var(--ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+<script>
+(function(){
+  var __lastNav = '';
+  var __lastNavTime = 0;
+  window.__safeNav = function(url) {
+    var now = Date.now();
+    if (url === __lastNav && (now - __lastNavTime) < 800) return;
+    __lastNav = url;
+    __lastNavTime = now;
+    try { window.parent.postMessage({ type: 'design-navigate', url: url }, '*'); } catch(e) {}
+    var name = url.replace(/\.html$/, '').replace(/-/g, ' ');
+    if (typeof window.showToast === 'function') {
+      window.showToast('页面跳转: ' + name);
+    } else if (typeof window.showToastDelivery === 'function') {
+      window.showToastDelivery('页面跳转: ' + name);
+    } else {
+      var t = document.createElement('div');
+      t.textContent = '页面跳转: ' + name;
+      t.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1A6FD4;color:#fff;padding:10px 24px;border-radius:8px;z-index:99999;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-family:sans-serif;';
+      document.body.appendChild(t);
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 2000);
+    }
+  };
+  document.addEventListener('click', function(e) {
+    var el = e.target;
+    while (el && el !== document) {
+      if (el.hasAttribute && el.hasAttribute('data-nav-target')) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.__safeNav(el.getAttribute('data-nav-target'));
+        return false;
+      }
+      el = el.parentElement;
+    }
+  }, true);
+})();
+</script>
+<script>
+(function(){
+  // Suppress cross-origin security errors that occur when canvas SDK
+  // cleans up the srcdoc iframe during page switching.
+  // The iframe has null origin (srcdoc mode) while the host has vscode-file:// origin.
+  var origError = window.onerror;
+  window.onerror = function(msg, url, line, col, err) {
+    if (typeof msg === 'string' && (msg.indexOf('removeEventListener') !== -1 || msg.indexOf('cross-origin') !== -1 || msg.indexOf('security policy') !== -1)) {
+      return true; // suppress
+    }
+    if (origError) return origError.apply(this, arguments);
+    return false;
+  };
+  window.addEventListener('unhandledrejection', function(e) {
+    if (e.reason && typeof e.reason.message === 'string' && (e.reason.message.indexOf('removeEventListener') !== -1 || e.reason.message.indexOf('cross-origin') !== -1)) {
+      e.preventDefault();
+    }
+  });
+})();
+</script>
+    <!-- ==================== Header ==================== -->
+    <header class="admin-header">
+        <div class="header-logo">
+            <div class="logo-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <span class="logo-text">PMS 项目交付管理系统</span>
+        </div>
+        <div class="header-search">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input type="text" placeholder="搜索办事处/项目名称/合同号...">
+        </div>
+        <div class="header-right">
+            <div class="header-bell">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span class="bell-badge">3</span>
+            </div>
+            <div class="header-user">
+                <div class="avatar">张</div>
+                <span class="user-name">张三</span>
+                <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== Sidebar ==================== -->
+    <aside class="admin-sidebar">
+        <!-- 交付跟踪 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    交付跟踪
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;">
+                <li><a href="#" data-nav-target="overall-tracking.html">项目总体跟踪</a></li>
+                <li><a href="#" onclick="return false">售前测试管理</a></li>
+                <li><a href="#" onclick="return false">项目转包（代施）</a></li>
+            </ul>
+        </div>
+
+        <!-- 交付执行 (expanded) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                    </svg>
+                    交付执行
+                </span>
+                <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" data-nav-target="pre-work.html">工前准备</a></li>
+                <li><a href="#" data-nav-target="construction-plan.html">施工计划</a></li>
+                <li><a href="#" data-nav-target="implementation-plan.html">实施方案</a></li>
+                <li><a href="#" data-nav-target="deployment.html">实施部署</a></li>
+                <li><a href="#" onclick="return false">验收交维</a></li>
+                <li><a href="#" data-nav-target="cutover.html" class="active">割接管理</a></li>
+            </ul>
+        </div>
+
+        <!-- 交付支撑 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                    交付支撑
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;">
+                <li><a href="#" data-nav-target="customer-asset.html">客户资产库</a></li>
+                <li><a href="#" onclick="return false">技术公告与周报</a></li>
+                <li><a href="#" onclick="return false">回访与维保</a></li>
+                <li><a href="#" data-nav-target="ai-troubleshoot.html">AI排障与知识库</a></li>
+                <li><a href="#" onclick="return false">ITR故障与RMA</a></li>
+            </ul>
+        </div>
+
+        <!-- 集成与报表 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                    集成与报表
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+
+        <!-- 系统管理 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                    系统管理
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+    </aside>
+
+    <!-- ==================== TagsView ==================== -->
+    <div class="tags-view">
+        <div class="tag-item" onclick="__safeNav('overall-tracking.html')">
+            <span>项目总体跟踪</span>
+            <span class="tag-close" onclick="event.stopPropagation();event.preventDefault();return false;">&times;</span>
+        </div>
+        <div class="tag-item active">
+            <span>割接管理</span>
+            <span class="tag-close">&times;</span>
+        </div>
+        <div style="flex:1;"></div>
+        <div class="tags-add">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- ==================== Main Content ==================== -->
+    <div class="admin-main">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar">
+            <a href="#">交付执行</a>
+            <span class="sep">/</span>
+            <span class="current">割接管理</span>
+        </div>
+
+        <div class="page-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">割接管理</h1>
+                <button class="btn-primary" id="btn-create-cutover">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    发起割接
+                </button>
+            </div>
+
+            <!-- ==================== Cutover List Table ==================== -->
+            <div class="table-card">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width:120px;">割接单号</th>
+                            <th>项目</th>
+                            <th style="width:140px;">类型</th>
+                            <th style="width:120px;">等级</th>
+                            <th style="width:120px;">状态</th>
+                            <th style="width:180px;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cutover-tbody">
+                        <tr data-co="CO001">
+                            <td><a class="cell-link" data-action="detail">CO001</a></td>
+                            <td>XX银行核心网</td>
+                            <td>友商替换</td>
+                            <td><span class="badge grade-a"><span class="dot"></span>A类</span></td>
+                            <td><span class="badge st-pending"><span class="dot"></span>待审批</span></td>
+                            <td>
+                                <button class="btn-sm-outline" data-action="detail">详情</button>
+                                <button class="btn-sm-outline" data-action="ops">操作单</button>
+                            </td>
+                        </tr>
+                        <tr data-co="CO002">
+                            <td><a class="cell-link" data-action="detail">CO002</a></td>
+                            <td>YY公司扩容</td>
+                            <td>补丁升级</td>
+                            <td><span class="badge grade-b"><span class="dot"></span>B类</span></td>
+                            <td><span class="badge st-running"><span class="dot"></span>执行中</span></td>
+                            <td>
+                                <button class="btn-sm-outline" data-action="detail">详情</button>
+                                <button class="btn-sm-outline" data-action="checklist">checklist</button>
+                            </td>
+                        </tr>
+                        <tr data-co="CO003">
+                            <td><a class="cell-link" data-action="detail">CO003</a></td>
+                            <td>ZZ集团改造</td>
+                            <td>搬迁</td>
+                            <td><span class="badge grade-b"><span class="dot"></span>B类</span></td>
+                            <td><span class="badge st-done"><span class="dot"></span>已完成</span></td>
+                            <td>
+                                <button class="btn-sm-outline" data-action="detail">详情</button>
+                                <button class="btn-sm-outline" data-action="view">查看</button>
+                            </td>
+                        </tr>
+                        <tr data-co="CO004">
+                            <td><a class="cell-link" data-action="detail">CO004</a></td>
+                            <td>AA数据中心</td>
+                            <td>配置变更</td>
+                            <td><span class="badge grade-a"><span class="dot"></span>A类</span></td>
+                            <td><span class="badge st-pending"><span class="dot"></span>待审批</span></td>
+                            <td>
+                                <button class="btn-sm-outline" data-action="detail">详情</button>
+                                <button class="btn-sm-outline" data-action="ops">操作单</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ==================== Cutover Detail Section (CO001) ==================== -->
+            <div class="content-card detail-card" id="cutover-detail">
+                <!-- Detail Header -->
+                <div class="detail-card-header">
+                    <div class="dh-left">
+                        <span class="dh-title">割接详情</span>
+                        <span class="dh-no">CO001 · XX银行核心网</span>
+                    </div>
+                    <span class="dh-close" id="detail-close" title="收起详情">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </span>
+                </div>
+
+                <!-- Section 1: Basic Info -->
+                <div class="detail-section">
+                    <div class="section-title"><span class="title-bar"></span>基础信息</div>
+                    <div class="form-grid">
+                        <div class="fg-label">来源</div>
+                        <div class="fg-value">
+                            <div class="radio-group" id="source-group">
+                                <span class="radio-item checked" data-val="delivery">
+                                    <span class="radio-dot"></span><span class="radio-text">工程交付</span>
+                                </span>
+                                <span class="radio-item" data-val="maintenance">
+                                    <span class="radio-dot"></span><span class="radio-text">维保</span>
+                                </span>
+                                <span class="radio-item" data-val="itr">
+                                    <span class="radio-dot"></span><span class="radio-text">ITR故障</span>
+                                </span>
+                                <span class="radio-item" data-val="rma">
+                                    <span class="radio-dot"></span><span class="radio-text">RMA</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="fg-label">类型</div>
+                        <div class="fg-value">
+                            <select class="form-select" id="cutover-type">
+                                <option value="replace" selected>友商替换</option>
+                                <option value="patch">补丁升级</option>
+                                <option value="move">搬迁</option>
+                                <option value="config">配置变更</option>
+                            </select>
+                        </div>
+
+                        <div class="fg-label">等级</div>
+                        <div class="fg-value">
+                            <div class="grade-line">
+                                <span class="badge grade-a"><span class="dot"></span>A类</span>
+                                <span class="grade-note">（自动评定，固定规则匹配）→ 分级审批：服务经理+二线+研发</span>
+                            </div>
+                        </div>
+
+                        <div class="sub-note">B类 → 服务经理+二线；外部客户割接需上传客户审批确认单</div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Cutover Plan (Collapsible) -->
+                <div class="detail-section">
+                    <div class="section-title"><span class="title-bar"></span>割接方案</div>
+
+                    <div class="collapsible-card" id="plan-card">
+                        <div class="cc-header">
+                            <div class="cc-title">
+                                <span class="title-bar"></span>
+                                割接方案（模板生成）
+                                <span class="cc-badge">6 步骤</span>
+                            </div>
+                            <svg class="cc-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </div>
+                        <div class="cc-body">
+                            <!-- 6 step cards in 2-column grid -->
+                            <div class="step-grid">
+                                <div class="step-card">
+                                    <span class="step-icon pending">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="2"/>
+                                        </svg>
+                                    </span>
+                                    <span class="step-text">操作前/中步骤规划及窗口设计</span>
+                                </div>
+                                <div class="step-card">
+                                    <span class="step-icon pending">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="2"/>
+                                        </svg>
+                                    </span>
+                                    <span class="step-text">设备验证</span>
+                                </div>
+                                <div class="step-card">
+                                    <span class="step-icon pending">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="2"/>
+                                        </svg>
+                                    </span>
+                                    <span class="step-text">业务验证</span>
+                                </div>
+                                <div class="step-card">
+                                    <span class="step-icon pending">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="2"/>
+                                        </svg>
+                                    </span>
+                                    <span class="step-text">目标验证</span>
+                                </div>
+                                <div class="step-card">
+                                    <span class="step-icon pending">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="2"/>
+                                        </svg>
+                                    </span>
+                                    <span class="step-text">回退规划</span>
+                                </div>
+                                <div class="step-card">
+                                    <span class="step-icon pending">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="2"/>
+                                        </svg>
+                                    </span>
+                                    <span class="step-text">割接保障规划</span>
+                                </div>
+                            </div>
+
+                            <!-- Tool risk confirmation bar -->
+                            <div class="tool-bar">
+                                <span class="tool-label">工具风险确认：</span>
+                                <div class="tool-tags" id="tool-tags">
+                                    <span class="tool-tag tooltip-host" data-tooltip="配置对比工具：自动比对变更前后配置差异" data-tool="配置对比">
+                                        <span class="tt-dot"></span>
+                                        <span class="tt-check">
+                                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"/>
+                                            </svg>
+                                        </span>
+                                        <span class="tt-text">配置对比</span>
+                                    </span>
+                                    <span class="tool-tag tooltip-host" data-tooltip="配置翻译工具：跨厂商配置语法自动转换" data-tool="配置翻译">
+                                        <span class="tt-dot"></span>
+                                        <span class="tt-check">
+                                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"/>
+                                            </svg>
+                                        </span>
+                                        <span class="tt-text">配置翻译</span>
+                                    </span>
+                                    <span class="tool-tag tooltip-host" data-tooltip="脚本制作/验证工具：生成并预校验割接脚本" data-tool="脚本制作/验证">
+                                        <span class="tt-dot"></span>
+                                        <span class="tt-check">
+                                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"/>
+                                            </svg>
+                                        </span>
+                                        <span class="tt-text">脚本制作/验证</span>
+                                    </span>
+                                    <span class="tool-tag tooltip-host" data-tooltip="拓扑生成工具：可视化网络拓扑结构与影响范围" data-tool="拓扑生成">
+                                        <span class="tt-dot"></span>
+                                        <span class="tt-check">
+                                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"/>
+                                            </svg>
+                                        </span>
+                                        <span class="tt-text">拓扑生成</span>
+                                    </span>
+                                    <span class="tool-tag tooltip-host" data-tooltip="业务指标判定工具：自动采集并比对业务健康指标" data-tool="业务指标判定">
+                                        <span class="tt-dot"></span>
+                                        <span class="tt-check">
+                                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"/>
+                                            </svg>
+                                        </span>
+                                        <span class="tt-text">业务指标判定</span>
+                                    </span>
+                                </div>
+                                <span class="tool-status" id="tool-status">
+                                    <span class="ts-icon">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                                        </svg>
+                                    </span>
+                                    风险确认状态：已确认
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Checklist / 操作单 (Collapsible) -->
+                <div class="detail-section">
+                    <div class="section-title"><span class="title-bar"></span>操作单 / Checklist</div>
+
+                    <div class="collapsible-card" id="checklist-card">
+                        <div class="cc-header">
+                            <div class="cc-title">
+                                <span class="title-bar"></span>
+                                操作单 / Checklist
+                                <span class="cc-badge">9 项检查</span>
+                            </div>
+                            <svg class="cc-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </div>
+                        <div class="cc-body">
+                            <div class="check-grid">
+                                <!-- 割接准备 -->
+                                <div class="check-group">
+                                    <div class="cg-title">
+                                        <span class="cg-icon">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                                            </svg>
+                                        </span>
+                                        割接准备
+                                    </div>
+                                    <div class="cg-items">
+                                        <div class="check-row" data-group="prep">
+                                            <span class="cb">
+                                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"/>
+                                                </svg>
+                                            </span>
+                                            <span class="cb-text">步骤1：备份当前设备配置</span>
+                                        </div>
+                                        <div class="check-row" data-group="prep">
+                                            <span class="cb">
+                                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"/>
+                                                </svg>
+                                            </span>
+                                            <span class="cb-text">步骤2：通知业务侧暂停变更</span>
+                                        </div>
+                                        <div class="check-row" data-group="prep">
+                                            <span class="cb">
+                                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"/>
+                                                </svg>
+                                            </span>
+                                            <span class="cb-text">步骤3：确认备件与回退通道就绪</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 割接 -->
+                                <div class="check-group">
+                                    <div class="cg-title">
+                                        <span class="cg-icon">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                                            </svg>
+                                        </span>
+                                        割接
+                                    </div>
+                                    <div class="cg-items">
+                                        <div class="check-row" data-group="cutover">
+                                            <span class="cb">
+                                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"/>
+                                                </svg>
+                                            </span>
+                                            <span class="cb-text">步骤1：执行主链路切换</span>
+                                        </div>
+                                        <div class="check-row" data-group="cutover">
+                                            <span class="cb">
+                                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"/>
+                                                </svg>
+                                            </span>
+                                            <span class="cb-text">步骤2：核对路由与邻居状态</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 割接后 -->
+                                <div class="check-group">
+                                    <div class="cg-title">
+                                        <span class="cg-icon">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"/><path d="M22 4 12 14.01 9 11"/>
+                                            </svg>
+                                        </span>
+                                        割接后
+                                    </div>
+                                    <div class="cg-items">
+                                        <div class="check-row" data-group="after">
+                                            <span class="cb">
+                                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"/>
+                                                </svg>
+                                            </span>
+                                            <span class="cb-text">步骤1：业务连通性验证</span>
+                                        </div>
+                                        <div class="check-row" data-group="after">
+                                            <span class="cb">
+                                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"/>
+                                                </svg>
+                                            </span>
+                                            <span class="cb-text">步骤2：监控指标观察30分钟</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 回退 -->
+                                <div class="check-group">
+                                    <div class="cg-title">
+                                        <span class="cg-icon">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/>
+                                            </svg>
+                                        </span>
+                                        回退
+                                    </div>
+                                    <div class="cg-items">
+                                        <div class="check-row" data-group="rollback">
+                                            <span class="cb">
+                                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"/>
+                                                </svg>
+                                            </span>
+                                            <span class="cb-text">步骤1：触发回退条件判定</span>
+                                        </div>
+                                        <div class="check-row" data-group="rollback">
+                                            <span class="cb">
+                                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"/>
+                                                </svg>
+                                            </span>
+                                            <span class="cb-text">步骤2：恢复原配置并验证</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Business Metrics -->
+                <div class="detail-section">
+                    <div class="section-title"><span class="title-bar"></span>业务指标判定</div>
+                    <div class="collapsible-card" style="border-color:#EBEEF5;">
+                        <div style="padding:0;">
+                            <table class="metrics-table">
+                                <thead>
+                                    <tr>
+                                        <th>指标项</th>
+                                        <th style="width:160px;">阈值</th>
+                                        <th style="width:160px;">实测值</th>
+                                        <th style="width:140px;">判定</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>业务连通率</td>
+                                        <td>≥99.9%</td>
+                                        <td>99.95%</td>
+                                        <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>通过</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>设备功能验证</td>
+                                        <td>全通过</td>
+                                        <td>全通过</td>
+                                        <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>通过</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 5: Sign-off -->
+                <div class="detail-section">
+                    <div class="section-title"><span class="title-bar"></span>承诺书签字</div>
+                    <div class="signoff-doc-title">
+                        <span class="doc-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+                            </svg>
+                        </span>
+                        《机房割接实施承诺书》
+                    </div>
+                    <div class="signoff-layout">
+                        <div class="signature-box">手写签字板区域</div>
+                        <div class="signoff-side">
+                            <div class="signoff-meta">
+                                <div class="meta-row">
+                                    <span class="meta-label">签字时间：</span>
+                                    <span class="meta-value">2026-07-10 15:00</span>
+                                </div>
+                                <div class="meta-row">
+                                    <span class="meta-label">Checklist 校验：</span>
+                                    <span class="check-pass">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                                        </svg>
+                                        全部通过
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="signoff-action">
+                        <button class="btn-primary" id="btn-archive">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 8v13H3V8"/><path d="M1 3h22v5H1zM10 12h4"/>
+                            </svg>
+                            闭环归档(刷新PMS)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ==================== Section 6: Cutover Process Operations ==================== -->
+                <div class="detail-section" id="cutover-ops-section">
+                    <div class="section-title"><span class="title-bar"></span>割交流程操作</div>
+
+                    <!-- Status Timeline -->
+                    <div class="cutover-timeline">
+                        <div class="timeline-step done">
+                            <div class="ts-circle done">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            </div>
+                            <span class="ts-label">割接申请</span>
+                        </div>
+                        <div class="ts-line done"></div>
+                        <div class="timeline-step done">
+                            <div class="ts-circle done">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            </div>
+                            <span class="ts-label">审批通过</span>
+                        </div>
+                        <div class="ts-line active"></div>
+                        <div class="timeline-step current">
+                            <div class="ts-circle current">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/></svg>
+                            </div>
+                            <span class="ts-label current">方案确认</span>
+                        </div>
+                        <div class="ts-line"></div>
+                        <div class="timeline-step">
+                            <div class="ts-circle"></div>
+                            <span class="ts-label">执行割接</span>
+                        </div>
+                        <div class="ts-line"></div>
+                        <div class="timeline-step">
+                            <div class="ts-circle"></div>
+                            <span class="ts-label">验证完成</span>
+                        </div>
+                        <div class="ts-line"></div>
+                        <div class="timeline-step">
+                            <div class="ts-circle"></div>
+                            <span class="ts-label">闭环归档</span>
+                        </div>
+                    </div>
+
+                    <!-- Operation Buttons -->
+                    <div class="cutover-ops-buttons">
+                        <button class="btn-primary" id="btn-cutover-submit-approval">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                            提交割接审批
+                        </button>
+                        <button class="btn-outline" id="btn-cutover-download-plan">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            下载割接方案
+                        </button>
+                        <button class="btn-outline" id="btn-cutover-download-ops">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            下载操作单
+                        </button>
+                        <button class="btn-outline" id="btn-cutover-upload-approval">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            上传客户审批单
+                        </button>
+                        <button class="btn-primary" id="btn-cutover-execute">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            发起割接执行
+                        </button>
+                        <button class="btn-outline" id="btn-cutover-verify">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                            割接验证
+                        </button>
+                        <button class="btn-outline" id="btn-cutover-close" style="border-color:#27AE60;color:#27AE60;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1zM10 12h4"/></svg>
+                            闭环归档
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ==================== Cutover Interactive Console ==================== -->
+                <div class="detail-section cti-section" id="cutover-interactive">
+                    <div class="section-title"><span class="title-bar"></span>割接执行编排</div>
+
+                    <!-- 步骤时间线 -->
+                    <div class="cti-timeline" id="cti-timeline"></div>
+
+                    <!-- 回退方案 -->
+                    <div class="cti-panel" id="cti-rollback-panel">
+                        <div class="cti-panel-head">
+                            <span class="cti-panel-title">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+                                回退方案
+                            </span>
+                            <svg class="cti-panel-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                        </div>
+                        <div class="cti-panel-body">
+                            <div style="font-size:13px;color:var(--text-tertiary);line-height:1.9;">
+                                <div><b style="color:var(--text-primary);">触发条件：</b>业务连通率低于 99% 或核心功能验证失败</div>
+                                <div><b style="color:var(--text-primary);">回退步骤：</b>① 切回上一稳定版本镜像 → ② 恢复配置快照 → ③ 重启受影响服务 → ④ 业务验证恢复</div>
+                                <div><b style="color:var(--text-primary);">预计耗时：</b>≤ 15 分钟</div>
+                                <div><b style="color:var(--text-primary);">责任人：</b>王五（二线支撑）</div>
+                                <div style="margin-top:8px;"><button class="btn-sm-outline" id="cti-rollback-trigger">立即触发回退</button></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 风险提示 -->
+                    <div style="margin-top:16px;">
+                        <div class="cti-panel-title" style="margin-bottom:10px;">风险提示</div>
+                        <div class="cti-risk-list" id="cti-risk-list"></div>
+                    </div>
+
+                    <!-- 检查清单 -->
+                    <div style="margin-top:16px;">
+                        <div class="cti-panel-title" style="margin-bottom:6px;">割接检查清单 <span id="cti-check-count" style="font-weight:400;color:var(--text-tertiary);font-size:12px;margin-left:6px;"></span></div>
+                        <ul class="cti-check-list" id="cti-check-list"></ul>
+                    </div>
+
+                    <!-- 通知发送 -->
+                    <div class="cti-bar">
+                        <span style="font-size:13px;color:var(--text-tertiary);">割接通知将通过站内信 / 邮件发送给相关人员</span>
+                        <button class="btn-primary" id="cti-send-notify">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                            发送通知
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ───────── showToast ───────── */
+        var __toastTimer = null;
+        function showToast(msg, type) {
+            var toast = document.getElementById('__pmsToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = '__pmsToast';
+                toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);background:#303133;color:#fff;padding:10px 24px;border-radius:6px;font-size:14px;z-index:99999;opacity:0;transition:all 0.3s ease;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+            clearTimeout(__toastTimer);
+            __toastTimer = setTimeout(function() {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px)';
+            }, 2500);
+        }
+
+        /* ───────── Modal helper ───────── */
+        function showModal(html) {
+            var overlay = document.getElementById('__pmsModalOverlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = '__pmsModalOverlay';
+                overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);z-index:9998;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.25s ease;';
+                document.body.appendChild(overlay);
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === overlay) { overlay.style.opacity = '0'; setTimeout(function(){ overlay.style.display = 'none'; }, 250); }
+                });
+            }
+            overlay.innerHTML = '<div style="background:#fff;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,0.25);width:90%;max-width:480px;transform:translateY(20px);transition:transform 0.25s ease;">' + html + '</div>';
+            overlay.style.display = 'flex';
+            setTimeout(function() {
+                overlay.style.opacity = '1';
+                var dlg = overlay.querySelector('div');
+                if (dlg) dlg.style.transform = 'translateY(0)';
+            }, 10);
+        }
+        function closeModal() {
+            var overlay = document.getElementById('__pmsModalOverlay');
+            if (overlay) { overlay.style.opacity = '0'; setTimeout(function(){ overlay.style.display = 'none'; }, 250); }
+        }
+
+        /* ───────── + 发起割接 button ───────── */
+        document.getElementById('btn-create-cutover').addEventListener('click', function() {
+            var modalHtml =
+                '<div style="padding:20px 24px;border-bottom:1px solid #EBEEF5;">' +
+                    '<div style="font-size:18px;font-weight:600;color:#303133;">新建割接单</div>' +
+                '</div>' +
+                '<div style="padding:24px;">' +
+                    '<div style="margin-bottom:16px;">' +
+                        '<label style="display:block;font-size:14px;color:#606266;margin-bottom:8px;">来源</label>' +
+                        '<div style="display:flex;gap:16px;flex-wrap:wrap;">' +
+                            '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:#303133;"><input type="radio" name="cutover-source" value="delivery" checked> 工程交付</label>' +
+                            '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:#303133;"><input type="radio" name="cutover-source" value="maintenance"> 维保</label>' +
+                            '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:#303133;"><input type="radio" name="cutover-source" value="itr"> ITR故障</label>' +
+                            '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:#303133;"><input type="radio" name="cutover-source" value="rma"> RMA</label>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div style="margin-bottom:16px;">' +
+                        '<label style="display:block;font-size:14px;color:#606266;margin-bottom:8px;">类型</label>' +
+                        '<select style="width:100%;height:36px;border:1px solid #DCDFE6;border-radius:4px;padding:0 10px;font-size:14px;color:#303133;background:#fff;outline:none;font-family:inherit;">' +
+                            '<option value="replace">友商替换</option>' +
+                            '<option value="patch">补丁升级</option>' +
+                            '<option value="move">搬迁</option>' +
+                            '<option value="config">配置变更</option>' +
+                        '</select>' +
+                    '</div>' +
+                    '<div>' +
+                        '<label style="display:block;font-size:14px;color:#606266;margin-bottom:8px;">等级</label>' +
+                        '<div style="display:flex;align-items:center;gap:8px;">' +
+                            '<span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:12px;color:#E74C3C;background:#FEF0F0;border:1px solid #E74C3C;">A类</span>' +
+                            '<span style="font-size:13px;color:#909399;">（自动评定，固定规则匹配）</span>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div style="display:flex;justify-content:flex-end;gap:12px;padding:16px 24px;border-top:1px solid #EBEEF5;">' +
+                    '<button id="__cutoverCancel" style="height:36px;padding:0 20px;border:1px solid #DCDFE6;border-radius:4px;background:#fff;color:#606266;font-size:14px;cursor:pointer;font-family:inherit;">取消</button>' +
+                    '<button id="__cutoverCreate" style="height:36px;padding:0 20px;border:1px solid #1A6FD4;border-radius:4px;background:#1A6FD4;color:#fff;font-size:14px;cursor:pointer;font-family:inherit;">创建</button>' +
+                '</div>';
+            showModal(modalHtml);
+            document.getElementById('__cutoverCancel').addEventListener('click', closeModal);
+            document.getElementById('__cutoverCreate').addEventListener('click', function() {
+                closeModal();
+                showToast('割接单已创建，等待审批');
+            });
+        });
+
+        /* ───────── Sidebar toggle ───────── */
+        document.querySelectorAll('.sidebar-group-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const menu = this.nextElementSibling;
+                const chevron = this.querySelector('.chevron-icon');
+                if (menu && menu.tagName === 'UL') {
+                    const isHidden = menu.style.display === 'none';
+                    menu.style.display = isHidden ? 'block' : 'none';
+                    if (chevron) chevron.classList.toggle('collapsed', !isHidden);
+                }
+            });
+        });
+
+        /* ───────── Smooth scroll + highlight detail on "详情" click ───────── */
+        const detailCard = document.getElementById('cutover-detail');
+        function scrollToDetail() {
+            detailCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            detailCard.classList.add('highlighted');
+            window.clearTimeout(window.__detailTimer);
+            window.__detailTimer = window.setTimeout(() => {
+                detailCard.classList.remove('highlighted');
+            }, 2600);
+        }
+
+        document.getElementById('cutover-tbody').addEventListener('click', function(e) {
+            var el = e.target.closest('[data-action="detail"]');
+            if (el) { e.preventDefault(); scrollToDetail(); return; }
+            var opsEl = e.target.closest('[data-action="ops"]');
+            if (opsEl) { e.preventDefault(); showToast('操作单详情开发中'); return; }
+            var checklistEl = e.target.closest('[data-action="checklist"]');
+            if (checklistEl) { e.preventDefault(); showToast('Checklist 管理'); return; }
+            var viewEl = e.target.closest('[data-action="view"]');
+            if (viewEl) { e.preventDefault(); showToast('查看割接记录'); return; }
+        });
+
+        /* Close detail highlight on demand */
+        document.getElementById('detail-close').addEventListener('click', function() {
+            detailCard.classList.remove('highlighted');
+        });
+
+        /* ───────── Collapsible cards (plan / checklist) ───────── */
+        document.querySelectorAll('.collapsible-card .cc-header').forEach(header => {
+            header.addEventListener('click', function() {
+                this.closest('.collapsible-card').classList.toggle('collapsed');
+            });
+        });
+
+        /* ───────── Radio group toggle (来源) ───────── */
+        const sourceGroup = document.getElementById('source-group');
+        if (sourceGroup) {
+            sourceGroup.addEventListener('click', function(e) {
+                const item = e.target.closest('.radio-item');
+                if (!item) return;
+                sourceGroup.querySelectorAll('.radio-item').forEach(r => r.classList.remove('checked'));
+                item.classList.add('checked');
+            });
+        }
+
+        /* ───────── Checkbox toggle ───────── */
+        document.querySelectorAll('.check-row').forEach(row => {
+            row.addEventListener('click', function() {
+                this.classList.toggle('checked');
+            });
+        });
+
+        /* ───────── Tool tags: click to confirm ───────── */
+        const toolTags = document.querySelectorAll('#tool-tags .tool-tag');
+        const toolStatus = document.getElementById('tool-status');
+        toolTags.forEach(tag => {
+            tag.addEventListener('click', function() {
+                this.classList.toggle('confirmed');
+                updateToolStatus();
+            });
+        });
+        function updateToolStatus() {
+            const total = toolTags.length;
+            const confirmed = document.querySelectorAll('#tool-tags .tool-tag.confirmed').length;
+            const allDone = confirmed === total;
+            toolStatus.style.color = allDone ? '#27AE60' : '#F39C12';
+            const label = allDone ? '风险确认状态：已确认' : '风险确认状态：待确认 (' + confirmed + '/' + total + ')';
+            toolStatus.innerHTML = '<span class="ts-icon">' +
+                (allDone
+                    ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
+                    : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
+                ) + '</span>' + label;
+        }
+        updateToolStatus();
+
+        /* ───────── Signature box click ───────── */
+        var signatureBox = document.querySelector('.signature-box');
+        if (signatureBox) {
+            signatureBox.style.cursor = 'pointer';
+            signatureBox.addEventListener('click', function() {
+                showToast('手写签字板加载中...');
+            });
+        }
+
+        /* ───────── 闭环归档 button with confirmation modal ───────── */
+        var archiveBtn = document.getElementById('btn-archive');
+        archiveBtn.addEventListener('click', function() {
+            var confirmHtml =
+                '<div style="padding:24px;">' +
+                    '<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;">' +
+                        '<div style="width:40px;height:40px;border-radius:50%;background:#FEF5E7;display:flex;align-items:center;justify-content:center;flex-shrink:0;">' +
+                            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F39C12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>' +
+                        '</div>' +
+                        '<div>' +
+                            '<div style="font-size:16px;font-weight:600;color:#303133;margin-bottom:4px;">确认闭环归档？</div>' +
+                            '<div style="font-size:14px;color:#909399;">此操作将刷新PMS项目状态</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div style="display:flex;justify-content:flex-end;gap:12px;">' +
+                        '<button id="__archiveCancel" style="height:36px;padding:0 20px;border:1px solid #DCDFE6;border-radius:4px;background:#fff;color:#606266;font-size:14px;cursor:pointer;font-family:inherit;">取消</button>' +
+                        '<button id="__archiveConfirm" style="height:36px;padding:0 20px;border:1px solid #1A6FD4;border-radius:4px;background:#1A6FD4;color:#fff;font-size:14px;cursor:pointer;font-family:inherit;">确认</button>' +
+                    '</div>' +
+                '</div>';
+            showModal(confirmHtml);
+            document.getElementById('__archiveCancel').addEventListener('click', closeModal);
+            document.getElementById('__archiveConfirm').addEventListener('click', function() {
+                closeModal();
+                archiveBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:__spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>归档中...';
+                archiveBtn.style.opacity = '0.75';
+                archiveBtn.disabled = true;
+                setTimeout(function() {
+                    showToast('已归档，PMS状态已刷新');
+                    archiveBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>已归档';
+                    archiveBtn.style.background = '#27AE60';
+                    archiveBtn.style.borderColor = '#27AE60';
+                    archiveBtn.style.opacity = '1';
+                    setTimeout(function() {
+                        __safeNav('overall-tracking.html');
+                    }, 1000);
+                }, 2000);
+            });
+        });
+
+        /* Add spin animation */
+        var __spinStyle = document.createElement('style');
+        __spinStyle.textContent = '@keyframes __spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+        document.head.appendChild(__spinStyle);
+    </script>
+
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+        font-size: 14px;
+        color: #303133;
+        background: #F5F7FA;
+        overflow: hidden;
+        height: 100vh;
+      }
+
+      /* ── Header ── */
+      .admin-header {
+        height: 60px;
+        background: #FFFFFF;
+        border-bottom: 1px solid #DCDFE6;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 1000;
+      }
+      .header-logo {
+        display: flex; align-items: center; gap: 10px;
+        flex-shrink: 0; width: 208px;
+      }
+      .header-logo .logo-icon {
+        width: 32px; height: 32px;
+        background: #1A6FD4; border-radius: 4px;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .header-logo .logo-text { font-size: 16px; font-weight: 600; color: #303133; white-space: nowrap; }
+      .header-search { flex: 1; max-width: 480px; margin: 0 auto; position: relative; }
+      .header-search input {
+        width: 100%; height: 36px;
+        border: 1px solid #DCDFE6; border-radius: 4px;
+        padding: 0 12px 0 36px; font-size: 14px; color: #303133;
+        background: #F5F7FA; outline: none; transition: border-color 0.2s;
+        font-family: inherit;
+      }
+      .header-search input::placeholder { color: #C0C4CC; }
+      .header-search input:focus { border-color: #1A6FD4; background: #FFFFFF; }
+      .header-search .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #C0C4CC; pointer-events: none; }
+      .header-right { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+      .header-bell { position: relative; cursor: pointer; color: #606266; transition: color 0.2s; }
+      .header-bell:hover { color: #1A6FD4; }
+      .header-bell .bell-badge {
+        position: absolute; top: -6px; right: -8px;
+        background: #E74C3C; color: #FFFFFF;
+        font-size: 11px; font-weight: 600;
+        min-width: 16px; height: 16px; border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        padding: 0 4px; line-height: 1;
+      }
+      .header-user { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: background 0.2s; }
+      .header-user:hover { background: #F5F7FA; }
+      .header-user .avatar {
+        width: 32px; height: 32px; border-radius: 50%;
+        background: #1A6FD4; color: #FFFFFF;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 14px; font-weight: 500;
+      }
+      .header-user .user-name { font-size: 14px; color: #303133; }
+      .header-user .chevron { color: #909399; transition: transform 0.2s; }
+
+      /* ── Sidebar ── */
+      .admin-sidebar {
+        width: 208px; background: #FFFFFF;
+        position: fixed; top: 60px; left: 0; bottom: 0;
+        border-right: 1px solid #DCDFE6;
+        overflow-y: auto; z-index: 900;
+      }
+      .admin-sidebar::-webkit-scrollbar { width: 4px; }
+      .admin-sidebar::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 2px; }
+      .admin-sidebar::-webkit-scrollbar-track { background: transparent; }
+      .sidebar-group-header {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 10px 20px; cursor: pointer;
+        font-size: 14px; color: #303133; font-weight: 500;
+        transition: background 0.2s; user-select: none;
+      }
+      .sidebar-group-header:hover { background: #F5F7FA; }
+      .sidebar-group-header .group-icon { display: flex; align-items: center; gap: 8px; }
+      .sidebar-group-header .chevron-icon { transition: transform 0.2s; color: #909399; }
+      .sidebar-group-header .chevron-icon.collapsed { transform: rotate(-90deg); }
+      .sidebar-menu { list-style: none; }
+      .sidebar-menu li { position: relative; }
+      .sidebar-menu li a {
+        display: block; padding: 0 20px 0 44px;
+        height: 40px; line-height: 40px;
+        font-size: 14px; color: #606266;
+        text-decoration: none; transition: all 0.2s;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
+      .sidebar-menu li a:hover { background: #F5F7FA; color: #1A6FD4; }
+      .sidebar-menu li a.active { color: #1A6FD4; background: #E8F2FC; font-weight: 500; }
+      .sidebar-menu li a.active::before {
+        content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+        width: 3px; background: #1A6FD4; border-radius: 0 2px 2px 0;
+      }
+
+      /* ── TagsView ── */
+      .tags-view {
+        height: 36px; background: #FFFFFF;
+        border-bottom: 1px solid #DCDFE6;
+        display: flex; align-items: center;
+        padding: 0 16px; gap: 8px;
+        position: fixed; top: 60px; left: 208px; right: 0;
+        z-index: 800; overflow-x: auto;
+      }
+      .tags-view::-webkit-scrollbar { display: none; }
+      .tag-item {
+        display: inline-flex; align-items: center; gap: 4px;
+        height: 26px; padding: 0 10px; border-radius: 3px;
+        font-size: 12px; cursor: pointer; white-space: nowrap;
+        border: 1px solid #DCDFE6; color: #606266;
+        background: #FFFFFF; transition: all 0.2s; flex-shrink: 0;
+      }
+      .tag-item:hover { color: #1A6FD4; }
+      .tag-item.active { background: #E8F2FC; color: #1A6FD4; border-color: #1A6FD4; }
+      .tag-item .tag-close {
+        width: 14px; height: 14px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 12px; transition: background 0.2s; margin-left: 2px;
+      }
+      .tag-item .tag-close:hover { background: rgba(26,111,212,0.2); color: #1A6FD4; }
+      .tags-add {
+        width: 26px; height: 26px; border-radius: 3px;
+        border: 1px solid #DCDFE6; display: flex;
+        align-items: center; justify-content: center;
+        cursor: pointer; color: #909399; flex-shrink: 0;
+        transition: all 0.2s; background: #FFFFFF;
+      }
+      .tags-add:hover { color: #1A6FD4; border-color: #1A6FD4; }
+
+      /* ── Main Layout ── */
+      .admin-main {
+        margin-left: 208px; margin-top: 96px;
+        height: calc(100vh - 96px);
+        overflow-y: auto; background: #F5F7FA;
+      }
+      .admin-main::-webkit-scrollbar { width: 6px; }
+      .admin-main::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 3px; }
+      .admin-main::-webkit-scrollbar-track { background: transparent; }
+
+      /* ── Breadcrumb ── */
+      .breadcrumb-bar {
+        height: 32px; display: flex; align-items: center;
+        padding: 0 16px; font-size: 13px; color: #909399;
+        background: #FFFFFF; border-bottom: 1px solid #EBEEF5;
+      }
+      .breadcrumb-bar a { color: #606266; text-decoration: none; transition: color 0.2s; }
+      .breadcrumb-bar a:hover { color: #1A6FD4; }
+      .breadcrumb-bar .sep { margin: 0 8px; color: #C0C4CC; }
+      .breadcrumb-bar .current { color: #303133; }
+
+      /* ── Content ── */
+      .page-content { padding: 16px; max-width: 1440px; margin: 0 auto; }
+
+      /* ── Page Header ── */
+      .page-header {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .page-title { font-size: 20px; font-weight: 600; color: #303133; }
+
+      /* ── Buttons ── */
+      .btn-primary {
+        display: inline-flex; align-items: center; gap: 6px;
+        height: 32px; padding: 0 16px;
+        border: 1px solid #1A6FD4; border-radius: 4px;
+        background: #1A6FD4; color: #FFFFFF;
+        font-size: 14px; cursor: pointer; transition: all 0.2s;
+        font-family: inherit;
+      }
+      .btn-primary:hover { background: #3B8AE0; border-color: #3B8AE0; }
+      .btn-primary:active { background: #1565C0; border-color: #1565C0; }
+
+      .btn-outline {
+        display: inline-flex; align-items: center; gap: 6px;
+        height: 32px; padding: 0 14px;
+        border: 1px solid #DCDFE6; border-radius: 4px;
+        background: #FFFFFF; color: #606266;
+        font-size: 14px; cursor: pointer; transition: all 0.2s;
+        font-family: inherit;
+      }
+      .btn-outline:hover { color: #1A6FD4; border-color: #1A6FD4; }
+
+      .btn-sm-outline {
+        display: inline-flex; align-items: center; justify-content: center;
+        height: 28px; padding: 0 12px;
+        border: 1px solid #DCDFE6; border-radius: 4px;
+        background: #FFFFFF; color: #1A6FD4;
+        font-size: 13px; cursor: pointer; transition: all 0.2s;
+        font-family: inherit; margin-right: 6px;
+      }
+      .btn-sm-outline:last-child { margin-right: 0; }
+      .btn-sm-outline:hover { color: #1A6FD4; border-color: #1A6FD4; background: #E8F2FC; }
+
+      /* ── Cards ── */
+      .content-card {
+        background: #FFFFFF; border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        padding: 20px 24px; margin-bottom: 16px;
+      }
+
+      /* ── Table ── */
+      .table-card {
+        background: #FFFFFF; border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        overflow: hidden; margin-bottom: 16px;
+      }
+      .data-table { width: 100%; border-collapse: collapse; }
+      .data-table thead th {
+        background: #F5F7FA; padding: 12px 16px;
+        font-size: 14px; font-weight: 600; color: #303133;
+        text-align: left; border-bottom: 1px solid #EBEEF5;
+        white-space: nowrap; user-select: none;
+        position: sticky; top: 0; z-index: 2;
+      }
+      .data-table tbody td {
+        padding: 12px 16px; font-size: 14px; color: #303133;
+        border-bottom: 1px solid #EBEEF5; white-space: nowrap;
+      }
+      .data-table tbody tr { transition: background 0.15s; }
+      .data-table tbody tr:hover { background: #F5F7FA; }
+      .data-table tbody tr:last-child td { border-bottom: none; }
+
+      .cell-link {
+        color: #1A6FD4; text-decoration: none; cursor: pointer;
+        transition: color 0.2s;
+      }
+      .cell-link:hover { color: #3B8AE0; text-decoration: underline; }
+
+      /* ── Badges ── */
+      .badge {
+        display: inline-flex; align-items: center; gap: 4px;
+        padding: 2px 8px; border-radius: 4px;
+        font-size: 12px; line-height: 1.5;
+      }
+      .badge.grade-a { color: #E74C3C; background: #FEF0F0; border: 1px solid #E74C3C; }
+      .badge.grade-b { color: #F39C12; background: #FEF5E7; border: 1px solid #F39C12; }
+      .badge.st-pending { color: #F39C12; background: #FEF5E7; border: 1px solid #F39C12; }
+      .badge.st-running { color: #2E8BE6; background: #E8F2FC; border: 1px solid #2E8BE6; }
+      .badge.st-done { color: #27AE60; background: #E8F8EE; border: 1px solid #27AE60; }
+      .badge.metric-pass { color: #27AE60; background: #E8F8EE; border: 1px solid #27AE60; }
+      .badge .dot { width: 6px; height: 6px; border-radius: 50%; }
+      .badge.grade-a .dot { background: #E74C3C; }
+      .badge.grade-b .dot { background: #F39C12; }
+      .badge.st-pending .dot { background: #F39C12; }
+      .badge.st-running .dot { background: #2E8BE6; }
+      .badge.st-done .dot { background: #27AE60; }
+
+      /* ── Detail Card ── */
+      .detail-card { position: relative; transition: box-shadow 0.4s, border-color 0.4s; border: 1px solid transparent; }
+      .detail-card.highlighted {
+        box-shadow: 0 0 0 2px rgba(26,111,212,0.35), 0 4px 16px rgba(26,111,212,0.18);
+        border-color: rgba(26,111,212,0.3);
+      }
+      .detail-card-header {
+        display: flex; align-items: center; justify-content: space-between;
+        padding-bottom: 16px; margin-bottom: 4px;
+        border-bottom: 1px solid #EBEEF5;
+      }
+      .detail-card-header .dh-left { display: flex; align-items: center; gap: 10px; }
+      .detail-card-header .dh-title { font-size: 16px; font-weight: 600; color: #303133; }
+      .detail-card-header .dh-no { font-size: 13px; color: #909399; }
+      .detail-card-header .dh-close {
+        cursor: pointer; color: #909399; transition: color 0.2s;
+        display: inline-flex; align-items: center; justify-content: center;
+      }
+      .detail-card-header .dh-close:hover { color: #E74C3C; }
+
+      /* ── Detail Section Divider ── */
+      .detail-section { padding: 20px 0; border-bottom: 1px solid #EBEEF5; }
+      .detail-section:last-child { border-bottom: none; }
+      .section-title {
+        font-size: 15px; font-weight: 600; color: #303133;
+        margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+      }
+      .section-title .title-bar {
+        width: 3px; height: 15px; background: #1A6FD4; border-radius: 2px;
+      }
+
+      /* ── Form Grid (Basic Info) ── */
+      .form-grid { display: grid; grid-template-columns: 120px 1fr; gap: 16px 12px; align-items: center; }
+      .form-grid .fg-label { font-size: 14px; color: #606266; }
+      .form-grid .fg-value { font-size: 14px; color: #303133; }
+      .radio-group { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+      .radio-item { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-size: 14px; color: #303133; user-select: none; }
+      .radio-item .radio-dot {
+        width: 16px; height: 16px; border-radius: 50%;
+        border: 1px solid #DCDFE6; background: #FFFFFF;
+        display: inline-flex; align-items: center; justify-content: center;
+        transition: all 0.2s; flex-shrink: 0;
+      }
+      .radio-item.checked .radio-dot { border-color: #1A6FD4; }
+      .radio-item.checked .radio-dot::after {
+        content: ''; width: 8px; height: 8px; border-radius: 50%; background: #1A6FD4;
+      }
+      .radio-item .radio-text { color: #606266; transition: color 0.2s; }
+      .radio-item.checked .radio-text { color: #1A6FD4; font-weight: 500; }
+      .form-select {
+        height: 32px; border: 1px solid #DCDFE6; border-radius: 4px;
+        padding: 0 28px 0 10px; font-size: 14px; color: #303133;
+        background: #FFFFFF; outline: none; font-family: inherit;
+        appearance: none; -webkit-appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23909399' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+        background-repeat: no-repeat; background-position: right 8px center; min-width: 160px; cursor: pointer;
+        transition: border-color 0.2s;
+      }
+      .form-select:focus { border-color: #1A6FD4; }
+      .grade-line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+      .grade-note { font-size: 13px; color: #606266; }
+      .sub-note {
+        grid-column: 2; font-size: 12px; color: #909399;
+        padding: 8px 12px; background: #F5F7FA; border-radius: 4px; line-height: 1.6;
+        margin-top: 4px;
+      }
+
+      /* ── Collapsible Card ── */
+      .collapsible-card {
+        background: #FFFFFF; border: 1px solid #EBEEF5; border-radius: 8px;
+        margin-bottom: 12px; overflow: hidden;
+      }
+      .cc-header {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 14px 16px; cursor: pointer; user-select: none;
+        transition: background 0.2s;
+      }
+      .cc-header:hover { background: #F5F7FA; }
+      .cc-header .cc-title { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #303133; }
+      .cc-header .cc-title .title-bar { width: 3px; height: 15px; background: #1A6FD4; border-radius: 2px; }
+      .cc-header .cc-badge { font-size: 12px; color: #909399; font-weight: 400; margin-left: 6px; }
+      .cc-header .cc-chevron { color: #909399; transition: transform 0.3s; }
+      .collapsible-card.collapsed .cc-chevron { transform: rotate(-90deg); }
+      .cc-body {
+        padding: 16px; border-top: 1px solid #EBEEF5;
+        max-height: 1200px; transition: max-height 0.4s ease, padding 0.4s ease, opacity 0.3s ease;
+        opacity: 1; overflow: hidden;
+      }
+      .collapsible-card.collapsed .cc-body {
+        max-height: 0; padding-top: 0; padding-bottom: 0; opacity: 0; border-top-color: transparent;
+      }
+
+      /* ── Step Cards Grid (Cutover Plan) ── */
+      .step-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .step-card {
+        display: flex; align-items: center; gap: 12px;
+        padding: 14px 16px; background: #F9FAFB; border: 1px solid #EBEEF5;
+        border-radius: 6px; transition: all 0.2s;
+      }
+      .step-card:hover { border-color: #C7D8EE; background: #F5F8FC; }
+      .step-card .step-icon {
+        width: 22px; height: 22px; border-radius: 50%;
+        background: #DCDFE6; color: #FFFFFF; flex-shrink: 0;
+        display: inline-flex; align-items: center; justify-content: center;
+      }
+      .step-card .step-icon.pending { background: #E0E3E9; }
+      .step-card .step-text { font-size: 14px; color: #303133; line-height: 1.4; }
+
+      /* ── Tool Risk Bar ── */
+      .tool-bar {
+        margin-top: 16px; padding: 14px 16px;
+        background: #F5F7FA; border-radius: 6px;
+        display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      }
+      .tool-bar .tool-label { font-size: 13px; color: #606266; flex-shrink: 0; }
+      .tool-tags { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+      .tool-tag {
+        position: relative; display: inline-flex; align-items: center; gap: 6px;
+        height: 28px; padding: 0 12px; border-radius: 4px;
+        border: 1px solid #DCDFE6; background: #FFFFFF; color: #606266;
+        font-size: 13px; cursor: pointer; transition: all 0.2s;
+      }
+      .tool-tag:hover { border-color: #1A6FD4; color: #1A6FD4; }
+      .tool-tag.confirmed {
+        border-color: #27AE60; color: #27AE60; background: #E8F8EE;
+      }
+      .tool-tag .tt-icon { display: inline-flex; }
+      .tool-tag .tt-check {
+        width: 14px; height: 14px; border-radius: 50%;
+        background: #27AE60; color: #FFFFFF;
+        display: none; align-items: center; justify-content: center;
+      }
+      .tool-tag.confirmed .tt-check { display: inline-flex; }
+      .tool-tag.confirmed .tt-dot { display: none; }
+      .tool-tag .tt-dot {
+        width: 8px; height: 8px; border-radius: 50%; background: #C0C4CC;
+      }
+      .tool-status { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #27AE60; font-weight: 500; }
+      .tool-status .ts-icon { display: inline-flex; }
+
+      /* Tooltip */
+      .tooltip-host { position: relative; }
+      .tooltip-host[data-tooltip]::after {
+        content: attr(data-tooltip);
+        position: absolute; bottom: calc(100% + 6px); left: 50%;
+        transform: translateX(-50%);
+        background: #303133; color: #FFFFFF;
+        font-size: 12px; padding: 4px 10px; border-radius: 4px;
+        white-space: nowrap; pointer-events: none; z-index: 10;
+        opacity: 0; transition: opacity 0.2s;
+      }
+      .tooltip-host[data-tooltip]:hover::after { opacity: 1; }
+      .tooltip-host[data-tooltip]::before {
+        content: ''; position: absolute; bottom: calc(100% + 1px); left: 50%;
+        transform: translateX(-50%); border: 5px solid transparent;
+        border-top-color: #303133; pointer-events: none;
+        opacity: 0; transition: opacity 0.2s;
+      }
+      .tooltip-host[data-tooltip]:hover::before { opacity: 1; }
+
+      /* ── Checklist Groups ── */
+      .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; }
+      .check-group .cg-title {
+        font-size: 14px; font-weight: 600; color: #303133;
+        margin-bottom: 10px; padding-bottom: 6px;
+        border-bottom: 1px dashed #DCDFE6; display: flex; align-items: center; gap: 6px;
+      }
+      .check-group .cg-title .cg-icon { color: #1A6FD4; display: inline-flex; }
+      .cg-items { display: flex; flex-direction: column; gap: 8px; }
+      .check-row {
+        display: flex; align-items: center; gap: 10px;
+        cursor: pointer; user-select: none; padding: 4px 0;
+        transition: color 0.2s;
+      }
+      .check-row .cb {
+        width: 16px; height: 16px; border-radius: 3px;
+        border: 1px solid #C0C4CC; background: #FFFFFF;
+        display: inline-flex; align-items: center; justify-content: center;
+        flex-shrink: 0; transition: all 0.2s;
+      }
+      .check-row .cb svg { opacity: 0; transition: opacity 0.2s; }
+      .check-row.checked .cb { background: #1A6FD4; border-color: #1A6FD4; }
+      .check-row.checked .cb svg { opacity: 1; }
+      .check-row .cb-text { font-size: 14px; color: #606266; transition: color 0.2s; }
+      .check-row.checked .cb-text { color: #303133; }
+      .check-row:hover .cb-text { color: #1A6FD4; }
+
+      /* ── Metrics Table ── */
+      .metrics-table { width: 100%; border-collapse: collapse; }
+      .metrics-table thead th {
+        background: #F5F7FA; padding: 10px 14px;
+        font-size: 13px; font-weight: 600; color: #303133;
+        text-align: left; border: 1px solid #EBEEF5; white-space: nowrap;
+      }
+      .metrics-table tbody td {
+        padding: 11px 14px; font-size: 14px; color: #303133;
+        border: 1px solid #EBEEF5;
+      }
+
+      /* ── Sign-off ── */
+      .signoff-doc-title {
+        display: flex; align-items: center; gap: 8px;
+        font-size: 15px; font-weight: 600; color: #303133;
+        margin-bottom: 16px;
+      }
+      .signoff-doc-title .doc-icon { color: #1A6FD4; display: inline-flex; }
+      .signoff-layout { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+      .signature-box {
+        flex: 1; min-width: 360px; height: 200px;
+        border: 2px dashed #C0C4CC; border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        background: #FAFBFC; color: #C0C4CC; font-size: 14px;
+        transition: border-color 0.2s;
+      }
+      .signature-box:hover { border-color: #1A6FD4; }
+      .signoff-side { display: flex; flex-direction: column; gap: 14px; min-width: 240px; }
+      .signoff-meta { font-size: 14px; color: #606266; display: flex; flex-direction: column; gap: 10px; }
+      .signoff-meta .meta-row { display: flex; align-items: center; gap: 8px; }
+      .signoff-meta .meta-label { color: #909399; }
+      .signoff-meta .meta-value { color: #303133; }
+      .signoff-meta .check-pass { color: #27AE60; font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
+      .signoff-action { display: flex; justify-content: flex-end; margin-top: 16px; padding-top: 16px; border-top: 1px solid #EBEEF5; }
+
+      /* ── Empty hint ── */
+      .scroll-anchor { scroll-margin-top: 100px; }
+
+      /* ── Cutover Timeline ── */
+      .cutover-timeline {
+        display: flex; align-items: center; gap: 0;
+        padding: 20px 0 24px; overflow-x: auto;
+      }
+      .timeline-step {
+        display: flex; flex-direction: column; align-items: center; gap: 8px;
+        flex-shrink: 0; position: relative;
+      }
+      .ts-circle {
+        width: 28px; height: 28px; border-radius: 50%;
+        background: #E0E3E9; border: 2px solid #E0E3E9;
+        display: flex; align-items: center; justify-content: center;
+        color: #FFFFFF; transition: all 0.3s; flex-shrink: 0;
+      }
+      .ts-circle.done { background: #27AE60; border-color: #27AE60; }
+      .ts-circle.current { background: #1A6FD4; border-color: #1A6FD4; box-shadow: 0 0 0 4px rgba(26,111,212,0.15); }
+      .ts-label { font-size: 12px; color: #909399; white-space: nowrap; }
+      .ts-label.current { color: #1A6FD4; font-weight: 600; }
+      .timeline-step.done .ts-label { color: #27AE60; }
+      .ts-line {
+        flex: 1; height: 2px; background: #E0E3E9;
+        min-width: 30px; margin: 0 4px; margin-bottom: 24px;
+        transition: background 0.3s;
+      }
+      .ts-line.done { background: #27AE60; }
+      .ts-line.active { background: linear-gradient(90deg, #27AE60, #1A6FD4); }
+
+      /* ── Cutover Ops Buttons ── */
+      .cutover-ops-buttons {
+        display: flex; gap: 8px; flex-wrap: wrap;
+        padding: 16px 0 0;
+      }
+
+      /* ── Delivery Modal fields ── */
+      .delivery-modal-field { margin-bottom: 16px; }
+      .delivery-modal-field label {
+        display: block; font-size: 14px; color: #606266; margin-bottom: 8px;
+      }
+      .delivery-modal-field select,
+      .delivery-modal-field input[type="text"] {
+        width: 100%; height: 36px; border: 1px solid #DCDFE6;
+        border-radius: 4px; padding: 0 10px; font-size: 14px;
+        color: #303133; outline: none; font-family: inherit;
+        background: #FFFFFF; transition: border-color 0.2s;
+      }
+      .delivery-modal-field select:focus,
+      .delivery-modal-field input:focus { border-color: #1A6FD4; }
+      .delivery-modal-info {
+        padding: 8px 12px; background: #F5F7FA;
+        border-radius: 4px; font-size: 14px; color: #303133;
+      }
+      .delivery-modal-warn {
+        padding: 10px 12px; background: #FEF5E7;
+        border-radius: 4px; font-size: 13px; color: #F39C12;
+        display: flex; align-items: flex-start; gap: 8px; line-height: 1.5;
+      }
+      .delivery-modal-checklist {
+        display: flex; flex-direction: column; gap: 10px;
+      }
+      .delivery-modal-checklist .dmc-item {
+        display: flex; align-items: center; gap: 8px;
+        font-size: 14px; color: #303133; cursor: pointer;
+      }
+      .delivery-modal-checklist .dmc-item .dmc-cb {
+        width: 16px; height: 16px; border-radius: 3px;
+        border: 1px solid #C0C4CC; background: #FFFFFF;
+        display: inline-flex; align-items: center; justify-content: center;
+        flex-shrink: 0; transition: all 0.2s;
+      }
+      .delivery-modal-checklist .dmc-item.checked .dmc-cb {
+        background: #1A6FD4; border-color: #1A6FD4;
+      }
+      .delivery-modal-checklist .dmc-item .dmc-cb svg { opacity: 0; transition: opacity 0.2s; }
+      .delivery-modal-checklist .dmc-item.checked .dmc-cb svg { opacity: 1; }
+
+      /* Verification table */
+      .delivery-verify-table {
+        width: 100%; border-collapse: collapse; font-size: 14px;
+      }
+      .delivery-verify-table th,
+      .delivery-verify-table td {
+        border: 1px solid #EBEEF5; padding: 10px 12px;
+        text-align: left;
+      }
+      .delivery-verify-table th {
+        background: #F5F7FA; font-weight: 600; color: #303133;
+      }
+      .delivery-verify-table td input {
+        width: 100%; height: 30px; border: 1px solid #DCDFE6;
+        border-radius: 3px; padding: 0 8px; font-size: 13px;
+        color: #303133; outline: none; font-family: inherit;
+        background: #FFFFFF;
+      }
+      .delivery-verify-table td input:focus { border-color: #1A6FD4; }
+
+      /* Inventory checklist table */
+      .delivery-inv-table {
+        width: 100%; border-collapse: collapse; font-size: 14px;
+      }
+      .delivery-inv-table th,
+      .delivery-inv-table td {
+        border: 1px solid #EBEEF5; padding: 10px 12px; text-align: left;
+      }
+      .delivery-inv-table th { background: #F5F7FA; font-weight: 600; }
+      .delivery-inv-table .inv-passed { color: #27AE60; font-weight: 500; }
+      .delivery-inv-table .inv-failed { color: #E74C3C; font-weight: 500; }
+
+      .delivery-typo-placeholder {
+        width: 100%; height: 300px; background: #F5F7FA;
+        border: 2px dashed #C0C4CC; border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        color: #909399; font-size: 14px; margin-top: 16px;
+        transition: border-color 0.3s;
+      }
+      .delivery-typo-placeholder.loaded {
+        border-color: #27AE60; border-style: solid;
+        background: #E8F8EE; color: #27AE60;
+      }
+
+      /* ── Cutover Interactive Console ── */
+      .cti-section { margin-top: 24px; }
+      .cti-timeline { display: flex; flex-direction: column; gap: 0; position: relative; padding-left: 8px; }
+      .cti-step {
+        position: relative; padding: 0 0 0 28px; cursor: pointer; transition: background 0.2s;
+        border-radius: var(--radius-md);
+      }
+      .cti-step + .cti-step { margin-top: 4px; }
+      .cti-step::before {
+        content: ''; position: absolute; left: 9px; top: 0; bottom: -4px; width: 2px; background: var(--color-border);
+      }
+      .cti-step:last-child::before { display: none; }
+      .cti-step .cti-node {
+        position: absolute; left: 0; top: 6px; width: 20px; height: 20px; border-radius: 50%;
+        background: var(--bg-card); border: 2px solid var(--color-border);
+        display: flex; align-items: center; justify-content: center; z-index: 1; transition: all 0.2s;
+      }
+      .cti-step.done .cti-node { background: var(--state-success); border-color: var(--state-success); }
+      .cti-step.current .cti-node { background: var(--color-primary); border-color: var(--color-primary); box-shadow: 0 0 0 4px var(--color-primary-light); }
+      .cti-step-head { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--radius-sm); }
+      .cti-step-head:hover { background: var(--bg-hover); }
+      .cti-step.current .cti-step-head { background: var(--color-primary-light); }
+      .cti-step-name { font-size: 14px; color: var(--text-primary); font-weight: 500; flex: 1; }
+      .cti-step.current .cti-step-name { color: var(--color-primary); font-weight: 600; }
+      .cti-step-time { font-size: 12px; color: var(--text-tertiary); }
+      .cti-step-body {
+        margin: 0 10px 8px; padding: 10px 12px; background: var(--bg-page); border-radius: var(--radius-sm);
+        font-size: 13px; color: var(--text-tertiary); line-height: 1.7; display: none;
+      }
+      .cti-step.expanded .cti-step-body { display: block; }
+      .cti-step-actions { margin-top: 8px; display: flex; gap: 8px; }
+
+      .cti-panel { border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; margin-top: 12px; }
+      .cti-panel-head {
+        display: flex; align-items: center; justify-content: space-between; padding: 12px 16px;
+        background: var(--bg-card); cursor: pointer; transition: background 0.2s;
+      }
+      .cti-panel-head:hover { background: var(--bg-hover); }
+      .cti-panel-title { font-size: 14px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+      .cti-panel-body { padding: 0 16px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
+      .cti-panel.open .cti-panel-body { max-height: 600px; padding: 0 16px 14px; }
+      .cti-panel-chevron { transition: transform 0.2s; color: var(--text-tertiary); }
+      .cti-panel.open .cti-panel-chevron { transform: rotate(180deg); }
+
+      .cti-risk-list { display: flex; flex-direction: column; gap: 10px; }
+      .cti-risk-item {
+        display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+        border: 1px solid var(--color-border); border-left: 4px solid var(--state-warning);
+        border-radius: var(--radius-md); background: var(--bg-card); position: relative;
+      }
+      .cti-risk-item.high { border-left-color: var(--state-error); }
+      .cti-risk-item.medium { border-left-color: var(--state-warning); }
+      .cti-risk-item.low { border-left-color: var(--state-info); }
+      .cti-risk-name { font-size: 14px; color: var(--text-primary); font-weight: 500; flex: 1; }
+      .cti-risk-level { font-size: 12px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
+      .cti-risk-level.high { color: var(--state-error); background: #FDECEA; }
+      .cti-risk-level.medium { color: var(--state-warning); background: #FEF0E0; }
+      .cti-risk-level.low { color: var(--state-info); background: var(--color-primary-light); }
+      .cti-tip {
+        position: absolute; left: 14px; top: calc(100% + 6px); z-index: 20;
+        background: var(--text-primary); color: #fff; font-size: 12px; line-height: 1.5;
+        padding: 8px 12px; border-radius: var(--radius-sm); max-width: 320px; width: max-content;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; visibility: hidden; transform: translateY(-4px); transition: all 0.2s; pointer-events: none;
+      }
+      .cti-risk-item:hover .cti-tip { opacity: 1; visibility: visible; transform: translateY(0); }
+
+      .cti-check-list { list-style: none; padding: 0; margin: 0; }
+      .cti-check-item {
+        display: flex; align-items: center; gap: 10px; padding: 10px 4px; font-size: 14px;
+        color: var(--text-primary); border-bottom: 1px dashed var(--color-border); cursor: pointer; user-select: none;
+      }
+      .cti-check-item:last-child { border-bottom: none; }
+      .cti-check-item:hover { background: var(--bg-hover); }
+      .cti-cb {
+        width: 18px; height: 18px; border: 2px solid var(--color-border); border-radius: 4px; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+      }
+      .cti-check-item.checked .cti-cb { background: var(--state-success); border-color: var(--state-success); }
+      .cti-cb svg { opacity: 0; transition: opacity 0.2s; }
+      .cti-check-item.checked .cti-cb svg { opacity: 1; }
+      .cti-check-item.checked .cti-check-text { color: var(--text-tertiary); text-decoration: line-through; }
+
+      .cti-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+      .cti-recipient-grid { display: flex; flex-direction: column; gap: 8px; }
+      .cti-recipient {
+        display: flex; align-items: center; gap: 10px; padding: 8px 10px; border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s;
+      }
+      .cti-recipient:hover { border-color: var(--color-primary); }
+      .cti-recipient.selected { border-color: var(--color-primary); background: var(--color-primary-light); }
+      .cti-recipient-av { width: 28px; height: 28px; border-radius: 50%; background: var(--color-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+      .cti-recipient-info { flex: 1; }
+      .cti-recipient-name { font-size: 13px; color: var(--text-primary); font-weight: 500; }
+      .cti-recipient-role { font-size: 12px; color: var(--text-tertiary); }
+      .cti-recipient-cb { width: 16px; height: 16px; border: 2px solid var(--color-border); border-radius: 3px; flex-shrink: 0; }
+      .cti-recipient.selected .cti-recipient-cb { background: var(--color-primary); border-color: var(--color-primary); position: relative; }
+      .cti-recipient.selected .cti-recipient-cb::after { content: '✓'; position: absolute; inset: 0; color: #fff; font-size: 11px; display: flex; align-items: center; justify-content: center; }
+    </style>
+<script>
+/* === Sidebar Navigation Fix === */
+(function(){
+  function navToast(msg){
+    if(typeof window.showToast==='function'){try{window.showToast(msg);return;}catch(e){}}
+    var t=document.createElement('div');
+    t.style.cssText='position:fixed;top:16px;right:16px;background:#303133;color:#fff;padding:12px 20px;border-radius:4px;z-index:99999;font-size:14px;opacity:0;transition:opacity .3s;box-shadow:0 2px 12px rgba(0,0,0,.15)';
+    document.body.appendChild(t);
+    t.textContent=msg;
+    requestAnimationFrame(function(){t.style.opacity='1';});
+    setTimeout(function(){t.style.opacity='0';setTimeout(function(){t.remove();},300);},2500);
+  }
+  var navMap={'项目总体跟踪':'overall-tracking.html','工前准备':'pre-work.html','施工计划':'construction-plan.html','实施方案':'implementation-plan.html','实施部署':'deployment.html','割接管理':'cutover.html','客户资产库':'customer-asset.html','AI排障与知识库':'ai-troubleshoot.html'};
+  var toastLabels=['售前测试管理','项目转包（代施）','验收交维','技术公告与周报','回访与维保','ITR故障与RMA'];
+  var groupConfig={
+    '交付跟踪':[{label:'项目总体跟踪',url:'overall-tracking.html'},{label:'售前测试管理',toast:true},{label:'项目转包（代施）',toast:true}],
+    '交付执行':[{label:'工前准备',url:'pre-work.html'},{label:'施工计划',url:'construction-plan.html'},{label:'实施方案',url:'implementation-plan.html'},{label:'实施部署',url:'deployment.html'},{label:'验收交维',toast:true},{label:'割接管理',url:'cutover.html'}],
+    '交付支撑':[{label:'客户资产库',url:'customer-asset.html'},{label:'技术公告与周报',toast:true},{label:'回访与维保',toast:true},{label:'AI排障与知识库',url:'ai-troubleshoot.html'},{label:'ITR故障与RMA',toast:true}]
+  };
+  var typeA=document.querySelectorAll('.sidebar-menu').length>0;
+  var typeB=!typeA&&document.querySelectorAll('.sidebar-item').length>0;
+  function txt(el){return(el.textContent||'').trim();}
+  function createItem(cfg){
+    if(typeA){
+      var li=document.createElement('li');
+      var a=document.createElement('a');
+      a.textContent=cfg.label;
+      if(cfg.toast){a.setAttribute('href','#');a.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});}
+      else if(cfg.url){a.setAttribute('href',cfg.url);}
+      li.appendChild(a);
+      return li;
+    }else{
+      var div=document.createElement('div');
+      div.className='sidebar-item';
+      div.textContent=cfg.label;
+      div.style.cursor='pointer';
+      if(cfg.toast){div.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});}
+      else if(cfg.url){div.addEventListener('click',function(e){e.preventDefault();__safeNav(cfg.url);});}
+      return div;
+    }
+  }
+  Object.keys(groupConfig).forEach(function(gName){
+    var container=null;
+    if(typeA){document.querySelectorAll('.sidebar-group-header').forEach(function(h){if(txt(h).indexOf(gName)>=0){container=h.parentElement.querySelector('.sidebar-menu');}});}
+    else if(typeB){document.querySelectorAll('.sidebar-group-title').forEach(function(t2){if(txt(t2).indexOf(gName)>=0){container=t2.parentElement.querySelector('.sidebar-group-items');}});}
+    if(!container)return;
+    var existing={};
+    var sel=typeA?'a':'.sidebar-item';
+    container.querySelectorAll(sel).forEach(function(el){existing[txt(el)]=true;});
+    groupConfig[gName].forEach(function(cfg){if(!existing[cfg.label]){container.appendChild(createItem(cfg));}});
+  });
+  var allLinks=typeA?document.querySelectorAll('.sidebar-menu a'):document.querySelectorAll('.sidebar-item');
+  allLinks.forEach(function(item){
+    var t=txt(item);
+    if(navMap[t]){
+      var url=navMap[t];
+      if(typeA){
+        if(item.tagName==='A'&&item.getAttribute('href')!==url){item.setAttribute('href',url);item.removeAttribute('onclick');}
+      }else{
+        item.removeAttribute('onclick');
+        item.style.cursor='pointer';
+        var ni=item.cloneNode(true);
+        ni.addEventListener('click',function(e){e.preventDefault();__safeNav(url);});
+        if(item.parentNode)item.parentNode.replaceChild(ni,item);
+      }
+      return;
+    }
+    if(toastLabels.indexOf(t)>=0){
+      if(typeA){
+        var href=item.getAttribute('href')||'';
+        var oc=item.getAttribute('onclick')||'';
+        if(href==='#'||oc.indexOf('return false')>=0||href===''){
+          var na=item.cloneNode(true);
+          na.setAttribute('href','#');
+          na.removeAttribute('onclick');
+          na.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});
+          if(item.parentNode)item.parentNode.replaceChild(na,item);
+        }
+      }else{
+        var oc2=item.getAttribute('onclick')||'';
+        if(oc2.indexOf('return false')>=0){
+          item.removeAttribute('onclick');
+          item.style.cursor='pointer';
+          var nd=item.cloneNode(true);
+          nd.addEventListener('click',function(e){e.preventDefault();navToast('功能开发中');});
+          if(item.parentNode)item.parentNode.replaceChild(nd,item);
+        }
+      }
+    }
+  });
+  ['集成与报表','系统管理'].forEach(function(gName){
+    if(typeA){
+      document.querySelectorAll('.sidebar-group-header').forEach(function(h){
+        if(txt(h)===gName){
+          h.style.cursor='pointer';
+          h.addEventListener('click',function(){var m=h.parentElement.querySelector('.sidebar-menu');if(m&&m.children.length===0)navToast('功能开发中');});
+        }
+      });
+    }else if(typeB){
+      document.querySelectorAll('.sidebar-group-title').forEach(function(t2){
+        if(txt(t2)===gName){
+          t2.addEventListener('click',function(){var it=t2.parentElement.querySelector('.sidebar-group-items');if(it&&it.children.length===0)navToast('功能开发中');});
+        }
+      });
+    }
+  });
+})();
+</script>
+
+<!-- ============ Delivery Operations Script ============ -->
+<script>
+  /* ===== Toast helper (delivery-specific) ===== */
+  function showToastDelivery(msg) {
+    var existing = document.querySelector('.__delivery_toast');
+    if (existing) existing.remove();
+    var toast = document.createElement('div');
+    toast.className = '__delivery_toast';
+    toast.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-20px);z-index:99999;background:#303133;color:#fff;padding:12px 24px;border-radius:6px;font-size:14px;opacity:0;transition:all 0.3s ease;box-shadow:0 4px 12px rgba(0,0,0,0.15);max-width:420px;font-family:inherit;pointer-events:none;';
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    requestAnimationFrame(function () {
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateX(-50%) translateY(0)';
+    });
+    setTimeout(function () {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(-50%) translateY(-20px)';
+      setTimeout(function () { if (toast.parentNode) toast.remove(); }, 300);
+    }, 2500);
+  }
+
+  /* ===== Modal helper ===== */
+  function createDeliveryModal(title, contentHTML, confirmCallback, opts) {
+    opts = opts || {};
+    var overlay = document.getElementById('__deliveryModalOverlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = '__deliveryModalOverlay';
+      overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);z-index:99998;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.25s ease;';
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) {
+          overlay.style.opacity = '0';
+          setTimeout(function () { overlay.style.display = 'none'; }, 250);
+        }
+      });
+    }
+    var confirmText = opts.confirmText || '确认';
+    var cancelText = opts.cancelText || '取消';
+    var confirmDisabled = opts.confirmDisabled ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : '';
+    var dialogHTML =
+      '<div style="background:#fff;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,0.25);width:90%;max-width:560px;transform:translateY(20px);transition:transform 0.25s ease;overflow:hidden;">' +
+        '<div style="padding:16px 24px;border-bottom:1px solid #EBEEF5;display:flex;align-items:center;justify-content:space-between;">' +
+          '<span style="font-size:16px;font-weight:600;color:#303133;">' + title + '</span>' +
+          '<span style="cursor:pointer;color:#909399;font-size:20px;line-height:1;" id="__deliveryModalClose">&times;</span>' +
+        '</div>' +
+        '<div style="padding:24px;max-height:60vh;overflow-y:auto;">' + contentHTML + '</div>' +
+        '<div style="display:flex;justify-content:flex-end;gap:12px;padding:16px 24px;border-top:1px solid #EBEEF5;">' +
+          '<button id="__deliveryModalCancel" style="height:36px;padding:0 20px;border:1px solid #DCDFE6;border-radius:4px;background:#fff;color:#606266;font-size:14px;cursor:pointer;font-family:inherit;">' + cancelText + '</button>' +
+          '<button id="__deliveryModalConfirm" ' + confirmDisabled + ' style="height:36px;padding:0 20px;border:1px solid #1A6FD4;border-radius:4px;background:#1A6FD4;color:#fff;font-size:14px;cursor:pointer;font-family:inherit;">' + confirmText + '</button>' +
+        '</div>' +
+      '</div>';
+    overlay.innerHTML = dialogHTML;
+    overlay.style.display = 'flex';
+    setTimeout(function () {
+      overlay.style.opacity = '1';
+      var dlg = overlay.querySelector('div');
+      if (dlg) dlg.style.transform = 'translateY(0)';
+    }, 10);
+    function closeDeliveryModal() {
+      overlay.style.opacity = '0';
+      setTimeout(function () { overlay.style.display = 'none'; }, 250);
+    }
+    document.getElementById('__deliveryModalClose').addEventListener('click', closeDeliveryModal);
+    document.getElementById('__deliveryModalCancel').addEventListener('click', closeDeliveryModal);
+    var confirmBtn = document.getElementById('__deliveryModalConfirm');
+    if (!opts.confirmDisabled && confirmCallback) {
+      confirmBtn.addEventListener('click', function () {
+        var result = confirmCallback(overlay);
+        if (result !== false) closeDeliveryModal();
+      });
+    }
+    return overlay;
+  }
+
+  /* ===== Bind delivery modal checkboxes ===== */
+  function bindDeliveryCheckboxes(overlay) {
+    overlay.querySelectorAll('.delivery-modal-checklist .dmc-item').forEach(function (item) {
+      item.addEventListener('click', function () {
+        this.classList.toggle('checked');
+        if (typeof window.__dmcCheckHandler === 'function') {
+          window.__dmcCheckHandler(overlay);
+        }
+      });
+    });
+  }
+
+  (function () {
+    /* ===== 提交割接审批 ===== */
+    document.getElementById('btn-cutover-submit-approval').addEventListener('click', function () {
+      var content =
+        '<div class="delivery-modal-warn">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>' +
+          '<span>确认提交割接审批？A类割接需服务经理+二线+研发审批。</span>' +
+        '</div>';
+      createDeliveryModal('提交割接审批', content, function () {
+        showToastDelivery('割接审批已提交');
+      }, { confirmText: '确认' });
+    });
+
+    /* ===== 下载割接方案 ===== */
+    document.getElementById('btn-cutover-download-plan').addEventListener('click', function () {
+      showToastDelivery('方案下载中...');
+      setTimeout(function () { showToastDelivery('割接方案下载成功'); }, 1500);
+    });
+
+    /* ===== 下载操作单 ===== */
+    document.getElementById('btn-cutover-download-ops').addEventListener('click', function () {
+      showToastDelivery('操作单下载中...');
+      setTimeout(function () { showToastDelivery('操作单下载成功'); }, 1500);
+    });
+
+    /* ===== 上传客户审批单 ===== */
+    document.getElementById('btn-cutover-upload-approval').addEventListener('click', function () {
+      var fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = '.pdf,.jpg,.png,.doc,.docx';
+      fileInput.style.display = 'none';
+      document.body.appendChild(fileInput);
+      fileInput.addEventListener('change', function () {
+        if (this.files && this.files.length > 0) {
+          showToastDelivery('客户审批单已上传：' + this.files[0].name);
+        }
+        document.body.removeChild(fileInput);
+      });
+      fileInput.click();
+    });
+
+    /* ===== 发起割接执行 ===== */
+    document.getElementById('btn-cutover-execute').addEventListener('click', function () {
+      var content =
+        '<div class="delivery-modal-warn" style="background:#FDECEA;color:#E74C3C;">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>' +
+          '<span>确认发起割接执行？此操作不可撤回。</span>' +
+        '</div>' +
+        '<div class="delivery-modal-checklist" style="margin-top:16px;">' +
+          '<div class="dmc-item" id="dmc-execute-confirm">' +
+            '<span class="dmc-cb"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>' +
+            '<span>我已确认所有checklist已完成</span>' +
+          '</div>' +
+        '</div>';
+      var overlay = createDeliveryModal('发起割接执行', content, function () {
+        showToastDelivery('割接执行已发起');
+      }, { confirmText: '确认执行', confirmDisabled: true });
+      bindDeliveryCheckboxes(overlay);
+      window.__dmcCheckHandler = function (ov) {
+        var checked = ov.querySelectorAll('.delivery-modal-checklist .dmc-item.checked').length;
+        var total = ov.querySelectorAll('.delivery-modal-checklist .dmc-item').length;
+        var btn = ov.querySelector('#__deliveryModalConfirm');
+        if (checked === total) {
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.style.cursor = 'pointer';
+        } else {
+          btn.disabled = true;
+          btn.style.opacity = '0.5';
+          btn.style.cursor = 'not-allowed';
+        }
+      };
+    });
+
+    /* ===== 割接验证 ===== */
+    document.getElementById('btn-cutover-verify').addEventListener('click', function () {
+      var content =
+        '<table class="delivery-verify-table">' +
+          '<thead><tr><th>检查项</th><th style="width:120px;">预期</th><th style="width:140px;">实际</th><th style="width:120px;">结果</th></tr></thead>' +
+          '<tbody>' +
+            '<tr><td>业务连通率</td><td>≥99.9%</td><td><input type="text" placeholder="填写实际值"></td><td><input type="text" placeholder="填写结果"></td></tr>' +
+            '<tr><td>设备功能</td><td>全通过</td><td><input type="text" placeholder="填写实际值"></td><td><input type="text" placeholder="填写结果"></td></tr>' +
+            '<tr><td>回退验证</td><td>完成</td><td><input type="text" placeholder="填写实际值"></td><td><input type="text" placeholder="填写结果"></td></tr>' +
+          '</tbody>' +
+        '</table>';
+      createDeliveryModal('割接验证', content, function () {
+        showToastDelivery('验证结果已提交');
+      }, { confirmText: '提交验证结果' });
+    });
+
+    /* ===== 闭环归档 ===== */
+    document.getElementById('btn-cutover-close').addEventListener('click', function () {
+      var content =
+        '<div class="delivery-modal-warn" style="margin-bottom:16px;">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' +
+          '<span>归档前请确认以下前置条件全部满足：</span>' +
+        '</div>' +
+        '<div class="delivery-modal-checklist">' +
+          '<div class="dmc-item"><span class="dmc-cb"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span>割接方案已确认</span></div>' +
+          '<div class="dmc-item"><span class="dmc-cb"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span>操作单Checklist全部完成</span></div>' +
+          '<div class="dmc-item"><span class="dmc-cb"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span>割接验证通过</span></div>' +
+          '<div class="dmc-item"><span class="dmc-cb"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span>承诺书已签字</span></div>' +
+          '<div class="dmc-item"><span class="dmc-cb"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span>客户审批单已上传</span></div>' +
+        '</div>';
+      var overlay = createDeliveryModal('闭环归档', content, function (ov) {
+        var btn = ov.querySelector('#__deliveryModalConfirm');
+        var originalHTML = btn.innerHTML;
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:__spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>归档中...';
+        btn.disabled = true;
+        btn.style.opacity = '0.75';
+        setTimeout(function () {
+          showToastDelivery('已归档，PMS状态已更新');
+          setTimeout(function () {
+            __safeNav('overall-tracking.html');
+          }, 1000);
+        }, 2000);
+        return false; /* keep modal open during loading */
+      }, { confirmText: '确认归档', confirmDisabled: true });
+      bindDeliveryCheckboxes(overlay);
+      window.__dmcCheckHandler = function (ov) {
+        var checked = ov.querySelectorAll('.delivery-modal-checklist .dmc-item.checked').length;
+        var total = ov.querySelectorAll('.delivery-modal-checklist .dmc-item').length;
+        var btn = ov.querySelector('#__deliveryModalConfirm');
+        if (checked === total) {
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.style.cursor = 'pointer';
+        } else {
+          btn.disabled = true;
+          btn.style.opacity = '0.5';
+          btn.style.cursor = 'not-allowed';
+        }
+      };
+    });
+  })();
+</script>
+
+<script>
+/* === Cutover Interactive Console === */
+(function(){
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+  function toast(m){ if(typeof window.showToastDelivery==='function'){window.showToastDelivery(m);} else if(typeof window.showToast==='function'){window.showToast(m);} }
+
+  /* ── 步骤时间线数据 ── */
+  var steps = [
+    {name:'割接准备', time:'00:00 - 00:30', status:'done', detail:'确认人员到位、配置备份完成、回退方案就绪，工具与权限复核通过。'},
+    {name:'停止旧业务', time:'00:30 - 00:35', status:'done', detail:'按计划停止旧链路业务流量，观察 5 分钟无异常告警。'},
+    {name:'设备割接', time:'00:35 - 01:00', status:'current', detail:'执行主备切换，校验链路连通性与路由收敛。当前进行中，已完成 2/3 节点。'},
+    {name:'业务验证', time:'01:00 - 01:20', status:'pending', detail:'执行业务用例验证，确认功能与性能指标达标。'},
+    {name:'观察与收尾', time:'01:20 - 02:00', status:'pending', detail:'观察 40 分钟业务指标平稳后清理临时配置并收尾。'}
+  ];
+  var elTL = document.getElementById('cti-timeline');
+
+  function renderTimeline(){
+    elTL.innerHTML = steps.map(function(s,i){
+      var cls = s.status;
+      return '<div class="cti-step '+cls+'" data-idx="'+i+'">'+
+        '<div class="cti-node"></div>'+
+        '<div class="cti-step-head">'+
+          '<span class="cti-step-name">'+esc(s.name)+'</span>'+
+          '<span class="cti-step-time">'+esc(s.time)+'</span>'+
+        '</div>'+
+        '<div class="cti-step-body">'+
+          '<div>'+esc(s.detail)+'</div>'+
+          '<div class="cti-step-actions">'+
+            (s.status!=='done' ? '<button class="btn-sm-outline cti-mark-done">标记完成</button>' : '<span class="badge" style="color:var(--state-success);background:#E8F7EE;"><span class="dot" style="background:var(--state-success);"></span>已完成</span>')+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    }).join('');
+    bindTimeline();
+  }
+
+  function bindTimeline(){
+    elTL.querySelectorAll('.cti-step').forEach(function(node){
+      var head = node.querySelector('.cti-step-head');
+      head.addEventListener('click', function(e){
+        if(e.target.closest('.cti-mark-done')) return;
+        // toggle expanded + set current highlight (only if not done)
+        var idx = parseInt(node.getAttribute('data-idx'),10);
+        var wasExpanded = node.classList.contains('expanded');
+        elTL.querySelectorAll('.cti-step').forEach(function(n){ n.classList.remove('expanded'); });
+        if(!wasExpanded) node.classList.add('expanded');
+        if(steps[idx].status!=='done'){
+          steps.forEach(function(s){ if(s.status==='current') s.status='pending'; });
+          steps[idx].status='current';
+          renderTimeline();
+          node.classList.add('expanded');
+          toast('已定位到步骤：'+steps[idx].name);
+        }
+      });
+      var mk = node.querySelector('.cti-mark-done');
+      if(mk){
+        mk.addEventListener('click', function(e){
+          e.stopPropagation();
+          var idx = parseInt(node.getAttribute('data-idx'),10);
+          var step = steps[idx];
+          createDeliveryModal('确认标记完成', '<div style="font-size:14px;color:#303133;line-height:1.7;">确认步骤「<b>'+esc(step.name)+'</b>」已完成？该步骤将被记录为已完成状态。</div>', function(){
+            step.status='done';
+            // advance current to next pending
+            var next = steps[idx+1];
+            if(next && next.status==='pending'){ next.status='current'; }
+            renderTimeline();
+            toast('步骤「'+step.name+'」已标记完成');
+          }, {confirmText:'确认完成'});
+        });
+      }
+    });
+  }
+  renderTimeline();
+
+  /* ── 回退方案面板 ── */
+  var rollbackPanel = document.getElementById('cti-rollback-panel');
+  rollbackPanel.querySelector('.cti-panel-head').addEventListener('click', function(){
+    rollbackPanel.classList.toggle('open');
+  });
+  var rollbackTrigger = document.getElementById('cti-rollback-trigger');
+  rollbackTrigger.addEventListener('click', function(e){
+    e.stopPropagation();
+    createDeliveryModal('立即触发回退？', '<div style="color:var(--state-error);font-size:13px;line-height:1.7;">回退将立即恢复至割接前状态，业务会短时中断，请确认已与业务方沟通。</div>', function(){
+      toast('回退流程已触发，预计 15 分钟内恢复');
+    }, {confirmText:'确认回退'});
+  });
+
+  /* ── 风险提示 ── */
+  var risks = [
+    {name:'割接窗口偏紧，操作时间余量不足', level:'high', tip:'预计总耗时 120 分钟，窗口仅余 15 分钟缓冲，建议申请延长窗口或拆分批次执行。'},
+    {name:'关键设备无热备件', level:'medium', tip:'AR6280 路由器无热备，建议先补齐备件再执行割接。'},
+    {name:'客户侧配合人员未最终确认', level:'low', tip:'客户网络工程师到场时间待确认，建议提前 1 小时复核。'}
+  ];
+  var elRisk = document.getElementById('cti-risk-list');
+  elRisk.innerHTML = risks.map(function(r,i){
+    var lvLabel = r.level==='high'?'高风险':(r.level==='medium'?'中风险':'低风险');
+    return '<div class="cti-risk-item '+r.level+'" data-idx="'+i+'">'+
+      '<span class="cti-risk-name">'+esc(r.name)+'</span>'+
+      '<span class="cti-risk-level '+r.level+'">'+lvLabel+'</span>'+
+      '<button class="btn-sm-outline cti-risk-handle">处理</button>'+
+      '<div class="cti-tip">'+esc(r.tip)+'</div>'+
+    '</div>';
+  }).join('');
+  elRisk.querySelectorAll('.cti-risk-handle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var item = btn.closest('.cti-risk-item');
+      var idx = parseInt(item.getAttribute('data-idx'),10);
+      var r = risks[idx];
+      var html =
+        '<div style="font-size:14px;color:#303133;margin-bottom:12px;"><b>'+esc(r.name)+'</b></div>'+
+        '<div style="background:#FEF0E0;border-left:3px solid var(--state-warning);padding:10px 12px;border-radius:4px;font-size:13px;color:#606266;margin-bottom:16px;">'+esc(r.tip)+'</div>'+
+        '<label style="display:block;font-size:13px;color:#606266;margin-bottom:6px;">处理措施</label>'+
+        '<textarea id="cti-risk-action" rows="3" placeholder="请填写处理措施..." style="width:100%;border:1px solid #DCDFE6;border-radius:4px;padding:8px 10px;font-size:14px;font-family:inherit;outline:none;resize:vertical;"></textarea>';
+      createDeliveryModal('风险处理 - '+lvLabel, html, function(ov){
+        var ta = ov.querySelector('#cti-risk-action');
+        if(!ta.value.trim()){ toast('请填写处理措施'); return false; }
+        r.handled = ta.value.trim();
+        btn.textContent='已处理';
+        btn.style.color='var(--state-success)';
+        btn.style.borderColor='var(--state-success)';
+        toast('风险处理措施已提交');
+      }, {confirmText:'提交处理'});
+    });
+  });
+
+  /* ── 检查清单 ── */
+  var checks = [
+    '配置备份已完成','回退方案已演练','相关人员已通知','客户审批单已上传','业务方已确认窗口','监控告警已就绪'
+  ];
+  var checkState = checks.map(function(){ return false; });
+  var elCheck = document.getElementById('cti-check-list');
+  var elCheckCount = document.getElementById('cti-check-count');
+  function renderChecks(){
+    elCheck.innerHTML = checks.map(function(c,i){
+      return '<li class="cti-check-item '+(checkState[i]?'checked':'')+'" data-idx="'+i+'">'+
+        '<span class="cti-cb"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>'+
+        '<span class="cti-check-text">'+esc(c)+'</span>'+
+      '</li>';
+    }).join('');
+    var done = checkState.filter(function(v){return v;}).length;
+    elCheckCount.textContent = '('+done+'/'+checks.length+')';
+    elCheck.querySelectorAll('.cti-check-item').forEach(function(li){
+      li.addEventListener('click', function(){
+        var idx = parseInt(li.getAttribute('data-idx'),10);
+        checkState[idx] = !checkState[idx];
+        li.classList.toggle('checked', checkState[idx]);
+        var d = checkState.filter(function(v){return v;}).length;
+        elCheckCount.textContent = '('+d+'/'+checks.length+')';
+        toast('检查项「'+checks[idx]+'」'+(checkState[idx]?'已完成':'已取消'));
+      });
+    });
+  }
+  renderChecks();
+
+  /* ── 发送通知：收件人选择 ── */
+  var recipients = [
+    {name:'张三', role:'项目经理', av:'张'},
+    {name:'李四', role:'网络工程师', av:'李'},
+    {name:'王五', role:'二线支撑', av:'王'},
+    {name:'赵六', role:'客户接口人', av:'赵'}
+  ];
+  var sendBtn = document.getElementById('cti-send-notify');
+  sendBtn.addEventListener('click', function(){
+    var selected = {};
+    function buildGrid(){
+      return recipients.map(function(r,i){
+        return '<div class="cti-recipient '+(selected[i]?'selected':'')+'" data-idx="'+i+'">'+
+          '<div class="cti-recipient-av">'+esc(r.av)+'</div>'+
+          '<div class="cti-recipient-info"><div class="cti-recipient-name">'+esc(r.name)+'</div><div class="cti-recipient-role">'+esc(r.role)+'</div></div>'+
+          '<div class="cti-recipient-cb"></div>'+
+        '</div>';
+      }).join('');
+    }
+    var html =
+      '<div style="font-size:13px;color:#606266;margin-bottom:10px;">请选择通知收件人（可多选）：</div>'+
+      '<div class="cti-recipient-grid" id="cti-recip-grid">'+buildGrid()+'</div>'+
+      '<div style="margin-top:12px;"><label style="display:block;font-size:13px;color:#606266;margin-bottom:6px;">通知内容</label>'+
+      '<textarea id="cti-notify-msg" rows="2" style="width:100%;border:1px solid #DCDFE6;border-radius:4px;padding:8px 10px;font-size:14px;font-family:inherit;outline:none;resize:vertical;">CO001 割接将于今日 00:00 开始，请相关人员就位。</textarea></div>';
+    var overlay = createDeliveryModal('发送割接通知', html, function(ov){
+      var sel = Object.keys(selected).filter(function(k){return selected[k];}).length;
+      if(sel===0){ toast('请至少选择一位收件人'); return false; }
+      var msg = ov.querySelector('#cti-notify-msg').value.trim() || '割接通知';
+      toast('通知已发送给 '+sel+' 位收件人');
+    }, {confirmText:'发送'});
+    // bind recipient toggles
+    overlay.querySelectorAll('.cti-recipient').forEach(function(el){
+      el.addEventListener('click', function(){
+        var idx = parseInt(el.getAttribute('data-idx'),10);
+        selected[idx] = !selected[idx];
+        el.classList.toggle('selected', selected[idx]);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
