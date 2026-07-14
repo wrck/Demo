@@ -129,13 +129,29 @@
       }
     },
     {
+      "id": "page-inspection",
+      "title": "巡检管理",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1752177600000,
+      "canvasData": {
+        "x": 4960,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/inspection.html",
+        "interactions": []
+      }
+    },
+    {
       "id": "page-customer-asset",
       "title": "客户资产库",
       "type": "page",
       "version": 1,
       "createdAt": 1752177600000,
       "canvasData": {
-        "x": 4960,
+        "x": 5580,
         "y": 0,
         "group": 0
       },
@@ -151,7 +167,7 @@
       "version": 1,
       "createdAt": 1752177600000,
       "canvasData": {
-        "x": 5580,
+        "x": 6200,
         "y": 0,
         "group": 0
       },
@@ -167,7 +183,7 @@
       "version": 1,
       "createdAt": 1752177600000,
       "canvasData": {
-        "x": 6200,
+        "x": 6820,
         "y": 0,
         "group": 0
       },

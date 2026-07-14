@@ -728,6 +728,7 @@
           '编写实施方案': 'implementation-plan.html',
           '实施部署': 'deployment.html',
           '割接管理': 'cutover.html',
+          '巡检管理': 'inspection.html',
           '客户资产库': 'customer-asset.html',
           'AI排障与知识库': 'ai-troubleshoot.html',
           '验收交维': '__toast__',
@@ -766,7 +767,7 @@
           var groupName = header.textContent.trim();
           var items = [];
           if (groupName.indexOf('交付执行') >= 0 && menu.children.length === 0) {
-            items = ['工前准备', '施工计划', '实施方案', '实施部署', '割接管理'];
+            items = ['工前准备', '施工计划', '实施方案', '实施部署', '割接管理', '巡检管理'];
           } else if (groupName.indexOf('交付支撑') >= 0 && menu.children.length === 0) {
             items = ['客户资产库', 'AI排障与知识库'];
           }

@@ -1,0 +1,3155 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>巡检管理 - PMS项目交付管理系统</title>
+    <style id="theme-vars">
+:root {
+  /* ── Brand ── */
+  --color-primary: #1A6FD4;
+  --color-primary-hover: #3B8AE0;
+  --color-primary-light: #E8F2FC;
+  --color-text-muted: #5A6477;
+  --color-border: #DCDFE6;
+
+  /* ── State Colors ── */
+  --state-success: #27AE60;
+  --state-info: #2E8BE6;
+  --state-warning: #F39C12;
+  --state-error: #E74C3C;
+  --state-locked: #8E44AD;
+  --state-disabled: #BDBDBD;
+
+  /* ── Surface ── */
+  --bg-page: #F5F7FA;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F5F7FA;
+  --bg-active: #E8F2FC;
+
+  /* ── Text ── */
+  --text-primary: #303133;
+  --text-tertiary: #909399;
+  --text-white: #FFFFFF;
+
+  /* ── Typography ── */
+  --font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  --text-h1: 600 24px/1.5 var(--font-family);
+  --text-h2: 600 20px/1.5 var(--font-family);
+  --text-h3: 600 16px/1.5 var(--font-family);
+  --text-body: 400 14px/1.5 var(--font-family);
+  --text-caption: 400 12px/1.5 var(--font-family);
+  --text-stat: 600 28px/1.5 var(--font-family);
+
+  /* ── Semantic Token Aliases (Tailwind bridge) ── */
+  --background: #F5F7FA;
+  --foreground: #303133;
+  --card: #FFFFFF;
+  --card-foreground: #303133;
+  --muted: #F5F7FA;
+  --muted-foreground: #909399;
+  --primary-foreground: #FFFFFF;
+  --border: #DCDFE6;
+  --input: #DCDFE6;
+  --ring: #1A6FD4;
+
+  /* ── Radius ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* ── Shadow ── */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  /* ── Spacing ── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+    </style>
+    <script type="application/json" data-cdn="@tailwindcss/browser@4.3.1"></script>
+    <script type="application/json" data-cdn="lucide@1.8.0"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-primary: var(--color-primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+  }
+  @layer base {
+    body { background: var(--background); color: var(--foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--background); }
+      .text-background { color: var(--background); }
+      .border-background { border-color: var(--background); }
+      .ring-background { --tw-ring-color: var(--background); }
+      .bg-foreground { background-color: var(--foreground); }
+      .text-foreground { color: var(--foreground); }
+      .border-foreground { border-color: var(--foreground); }
+      .ring-foreground { --tw-ring-color: var(--foreground); }
+      .bg-card { background-color: var(--card); }
+      .text-card { color: var(--card); }
+      .border-card { border-color: var(--card); }
+      .ring-card { --tw-ring-color: var(--card); }
+      .bg-card-foreground { background-color: var(--card-foreground); }
+      .text-card-foreground { color: var(--card-foreground); }
+      .border-card-foreground { border-color: var(--card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--card-foreground); }
+      .bg-primary { background-color: var(--color-primary); }
+      .text-primary { color: var(--color-primary); }
+      .border-primary { border-color: var(--color-primary); }
+      .ring-primary { --tw-ring-color: var(--color-primary); }
+      .bg-primary-foreground { background-color: var(--primary-foreground); }
+      .text-primary-foreground { color: var(--primary-foreground); }
+      .border-primary-foreground { border-color: var(--primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--primary-foreground); }
+      .bg-muted { background-color: var(--muted); }
+      .text-muted { color: var(--muted); }
+      .border-muted { border-color: var(--muted); }
+      .ring-muted { --tw-ring-color: var(--muted); }
+      .bg-muted-foreground { background-color: var(--muted-foreground); }
+      .text-muted-foreground { color: var(--muted-foreground); }
+      .border-muted-foreground { border-color: var(--muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--muted-foreground); }
+      .bg-border { background-color: var(--border); }
+      .text-border { color: var(--border); }
+      .border-border { border-color: var(--border); }
+      .ring-border { --tw-ring-color: var(--border); }
+      .bg-input { background-color: var(--input); }
+      .text-input { color: var(--input); }
+      .border-input { border-color: var(--input); }
+      .ring-input { --tw-ring-color: var(--input); }
+      .bg-ring { background-color: var(--ring); }
+      .text-ring { color: var(--ring); }
+      .border-ring { border-color: var(--ring); }
+      .ring-ring { --tw-ring-color: var(--ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+<script>
+(function(){
+  var __lastNav = '';
+  var __lastNavTime = 0;
+  window.__safeNav = function(url) {
+    var now = Date.now();
+    if (url === __lastNav && (now - __lastNavTime) < 800) return;
+    __lastNav = url;
+    __lastNavTime = now;
+    try { window.parent.postMessage({ type: 'design-navigate', url: url }, '*'); } catch(e) {}
+    var name = url.replace(/\.html$/, '').replace(/-/g, ' ');
+    if (typeof window.showToast === 'function') {
+      window.showToast('页面跳转: ' + name);
+    } else if (typeof window.showToastDelivery === 'function') {
+      window.showToastDelivery('页面跳转: ' + name);
+    } else {
+      var t = document.createElement('div');
+      t.textContent = '页面跳转: ' + name;
+      t.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1A6FD4;color:#fff;padding:10px 24px;border-radius:8px;z-index:99999;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-family:sans-serif;';
+      document.body.appendChild(t);
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 2000);
+    }
+  };
+  document.addEventListener('click', function(e) {
+    var el = e.target;
+    while (el && el !== document) {
+      if (el.hasAttribute && el.hasAttribute('data-nav-target')) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.__safeNav(el.getAttribute('data-nav-target'));
+        return false;
+      }
+      el = el.parentElement;
+    }
+  }, true);
+})();
+</script>
+<script>
+(function(){
+  var origError = window.onerror;
+  window.onerror = function(msg, url, line, col, err) {
+    if (typeof msg === 'string' && (msg.indexOf('removeEventListener') !== -1 || msg.indexOf('cross-origin') !== -1 || msg.indexOf('security policy') !== -1)) {
+      return true;
+    }
+    if (origError) return origError.apply(this, arguments);
+    return false;
+  };
+  window.addEventListener('unhandledrejection', function(e) {
+    if (e.reason && typeof e.reason.message === 'string' && (e.reason.message.indexOf('removeEventListener') !== -1 || e.reason.message.indexOf('cross-origin') !== -1)) {
+      e.preventDefault();
+    }
+  });
+})();
+</script>
+
+    <!-- ==================== Header ==================== -->
+    <header class="admin-header">
+        <div class="header-logo">
+            <div class="logo-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <span class="logo-text">PMS 项目交付管理系统</span>
+        </div>
+        <div class="header-search">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input type="text" placeholder="搜索巡检单号/项目名称/设备序列号...">
+        </div>
+        <div class="header-right">
+            <div class="header-bell">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span class="bell-badge">3</span>
+            </div>
+            <div class="header-user">
+                <div class="avatar">张</div>
+                <span class="user-name">张三</span>
+                <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== Sidebar ==================== -->
+    <aside class="admin-sidebar">
+        <!-- 交付跟踪 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    交付跟踪
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;">
+                <li><a href="#" data-nav-target="overall-tracking.html">项目总体跟踪</a></li>
+                <li><a href="#" onclick="return false">售前测试管理</a></li>
+                <li><a href="#" onclick="return false">项目转包（代施）</a></li>
+            </ul>
+        </div>
+
+        <!-- 交付执行 (expanded) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                    </svg>
+                    交付执行
+                </span>
+                <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" data-nav-target="pre-work.html">工前准备</a></li>
+                <li><a href="#" data-nav-target="construction-plan.html">施工计划</a></li>
+                <li><a href="#" data-nav-target="implementation-plan.html">实施方案</a></li>
+                <li><a href="#" data-nav-target="deployment.html">实施部署</a></li>
+                <li><a href="#" onclick="return false">验收交维</a></li>
+                <li><a href="#" data-nav-target="cutover.html">割接管理</a></li>
+                <li><a href="#" data-nav-target="inspection.html" class="active">巡检管理</a></li>
+            </ul>
+        </div>
+
+        <!-- 交付支撑 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                    交付支撑
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;">
+                <li><a href="#" data-nav-target="customer-asset.html">客户资产库</a></li>
+                <li><a href="#" onclick="return false">技术公告与周报</a></li>
+                <li><a href="#" onclick="return false">回访与维保</a></li>
+                <li><a href="#" data-nav-target="ai-troubleshoot.html">AI排障与知识库</a></li>
+                <li><a href="#" onclick="return false">ITR故障与RMA</a></li>
+            </ul>
+        </div>
+
+        <!-- 集成与报表 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                    集成与报表
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+
+        <!-- 系统管理 (collapsed) -->
+        <div class="sidebar-group">
+            <div class="sidebar-group-header">
+                <span class="group-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                    系统管理
+                </span>
+                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            <ul class="sidebar-menu" style="display: none;"></ul>
+        </div>
+    </aside>
+
+    <!-- ==================== TagsView ==================== -->
+    <div class="tags-view">
+        <div class="tag-item" onclick="__safeNav('cutover.html')">
+            <span>割接管理</span>
+            <span class="tag-close" onclick="event.stopPropagation();event.preventDefault();return false;">&times;</span>
+        </div>
+        <div class="tag-item active">
+            <span>巡检管理</span>
+            <span class="tag-close">&times;</span>
+        </div>
+        <div style="flex:1;"></div>
+        <div class="tags-add">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- ==================== Main Content ==================== -->
+    <div class="admin-main">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar">
+            <a href="#">交付执行</a>
+            <span class="sep">/</span>
+            <span class="current">巡检管理</span>
+        </div>
+
+        <div class="page-content" style="padding-bottom: 80px;">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">巡检管理</h1>
+                <button class="btn-primary" id="btn-create-inspection">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    发起巡检
+                </button>
+            </div>
+
+            <!-- ==================== Filter Bar ==================== -->
+            <div class="filter-bar">
+                <div class="filter-left">
+                    <div class="filter-item">
+                        <label>搜索</label>
+                        <input type="text" id="filter-search" class="filter-input" placeholder="巡检单号/项目名称">
+                    </div>
+                    <div class="filter-item">
+                        <label>状态</label>
+                        <select id="filter-status" class="filter-select">
+                            <option value="">全部状态</option>
+                            <option value="preparing">准备中</option>
+                            <option value="executing">执行中</option>
+                            <option value="report">报告生成</option>
+                            <option value="todo">待办跟踪</option>
+                            <option value="closed">已闭环</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label>巡检方式</label>
+                        <select id="filter-method" class="filter-select">
+                            <option value="">全部方式</option>
+                            <option value="online">在线巡检</option>
+                            <option value="offline">离线巡检</option>
+                        </select>
+                    </div>
+                    <button class="btn-sm-primary" id="btn-filter">筛选</button>
+                    <button class="btn-sm-outline" id="btn-reset">重置</button>
+                </div>
+                <div class="filter-right">
+                    <span class="filter-count">共 <strong id="filter-count-num">5</strong> 条巡检任务</span>
+                </div>
+            </div>
+
+            <!-- ==================== Task List Table ==================== -->
+            <div class="table-card">
+                <table class="data-table" id="inspection-table">
+                    <thead>
+                        <tr>
+                            <th style="width:130px;">巡检单号</th>
+                            <th>项目名称</th>
+                            <th style="width:110px;">巡检方式</th>
+                            <th style="width:160px;">巡检规则</th>
+                            <th style="width:120px;">状态</th>
+                            <th style="width:200px;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inspection-tbody">
+                        <tr data-ins="INS001">
+                            <td><a class="cell-link" data-action="detail">INS001</a></td>
+                            <td>XX银行核心网</td>
+                            <td><span class="method-badge online">在线巡检</span></td>
+                            <td>防火墙健康巡检</td>
+                            <td><span class="status-tag st-preparing"><span class="dot"></span>准备中</span></td>
+                            <td>
+                                <button class="btn-sm-outline" data-action="detail">详情</button>
+                                <button class="btn-sm-outline" data-action="config">配置</button>
+                            </td>
+                        </tr>
+                        <tr data-ins="INS002">
+                            <td><a class="cell-link" data-action="detail">INS002</a></td>
+                            <td>YY公司扩容</td>
+                            <td><span class="method-badge online">在线巡检</span></td>
+                            <td>路由器基础巡检</td>
+                            <td><span class="status-tag st-executing"><span class="dot"></span>执行中</span></td>
+                            <td>
+                                <button class="btn-sm-outline" data-action="detail">详情</button>
+                                <button class="btn-sm-outline" data-action="config">配置</button>
+                            </td>
+                        </tr>
+                        <tr data-ins="INS003">
+                            <td><a class="cell-link" data-action="detail">INS003</a></td>
+                            <td>ZZ集团改造</td>
+                            <td><span class="method-badge offline">离线巡检</span></td>
+                            <td>交换机端口巡检</td>
+                            <td><span class="status-tag st-report"><span class="dot"></span>报告生成</span></td>
+                            <td>
+                                <button class="btn-sm-outline" data-action="detail">详情</button>
+                                <button class="btn-sm-outline" data-action="report">查看报告</button>
+                            </td>
+                        </tr>
+                        <tr data-ins="INS004">
+                            <td><a class="cell-link" data-action="detail">INS004</a></td>
+                            <td>AA数据中心</td>
+                            <td><span class="method-badge online">在线巡检</span></td>
+                            <td>防火墙健康巡检</td>
+                            <td><span class="status-tag st-todo"><span class="dot"></span>待办跟踪</span></td>
+                            <td>
+                                <button class="btn-sm-outline" data-action="detail">详情</button>
+                                <button class="btn-sm-outline" data-action="todo">待办处理</button>
+                            </td>
+                        </tr>
+                        <tr data-ins="INS005">
+                            <td><a class="cell-link" data-action="detail">INS005</a></td>
+                            <td>BB政府网络</td>
+                            <td><span class="method-badge offline">离线巡检</span></td>
+                            <td>路由器基础巡检</td>
+                            <td><span class="status-tag st-closed"><span class="dot"></span>已闭环</span></td>
+                            <td>
+                                <button class="btn-sm-outline" data-action="detail">详情</button>
+                                <button class="btn-sm-outline" data-action="archive">查看归档</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ==================== Inspection Detail Section ==================== -->
+            <div class="content-card detail-card" id="inspection-detail">
+                <!-- Detail Header -->
+                <div class="detail-card-header">
+                    <div class="dh-left">
+                        <span class="dh-title">巡检详情</span>
+                        <span class="dh-no">INS001 · XX银行核心网</span>
+                    </div>
+                    <span class="dh-close" id="detail-close" title="收起详情">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </span>
+                </div>
+
+                <!-- ==================== Step Navigation ==================== -->
+                <div class="step-nav" id="step-nav">
+                    <div class="step-item active" data-step="1" onclick="switchStep(1)">
+                        <div class="step-circle active">
+                            <span class="step-num">1</span>
+                        </div>
+                        <span class="step-label active">巡检准备</span>
+                    </div>
+                    <div class="step-connector active"></div>
+                    <div class="step-item" data-step="2" onclick="switchStep(2)">
+                        <div class="step-circle">
+                            <span class="step-num">2</span>
+                        </div>
+                        <span class="step-label">巡检执行</span>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step-item" data-step="3" onclick="switchStep(3)">
+                        <div class="step-circle">
+                            <span class="step-num">3</span>
+                        </div>
+                        <span class="step-label">报告生成</span>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step-item" data-step="4" onclick="switchStep(4)">
+                        <div class="step-circle">
+                            <span class="step-num">4</span>
+                        </div>
+                        <span class="step-label">待办跟踪</span>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step-item" data-step="5" onclick="switchStep(5)">
+                        <div class="step-circle">
+                            <span class="step-num">5</span>
+                        </div>
+                        <span class="step-label">闭环</span>
+                    </div>
+                </div>
+
+                <!-- ==================== Step Panel: Step1 巡检准备 ==================== -->
+                <div class="step-panel active" id="step-panel-1">
+                    <div class="detail-section">
+                        <div class="section-title"><span class="title-bar"></span>项目基础信息</div>
+                        <div class="info-grid">
+                            <div class="info-field">
+                                <span class="info-label">项目名称</span>
+                                <span class="info-value">XX银行核心网</span>
+                            </div>
+                            <div class="info-field">
+                                <span class="info-label">客户名称</span>
+                                <span class="info-value">XX银行股份有限公司</span>
+                            </div>
+                            <div class="info-field">
+                                <span class="info-label">合同号</span>
+                                <span class="info-value">HT-2026-00123</span>
+                            </div>
+                            <div class="info-field">
+                                <span class="info-label">设备序列号</span>
+                                <span class="info-value">FW-AX-2026-0001</span>
+                            </div>
+                            <div class="info-field">
+                                <span class="info-label">产品类型</span>
+                                <span class="info-value">下一代防火墙 NGFW</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="section-title"><span class="title-bar"></span>来源选择</div>
+                        <div class="source-group" id="source-group">
+                            <div class="source-card checked" data-source="pms">
+                                <div class="source-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>
+                                    </svg>
+                                </div>
+                                <div class="source-info">
+                                    <div class="source-name">PMS带入</div>
+                                    <div class="source-desc">从PMS项目交付数据自动带入设备信息</div>
+                                </div>
+                                <div class="source-check">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="source-card" data-source="custom">
+                                <div class="source-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                                    </svg>
+                                </div>
+                                <div class="source-info">
+                                    <div class="source-name">自建</div>
+                                    <div class="source-desc">手动输入设备序列号查询设备信息</div>
+                                </div>
+                                <div class="source-check">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 自建时设备序列号查询 -->
+                        <div class="serial-query" id="serial-query" style="display:none;">
+                            <div class="form-row">
+                                <label class="form-label">设备序列号</label>
+                                <div class="serial-input-group">
+                                    <input type="text" class="form-input" placeholder="请输入设备序列号" id="serial-input">
+                                    <button class="btn-sm-primary" id="btn-query-serial">查询</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="section-title"><span class="title-bar"></span>巡检方式选择</div>
+                        <div class="method-group" id="method-group">
+                            <div class="method-card checked" data-method="online">
+                                <div class="method-icon">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>
+                                    </svg>
+                                </div>
+                                <div class="method-info">
+                                    <div class="method-name">在线巡检</div>
+                                    <div class="method-desc">通过SSH/Telnet远程连接设备实时执行巡检命令</div>
+                                </div>
+                                <div class="method-check">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="method-card" data-method="offline">
+                                <div class="method-icon">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                                    </svg>
+                                </div>
+                                <div class="method-info">
+                                    <div class="method-name">离线巡检</div>
+                                    <div class="method-desc">下载巡检脚本在设备本地执行，上传结果文件解析</div>
+                                </div>
+                                <div class="method-check">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="section-title"><span class="title-bar"></span>巡检规则与计划</div>
+                        <div class="form-grid-2">
+                            <div class="form-row">
+                                <label class="form-label">巡检规则</label>
+                                <select class="form-select" id="inspection-rule">
+                                    <option value="fw-health">防火墙健康巡检</option>
+                                    <option value="router-basic">路由器基础巡检</option>
+                                    <option value="switch-port">交换机端口巡检</option>
+                                    <option value="fw-session">防火墙会话巡检</option>
+                                    <option value="router-route">路由器路由巡检</option>
+                                    <option value="switch-vlan" data-no-threshold="1">交换机VLAN巡检</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <label class="form-label">计划巡检时间</label>
+                                <input type="datetime-local" class="form-input" value="2026-07-15T10:00">
+                            </div>
+                            <div class="form-row">
+                                <label class="form-label">负责人</label>
+                                <input type="text" class="form-input" value="张三" id="ins-owner">
+                            </div>
+                            <div class="form-row">
+                                <label class="form-label">巡检说明</label>
+                                <input type="text" class="form-input" placeholder="选填，补充巡检说明" id="ins-remark">
+                            </div>
+                        </div>
+                        <div class="rule-threshold-warning" id="rule-threshold-warning" style="display:none;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F39C12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                            <span>该巡检规则缺少阈值配置，巡检结果可能不完整</span>
+                        </div>
+                    </div>
+
+                    <div class="step-actions">
+                        <button class="btn-primary" id="btn-step1-next">
+                            保存并进入Step2
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ==================== Step Panel: Step2 巡检执行 ==================== -->
+                <div class="step-panel" id="step-panel-2">
+                    <!-- ====== 在线巡检面板 ====== -->
+                    <div class="method-panel active" id="online-panel">
+                        <div class="detail-section">
+                            <div class="section-title"><span class="title-bar"></span>设备连接信息</div>
+                            <div class="form-grid-2">
+                                <div class="form-row">
+                                    <label class="form-label">设备IP地址</label>
+                                    <input type="text" class="form-input" placeholder="如 192.168.1.1" value="10.0.0.1" id="device-ip">
+                                </div>
+                                <div class="form-row">
+                                    <label class="form-label">连接端口</label>
+                                    <input type="text" class="form-input" value="22" id="device-port">
+                                </div>
+                                <div class="form-row">
+                                    <label class="form-label">登录账号</label>
+                                    <input type="text" class="form-input" value="admin" id="device-account">
+                                </div>
+                                <div class="form-row">
+                                    <label class="form-label">登录密码</label>
+                                    <div class="password-wrapper">
+                                        <input type="password" class="form-input" value="P@ssw0rd123" id="device-password">
+                                        <span class="password-toggle" onclick="togglePassword('device-password', this)">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="section-title"><span class="title-bar"></span>连通性检查</div>
+                            <div class="check-grid">
+                                <div class="check-item" id="check-ping">
+                                    <div class="check-item-header">
+                                        <span class="check-name">Ping检查</span>
+                                        <span class="check-status pending">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                                            待检查
+                                        </span>
+                                    </div>
+                                    <button class="btn-sm-primary check-btn" onclick="runConnectivityCheck('ping')">Ping检查</button>
+                                </div>
+                                <div class="check-item" id="check-telnet">
+                                    <div class="check-item-header">
+                                        <span class="check-name">Telnet检查</span>
+                                        <span class="check-status pending">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                                            待检查
+                                        </span>
+                                    </div>
+                                    <button class="btn-sm-primary check-btn" onclick="runConnectivityCheck('telnet')">Telnet检查</button>
+                                </div>
+                                <div class="check-item" id="check-ssh">
+                                    <div class="check-item-header">
+                                        <span class="check-name">SSH检查</span>
+                                        <span class="check-status pending">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                                            待检查
+                                        </span>
+                                    </div>
+                                    <button class="btn-sm-primary check-btn" onclick="runConnectivityCheck('ssh')">SSH检查</button>
+                                </div>
+                                <div class="check-item" id="check-account">
+                                    <div class="check-item-header">
+                                        <span class="check-name">账号有效性检查</span>
+                                        <span class="check-status pending">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                                            待检查
+                                        </span>
+                                    </div>
+                                    <button class="btn-sm-primary check-btn" onclick="runConnectivityCheck('account')">账号有效性检查</button>
+                                </div>
+                            </div>
+                            <div class="umc-notice">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F39C12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                                </svg>
+                                <span>模拟场景提示：当UMC API超时时，在线巡检将自动切换为离线模式，请提前准备巡检脚本。</span>
+                            </div>
+                            <div class="check-simulate-bar">
+                                <button class="btn-sm-outline" id="btn-simulate-check-fail" type="button">模拟连接失败</button>
+                                <button class="btn-sm-outline" id="btn-recheck-all" type="button">全部重新检查</button>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="section-title"><span class="title-bar"></span>执行巡检</div>
+                            <button class="btn-primary" id="btn-execute-online" disabled>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="5 3 19 12 5 21 5 3"/>
+                                </svg>
+                                开始执行巡检
+                            </button>
+                            <button class="btn-sm-outline" id="btn-simulate-timeout" type="button" style="margin-left:8px;">模拟超时</button>
+                            <span class="exec-hint" id="exec-hint-online">请先完成所有连通性检查</span>
+                            <!-- UMC API 超时提示 (EC-010, FR-079) -->
+                            <div class="umc-timeout-banner" id="umc-timeout-banner" style="display:none;">
+                                <div class="umc-timeout-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E74C3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"/><line x1="12" y1="6" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                                    </svg>
+                                </div>
+                                <div class="umc-timeout-body">
+                                    <div class="umc-timeout-title">巡检执行超时</div>
+                                    <div class="umc-timeout-desc">UMC API 调用超时，远程连接未在规定时间内响应。可重试在线巡检或切换为离线巡检模式。</div>
+                                </div>
+                                <div class="umc-timeout-actions">
+                                    <button class="btn-sm-primary" id="btn-umc-retry" type="button">重试</button>
+                                    <button class="btn-sm-outline" id="btn-umc-switch-offline" type="button">切换为离线巡检</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 巡检结果展示区 -->
+                        <div class="detail-section result-section" id="online-result-section" style="display:none;">
+                            <div class="section-title"><span class="title-bar"></span>巡检结果</div>
+                            <!-- 命令返回结果 -->
+                            <div class="terminal-output" id="terminal-output">
+                                <div class="terminal-header">
+                                    <span class="terminal-dot red"></span>
+                                    <span class="terminal-dot yellow"></span>
+                                    <span class="terminal-dot green"></span>
+                                    <span class="terminal-title">巡检命令输出 - 10.0.0.1</span>
+                                </div>
+                                <pre class="terminal-body">[admin@NGFW-01 ~]$ show system resource
+CPU usage: 23%
+Memory usage: 45%
+Session count: 12834
+Port status:
+  port1: up   (10Gbps)
+  port2: up   (10Gbps)
+  port3: down
+  port4: up   (1Gbps)
+
+[admin@NGFW-01 ~]$ show version
+Product: Next Generation Firewall
+Version: V7.0.3 Build 2026
+Serial: FW-AX-2026-0001
+Uptime: 72 days, 14:23:05</pre>
+                            </div>
+                            <!-- 关键指标表格 -->
+                            <div class="metrics-section">
+                                <div class="metrics-title">关键指标</div>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>检查项</th>
+                                            <th style="width:120px;">指标值</th>
+                                            <th style="width:120px;">阈值</th>
+                                            <th style="width:100px;">状态</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>CPU使用率</td>
+                                            <td>23%</td>
+                                            <td>&lt;80%</td>
+                                            <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>正常</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>内存使用率</td>
+                                            <td>45%</td>
+                                            <td>&lt;80%</td>
+                                            <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>正常</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>会话数</td>
+                                            <td>12834</td>
+                                            <td>&lt;50000</td>
+                                            <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>正常</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>端口状态</td>
+                                            <td>3/4 up</td>
+                                            <td>全部up</td>
+                                            <td><span class="badge metric-warn"><span class="dot" style="background:#F39C12;"></span>异常</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- 异常信息展示区 -->
+                            <div class="anomaly-section">
+                                <div class="anomaly-title">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E74C3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                                    </svg>
+                                    异常信息
+                                </div>
+                                <div class="anomaly-list">
+                                    <div class="anomaly-item">
+                                        <span class="anomaly-dot"></span>
+                                        端口 port3 状态为 down，可能存在物理链路故障
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ====== 离线巡检面板 ====== -->
+                    <div class="method-panel" id="offline-panel">
+                        <div class="detail-section">
+                            <div class="section-title"><span class="title-bar"></span>下载巡检命令脚本</div>
+                            <div class="offline-script-area">
+                                <button class="btn-outline" id="btn-download-script">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                                    </svg>
+                                    下载巡检命令脚本
+                                </button>
+                                <div class="script-info">
+                                    <div class="script-info-title">脚本说明</div>
+                                    <div class="script-info-row">
+                                        <span class="info-label">支持设备类型：</span>
+                                        <span class="info-value">防火墙 / 路由器 / 交换机</span>
+                                    </div>
+                                    <div class="script-info-row">
+                                        <span class="info-label">脚本格式：</span>
+                                        <span class="info-value">.sh (Shell Script)</span>
+                                    </div>
+                                    <div class="script-info-row">
+                                        <span class="info-label">命令列表预览：</span>
+                                    </div>
+                                    <pre class="script-preview">show system resource
+show version
+show interface status
+show session summary
+show route table
+show cpu usage
+show memory usage</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="section-title"><span class="title-bar"></span>上传巡检结果文件</div>
+                            <div class="upload-area" id="upload-area">
+                                <div class="upload-placeholder" id="upload-placeholder">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#C0C4CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                                    </svg>
+                                    <div class="upload-text">点击或拖拽文件到此处上传</div>
+                                    <div class="upload-hint">支持格式：.log / .txt / .zip，文件大小限制：50MB</div>
+                                </div>
+                                <div class="upload-file-info" id="upload-file-info" style="display:none;">
+                                    <div class="upload-file-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A6FD4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                                        </svg>
+                                    </div>
+                                    <div class="upload-file-detail">
+                                        <div class="upload-file-name" id="upload-file-name"></div>
+                                        <div class="upload-file-size" id="upload-file-size"></div>
+                                    </div>
+                                    <span class="upload-file-remove" id="upload-file-remove">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                                        </svg>
+                                    </span>
+                                </div>
+                                <input type="file" id="file-input" accept=".log,.txt,.zip" style="display:none;">
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="section-title"><span class="title-bar"></span>执行巡检</div>
+                            <button class="btn-primary" id="btn-execute-offline" disabled>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="5 3 19 12 5 21 5 3"/>
+                                </svg>
+                                开始执行巡检（解析上传文件）
+                            </button>
+                            <button class="btn-sm-outline" id="btn-simulate-parse-fail" type="button" style="margin-left:8px;">模拟解析失败</button>
+                            <span class="exec-hint" id="exec-hint-offline">请先上传巡检结果文件</span>
+                            <!-- 解析失败提示 (EC-020, FR-081) -->
+                            <div class="parse-fail-banner" id="parse-fail-banner" style="display:none;">
+                                <div class="parse-fail-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E74C3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                                    </svg>
+                                </div>
+                                <div class="parse-fail-body">
+                                    <div class="parse-fail-title">解析失败：文件内容不符合规则脚本输出格式</div>
+                                    <div class="parse-fail-desc">无法识别上传文件中的巡检命令输出，请确认文件由系统下发的巡检脚本生成后重新上传。</div>
+                                </div>
+                                <div class="parse-fail-actions">
+                                    <button class="btn-sm-primary" id="btn-reupload" type="button">重新上传</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 离线巡检结果展示区 -->
+                        <div class="detail-section result-section" id="offline-result-section" style="display:none;">
+                            <div class="section-title"><span class="title-bar"></span>巡检结果</div>
+                            <div class="terminal-output">
+                                <div class="terminal-header">
+                                    <span class="terminal-dot red"></span>
+                                    <span class="terminal-dot yellow"></span>
+                                    <span class="terminal-dot green"></span>
+                                    <span class="terminal-title">解析结果 - inspection_result.log</span>
+                                </div>
+                                <pre class="terminal-body">[解析完成] 共解析 7 条命令输出
+  show system resource      → OK
+  show version              → OK
+  show interface status     → OK (1 anomaly)
+  show session summary      → OK
+  show route table          → OK
+  show cpu usage            → OK
+  show memory usage         → OK</pre>
+                            </div>
+                            <div class="metrics-section">
+                                <div class="metrics-title">关键指标</div>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>检查项</th>
+                                            <th style="width:120px;">指标值</th>
+                                            <th style="width:120px;">阈值</th>
+                                            <th style="width:100px;">状态</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>CPU使用率</td>
+                                            <td>18%</td>
+                                            <td>&lt;80%</td>
+                                            <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>正常</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>内存使用率</td>
+                                            <td>52%</td>
+                                            <td>&lt;80%</td>
+                                            <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>正常</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>会话数</td>
+                                            <td>8921</td>
+                                            <td>&lt;50000</td>
+                                            <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>正常</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>端口状态</td>
+                                            <td>3/4 up</td>
+                                            <td>全部up</td>
+                                            <td><span class="badge metric-warn"><span class="dot" style="background:#F39C12;"></span>异常</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="anomaly-section">
+                                <div class="anomaly-title">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E74C3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                                    </svg>
+                                    异常信息
+                                </div>
+                                <div class="anomaly-list">
+                                    <div class="anomaly-item">
+                                        <span class="anomaly-dot"></span>
+                                        端口 port3 状态为 down，可能存在物理链路故障
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-actions" id="step2-actions" style="display:none;">
+                        <button class="btn-outline" onclick="switchStep(1)">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+                            </svg>
+                            上一步
+                        </button>
+                        <button class="btn-primary" id="btn-step2-next">
+                            保存并进入Step3
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ==================== Step Panel: Step3 报告生成 ==================== -->
+                <div class="step-panel" id="step-panel-3">
+                    <div class="detail-section">
+                        <div class="section-title"><span class="title-bar"></span>巡检报告</div>
+                        <div class="report-header">
+                            <div class="report-title-row">
+                                <h2 class="report-title">XX银行核心网 - 防火墙健康巡检报告</h2>
+                                <button class="btn-outline btn-download-report" id="btn-download-report">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                                    </svg>
+                                    下载报告
+                                </button>
+                            </div>
+                            <div class="report-meta">
+                                <span>报告编号：RPT-INS001-20260713</span>
+                                <span>生成时间：2026-07-13 14:30</span>
+                                <span>巡检人：张三</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="section-title"><span class="title-bar"></span>设备基本信息</div>
+                        <div class="info-grid">
+                            <div class="info-field">
+                                <span class="info-label">设备名称</span>
+                                <span class="info-value">NGFW-01</span>
+                            </div>
+                            <div class="info-field">
+                                <span class="info-label">设备型号</span>
+                                <span class="info-value">NGFW V7</span>
+                            </div>
+                            <div class="info-field">
+                                <span class="info-label">序列号</span>
+                                <span class="info-value">FW-AX-2026-0001</span>
+                            </div>
+                            <div class="info-field">
+                                <span class="info-label">IP地址</span>
+                                <span class="info-value">10.0.0.1</span>
+                            </div>
+                            <div class="info-field">
+                                <span class="info-label">软件版本</span>
+                                <span class="info-value">V7.0.3 Build 2026</span>
+                            </div>
+                            <div class="info-field">
+                                <span class="info-label">运行时长</span>
+                                <span class="info-value">72天 14小时</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="section-title"><span class="title-bar"></span>巡检结果概要</div>
+                        <div class="summary-cards">
+                            <div class="summary-card total">
+                                <div class="summary-value">4</div>
+                                <div class="summary-label">总检查项</div>
+                            </div>
+                            <div class="summary-card normal">
+                                <div class="summary-value">3</div>
+                                <div class="summary-label">正常项</div>
+                            </div>
+                            <div class="summary-card abnormal">
+                                <div class="summary-value">1</div>
+                                <div class="summary-label">异常项</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="section-title"><span class="title-bar"></span>详细检查结果</div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>检查项</th>
+                                    <th style="width:120px;">指标值</th>
+                                    <th style="width:120px;">阈值</th>
+                                    <th style="width:100px;">状态</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CPU使用率</td>
+                                    <td>23%</td>
+                                    <td>&lt;80%</td>
+                                    <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>正常</span></td>
+                                </tr>
+                                <tr>
+                                    <td>内存使用率</td>
+                                    <td>45%</td>
+                                    <td>&lt;80%</td>
+                                    <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>正常</span></td>
+                                </tr>
+                                <tr>
+                                    <td>会话数</td>
+                                    <td>12834</td>
+                                    <td>&lt;50000</td>
+                                    <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>正常</span></td>
+                                </tr>
+                                <tr>
+                                    <td>端口状态</td>
+                                    <td>3/4 up</td>
+                                    <td>全部up</td>
+                                    <td><span class="badge metric-warn"><span class="dot" style="background:#F39C12;"></span>异常</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="section-title">
+                            <span class="title-bar"></span>检出问题列表
+                            <span class="problem-count">共 3 条</span>
+                        </div>
+                        <div class="problem-toolbar">
+                            <div class="problem-filter">
+                                <label>优先级筛选</label>
+                                <select id="problem-filter" class="filter-select">
+                                    <option value="all">全部</option>
+                                    <option value="high">高优先级</option>
+                                    <option value="medium">中优先级</option>
+                                    <option value="low">低优先级</option>
+                                </select>
+                            </div>
+                            <button class="btn-sm-primary" id="btn-confirm-all" type="button">全部标注为确认跟踪</button>
+                        </div>
+                        <div class="problem-list" id="problem-list">
+                            <div class="problem-item" data-problem="0" data-level="high">
+                                <div class="problem-header" onclick="toggleProblemDetail(0)">
+                                    <div class="problem-left">
+                                        <span class="problem-level high">高</span>
+                                        <span class="problem-desc">端口 port3 状态为 down，可能存在物理链路故障</span>
+                                        <span class="problem-expand-icon" id="problem-expand-0">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                                        </span>
+                                    </div>
+                                    <span class="problem-mark confirmed" data-problem="0">确认跟踪</span>
+                                </div>
+                                <div class="problem-detail" id="problem-detail-0" style="display:none;">
+                                    <table class="data-table problem-detail-table">
+                                        <thead><tr><th>检查项</th><th style="width:120px;">指标值</th><th style="width:120px;">阈值</th><th style="width:120px;">实际值</th><th style="width:120px;">偏差</th></tr></thead>
+                                        <tbody><tr><td>端口状态</td><td>3/4 up</td><td>全部up</td><td>port3 down</td><td>1端口down</td></tr></tbody>
+                                    </table>
+                                </div>
+                                <div class="problem-actions" data-problem="0">
+                                    <button class="btn-sm-outline btn-false-report" data-problem="0">误报</button>
+                                    <button class="btn-sm-outline btn-ignore" data-problem="0">忽略</button>
+                                    <button class="btn-sm-primary btn-confirm-track" data-problem="0">确认跟踪</button>
+                                </div>
+                            </div>
+                            <div class="problem-item" data-problem="1" data-level="medium">
+                                <div class="problem-header" onclick="toggleProblemDetail(1)">
+                                    <div class="problem-left">
+                                        <span class="problem-level medium">中</span>
+                                        <span class="problem-desc">设备运行时长已达72天，建议择期重启</span>
+                                        <span class="problem-expand-icon" id="problem-expand-1">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                                        </span>
+                                    </div>
+                                    <span class="problem-mark confirmed" data-problem="1">确认跟踪</span>
+                                </div>
+                                <div class="problem-detail" id="problem-detail-1" style="display:none;">
+                                    <table class="data-table problem-detail-table">
+                                        <thead><tr><th>检查项</th><th style="width:120px;">指标值</th><th style="width:120px;">阈值</th><th style="width:120px;">实际值</th><th style="width:120px;">偏差</th></tr></thead>
+                                        <tbody><tr><td>运行时长</td><td>72天</td><td>&lt;60天</td><td>72天</td><td>+12天</td></tr></tbody>
+                                    </table>
+                                </div>
+                                <div class="problem-actions" data-problem="1">
+                                    <button class="btn-sm-outline btn-false-report" data-problem="1">误报</button>
+                                    <button class="btn-sm-outline btn-ignore" data-problem="1">忽略</button>
+                                    <button class="btn-sm-primary btn-confirm-track" data-problem="1">确认跟踪</button>
+                                </div>
+                            </div>
+                            <div class="problem-item" data-problem="2" data-level="low">
+                                <div class="problem-header" onclick="toggleProblemDetail(2)">
+                                    <div class="problem-left">
+                                        <span class="problem-level low">低</span>
+                                        <span class="problem-desc">日志缓冲区使用率达到65%，建议关注</span>
+                                        <span class="problem-expand-icon" id="problem-expand-2">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                                        </span>
+                                    </div>
+                                    <span class="problem-mark confirmed" data-problem="2">确认跟踪</span>
+                                </div>
+                                <div class="problem-detail" id="problem-detail-2" style="display:none;">
+                                    <table class="data-table problem-detail-table">
+                                        <thead><tr><th>检查项</th><th style="width:120px;">指标值</th><th style="width:120px;">阈值</th><th style="width:120px;">实际值</th><th style="width:120px;">偏差</th></tr></thead>
+                                        <tbody><tr><td>日志缓冲区使用率</td><td>65%</td><td>&lt;60%</td><td>65%</td><td>+5%</td></tr></tbody>
+                                    </table>
+                                </div>
+                                <div class="problem-actions" data-problem="2">
+                                    <button class="btn-sm-outline btn-false-report" data-problem="2">误报</button>
+                                    <button class="btn-sm-outline btn-ignore" data-problem="2">忽略</button>
+                                    <button class="btn-sm-primary btn-confirm-track" data-problem="2">确认跟踪</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-actions">
+                        <button class="btn-outline" onclick="switchStep(2)">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+                            </svg>
+                            上一步
+                        </button>
+                        <button class="btn-primary" id="btn-step3-next">
+                            保存并进入Step4
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ==================== Step Panel: Step4 待办跟踪 ==================== -->
+                <div class="step-panel" id="step-panel-4">
+                    <div class="detail-section">
+                        <div class="section-title"><span class="title-bar"></span>待办统计</div>
+                        <div class="todo-stats" id="todo-stats">
+                            <div class="todo-stat-card total">
+                                <div class="todo-stat-value" id="todo-total">3</div>
+                                <div class="todo-stat-label">待办总数</div>
+                            </div>
+                            <div class="todo-stat-card closed">
+                                <div class="todo-stat-value" id="todo-closed">0</div>
+                                <div class="todo-stat-label">已闭环</div>
+                            </div>
+                            <div class="todo-stat-card unclosed">
+                                <div class="todo-stat-value" id="todo-unclosed">3</div>
+                                <div class="todo-stat-label">未闭环</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="section-title"><span class="title-bar"></span>待办列表</div>
+                        <div class="todo-list" id="todo-list">
+                            <!-- todo items will be rendered by JS -->
+                        </div>
+                    </div>
+
+                    <div class="step-actions">
+                        <button class="btn-outline" onclick="switchStep(3)">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+                            </svg>
+                            上一步
+                        </button>
+                        <button class="btn-primary" id="btn-step4-next">
+                            保存并进入Step5
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ==================== Step Panel: Step5 闭环 ==================== -->
+                <div class="step-panel" id="step-panel-5">
+                    <div class="detail-section">
+                        <div class="section-title"><span class="title-bar"></span>待办项总览</div>
+                        <div class="closure-overview">
+                            <div class="closure-stats">
+                                <div class="closure-stat">
+                                    <div class="closure-stat-value" id="closure-done">0</div>
+                                    <div class="closure-stat-label">已完成</div>
+                                </div>
+                                <div class="closure-stat">
+                                    <div class="closure-stat-value" id="closure-undone">3</div>
+                                    <div class="closure-stat-label">未完成</div>
+                                </div>
+                                <div class="closure-stat">
+                                    <div class="closure-stat-value" id="closure-rate">0%</div>
+                                    <div class="closure-stat-label">完成率</div>
+                                </div>
+                            </div>
+                            <div class="progress-bar-wrapper">
+                                <div class="progress-bar-track">
+                                    <div class="progress-bar-fill" id="progress-fill" style="width:0%;"></div>
+                                </div>
+                                <span class="progress-bar-text" id="progress-text">0 / 3</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="section-title"><span class="title-bar"></span>最终巡检报告上传</div>
+                        <div class="upload-area" id="final-report-upload">
+                            <div class="upload-placeholder">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#C0C4CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                                <div class="upload-text">上传最终巡检报告（PDF/Word）</div>
+                                <div class="upload-hint">点击选择文件上传</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="section-title"><span class="title-bar"></span>特殊说明</div>
+                        <textarea class="form-textarea" id="closure-remark" placeholder="请输入特殊说明（选填）..."></textarea>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="section-title"><span class="title-bar"></span>归档信息</div>
+                        <div class="archive-info">
+                            <div class="archive-row">
+                                <span class="archive-label">归档目标：</span>
+                                <span class="archive-value">PMS 项目交付管理系统</span>
+                            </div>
+                            <div class="archive-row">
+                                <span class="archive-label">归档文件清单：</span>
+                            </div>
+                            <div class="archive-file-list">
+                                <div class="archive-file-item">
+                                    <div class="archive-file-left">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1A6FD4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                                        </svg>
+                                        巡检报告（RPT-INS001-20260713.pdf）
+                                    </div>
+                                    <button class="btn-sm-outline archive-download-btn" data-file="巡检报告" type="button">下载</button>
+                                </div>
+                                <div class="archive-file-item">
+                                    <div class="archive-file-left">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1A6FD4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                                        </svg>
+                                        检出问题清单（3条）
+                                    </div>
+                                    <button class="btn-sm-outline archive-download-btn" data-file="检出问题清单" type="button">下载</button>
+                                </div>
+                                <div class="archive-file-item">
+                                    <div class="archive-file-left">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1A6FD4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                                        </svg>
+                                        待办清单（3条）
+                                    </div>
+                                    <button class="btn-sm-outline archive-download-btn" data-file="待办清单" type="button">下载</button>
+                                </div>
+                                <div class="archive-file-item">
+                                    <div class="archive-file-left">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1A6FD4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                                        </svg>
+                                        最终报告（用户上传）
+                                    </div>
+                                    <button class="btn-sm-outline archive-download-btn" data-file="最终报告" type="button">下载</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-actions">
+                        <button class="btn-outline" onclick="switchStep(4)">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+                            </svg>
+                            上一步
+                        </button>
+                        <button class="btn-primary" id="btn-submit-closure" style="background:#27AE60;border-color:#27AE60;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                            提交闭环
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ==================== Flow Log Panel (FR-072) ==================== -->
+                <div class="log-panel">
+                    <div class="log-panel-header" id="flow-log-toggle">
+                        <div class="log-panel-title">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                            流转日志
+                        </div>
+                        <div class="log-panel-meta">
+                            <span>当前状态：执行中</span>
+                            <span>当前步骤：Step2 巡检执行</span>
+                            <span>当前处理人：张三</span>
+                        </div>
+                        <svg class="log-panel-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                    <div class="log-panel-body" id="flow-log-body">
+                        <table class="data-table log-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:100px;">步骤</th>
+                                    <th style="width:100px;">操作人</th>
+                                    <th style="width:140px;">操作类型</th>
+                                    <th style="width:160px;">操作时间</th>
+                                    <th>备注</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Step1</td>
+                                    <td>张三</td>
+                                    <td>创建巡检单</td>
+                                    <td>2026-07-13 14:15</td>
+                                    <td>选择来源：PMS带入，巡检方式：在线巡检</td>
+                                </tr>
+                                <tr>
+                                    <td>Step1</td>
+                                    <td>张三</td>
+                                    <td>保存巡检准备</td>
+                                    <td>2026-07-13 14:20</td>
+                                    <td>巡检规则：防火墙健康巡检，负责人：张三</td>
+                                </tr>
+                                <tr>
+                                    <td>Step2</td>
+                                    <td>张三</td>
+                                    <td>连通性检查</td>
+                                    <td>2026-07-13 14:25</td>
+                                    <td>Ping/Telnet/SSH/账号检查全部通过</td>
+                                </tr>
+                                <tr>
+                                    <td>Step2</td>
+                                    <td>张三</td>
+                                    <td>执行在线巡检</td>
+                                    <td>2026-07-13 14:28</td>
+                                    <td>巡检执行完成，获取7条命令输出</td>
+                                </tr>
+                                <tr>
+                                    <td>Step2</td>
+                                    <td>张三</td>
+                                    <td>保存巡检结果</td>
+                                    <td>2026-07-13 14:30</td>
+                                    <td>检出3条异常，等待进入报告生成</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ==================== Audit Log Panel (FR-110) ==================== -->
+                <div class="log-panel">
+                    <div class="log-panel-header" id="audit-log-toggle">
+                        <div class="log-panel-title">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            审计日志
+                        </div>
+                        <svg class="log-panel-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                    <div class="log-panel-body" id="audit-log-body">
+                        <table class="data-table log-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:100px;">操作人</th>
+                                    <th style="width:160px;">操作时间</th>
+                                    <th style="width:120px;">操作类型</th>
+                                    <th>操作对象</th>
+                                    <th style="width:100px;">操作结果</th>
+                                    <th style="width:140px;">IP地址</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>张三</td>
+                                    <td>2026-07-13 14:15:23</td>
+                                    <td>创建</td>
+                                    <td>巡检单 INS001</td>
+                                    <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>成功</span></td>
+                                    <td>10.12.34.56</td>
+                                </tr>
+                                <tr>
+                                    <td>张三</td>
+                                    <td>2026-07-13 14:20:11</td>
+                                    <td>更新</td>
+                                    <td>巡检准备信息（INS001）</td>
+                                    <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>成功</span></td>
+                                    <td>10.12.34.56</td>
+                                </tr>
+                                <tr>
+                                    <td>张三</td>
+                                    <td>2026-07-13 14:25:47</td>
+                                    <td>查询</td>
+                                    <td>设备连通性（10.0.0.1）</td>
+                                    <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>成功</span></td>
+                                    <td>10.12.34.56</td>
+                                </tr>
+                                <tr>
+                                    <td>张三</td>
+                                    <td>2026-07-13 14:28:05</td>
+                                    <td>执行</td>
+                                    <td>在线巡检命令（UMC API）</td>
+                                    <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>成功</span></td>
+                                    <td>10.12.34.56</td>
+                                </tr>
+                                <tr>
+                                    <td>张三</td>
+                                    <td>2026-07-13 14:30:18</td>
+                                    <td>下载</td>
+                                    <td>巡检报告（RPT-INS001-20260713.pdf）</td>
+                                    <td><span class="badge metric-pass"><span class="dot" style="background:#27AE60;"></span>成功</span></td>
+                                    <td>10.12.34.56</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== Fixed Delivery Action Bar ==================== -->
+    <div class="delivery-action-bar">
+        <div class="delivery-bar-inner">
+            <span class="delivery-bar-label">交付操作：</span>
+            <button class="delivery-btn" id="btn-save-draft">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+                </svg>
+                保存草稿
+            </button>
+            <button class="delivery-btn" id="btn-submit-flow">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+                提交流转
+            </button>
+            <button class="delivery-btn" id="btn-download-report-bar">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                下载报告
+            </button>
+            <button class="delivery-btn" id="btn-archive-pms">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 8v13H3V8"/><path d="M1 3h22v5H1zM10 12h4"/>
+                </svg>
+                归档PMS
+            </button>
+            <button class="delivery-btn" id="btn-view-log">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+                查看日志
+            </button>
+        </div>
+    </div>
+
+    <script>
+    /* ════════════════════════════════════════════════════════════════
+       Global State
+       ════════════════════════════════════════════════════════════════ */
+    var currentStep = 1;
+    var inspectionMethod = 'online';  /* 'online' or 'offline' */
+    var inspectionSource = 'pms';     /* 'pms' or 'custom' */
+    var checkResults = { ping: null, telnet: null, ssh: null, account: null };
+    var inspectionExecuted = { online: false, offline: false };
+    var fileUploaded = false;
+    var problemStates = {};  /* 0,1,2 -> 'confirmed', 'ignored', 'false_report' */
+    var todoStates = {};     /* problem index -> { closed: bool, remark: '' } */
+    var isClosed = false;
+
+    /* Initialize problem states */
+    for (var i = 0; i < 3; i++) {
+        problemStates[i] = 'confirmed';
+        todoStates[i] = { closed: false, remark: '' };
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       showToast
+       ════════════════════════════════════════════════════════════════ */
+    var __toastTimer = null;
+    function showToast(msg, type) {
+        var toast = document.getElementById('__pmsToast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = '__pmsToast';
+            toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);background:#303133;color:#fff;padding:10px 24px;border-radius:6px;font-size:14px;z-index:99999;opacity:0;transition:all 0.3s ease;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-family:"PingFang SC","Microsoft YaHei",sans-serif;';
+            document.body.appendChild(toast);
+        }
+        if (type === 'success') {
+            toast.style.background = '#27AE60';
+        } else if (type === 'error') {
+            toast.style.background = '#E74C3C';
+        } else if (type === 'warning') {
+            toast.style.background = '#F39C12';
+        } else {
+            toast.style.background = '#303133';
+        }
+        toast.textContent = msg;
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateX(-50%) translateY(0)';
+        clearTimeout(__toastTimer);
+        __toastTimer = setTimeout(function() {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(-50%) translateY(-20px)';
+        }, 2500);
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       createDeliveryModal - versatile modal creation function
+       ════════════════════════════════════════════════════════════════ */
+    function createDeliveryModal(config) {
+        var overlay = document.getElementById('__pmsModalOverlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = '__pmsModalOverlay';
+            overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);z-index:99998;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.25s ease;';
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) closeModal();
+            });
+        }
+        var maxW = config.maxWidth || '480px';
+        var html = '<div style="background:#fff;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,0.25);width:90%;max-width:' + maxW + ';transform:translateY(20px);transition:transform 0.25s ease;max-height:85vh;overflow-y:auto;">';
+        if (config.title) {
+            html += '<div style="padding:20px 24px;border-bottom:1px solid #EBEEF5;display:flex;align-items:center;justify-content:space-between;">';
+            html += '<div style="font-size:18px;font-weight:600;color:#303133;">' + config.title + '</div>';
+            html += '<span style="cursor:pointer;color:#909399;font-size:20px;" onclick="closeModal()">&times;</span>';
+            html += '</div>';
+        }
+        if (config.body) {
+            html += '<div style="padding:24px;">' + config.body + '</div>';
+        }
+        if (config.footer) {
+            html += '<div style="display:flex;justify-content:flex-end;gap:12px;padding:16px 24px;border-top:1px solid #EBEEF5;">' + config.footer + '</div>';
+        }
+        html += '</div>';
+        overlay.innerHTML = html;
+        overlay.style.display = 'flex';
+        setTimeout(function() {
+            overlay.style.opacity = '1';
+            var dlg = overlay.querySelector('div');
+            if (dlg) dlg.style.transform = 'translateY(0)';
+        }, 10);
+        /* Call onShow callback if provided */
+        if (config.onShow) config.onShow();
+    }
+
+    function closeModal() {
+        var overlay = document.getElementById('__pmsModalOverlay');
+        if (overlay) {
+            overlay.style.opacity = '0';
+            setTimeout(function() { overlay.style.display = 'none'; }, 250);
+        }
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       Sidebar toggle
+       ════════════════════════════════════════════════════════════════ */
+    document.querySelectorAll('.sidebar-group-header').forEach(function(header) {
+        header.addEventListener('click', function() {
+            var menu = this.nextElementSibling;
+            var chevron = this.querySelector('.chevron-icon');
+            if (menu && menu.tagName === 'UL') {
+                var isHidden = menu.style.display === 'none';
+                menu.style.display = isHidden ? 'block' : 'none';
+                if (chevron) chevron.classList.toggle('collapsed', !isHidden);
+            }
+        });
+    });
+
+    /* ════════════════════════════════════════════════════════════════
+       Step Navigation
+       ════════════════════════════════════════════════════════════════ */
+    function switchStep(step) {
+        currentStep = step;
+        /* Update step nav */
+        document.querySelectorAll('.step-item').forEach(function(item, idx) {
+            var stepNum = idx + 1;
+            var circle = item.querySelector('.step-circle');
+            var label = item.querySelector('.step-label');
+            if (stepNum === step) {
+                circle.classList.add('active');
+                label.classList.add('active');
+                item.classList.add('active');
+            } else {
+                circle.classList.remove('active');
+                label.classList.remove('active');
+                item.classList.remove('active');
+            }
+        });
+        /* Update connectors */
+        document.querySelectorAll('.step-connector').forEach(function(conn, idx) {
+            if (idx < step - 1) {
+                conn.classList.add('active');
+            } else {
+                conn.classList.remove('active');
+            }
+        });
+        /* Update panels */
+        document.querySelectorAll('.step-panel').forEach(function(panel) {
+            panel.classList.remove('active');
+        });
+        var targetPanel = document.getElementById('step-panel-' + step);
+        if (targetPanel) targetPanel.classList.add('active');
+        /* Scroll to detail top */
+        var detail = document.getElementById('inspection-detail');
+        if (detail) detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       Source selection (PMS带入 / 自建)
+       ════════════════════════════════════════════════════════════════ */
+    document.getElementById('source-group').addEventListener('click', function(e) {
+        var card = e.target.closest('.source-card');
+        if (!card) return;
+        document.querySelectorAll('.source-card').forEach(function(c) { c.classList.remove('checked'); });
+        card.classList.add('checked');
+        inspectionSource = card.getAttribute('data-source');
+        var serialQuery = document.getElementById('serial-query');
+        if (inspectionSource === 'custom') {
+            serialQuery.style.display = 'block';
+        } else {
+            serialQuery.style.display = 'none';
+        }
+    });
+
+    /* Serial number query */
+    document.getElementById('btn-query-serial').addEventListener('click', function() {
+        var input = document.getElementById('serial-input');
+        if (!input.value.trim()) {
+            showToast('请输入设备序列号', 'warning');
+            return;
+        }
+        showToast('设备信息查询中...', 'info');
+        var btn = this;
+        btn.disabled = true;
+        btn.textContent = '查询中...';
+        setTimeout(function() {
+            btn.disabled = false;
+            btn.textContent = '查询';
+            showToast('设备序列号 ' + input.value + ' 查询成功，已带入设备信息', 'success');
+        }, 1000);
+    });
+
+    /* ════════════════════════════════════════════════════════════════
+       Inspection rule threshold warning (EC-019)
+       ════════════════════════════════════════════════════════════════ */
+    function checkRuleThreshold() {
+        var ruleSelect = document.getElementById('inspection-rule');
+        var opt = ruleSelect.options[ruleSelect.selectedIndex];
+        var warning = document.getElementById('rule-threshold-warning');
+        if (opt && opt.getAttribute('data-no-threshold') === '1') {
+            warning.style.display = 'flex';
+        } else {
+            warning.style.display = 'none';
+        }
+    }
+    document.getElementById('inspection-rule').addEventListener('change', checkRuleThreshold);
+
+    /* ════════════════════════════════════════════════════════════════
+       Inspection method selection (在线 / 离线)
+       ════════════════════════════════════════════════════════════════ */
+    document.getElementById('method-group').addEventListener('click', function(e) {
+        var card = e.target.closest('.method-card');
+        if (!card) return;
+        document.querySelectorAll('.method-card').forEach(function(c) { c.classList.remove('checked'); });
+        card.classList.add('checked');
+        inspectionMethod = card.getAttribute('data-method');
+        updateMethodPanel();
+    });
+
+    function updateMethodPanel() {
+        var onlinePanel = document.getElementById('online-panel');
+        var offlinePanel = document.getElementById('offline-panel');
+        if (inspectionMethod === 'online') {
+            onlinePanel.classList.add('active');
+            offlinePanel.classList.remove('active');
+        } else {
+            onlinePanel.classList.remove('active');
+            offlinePanel.classList.add('active');
+        }
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       Password toggle
+       ════════════════════════════════════════════════════════════════ */
+    function togglePassword(inputId, toggleEl) {
+        var input = document.getElementById(inputId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            toggleEl.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+        } else {
+            input.type = 'password';
+            toggleEl.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+        }
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       Connectivity checks (Ping, Telnet, SSH, Account) - EC-009, FR-074
+       ════════════════════════════════════════════════════════════════ */
+    var simulateCheckFail = false;
+    var failReasons = {
+        ping: 'IP不可达，目标主机无法访问',
+        telnet: '端口关闭，Telnet服务未开放',
+        ssh: 'SSH连接被拒绝，服务未启用或被防火墙拦截',
+        account: '账号或密码错误，登录认证失败'
+    };
+    var checkNames = { ping: 'Ping检查', telnet: 'Telnet检查', ssh: 'SSH检查', account: '账号有效性检查' };
+
+    function runConnectivityCheck(type) {
+        var checkItem = document.getElementById('check-' + type);
+        var statusEl = checkItem.querySelector('.check-status');
+        var btn = checkItem.querySelector('.check-btn');
+        btn.disabled = true;
+        /* Remove previous failure reason if any */
+        var prevReason = checkItem.querySelector('.check-fail-reason');
+        if (prevReason) prevReason.remove();
+        /* Show spinner */
+        statusEl.className = 'check-status running';
+        statusEl.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:__spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>检查中...';
+        setTimeout(function() {
+            var pass = !simulateCheckFail;
+            checkResults[type] = pass;
+            statusEl.className = pass ? 'check-status pass' : 'check-status fail';
+            statusEl.innerHTML = pass
+                ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>通过'
+                : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>失败';
+            btn.disabled = false;
+            if (!pass) {
+                /* Show failure reason + re-check button */
+                var reasonDiv = document.createElement('div');
+                reasonDiv.className = 'check-fail-reason';
+                reasonDiv.innerHTML =
+                    '<div class="fail-reason-text">' +
+                        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E74C3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' +
+                        '<span>失败原因：' + failReasons[type] + '</span>' +
+                    '</div>' +
+                    '<button class="btn-sm-outline recheck-btn" onclick="runConnectivityCheck(\'' + type + '\')">重新检查</button>';
+                checkItem.appendChild(reasonDiv);
+            }
+            simulateCheckFail = false;
+            updateExecuteButton();
+        }, 1000);
+    }
+
+    /* Simulate check failure button */
+    document.getElementById('btn-simulate-check-fail').addEventListener('click', function() {
+        simulateCheckFail = true;
+        showToast('已启用失败模拟，下一次连通性检查将失败', 'warning');
+    });
+
+    /* Re-check all button */
+    document.getElementById('btn-recheck-all').addEventListener('click', function() {
+        var types = ['ping', 'telnet', 'ssh', 'account'];
+        types.forEach(function(t, idx) {
+            setTimeout(function() {
+                runConnectivityCheck(t);
+            }, idx * 200);
+        });
+        showToast('正在重新执行全部连通性检查...', 'info');
+    });
+
+    function updateExecuteButton() {
+        var allPassed = checkResults.ping === true && checkResults.telnet === true &&
+                        checkResults.ssh === true && checkResults.account === true;
+        var btn = document.getElementById('btn-execute-online');
+        var hint = document.getElementById('exec-hint-online');
+        if (allPassed) {
+            btn.disabled = false;
+            hint.style.display = 'none';
+        } else {
+            btn.disabled = true;
+            hint.style.display = 'inline';
+        }
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       Execute online inspection (with UMC API timeout handling EC-010, FR-079)
+       ════════════════════════════════════════════════════════════════ */
+    var simulateTimeout = false;
+
+    function executeOnlineInspection() {
+        var btn = document.getElementById('btn-execute-online');
+        btn.disabled = true;
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:__spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>巡检中...';
+        showToast('在线巡检执行中，请稍候...', 'info');
+        setTimeout(function() {
+            if (simulateTimeout) {
+                /* Show timeout banner */
+                btn.disabled = false;
+                btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>重新执行巡检';
+                document.getElementById('umc-timeout-banner').style.display = 'flex';
+                showToast('巡检执行超时，UMC API 未响应', 'error');
+                simulateTimeout = false;
+                return;
+            }
+            btn.disabled = false;
+            btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>重新执行巡检';
+            document.getElementById('umc-timeout-banner').style.display = 'none';
+            document.getElementById('online-result-section').style.display = 'block';
+            document.getElementById('step2-actions').style.display = 'flex';
+            inspectionExecuted.online = true;
+            showToast('巡检执行完成，已获取巡检结果', 'success');
+            document.getElementById('online-result-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 2000);
+    }
+
+    document.getElementById('btn-execute-online').addEventListener('click', function() {
+        executeOnlineInspection();
+    });
+
+    /* Simulate timeout button (test only) */
+    document.getElementById('btn-simulate-timeout').addEventListener('click', function() {
+        simulateTimeout = true;
+        showToast('已启用超时模拟，点击"开始执行巡检"将触发超时', 'warning');
+    });
+
+    /* Retry button - re-execute inspection (will succeed) */
+    document.getElementById('btn-umc-retry').addEventListener('click', function() {
+        document.getElementById('umc-timeout-banner').style.display = 'none';
+        showToast('正在重新执行巡检...', 'info');
+        executeOnlineInspection();
+    });
+
+    /* Switch to offline inspection */
+    document.getElementById('btn-umc-switch-offline').addEventListener('click', function() {
+        document.getElementById('umc-timeout-banner').style.display = 'none';
+        /* Switch method to offline */
+        var offlineCard = document.querySelector('.method-card[data-method="offline"]');
+        if (offlineCard) {
+            document.querySelectorAll('.method-card').forEach(function(c) { c.classList.remove('checked'); });
+            offlineCard.classList.add('checked');
+            inspectionMethod = 'offline';
+            updateMethodPanel();
+        }
+        showToast('已切换为离线巡检模式，请下载脚本并上传结果文件', 'info');
+        document.getElementById('offline-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    /* ════════════════════════════════════════════════════════════════
+       Download script (offline)
+       ════════════════════════════════════════════════════════════════ */
+    document.getElementById('btn-download-script').addEventListener('click', function() {
+        showToast('巡检命令脚本下载成功（inspection_script.sh）', 'success');
+    });
+
+    /* ════════════════════════════════════════════════════════════════
+       File upload (offline)
+       ════════════════════════════════════════════════════════════════ */
+    var uploadArea = document.getElementById('upload-area');
+    var fileInput = document.getElementById('file-input');
+    uploadArea.addEventListener('click', function() {
+        fileInput.click();
+    });
+    fileInput.addEventListener('change', function() {
+        handleFileUpload(this.files[0]);
+    });
+    /* Drag and drop */
+    uploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadArea.classList.add('drag-over');
+    });
+    uploadArea.addEventListener('dragleave', function() {
+        uploadArea.classList.remove('drag-over');
+    });
+    uploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('drag-over');
+        if (e.dataTransfer.files.length > 0) {
+            handleFileUpload(e.dataTransfer.files[0]);
+        }
+    });
+
+    function handleFileUpload(file) {
+        if (!file) return;
+        /* Validate format */
+        var ext = file.name.split('.').pop().toLowerCase();
+        var validExts = ['log', 'txt', 'zip'];
+        if (validExts.indexOf(ext) === -1) {
+            showToast('文件格式不支持，请上传 .log / .txt / .zip 文件', 'error');
+            return;
+        }
+        /* Validate size (50MB) */
+        if (file.size > 50 * 1024 * 1024) {
+            showToast('文件大小超过50MB限制', 'error');
+            return;
+        }
+        /* Show file info */
+        document.getElementById('upload-placeholder').style.display = 'none';
+        document.getElementById('upload-file-info').style.display = 'flex';
+        document.getElementById('upload-file-name').textContent = file.name;
+        var sizeStr = file.size < 1024 ? file.size + ' B' :
+                      file.size < 1024 * 1024 ? (file.size / 1024).toFixed(1) + ' KB' :
+                      (file.size / (1024 * 1024)).toFixed(1) + ' MB';
+        document.getElementById('upload-file-size').textContent = sizeStr;
+        fileUploaded = true;
+        /* Enable execute button */
+        var btn = document.getElementById('btn-execute-offline');
+        btn.disabled = false;
+        document.getElementById('exec-hint-offline').style.display = 'none';
+        showToast('文件上传成功：' + file.name, 'success');
+    }
+
+    /* Remove uploaded file */
+    document.getElementById('upload-file-remove').addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.getElementById('upload-placeholder').style.display = 'block';
+        document.getElementById('upload-file-info').style.display = 'none';
+        fileInput.value = '';
+        fileUploaded = false;
+        document.getElementById('btn-execute-offline').disabled = true;
+        document.getElementById('exec-hint-offline').style.display = 'inline';
+    });
+
+    /* ════════════════════════════════════════════════════════════════
+       Execute offline inspection (with parse failure handling EC-020, FR-081)
+       ════════════════════════════════════════════════════════════════ */
+    var simulateParseFail = false;
+
+    function executeOfflineInspection() {
+        var btn = document.getElementById('btn-execute-offline');
+        btn.disabled = true;
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:__spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>解析中...';
+        showToast('正在解析上传文件...', 'info');
+        setTimeout(function() {
+            if (simulateParseFail) {
+                btn.disabled = false;
+                btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>重新解析';
+                document.getElementById('parse-fail-banner').style.display = 'flex';
+                showToast('文件解析失败', 'error');
+                simulateParseFail = false;
+                return;
+            }
+            btn.disabled = false;
+            btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>重新解析';
+            document.getElementById('parse-fail-banner').style.display = 'none';
+            document.getElementById('offline-result-section').style.display = 'block';
+            document.getElementById('step2-actions').style.display = 'flex';
+            inspectionExecuted.offline = true;
+            showToast('文件解析完成，已生成巡检结果', 'success');
+            document.getElementById('offline-result-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 2000);
+    }
+
+    document.getElementById('btn-execute-offline').addEventListener('click', function() {
+        executeOfflineInspection();
+    });
+
+    /* Simulate parse failure button */
+    document.getElementById('btn-simulate-parse-fail').addEventListener('click', function() {
+        simulateParseFail = true;
+        showToast('已启用解析失败模拟，下一次解析将失败', 'warning');
+    });
+
+    /* Re-upload button - resets upload area */
+    document.getElementById('btn-reupload').addEventListener('click', function() {
+        document.getElementById('parse-fail-banner').style.display = 'none';
+        document.getElementById('upload-placeholder').style.display = 'block';
+        document.getElementById('upload-file-info').style.display = 'none';
+        fileInput.value = '';
+        fileUploaded = false;
+        document.getElementById('btn-execute-offline').disabled = true;
+        document.getElementById('exec-hint-offline').style.display = 'inline';
+        showToast('请重新上传巡检结果文件', 'info');
+        document.getElementById('upload-area').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    /* ════════════════════════════════════════════════════════════════
+       Step navigation buttons
+       ════════════════════════════════════════════════════════════════ */
+    document.getElementById('btn-step1-next').addEventListener('click', function() {
+        showToast('巡检准备信息已保存', 'success');
+        switchStep(2);
+    });
+
+    document.getElementById('btn-step2-next').addEventListener('click', function() {
+        if (inspectionMethod === 'online' && !inspectionExecuted.online) {
+            showToast('请先执行在线巡检', 'warning');
+            return;
+        }
+        if (inspectionMethod === 'offline' && !inspectionExecuted.offline) {
+            showToast('请先执行离线巡检解析', 'warning');
+            return;
+        }
+        showToast('巡检结果已保存', 'success');
+        switchStep(3);
+    });
+
+    document.getElementById('btn-step3-next').addEventListener('click', function() {
+        renderTodoList();
+        showToast('报告已保存，进入待办跟踪', 'success');
+        switchStep(4);
+    });
+
+    document.getElementById('btn-step4-next').addEventListener('click', function() {
+        /* Check for unclosed todos */
+        var unclosedCount = 0;
+        for (var key in todoStates) {
+            if (problemStates[key] === 'confirmed' && !todoStates[key].closed) {
+                unclosedCount++;
+            }
+        }
+        if (unclosedCount > 0) {
+            showToast('存在 ' + unclosedCount + ' 条未闭环待办项，请先处理', 'error');
+            return;
+        }
+        updateClosureOverview();
+        showToast('待办跟踪已保存，进入闭环', 'success');
+        switchStep(5);
+    });
+
+    /* ════════════════════════════════════════════════════════════════
+       Problem marking (误报 / 忽略 / 确认跟踪) - FR-092
+       ════════════════════════════════════════════════════════════════ */
+    /* Toggle problem detail expansion */
+    function toggleProblemDetail(idx) {
+        var detail = document.getElementById('problem-detail-' + idx);
+        var icon = document.getElementById('problem-expand-' + idx);
+        if (detail.style.display === 'none') {
+            detail.style.display = 'block';
+            icon.style.transform = 'rotate(180deg)';
+        } else {
+            detail.style.display = 'none';
+            icon.style.transform = 'rotate(0deg)';
+        }
+    }
+
+    /* Problem priority filter */
+    document.getElementById('problem-filter').addEventListener('change', function() {
+        var level = this.value;
+        document.querySelectorAll('.problem-item').forEach(function(item) {
+            if (level === 'all' || item.getAttribute('data-level') === level) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+        var visible = document.querySelectorAll('.problem-item:not([style*="display: none"])').length;
+        showToast('筛选到 ' + visible + ' 条问题', 'info');
+    });
+
+    /* Confirm all problems at once */
+    document.getElementById('btn-confirm-all').addEventListener('click', function() {
+        for (var i = 0; i < 3; i++) {
+            markProblem(i, 'confirmed');
+        }
+        showToast('全部问题已标注为确认跟踪', 'success');
+    });
+
+    document.getElementById('problem-list').addEventListener('click', function(e) {
+        var falseReportBtn = e.target.closest('.btn-false-report');
+        var ignoreBtn = e.target.closest('.btn-ignore');
+        var confirmBtn = e.target.closest('.btn-confirm-track');
+        if (falseReportBtn) {
+            e.preventDefault();
+            openFalseReportModal(falseReportBtn.getAttribute('data-problem'));
+            return;
+        }
+        if (ignoreBtn) {
+            e.preventDefault();
+            var idx = ignoreBtn.getAttribute('data-problem');
+            markProblem(idx, 'ignored');
+            showToast('问题已标记为忽略', 'info');
+            return;
+        }
+        if (confirmBtn) {
+            e.preventDefault();
+            var idx2 = confirmBtn.getAttribute('data-problem');
+            markProblem(idx2, 'confirmed');
+            showToast('问题已标记为确认跟踪', 'success');
+            return;
+        }
+    });
+
+    function markProblem(idx, state) {
+        problemStates[idx] = state;
+        var item = document.querySelector('.problem-item[data-problem="' + idx + '"]');
+        var mark = item.querySelector('.problem-mark');
+        var actions = item.querySelector('.problem-actions');
+        if (state === 'ignored') {
+            mark.className = 'problem-mark ignored';
+            mark.textContent = '已忽略';
+            actions.style.display = 'none';
+        } else if (state === 'false_report') {
+            mark.className = 'problem-mark false-report';
+            mark.textContent = '误报';
+            actions.style.display = 'none';
+        } else {
+            mark.className = 'problem-mark confirmed';
+            mark.textContent = '确认跟踪';
+            actions.style.display = 'flex';
+        }
+    }
+
+    function openFalseReportModal(problemIdx) {
+        var body =
+            '<div style="margin-bottom:16px;">' +
+                '<label style="display:block;font-size:14px;color:#606266;margin-bottom:8px;">反馈类型</label>' +
+                '<select id="fr-type" style="width:100%;height:36px;border:1px solid #DCDFE6;border-radius:4px;padding:0 10px;font-size:14px;color:#303133;background:#fff;outline:none;font-family:inherit;">' +
+                    '<option value="false_report">巡检误报</option>' +
+                    '<option value="rule_missing">巡检规则缺失反馈</option>' +
+                '</select>' +
+            '</div>' +
+            '<div>' +
+                '<label style="display:block;font-size:14px;color:#606266;margin-bottom:8px;">说明</label>' +
+                '<textarea id="fr-desc" style="width:100%;height:100px;border:1px solid #DCDFE6;border-radius:4px;padding:8px 10px;font-size:14px;color:#303133;background:#fff;outline:none;resize:vertical;font-family:inherit;box-sizing:border-box;" placeholder="请详细描述误报原因或规则缺失情况..."></textarea>' +
+            '</div>';
+        var footer =
+            '<button id="__frCancel" style="height:36px;padding:0 20px;border:1px solid #DCDFE6;border-radius:4px;background:#fff;color:#606266;font-size:14px;cursor:pointer;font-family:inherit;">取消</button>' +
+            '<button id="__frConfirm" style="height:36px;padding:0 20px;border:1px solid #1A6FD4;border-radius:4px;background:#1A6FD4;color:#fff;font-size:14px;cursor:pointer;font-family:inherit;">确认提交</button>';
+        createDeliveryModal({
+            title: '误报反馈',
+            body: body,
+            footer: footer,
+            onShow: function() {
+                document.getElementById('__frCancel').addEventListener('click', closeModal);
+                document.getElementById('__frConfirm').addEventListener('click', function() {
+                    var desc = document.getElementById('fr-desc').value.trim();
+                    if (!desc) {
+                        showToast('请填写误报说明', 'warning');
+                        return;
+                    }
+                    markProblem(problemIdx, 'false_report');
+                    closeModal();
+                    showToast('误报反馈已提交，问题已标记为误报', 'success');
+                });
+            }
+        });
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       Download report
+       ════════════════════════════════════════════════════════════════ */
+    document.getElementById('btn-download-report').addEventListener('click', function() {
+        showToast('巡检报告下载中...', 'info');
+        setTimeout(function() {
+            showToast('巡检报告已下载（RPT-INS001-20260713.pdf）', 'success');
+        }, 1000);
+    });
+
+    /* Archive file download (FR-098) */
+    document.querySelectorAll('.archive-download-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var fileName = this.getAttribute('data-file');
+            showToast(fileName + ' 文件下载中...', 'info');
+        });
+    });
+
+    /* ════════════════════════════════════════════════════════════════
+       Todo list rendering (Step4)
+       ════════════════════════════════════════════════════════════════ */
+    var problemDescriptions = [
+        '端口 port3 状态为 down，可能存在物理链路故障',
+        '设备运行时长已达72天，建议择期重启',
+        '日志缓冲区使用率达到65%，建议关注'
+    ];
+    var problemLevels = ['high', 'medium', 'low'];
+    var levelNames = { high: '高', medium: '中', low: '低' };
+
+    function renderTodoList() {
+        var listEl = document.getElementById('todo-list');
+        var html = '';
+        var count = 0;
+        for (var i = 0; i < 3; i++) {
+            if (problemStates[i] !== 'confirmed') continue;
+            count++;
+            var closed = todoStates[i].closed;
+            html += '<div class="todo-item" data-todo="' + i + '">' +
+                '<div class="todo-item-header">' +
+                    '<div class="todo-item-left">' +
+                        '<span class="problem-level ' + problemLevels[i] + '">' + levelNames[problemLevels[i]] + '</span>' +
+                        '<span class="todo-desc">' + problemDescriptions[i] + '</span>' +
+                    '</div>' +
+                    '<div class="todo-toggle-group">' +
+                        '<label class="todo-radio' + (closed ? ' checked' : '') + '">' +
+                            '<input type="radio" name="todo-' + i + '" value="closed" ' + (closed ? 'checked' : '') + ' onchange="updateTodoState(' + i + ', true)">' +
+                            '<span class="todo-radio-dot"></span>已闭环' +
+                        '</label>' +
+                        '<label class="todo-radio' + (!closed ? ' checked' : '') + '">' +
+                            '<input type="radio" name="todo-' + i + '" value="unclosed" ' + (!closed ? 'checked' : '') + ' onchange="updateTodoState(' + i + ', false)">' +
+                            '<span class="todo-radio-dot"></span>未闭环' +
+                        '</label>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="todo-remark-row" id="todo-remark-' + i + '" style="' + (closed ? 'display:none;' : 'display:flex;') + '">' +
+                    '<label class="form-label">备注</label>' +
+                    '<input type="text" class="form-input todo-remark-input" placeholder="请输入未闭环原因及处理计划..." value="' + (todoStates[i].remark || '') + '" oninput="todoStates[' + i + '].remark = this.value">' +
+                '</div>' +
+            '</div>';
+        }
+        if (count === 0) {
+            html = '<div class="empty-todo-state">' +
+                '<div class="empty-todo-icon">' +
+                    '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#27AE60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
+                '</div>' +
+                '<div class="empty-todo-text">无待办项，可直接进入Step5闭环</div>' +
+                '<div class="empty-todo-hint">所有检出问题已标注为误报或忽略，无需跟踪处理</div>' +
+            '</div>';
+        }
+        listEl.innerHTML = html;
+        updateTodoStats();
+    }
+
+    function updateTodoState(idx, closed) {
+        todoStates[idx].closed = closed;
+        /* Update UI */
+        var item = document.querySelector('.todo-item[data-todo="' + idx + '"]');
+        if (!item) return;
+        var radios = item.querySelectorAll('.todo-radio');
+        radios.forEach(function(r) { r.classList.remove('checked'); });
+        var remarkRow = document.getElementById('todo-remark-' + idx);
+        if (closed) {
+            radios[0].classList.add('checked');
+            remarkRow.style.display = 'none';
+        } else {
+            radios[1].classList.add('checked');
+            remarkRow.style.display = 'flex';
+        }
+        updateTodoStats();
+    }
+
+    function updateTodoStats() {
+        var total = 0, closed = 0, unclosed = 0;
+        for (var i = 0; i < 3; i++) {
+            if (problemStates[i] !== 'confirmed') continue;
+            total++;
+            if (todoStates[i].closed) {
+                closed++;
+            } else {
+                unclosed++;
+            }
+        }
+        document.getElementById('todo-total').textContent = total;
+        document.getElementById('todo-closed').textContent = closed;
+        document.getElementById('todo-unclosed').textContent = unclosed;
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       Closure overview (Step5)
+       ════════════════════════════════════════════════════════════════ */
+    function updateClosureOverview() {
+        var total = 0, done = 0;
+        for (var i = 0; i < 3; i++) {
+            if (problemStates[i] !== 'confirmed') continue;
+            total++;
+            if (todoStates[i].closed) done++;
+        }
+        var undone = total - done;
+        var rate = total > 0 ? Math.round((done / total) * 100) : 100;
+        document.getElementById('closure-done').textContent = done;
+        document.getElementById('closure-undone').textContent = undone;
+        document.getElementById('closure-rate').textContent = rate + '%';
+        document.getElementById('progress-fill').style.width = rate + '%';
+        document.getElementById('progress-text').textContent = done + ' / ' + total;
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       Submit closure with confirmation modal
+       ════════════════════════════════════════════════════════════════ */
+    document.getElementById('btn-submit-closure').addEventListener('click', function() {
+        var body =
+            '<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;">' +
+                '<div style="width:40px;height:40px;border-radius:50%;background:#E8F8EE;display:flex;align-items:center;justify-content:center;flex-shrink:0;">' +
+                    '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#27AE60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
+                '</div>' +
+                '<div>' +
+                    '<div style="font-size:16px;font-weight:600;color:#303133;margin-bottom:4px;">确认提交闭环？</div>' +
+                    '<div style="font-size:14px;color:#909399;line-height:1.6;">提交后巡检任务将标记为"已闭环"，巡检报告及待办清单将归档至PMS系统。</div>' +
+                '</div>' +
+            '</div>' +
+            '<div style="background:#F5F7FA;border-radius:6px;padding:12px 16px;margin-bottom:16px;">' +
+                '<div style="font-size:13px;color:#606266;margin-bottom:8px;font-weight:500;">归档清单确认：</div>' +
+                '<div style="font-size:13px;color:#909399;line-height:1.8;">' +
+                    '&bull; 巡检报告（RPT-INS001-20260713.pdf）<br>' +
+                    '&bull; 检出问题清单（' + Object.keys(problemStates).filter(function(k){return problemStates[k]==='confirmed';}).length + '条确认跟踪）<br>' +
+                    '&bull; 待办跟踪清单<br>' +
+                    '&bull; 最终巡检报告' +
+                '</div>' +
+            '</div>';
+        var footer =
+            '<button id="__closureCancel" style="height:36px;padding:0 20px;border:1px solid #DCDFE6;border-radius:4px;background:#fff;color:#606266;font-size:14px;cursor:pointer;font-family:inherit;">取消</button>' +
+            '<button id="__closureConfirm" style="height:36px;padding:0 20px;border:1px solid #27AE60;border-radius:4px;background:#27AE60;color:#fff;font-size:14px;cursor:pointer;font-family:inherit;">确认闭环</button>';
+        createDeliveryModal({
+            title: '提交闭环确认',
+            body: body,
+            footer: footer,
+            onShow: function() {
+                document.getElementById('__closureCancel').addEventListener('click', closeModal);
+                document.getElementById('__closureConfirm').addEventListener('click', function() {
+                    closeModal();
+                    var btn = document.getElementById('btn-submit-closure');
+                    btn.disabled = true;
+                    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:__spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>归档中...';
+                    setTimeout(function() {
+                        isClosed = true;
+                        showToast('巡检任务已闭环，报告已归档至PMS', 'success');
+                        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>已闭环';
+                        btn.style.background = '#27AE60';
+                        btn.style.borderColor = '#27AE60';
+                        /* Update step nav to show all complete */
+                        document.querySelectorAll('.step-circle').forEach(function(c) {
+                            c.classList.add('completed');
+                        });
+                        document.querySelectorAll('.step-connector').forEach(function(c) {
+                            c.classList.add('active');
+                        });
+                        /* Update task list status */
+                        var firstRow = document.querySelector('#inspection-tbody tr[data-ins="INS001"]');
+                        if (firstRow) {
+                            var statusCell = firstRow.querySelector('.status-tag');
+                            statusCell.className = 'status-tag st-closed';
+                            statusCell.innerHTML = '<span class="dot"></span>已闭环';
+                        }
+                    }, 1500);
+                });
+            }
+        });
+    });
+
+    /* ════════════════════════════════════════════════════════════════
+       Final report upload (Step5)
+       ════════════════════════════════════════════════════════════════ */
+    document.getElementById('final-report-upload').addEventListener('click', function() {
+        showToast('最终巡检报告上传功能：请选择PDF或Word文件', 'info');
+    });
+
+    /* ════════════════════════════════════════════════════════════════
+       Initiate inspection modal (发起巡检)
+       ════════════════════════════════════════════════════════════════ */
+    document.getElementById('btn-create-inspection').addEventListener('click', function() {
+        var body =
+            '<div style="margin-bottom:16px;">' +
+                '<label style="display:block;font-size:14px;color:#606266;margin-bottom:8px;">来源</label>' +
+                '<div style="display:flex;gap:16px;flex-wrap:wrap;">' +
+                    '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:#303133;"><input type="radio" name="ins-source" value="pms" checked> PMS带入</label>' +
+                    '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:#303133;"><input type="radio" name="ins-source" value="custom"> 自建</label>' +
+                '</div>' +
+            '</div>' +
+            '<div style="margin-bottom:16px;">' +
+                '<label style="display:block;font-size:14px;color:#606266;margin-bottom:8px;">项目名称</label>' +
+                '<select id="new-ins-project" style="width:100%;height:36px;border:1px solid #DCDFE6;border-radius:4px;padding:0 10px;font-size:14px;color:#303133;background:#fff;outline:none;font-family:inherit;">' +
+                    '<option>XX银行核心网</option>' +
+                    '<option>YY公司扩容</option>' +
+                    '<option>ZZ集团改造</option>' +
+                    '<option>AA数据中心</option>' +
+                '</select>' +
+            '</div>' +
+            '<div style="margin-bottom:16px;">' +
+                '<label style="display:block;font-size:14px;color:#606266;margin-bottom:8px;">巡检方式</label>' +
+                '<select id="new-ins-method" style="width:100%;height:36px;border:1px solid #DCDFE6;border-radius:4px;padding:0 10px;font-size:14px;color:#303133;background:#fff;outline:none;font-family:inherit;">' +
+                    '<option value="online">在线巡检</option>' +
+                    '<option value="offline">离线巡检</option>' +
+                '</select>' +
+            '</div>' +
+            '<div style="margin-bottom:16px;">' +
+                '<label style="display:block;font-size:14px;color:#606266;margin-bottom:8px;">巡检规则</label>' +
+                '<select id="new-ins-rule" style="width:100%;height:36px;border:1px solid #DCDFE6;border-radius:4px;padding:0 10px;font-size:14px;color:#303133;background:#fff;outline:none;font-family:inherit;">' +
+                    '<option>防火墙健康巡检</option>' +
+                    '<option>路由器基础巡检</option>' +
+                    '<option>交换机端口巡检</option>' +
+                    '<option>防火墙会话巡检</option>' +
+                '</select>' +
+            '</div>' +
+            '<div>' +
+                '<label style="display:block;font-size:14px;color:#606266;margin-bottom:8px;">负责人</label>' +
+                '<input type="text" value="张三" style="width:100%;height:36px;border:1px solid #DCDFE6;border-radius:4px;padding:0 10px;font-size:14px;color:#303133;background:#fff;outline:none;font-family:inherit;box-sizing:border-box;">' +
+            '</div>';
+        var footer =
+            '<button id="__insCancel" style="height:36px;padding:0 20px;border:1px solid #DCDFE6;border-radius:4px;background:#fff;color:#606266;font-size:14px;cursor:pointer;font-family:inherit;">取消</button>' +
+            '<button id="__insCreate" style="height:36px;padding:0 20px;border:1px solid #1A6FD4;border-radius:4px;background:#1A6FD4;color:#fff;font-size:14px;cursor:pointer;font-family:inherit;">创建巡检单</button>';
+        createDeliveryModal({
+            title: '发起新巡检',
+            body: body,
+            footer: footer,
+            onShow: function() {
+                document.getElementById('__insCancel').addEventListener('click', closeModal);
+                document.getElementById('__insCreate').addEventListener('click', function() {
+                    closeModal();
+                    showToast('巡检单已创建，进入巡检准备', 'success');
+                    switchStep(1);
+                    var detail = document.getElementById('inspection-detail');
+                    detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            }
+        });
+    });
+
+    /* ════════════════════════════════════════════════════════════════
+       Table row actions
+       ════════════════════════════════════════════════════════════════ */
+    document.getElementById('inspection-tbody').addEventListener('click', function(e) {
+        var detailEl = e.target.closest('[data-action="detail"]');
+        var configEl = e.target.closest('[data-action="config"]');
+        var reportEl = e.target.closest('[data-action="report"]');
+        var todoEl = e.target.closest('[data-action="todo"]');
+        var archiveEl = e.target.closest('[data-action="archive"]');
+        if (detailEl) {
+            e.preventDefault();
+            var detail = document.getElementById('inspection-detail');
+            detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            detail.classList.add('highlighted');
+            setTimeout(function() { detail.classList.remove('highlighted'); }, 2600);
+            return;
+        }
+        if (configEl) { e.preventDefault(); switchStep(1); showToast('已跳转到巡检配置'); return; }
+        if (reportEl) { e.preventDefault(); switchStep(3); showToast('已跳转到报告查看'); return; }
+        if (todoEl) { e.preventDefault(); switchStep(4); renderTodoList(); showToast('已跳转到待办处理'); return; }
+        if (archiveEl) { e.preventDefault(); showToast('归档信息查看'); return; }
+    });
+
+    /* Close detail */
+    document.getElementById('detail-close').addEventListener('click', function() {
+        document.getElementById('inspection-detail').classList.remove('highlighted');
+    });
+
+    /* ════════════════════════════════════════════════════════════════
+       Collapsible log panels (流转日志 / 审计日志) - FR-072, FR-110
+       ════════════════════════════════════════════════════════════════ */
+    function toggleLogPanel(toggleId, bodyId) {
+        var body = document.getElementById(bodyId);
+        var chevron = document.querySelector('#' + toggleId + ' .log-panel-chevron');
+        if (body.style.display === 'none') {
+            body.style.display = 'block';
+            chevron.style.transform = 'rotate(180deg)';
+        } else {
+            body.style.display = 'none';
+            chevron.style.transform = 'rotate(0deg)';
+        }
+    }
+    document.getElementById('flow-log-toggle').addEventListener('click', function() {
+        toggleLogPanel('flow-log-toggle', 'flow-log-body');
+    });
+    document.getElementById('audit-log-toggle').addEventListener('click', function() {
+        toggleLogPanel('audit-log-toggle', 'audit-log-body');
+    });
+    /* Default: collapse audit log, expand flow log */
+    document.getElementById('audit-log-body').style.display = 'none';
+
+    /* ════════════════════════════════════════════════════════════════
+       Filter bar (FR-071)
+       ════════════════════════════════════════════════════════════════ */
+    var statusClassMap = {
+        'preparing': 'st-preparing', 'executing': 'st-executing',
+        'report': 'st-report', 'todo': 'st-todo', 'closed': 'st-closed'
+    };
+
+    function applyTaskFilter() {
+        var keyword = document.getElementById('filter-search').value.trim().toLowerCase();
+        var status = document.getElementById('filter-status').value;
+        var method = document.getElementById('filter-method').value;
+        var rows = document.querySelectorAll('#inspection-tbody tr');
+        var visibleCount = 0;
+        rows.forEach(function(row) {
+            var insNo = row.querySelector('td:first-child').textContent.trim().toLowerCase();
+            var projectName = row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
+            var methodBadge = row.querySelector('.method-badge');
+            var rowMethod = methodBadge ? (methodBadge.classList.contains('online') ? 'online' : 'offline') : '';
+            var statusTag = row.querySelector('.status-tag');
+            var rowStatus = '';
+            for (var key in statusClassMap) {
+                if (statusTag && statusTag.classList.contains(statusClassMap[key])) {
+                    rowStatus = key;
+                    break;
+                }
+            }
+            var matchKeyword = !keyword || insNo.indexOf(keyword) !== -1 || projectName.indexOf(keyword) !== -1;
+            var matchStatus = !status || rowStatus === status;
+            var matchMethod = !method || rowMethod === method;
+            if (matchKeyword && matchStatus && matchMethod) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+        document.getElementById('filter-count-num').textContent = visibleCount;
+    }
+
+    document.getElementById('btn-filter').addEventListener('click', function() {
+        applyTaskFilter();
+        showToast('筛选条件已应用', 'info');
+    });
+    document.getElementById('filter-search').addEventListener('input', function() {
+        applyTaskFilter();
+    });
+    document.getElementById('btn-reset').addEventListener('click', function() {
+        document.getElementById('filter-search').value = '';
+        document.getElementById('filter-status').value = '';
+        document.getElementById('filter-method').value = '';
+        applyTaskFilter();
+        showToast('筛选条件已重置', 'info');
+    });
+
+    /* ════════════════════════════════════════════════════════════════
+       Delivery action bar buttons
+       ════════════════════════════════════════════════════════════════ */
+    document.getElementById('btn-save-draft').addEventListener('click', function() {
+        showToast('草稿已保存', 'success');
+    });
+    document.getElementById('btn-submit-flow').addEventListener('click', function() {
+        showToast('提交流转中...', 'info');
+    });
+    document.getElementById('btn-download-report-bar').addEventListener('click', function() {
+        showToast('报告下载中...', 'info');
+        setTimeout(function() { showToast('巡检报告已下载', 'success'); }, 1000);
+    });
+    document.getElementById('btn-archive-pms').addEventListener('click', function() {
+        showToast('归档至PMS中...', 'info');
+        setTimeout(function() { showToast('已归档至PMS系统', 'success'); }, 1500);
+    });
+    document.getElementById('btn-view-log').addEventListener('click', function() {
+        var body = '<div style="font-size:13px;color:#606266;line-height:2;max-height:300px;overflow-y:auto;">' +
+            '<div>2026-07-13 14:30  巡检报告已生成</div>' +
+            '<div>2026-07-13 14:28  在线巡检执行完成</div>' +
+            '<div>2026-07-13 14:25  连通性检查全部通过</div>' +
+            '<div>2026-07-13 14:20  巡检准备信息已保存</div>' +
+            '<div>2026-07-13 14:15  巡检单 INS001 已创建</div>' +
+        '</div>';
+        var footer = '<button onclick="closeModal()" style="height:36px;padding:0 20px;border:1px solid #DCDFE6;border-radius:4px;background:#fff;color:#606266;font-size:14px;cursor:pointer;font-family:inherit;">关闭</button>';
+        createDeliveryModal({ title: '操作日志', body: body, footer: footer });
+    });
+
+    /* ════════════════════════════════════════════════════════════════
+       Spin animation style
+       ════════════════════════════════════════════════════════════════ */
+    var __spinStyle = document.createElement('style');
+    __spinStyle.textContent = '@keyframes __spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+    document.head.appendChild(__spinStyle);
+    </script>
+
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+        font-size: 14px;
+        color: #303133;
+        background: #F5F7FA;
+        overflow: hidden;
+        height: 100vh;
+      }
+
+      /* ── Header ── */
+      .admin-header {
+        height: 60px;
+        background: #FFFFFF;
+        border-bottom: 1px solid #DCDFE6;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 1000;
+      }
+      .header-logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; width: 208px; }
+      .header-logo .logo-icon { width: 32px; height: 32px; background: #1A6FD4; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+      .header-logo .logo-text { font-size: 16px; font-weight: 600; color: #303133; white-space: nowrap; }
+      .header-search { flex: 1; max-width: 480px; margin: 0 auto; position: relative; }
+      .header-search input { width: 100%; height: 36px; border: 1px solid #DCDFE6; border-radius: 4px; padding: 0 12px 0 36px; font-size: 14px; color: #303133; background: #F5F7FA; outline: none; transition: border-color 0.2s; font-family: inherit; }
+      .header-search input::placeholder { color: #C0C4CC; }
+      .header-search input:focus { border-color: #1A6FD4; background: #FFFFFF; }
+      .header-search .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #C0C4CC; pointer-events: none; }
+      .header-right { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+      .header-bell { position: relative; cursor: pointer; color: #606266; transition: color 0.2s; }
+      .header-bell:hover { color: #1A6FD4; }
+      .header-bell .bell-badge { position: absolute; top: -6px; right: -8px; background: #E74C3C; color: #FFFFFF; font-size: 11px; font-weight: 600; min-width: 16px; height: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 0 4px; line-height: 1; }
+      .header-user { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: background 0.2s; }
+      .header-user:hover { background: #F5F7FA; }
+      .header-user .avatar { width: 32px; height: 32px; border-radius: 50%; background: #1A6FD4; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; }
+      .header-user .user-name { font-size: 14px; color: #303133; }
+      .header-user .chevron { color: #909399; transition: transform 0.2s; }
+
+      /* ── Sidebar ── */
+      .admin-sidebar { width: 208px; background: #FFFFFF; position: fixed; top: 60px; left: 0; bottom: 0; border-right: 1px solid #DCDFE6; overflow-y: auto; z-index: 900; }
+      .admin-sidebar::-webkit-scrollbar { width: 4px; }
+      .admin-sidebar::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 2px; }
+      .sidebar-group-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; cursor: pointer; font-size: 14px; color: #303133; font-weight: 500; transition: background 0.2s; user-select: none; }
+      .sidebar-group-header:hover { background: #F5F7FA; }
+      .sidebar-group-header .group-icon { display: flex; align-items: center; gap: 8px; }
+      .sidebar-group-header .chevron-icon { transition: transform 0.2s; color: #909399; }
+      .sidebar-group-header .chevron-icon.collapsed { transform: rotate(-90deg); }
+      .sidebar-menu { list-style: none; }
+      .sidebar-menu li { position: relative; }
+      .sidebar-menu li a { display: block; padding: 0 20px 0 44px; height: 40px; line-height: 40px; font-size: 14px; color: #606266; text-decoration: none; transition: all 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .sidebar-menu li a:hover { background: #F5F7FA; color: #1A6FD4; }
+      .sidebar-menu li a.active { color: #1A6FD4; background: #E8F2FC; font-weight: 500; }
+      .sidebar-menu li a.active::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: #1A6FD4; border-radius: 0 2px 2px 0; }
+
+      /* ── TagsView ── */
+      .tags-view { height: 36px; background: #FFFFFF; border-bottom: 1px solid #DCDFE6; display: flex; align-items: center; padding: 0 16px; gap: 8px; position: fixed; top: 60px; left: 208px; right: 0; z-index: 800; overflow-x: auto; }
+      .tags-view::-webkit-scrollbar { display: none; }
+      .tag-item { display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 10px; border-radius: 3px; font-size: 12px; cursor: pointer; white-space: nowrap; border: 1px solid #DCDFE6; color: #606266; background: #FFFFFF; transition: all 0.2s; flex-shrink: 0; }
+      .tag-item:hover { color: #1A6FD4; }
+      .tag-item.active { background: #E8F2FC; color: #1A6FD4; border-color: #1A6FD4; }
+      .tag-item .tag-close { width: 14px; height: 14px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: background 0.2s; margin-left: 2px; }
+      .tags-add { width: 26px; height: 26px; border-radius: 3px; border: 1px solid #DCDFE6; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #909399; flex-shrink: 0; transition: all 0.2s; background: #FFFFFF; }
+      .tags-add:hover { color: #1A6FD4; border-color: #1A6FD4; }
+
+      /* ── Main Layout ── */
+      .admin-main { margin-left: 208px; margin-top: 96px; height: calc(100vh - 96px); overflow-y: auto; background: #F5F7FA; }
+      .admin-main::-webkit-scrollbar { width: 6px; }
+      .admin-main::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 3px; }
+      .breadcrumb-bar { height: 32px; display: flex; align-items: center; padding: 0 16px; font-size: 13px; color: #909399; background: #FFFFFF; border-bottom: 1px solid #EBEEF5; }
+      .breadcrumb-bar a { color: #606266; text-decoration: none; transition: color 0.2s; }
+      .breadcrumb-bar a:hover { color: #1A6FD4; }
+      .breadcrumb-bar .sep { margin: 0 8px; color: #C0C4CC; }
+      .breadcrumb-bar .current { color: #303133; }
+      .page-content { padding: 16px; max-width: 1440px; margin: 0 auto; }
+      .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+      .page-title { font-size: 20px; font-weight: 600; color: #303133; }
+
+      /* ── Buttons ── */
+      .btn-primary { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 16px; border: 1px solid #1A6FD4; border-radius: 4px; background: #1A6FD4; color: #FFFFFF; font-size: 14px; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+      .btn-primary:hover { background: #3B8AE0; border-color: #3B8AE0; }
+      .btn-primary:disabled { background: #C0C4CC; border-color: #C0C4CC; cursor: not-allowed; }
+      .btn-outline { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px; border: 1px solid #DCDFE6; border-radius: 4px; background: #FFFFFF; color: #606266; font-size: 14px; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+      .btn-outline:hover { color: #1A6FD4; border-color: #1A6FD4; }
+      .btn-sm-primary { display: inline-flex; align-items: center; justify-content: center; height: 28px; padding: 0 12px; border: 1px solid #1A6FD4; border-radius: 4px; background: #1A6FD4; color: #FFFFFF; font-size: 13px; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+      .btn-sm-primary:hover { background: #3B8AE0; border-color: #3B8AE0; }
+      .btn-sm-primary:disabled { background: #C0C4CC; border-color: #C0C4CC; cursor: not-allowed; }
+      .btn-sm-outline { display: inline-flex; align-items: center; justify-content: center; height: 28px; padding: 0 12px; border: 1px solid #DCDFE6; border-radius: 4px; background: #FFFFFF; color: #1A6FD4; font-size: 13px; cursor: pointer; transition: all 0.2s; font-family: inherit; margin-right: 6px; }
+      .btn-sm-outline:last-child { margin-right: 0; }
+      .btn-sm-outline:hover { color: #1A6FD4; border-color: #1A6FD4; background: #E8F2FC; }
+
+      /* ── Cards ── */
+      .content-card { background: #FFFFFF; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); padding: 20px 24px; margin-bottom: 16px; }
+      .table-card { background: #FFFFFF; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); overflow: hidden; margin-bottom: 16px; }
+
+      /* ── Table ── */
+      .data-table { width: 100%; border-collapse: collapse; }
+      .data-table thead th { background: #F5F7FA; padding: 12px 16px; font-size: 14px; font-weight: 600; color: #303133; text-align: left; border-bottom: 1px solid #EBEEF5; white-space: nowrap; }
+      .data-table tbody td { padding: 12px 16px; font-size: 14px; color: #303133; border-bottom: 1px solid #EBEEF5; }
+      .data-table tbody tr { transition: background 0.15s; }
+      .data-table tbody tr:hover { background: #F5F7FA; }
+      .data-table tbody tr:last-child td { border-bottom: none; }
+      .cell-link { color: #1A6FD4; text-decoration: none; cursor: pointer; transition: color 0.2s; }
+      .cell-link:hover { color: #3B8AE0; text-decoration: underline; }
+
+      /* ── Filter Bar ── */
+      .filter-bar { display: flex; align-items: center; justify-content: space-between; background: #FFFFFF; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 12px 16px; margin-bottom: 16px; }
+      .filter-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+      .filter-item { display: flex; align-items: center; gap: 8px; }
+      .filter-item label { font-size: 14px; color: #606266; white-space: nowrap; }
+      .filter-select { height: 32px; border: 1px solid #DCDFE6; border-radius: 4px; padding: 0 28px 0 10px; font-size: 14px; color: #303133; background: #FFFFFF; outline: none; font-family: inherit; cursor: pointer; }
+      .filter-input { height: 32px; width: 200px; border: 1px solid #DCDFE6; border-radius: 4px; padding: 0 10px; font-size: 14px; color: #303133; background: #FFFFFF; outline: none; font-family: inherit; transition: border-color 0.2s; }
+      .filter-input:focus { border-color: #1A6FD4; }
+      .filter-input::placeholder { color: #C0C4CC; }
+      .filter-right { font-size: 14px; color: #909399; }
+      .filter-count strong { color: #1A6FD4; }
+
+      /* ── Status Tags ── */
+      .status-tag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; font-size: 12px; line-height: 1.5; }
+      .status-tag .dot { width: 6px; height: 6px; border-radius: 50%; }
+      .status-tag.st-preparing { color: #2E8BE6; background: #E8F2FC; border: 1px solid #2E8BE6; }
+      .status-tag.st-preparing .dot { background: #2E8BE6; }
+      .status-tag.st-executing { color: #F39C12; background: #FEF5E7; border: 1px solid #F39C12; }
+      .status-tag.st-executing .dot { background: #F39C12; }
+      .status-tag.st-report { color: #8E44AD; background: #F4ECF7; border: 1px solid #8E44AD; }
+      .status-tag.st-report .dot { background: #8E44AD; }
+      .status-tag.st-todo { color: #17A2B8; background: #E0F7FA; border: 1px solid #17A2B8; }
+      .status-tag.st-todo .dot { background: #17A2B8; }
+      .status-tag.st-closed { color: #27AE60; background: #E8F8EE; border: 1px solid #27AE60; }
+      .status-tag.st-closed .dot { background: #27AE60; }
+      .method-badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+      .method-badge.online { color: #2E8BE6; background: #E8F2FC; border: 1px solid #2E8BE6; }
+      .method-badge.offline { color: #8E44AD; background: #F4ECF7; border: 1px solid #8E44AD; }
+
+      /* ── Detail Card ── */
+      .detail-card { position: relative; transition: box-shadow 0.4s, border-color 0.4s; border: 1px solid transparent; }
+      .detail-card.highlighted { box-shadow: 0 0 0 2px rgba(26,111,212,0.35), 0 4px 16px rgba(26,111,212,0.18); border-color: rgba(26,111,212,0.3); }
+      .detail-card-header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; margin-bottom: 4px; border-bottom: 1px solid #EBEEF5; }
+      .detail-card-header .dh-left { display: flex; align-items: center; gap: 10px; }
+      .detail-card-header .dh-title { font-size: 16px; font-weight: 600; color: #303133; }
+      .detail-card-header .dh-no { font-size: 13px; color: #909399; }
+      .detail-card-header .dh-close { cursor: pointer; color: #909399; transition: color 0.2s; display: inline-flex; align-items: center; justify-content: center; }
+      .detail-card-header .dh-close:hover { color: #E74C3C; }
+
+      /* ── Detail Section ── */
+      .detail-section { padding: 20px 0; border-bottom: 1px solid #EBEEF5; }
+      .detail-section:last-child { border-bottom: none; }
+      .section-title { font-size: 15px; font-weight: 600; color: #303133; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+      .section-title .title-bar { width: 3px; height: 15px; background: #1A6FD4; border-radius: 2px; }
+
+      /* ── Step Navigation ── */
+      .step-nav { display: flex; align-items: center; padding: 24px 0; border-bottom: 1px solid #EBEEF5; }
+      .step-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; position: relative; z-index: 2; }
+      .step-circle { width: 36px; height: 36px; border-radius: 50%; border: 2px solid #DCDFE6; background: #FFFFFF; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+      .step-circle.active { border-color: #1A6FD4; background: #1A6FD4; color: #FFFFFF; }
+      .step-circle.completed { border-color: #27AE60; background: #27AE60; color: #FFFFFF; }
+      .step-num { font-size: 16px; font-weight: 600; color: #909399; }
+      .step-circle.active .step-num { color: #FFFFFF; }
+      .step-circle.completed .step-num { color: #FFFFFF; }
+      .step-label { font-size: 13px; color: #909399; white-space: nowrap; transition: color 0.3s; }
+      .step-label.active { color: #1A6FD4; font-weight: 500; }
+      .step-connector { flex: 1; height: 2px; background: #DCDFE6; margin: 0 12px; margin-bottom: 28px; transition: background 0.3s; }
+      .step-connector.active { background: #1A6FD4; }
+
+      /* ── Step Panels ── */
+      .step-panel { display: none; }
+      .step-panel.active { display: block; }
+
+      /* ── Info Grid ── */
+      .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      .info-field { display: flex; flex-direction: column; gap: 4px; }
+      .info-label { font-size: 13px; color: #909399; }
+      .info-value { font-size: 14px; color: #303133; font-weight: 500; }
+
+      /* ── Form Elements ── */
+      .form-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .form-row { display: flex; flex-direction: column; gap: 6px; }
+      .form-label { font-size: 14px; color: #606266; }
+      .form-input { height: 36px; border: 1px solid #DCDFE6; border-radius: 4px; padding: 0 10px; font-size: 14px; color: #303133; background: #FFFFFF; outline: none; transition: border-color 0.2s; font-family: inherit; box-sizing: border-box; }
+      .form-input:focus { border-color: #1A6FD4; }
+      .form-select { height: 36px; border: 1px solid #DCDFE6; border-radius: 4px; padding: 0 10px; font-size: 14px; color: #303133; background: #FFFFFF; outline: none; font-family: inherit; cursor: pointer; }
+      .form-select:focus { border-color: #1A6FD4; }
+      .form-textarea { width: 100%; min-height: 80px; border: 1px solid #DCDFE6; border-radius: 4px; padding: 8px 10px; font-size: 14px; color: #303133; background: #FFFFFF; outline: none; resize: vertical; font-family: inherit; box-sizing: border-box; }
+      .form-textarea:focus { border-color: #1A6FD4; }
+      .password-wrapper { position: relative; }
+      .password-toggle { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #909399; display: flex; align-items: center; justify-content: center; }
+      .password-toggle:hover { color: #1A6FD4; }
+      .serial-input-group { display: flex; gap: 8px; }
+      .serial-input-group .form-input { flex: 1; }
+
+      /* ── Source Cards ── */
+      .source-group { display: flex; gap: 16px; flex-wrap: wrap; }
+      .source-card { display: flex; align-items: center; gap: 12px; padding: 16px; border: 2px solid #DCDFE6; border-radius: 8px; cursor: pointer; transition: all 0.2s; flex: 1; min-width: 280px; position: relative; }
+      .source-card:hover { border-color: #1A6FD4; }
+      .source-card.checked { border-color: #1A6FD4; background: #E8F2FC; }
+      .source-card .source-icon { width: 40px; height: 40px; border-radius: 8px; background: #F5F7FA; display: flex; align-items: center; justify-content: center; color: #909399; flex-shrink: 0; }
+      .source-card.checked .source-icon { background: #1A6FD4; color: #FFFFFF; }
+      .source-card .source-info { flex: 1; }
+      .source-card .source-name { font-size: 15px; font-weight: 600; color: #303133; margin-bottom: 4px; }
+      .source-card .source-desc { font-size: 13px; color: #909399; }
+      .source-card .source-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #DCDFE6; display: flex; align-items: center; justify-content: center; color: transparent; transition: all 0.2s; flex-shrink: 0; }
+      .source-card.checked .source-check { border-color: #1A6FD4; background: #1A6FD4; color: #FFFFFF; }
+
+      /* ── Method Cards ── */
+      .method-group { display: flex; gap: 16px; flex-wrap: wrap; }
+      .method-card { display: flex; align-items: center; gap: 12px; padding: 20px; border: 2px solid #DCDFE6; border-radius: 8px; cursor: pointer; transition: all 0.2s; flex: 1; min-width: 280px; position: relative; }
+      .method-card:hover { border-color: #1A6FD4; }
+      .method-card.checked { border-color: #1A6FD4; background: #E8F2FC; }
+      .method-card .method-icon { width: 48px; height: 48px; border-radius: 8px; background: #F5F7FA; display: flex; align-items: center; justify-content: center; color: #909399; flex-shrink: 0; }
+      .method-card.checked .method-icon { background: #1A6FD4; color: #FFFFFF; }
+      .method-card .method-info { flex: 1; }
+      .method-card .method-name { font-size: 16px; font-weight: 600; color: #303133; margin-bottom: 4px; }
+      .method-card .method-desc { font-size: 13px; color: #909399; }
+      .method-card .method-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #DCDFE6; display: flex; align-items: center; justify-content: center; color: transparent; transition: all 0.2s; flex-shrink: 0; }
+      .method-card.checked .method-check { border-color: #1A6FD4; background: #1A6FD4; color: #FFFFFF; }
+
+      /* ── Method Panel ── */
+      .method-panel { display: none; }
+      .method-panel.active { display: block; }
+
+      /* ── Connectivity Check ── */
+      .check-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .check-item { border: 1px solid #DCDFE6; border-radius: 8px; padding: 16px; background: #FAFBFC; }
+      .check-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+      .check-name { font-size: 14px; font-weight: 500; color: #303133; }
+      .check-status { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; }
+      .check-status.pending { color: #909399; }
+      .check-status.running { color: #2E8BE6; }
+      .check-status.pass { color: #27AE60; }
+      .check-status.fail { color: #E74C3C; }
+      .check-btn { margin-top: 4px; }
+      .check-simulate-bar { display: flex; gap: 8px; margin-top: 12px; }
+      .check-fail-reason { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #F5C6CB; }
+      .check-fail-reason .fail-reason-text { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #E74C3C; margin-bottom: 8px; }
+      .check-fail-reason .recheck-btn { height: 26px; padding: 0 10px; font-size: 12px; }
+
+      /* ── UMC Notice ── */
+      .umc-notice { display: flex; align-items: center; gap: 8px; margin-top: 16px; padding: 12px 16px; background: #FEF5E7; border-radius: 6px; border: 1px solid #F39C12; }
+      .umc-notice span { font-size: 13px; color: #8a6d3b; }
+
+      /* ── Rule Threshold Warning ── */
+      .rule-threshold-warning { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 10px 14px; background: #FEF5E7; border-radius: 6px; border: 1px solid #F39C12; }
+      .rule-threshold-warning span { font-size: 13px; color: #8a6d3b; }
+
+      /* ── UMC Timeout Banner ── */
+      .umc-timeout-banner { display: flex; align-items: flex-start; gap: 12px; margin-top: 16px; padding: 16px; background: #FEF0F0; border-radius: 8px; border: 1px solid #E74C3C; }
+      .umc-timeout-icon { flex-shrink: 0; }
+      .umc-timeout-body { flex: 1; }
+      .umc-timeout-title { font-size: 15px; font-weight: 600; color: #E74C3C; margin-bottom: 4px; }
+      .umc-timeout-desc { font-size: 13px; color: #a94442; line-height: 1.6; }
+      .umc-timeout-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+      /* ── Parse Fail Banner ── */
+      .parse-fail-banner { display: flex; align-items: flex-start; gap: 12px; margin-top: 16px; padding: 16px; background: #FEF0F0; border-radius: 8px; border: 1px solid #E74C3C; }
+      .parse-fail-icon { flex-shrink: 0; }
+      .parse-fail-body { flex: 1; }
+      .parse-fail-title { font-size: 15px; font-weight: 600; color: #E74C3C; margin-bottom: 4px; }
+      .parse-fail-desc { font-size: 13px; color: #a94442; line-height: 1.6; }
+      .parse-fail-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+      /* ── Execute Hint ── */
+      .exec-hint { display: inline; margin-left: 12px; font-size: 13px; color: #909399; }
+
+      /* ── Terminal Output ── */
+      .terminal-output { background: #1E1E1E; border-radius: 8px; overflow: hidden; margin-bottom: 16px; }
+      .terminal-header { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #2D2D2D; }
+      .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+      .terminal-dot.red { background: #FF5F56; }
+      .terminal-dot.yellow { background: #FFBD2E; }
+      .terminal-dot.green { background: #27C93F; }
+      .terminal-title { font-size: 12px; color: #909399; margin-left: 8px; }
+      .terminal-body { padding: 16px; color: #00FF00; font-family: "Courier New", monospace; font-size: 13px; line-height: 1.6; white-space: pre-wrap; word-break: break-all; }
+
+      /* ── Metrics Section ── */
+      .metrics-section { margin-bottom: 16px; }
+      .metrics-title { font-size: 14px; font-weight: 600; color: #303133; margin-bottom: 12px; }
+
+      /* ── Badges ── */
+      .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; font-size: 12px; line-height: 1.5; }
+      .badge.metric-pass { color: #27AE60; background: #E8F8EE; border: 1px solid #27AE60; }
+      .badge.metric-warn { color: #F39C12; background: #FEF5E7; border: 1px solid #F39C12; }
+      .badge .dot { width: 6px; height: 6px; border-radius: 50%; }
+
+      /* ── Anomaly Section ── */
+      .anomaly-section { background: #FEF0F0; border-radius: 8px; padding: 16px; border: 1px solid #F5C6CB; }
+      .anomaly-title { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: #E74C3C; margin-bottom: 12px; }
+      .anomaly-list { display: flex; flex-direction: column; gap: 8px; }
+      .anomaly-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #606266; }
+      .anomaly-dot { width: 6px; height: 6px; border-radius: 50%; background: #E74C3C; flex-shrink: 0; }
+
+      /* ── Offline Script Area ── */
+      .offline-script-area { display: flex; flex-direction: column; gap: 16px; }
+      .script-info { background: #F5F7FA; border-radius: 8px; padding: 16px; }
+      .script-info-title { font-size: 14px; font-weight: 600; color: #303133; margin-bottom: 12px; }
+      .script-info-row { display: flex; align-items: center; gap: 4px; margin-bottom: 8px; font-size: 13px; }
+      .script-info-row .info-label { color: #909399; }
+      .script-info-row .info-value { color: #303133; }
+      .script-preview { background: #1E1E1E; color: #00FF00; padding: 12px 16px; border-radius: 6px; font-family: "Courier New", monospace; font-size: 13px; line-height: 1.8; margin-top: 8px; }
+
+      /* ── Upload Area ── */
+      .upload-area { border: 2px dashed #DCDFE6; border-radius: 8px; padding: 32px; text-align: center; cursor: pointer; transition: all 0.2s; }
+      .upload-area:hover, .upload-area.drag-over { border-color: #1A6FD4; background: #E8F2FC; }
+      .upload-placeholder { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+      .upload-text { font-size: 14px; color: #606266; }
+      .upload-hint { font-size: 13px; color: #909399; }
+      .upload-file-info { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #E8F2FC; border-radius: 8px; }
+      .upload-file-icon { display: flex; align-items: center; justify-content: center; }
+      .upload-file-detail { flex: 1; text-align: left; }
+      .upload-file-name { font-size: 14px; color: #303133; font-weight: 500; }
+      .upload-file-size { font-size: 13px; color: #909399; }
+      .upload-file-remove { cursor: pointer; color: #909399; display: flex; align-items: center; justify-content: center; padding: 4px; border-radius: 4px; transition: all 0.2s; }
+      .upload-file-remove:hover { color: #E74C3C; background: rgba(231,76,60,0.1); }
+
+      /* ── Report Header ── */
+      .report-header { padding: 0; }
+      .report-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+      .report-title { font-size: 18px; font-weight: 600; color: #303133; }
+      .btn-download-report { height: 32px; }
+      .report-meta { display: flex; gap: 24px; font-size: 13px; color: #909399; }
+
+      /* ── Summary Cards ── */
+      .summary-cards { display: flex; gap: 16px; }
+      .summary-card { flex: 1; padding: 20px; border-radius: 8px; text-align: center; }
+      .summary-card.total { background: #E8F2FC; border: 1px solid #2E8BE6; }
+      .summary-card.normal { background: #E8F8EE; border: 1px solid #27AE60; }
+      .summary-card.abnormal { background: #FEF0F0; border: 1px solid #E74C3C; }
+      .summary-value { font-size: 32px; font-weight: 700; margin-bottom: 4px; }
+      .summary-card.total .summary-value { color: #2E8BE6; }
+      .summary-card.normal .summary-value { color: #27AE60; }
+      .summary-card.abnormal .summary-value { color: #E74C3C; }
+      .summary-label { font-size: 13px; color: #606266; }
+
+      /* ── Problem List ── */
+      .problem-count { font-size: 13px; color: #909399; font-weight: 400; }
+      .problem-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+      .problem-filter { display: flex; align-items: center; gap: 8px; }
+      .problem-filter label { font-size: 14px; color: #606266; white-space: nowrap; }
+      .problem-list { display: flex; flex-direction: column; gap: 12px; }
+      .problem-item { border: 1px solid #EBEEF5; border-radius: 8px; padding: 16px; transition: border-color 0.2s; }
+      .problem-item:hover { border-color: #DCDFE6; }
+      .problem-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; cursor: pointer; }
+      .problem-left { display: flex; align-items: center; gap: 8px; }
+      .problem-expand-icon { display: inline-flex; transition: transform 0.2s; color: #909399; }
+      .problem-detail { margin-bottom: 12px; padding: 12px; background: #F5F7FA; border-radius: 6px; }
+      .problem-detail-table { margin: 0; }
+      .problem-level { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+      .problem-level.high { color: #E74C3C; background: #FEF0F0; border: 1px solid #E74C3C; }
+      .problem-level.medium { color: #F39C12; background: #FEF5E7; border: 1px solid #F39C12; }
+      .problem-level.low { color: #2E8BE6; background: #E8F2FC; border: 1px solid #2E8BE6; }
+      .problem-desc { font-size: 14px; color: #303133; }
+      .problem-mark { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+      .problem-mark.confirmed { color: #1A6FD4; background: #E8F2FC; border: 1px solid #1A6FD4; }
+      .problem-mark.ignored { color: #909399; background: #F5F7FA; border: 1px solid #DCDFE6; }
+      .problem-mark.false-report { color: #E74C3C; background: #FEF0F0; border: 1px solid #E74C3C; }
+      .problem-actions { display: flex; gap: 6px; }
+
+      /* ── Step Actions ── */
+      .step-actions { display: flex; justify-content: flex-end; gap: 12px; padding-top: 20px; border-top: 1px solid #EBEEF5; }
+
+      /* ── Todo List ── */
+      .todo-stats { display: flex; gap: 16px; }
+      .todo-stat-card { flex: 1; padding: 16px; border-radius: 8px; text-align: center; }
+      .todo-stat-card.total { background: #E8F2FC; border: 1px solid #2E8BE6; }
+      .todo-stat-card.closed { background: #E8F8EE; border: 1px solid #27AE60; }
+      .todo-stat-card.unclosed { background: #FEF5E7; border: 1px solid #F39C12; }
+      .todo-stat-value { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+      .todo-stat-card.total .todo-stat-value { color: #2E8BE6; }
+      .todo-stat-card.closed .todo-stat-value { color: #27AE60; }
+      .todo-stat-card.unclosed .todo-stat-value { color: #F39C12; }
+      .todo-stat-label { font-size: 13px; color: #606266; }
+      .todo-list { display: flex; flex-direction: column; gap: 12px; }
+      .todo-item { border: 1px solid #EBEEF5; border-radius: 8px; padding: 16px; }
+      .todo-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+      .todo-item-left { display: flex; align-items: center; gap: 8px; flex: 1; }
+      .todo-desc { font-size: 14px; color: #303133; }
+      .todo-toggle-group { display: flex; align-items: center; gap: 16px; }
+      .todo-radio { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-size: 14px; color: #606266; user-select: none; }
+      .todo-radio input { display: none; }
+      .todo-radio-dot { width: 16px; height: 16px; border-radius: 50%; border: 1px solid #DCDFE6; background: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; }
+      .todo-radio.checked .todo-radio-dot { border-color: #1A6FD4; }
+      .todo-radio.checked .todo-radio-dot::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #1A6FD4; }
+      .todo-radio.checked { color: #1A6FD4; }
+      .todo-remark-row { display: flex; align-items: center; gap: 12px; }
+      .todo-remark-row .form-input { flex: 1; }
+      .empty-state { text-align: center; padding: 40px; color: #909399; font-size: 14px; }
+
+      /* ── Empty Todo State (EC-013) ── */
+      .empty-todo-state { text-align: center; padding: 48px 20px; background: #E8F8EE; border-radius: 8px; border: 1px solid #27AE60; }
+      .empty-todo-icon { display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+      .empty-todo-text { font-size: 16px; font-weight: 600; color: #27AE60; margin-bottom: 8px; }
+      .empty-todo-hint { font-size: 13px; color: #606266; }
+
+      /* ── Closure Overview ── */
+      .closure-overview { display: flex; flex-direction: column; gap: 20px; }
+      .closure-stats { display: flex; gap: 16px; }
+      .closure-stat { flex: 1; padding: 20px; background: #F5F7FA; border-radius: 8px; text-align: center; }
+      .closure-stat-value { font-size: 28px; font-weight: 700; color: #1A6FD4; margin-bottom: 4px; }
+      .closure-stat-label { font-size: 13px; color: #606266; }
+      .progress-bar-wrapper { display: flex; align-items: center; gap: 12px; }
+      .progress-bar-track { flex: 1; height: 8px; background: #DCDFE6; border-radius: 4px; overflow: hidden; }
+      .progress-bar-fill { height: 100%; background: #27AE60; border-radius: 4px; transition: width 0.5s ease; }
+      .progress-bar-text { font-size: 14px; color: #303133; font-weight: 500; white-space: nowrap; }
+
+      /* ── Archive Info ── */
+      .archive-info { background: #F5F7FA; border-radius: 8px; padding: 16px; }
+      .archive-row { display: flex; align-items: center; gap: 4px; margin-bottom: 12px; }
+      .archive-row:last-child { margin-bottom: 0; }
+      .archive-label { font-size: 14px; color: #606266; font-weight: 500; }
+      .archive-value { font-size: 14px; color: #303133; }
+      .archive-file-list { display: flex; flex-direction: column; gap: 8px; }
+      .archive-file-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; color: #606266; }
+      .archive-file-left { display: flex; align-items: center; gap: 8px; }
+      .archive-download-btn { height: 26px; padding: 0 10px; font-size: 12px; }
+
+      /* ── Delivery Action Bar ── */
+      .delivery-action-bar { position: fixed; bottom: 0; left: 208px; right: 0; height: 56px; background: #FFFFFF; border-top: 1px solid #DCDFE6; display: flex; align-items: center; z-index: 700; box-shadow: 0 -2px 8px rgba(0,0,0,0.06); }
+      .delivery-bar-inner { display: flex; align-items: center; gap: 12px; padding: 0 24px; width: 100%; }
+      .delivery-bar-label { font-size: 14px; color: #606266; font-weight: 500; white-space: nowrap; }
+      .delivery-btn { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 16px; border: 1px solid #DCDFE6; border-radius: 4px; background: #FFFFFF; color: #303133; font-size: 14px; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+      .delivery-btn:hover { color: #1A6FD4; border-color: #1A6FD4; background: #E8F2FC; }
+
+      /* ── Result Section ── */
+      .result-section { background: #FAFBFC; border-radius: 8px; padding: 16px; margin-top: 8px; }
+
+      /* ── Collapsible Log Panels (流转日志 / 审计日志) ── */
+      .log-panel { margin-top: 20px; border: 1px solid #DCDFE6; border-radius: 8px; overflow: hidden; }
+      .log-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #F5F7FA; cursor: pointer; user-select: none; transition: background 0.2s; }
+      .log-panel-header:hover { background: #EBEEF5; }
+      .log-panel-title { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #303133; }
+      .log-panel-meta { display: flex; gap: 16px; font-size: 13px; color: #909399; }
+      .log-panel-meta span { white-space: nowrap; }
+      .log-panel-chevron { color: #909399; transition: transform 0.2s; flex-shrink: 0; }
+      .log-panel-body { padding: 0; }
+      .log-table { margin: 0; }
+      .log-table thead th { font-size: 13px; }
+      .log-table tbody td { font-size: 13px; padding: 10px 16px; }
+    </style>
+</html>

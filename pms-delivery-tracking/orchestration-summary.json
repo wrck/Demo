@@ -6,7 +6,7 @@
     "deviceType": "desktop",
     "designRead": "enterprise-admin-dashboard / project-managers / professional-restrained / information-dense / generic-SaaS-look",
     "designDials": { "layoutVariance": 2, "motionIntensity": 1, "visualDensity": 4 },
-    "pageCount": 2,
+    "pageCount": 14,
     "generationTree": {
       "root": {
         "nodeId": "gen-project-shell",
@@ -56,6 +56,24 @@
       "pageIndex": 2,
       "pageType": "information-dense",
       "visualNorthStar": "Single project tracking with left 200px 2-level nav, project info card, lifecycle state machine (30->31->32->40->100), nested sub-stage progress bar, and content area.",
+      "chartsRequired": false
+    },
+    {
+      "nodeId": "page-cutover",
+      "title": "割接管理",
+      "htmlSrc": "pages/cutover.html",
+      "pageIndex": 8,
+      "pageType": "information-dense",
+      "visualNorthStar": "Cutover management with 5-step flow: collection checklist, risk survey analysis, plan template and level assessment, approval, tracking and closure.",
+      "chartsRequired": false
+    },
+    {
+      "nodeId": "page-inspection",
+      "title": "巡检管理",
+      "htmlSrc": "pages/inspection.html",
+      "pageIndex": 9,
+      "pageType": "information-dense",
+      "visualNorthStar": "Inspection management with 5-step flow: preparation, execution (online/offline), report generation, todo tracking, closure.",
       "chartsRequired": false
     }
   ],
