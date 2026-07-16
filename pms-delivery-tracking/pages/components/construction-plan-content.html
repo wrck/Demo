@@ -1,0 +1,888 @@
+<!-- Component: construction-plan -->
+<style>
+      .page-content {
+        padding: 16px 24px 24px;
+        max-width: 1400px;
+      }
+
+      /* ── Page Header ── */
+      .page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .page-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #303133;
+      }
+      .page-subtitle {
+        font-size: 13px;
+        color: #909399;
+        margin-left: 12px;
+        font-weight: 400;
+      }
+      .page-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      /* ── Alert Banners ── */
+      .alert-banner {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        border-radius: 4px;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 12px;
+        gap: 10px;
+      }
+      .alert-warning {
+        background: #FEF0E0;
+        border-left: 4px solid #F39C12;
+        color: #8A5A00;
+      }
+      .alert-warning .alert-icon {
+        color: #F39C12;
+        flex-shrink: 0;
+      }
+      .alert-warning .alert-text { flex: 1; }
+      .alert-warning .alert-text strong { color: #8A5A00; }
+
+      /* ── Buttons ── */
+      .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 14px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        background: #FFFFFF;
+        color: #606266;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+        white-space: nowrap;
+      }
+      .btn-outline:hover {
+        color: #1A6FD4;
+        border-color: #1A6FD4;
+      }
+      .btn-outline:active {
+        color: #1565C0;
+        border-color: #1565C0;
+      }
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 16px;
+        border: 1px solid #1A6FD4;
+        border-radius: 4px;
+        background: #1A6FD4;
+        color: #FFFFFF;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+        white-space: nowrap;
+      }
+      .btn-primary:hover { background: #3B8AE0; border-color: #3B8AE0; }
+      .btn-primary:active { background: #1565C0; border-color: #1565C0; }
+      .btn-sm-outline-orange {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        height: 26px;
+        padding: 0 12px;
+        border: 1px solid #F39C12;
+        border-radius: 4px;
+        background: #FFFFFF;
+        color: #F39C12;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .btn-sm-outline-orange:hover {
+        background: #F39C12;
+        color: #FFFFFF;
+      }
+
+      /* ── White Card ── */
+      .white-card {
+        background: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        margin-bottom: 16px;
+      }
+      .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 20px;
+        border-bottom: 1px solid #EBEEF5;
+      }
+      .card-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #303133;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .card-title .title-icon { color: #1A6FD4; }
+      .card-body { padding: 20px; }
+
+      /* ── Contract Info Bar ── */
+      .contract-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .info-label {
+        font-size: 13px;
+        color: #909399;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .info-label .tag-readonly {
+        display: inline-block;
+        font-size: 11px;
+        color: #909399;
+        background: #F5F7FA;
+        border: 1px solid #EBEEF5;
+        padding: 1px 6px;
+        border-radius: 3px;
+        font-weight: 400;
+      }
+      .info-label .tag-imported {
+        display: inline-block;
+        font-size: 11px;
+        color: #2E8BE6;
+        background: #E8F2FC;
+        padding: 1px 6px;
+        border-radius: 3px;
+        font-weight: 400;
+      }
+      .info-value {
+        font-size: 16px;
+        font-weight: 600;
+        color: #303133;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .info-value .date-text {
+        font-size: 15px;
+        font-weight: 500;
+        color: #303133;
+      }
+      .radio-group {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+      .radio-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #303133;
+      }
+      .radio-item .radio-circle {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 2px solid #DCDFE6;
+        background: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+      .radio-item.checked .radio-circle {
+        border-color: #1A6FD4;
+      }
+      .radio-item.checked .radio-circle::after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #1A6FD4;
+      }
+
+      /* ── Time Model Table ── */
+      .time-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .time-table thead th {
+        background: #F5F7FA;
+        padding: 12px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #303133;
+        text-align: left;
+        border-bottom: 1px solid #EBEEF5;
+        white-space: nowrap;
+      }
+      .time-table thead th.col-calc {
+        background: #EDF4FC;
+        color: #1A6FD4;
+      }
+      .time-table thead th .th-hint {
+        font-size: 12px;
+        font-weight: 400;
+        color: #909399;
+        margin-left: 4px;
+      }
+      .time-table tbody td {
+        padding: 14px 16px;
+        font-size: 14px;
+        color: #303133;
+        border-bottom: 1px solid #EBEEF5;
+        white-space: nowrap;
+      }
+      .time-table tbody tr { transition: background 0.15s; }
+      .time-table tbody tr:hover { background: #F5F9FE; }
+      .time-table tbody tr:last-child td { border-bottom: none; }
+      .time-table .cell-calc {
+        background: #F3F8FE;
+      }
+      .time-table tbody tr:hover .cell-calc { background: #EBF3FB; }
+      .stage-name {
+        font-weight: 500;
+        color: #303133;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .stage-name .stage-index {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #E8F2FC;
+        color: #1A6FD4;
+        font-size: 12px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .date-cell {
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.3px;
+      }
+      .date-readonly {
+        color: #5A6477;
+      }
+      .date-required {
+        color: #E74C3C;
+        font-weight: 500;
+      }
+      .calc-value {
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.3px;
+        color: #1A6FD4;
+        font-weight: 500;
+      }
+      .calc-value-overdue {
+        color: #E74C3C;
+        font-weight: 600;
+        background: #FEF0F0;
+        padding: 4px 10px;
+        border-radius: 4px;
+        display: inline-block;
+      }
+      .badge-overdue {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-left: 8px;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #FFFFFF;
+        background: #E74C3C;
+      }
+      .remark-required {
+        color: #E74C3C;
+        font-size: 13px;
+        font-weight: 500;
+      }
+      .remark-hint {
+        color: #909399;
+        font-size: 13px;
+      }
+      .remark-empty { color: #C0C4CC; }
+
+      /* ── Formula Bar ── */
+      .formula-bar {
+        background: #F5F7FA;
+        border-radius: 8px;
+        padding: 14px 20px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        border: 1px solid #EBEEF5;
+      }
+      .formula-bar .formula-icon {
+        color: #5A6477;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .formula-text {
+        font-size: 14px;
+        color: #5A6477;
+        line-height: 1.6;
+      }
+      .formula-text .formula-label {
+        font-weight: 600;
+        color: #303133;
+      }
+      .formula-text .formula-rule {
+        color: #1A6FD4;
+        font-weight: 500;
+      }
+
+      /* ── Action Bar ── */
+      .action-bar {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 12px;
+        padding-top: 4px;
+      }
+      .action-hint {
+        font-size: 13px;
+        color: #909399;
+        margin-right: auto;
+      }
+</style>
+
+<div class="component-body">
+        <div class="page-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div style="display:flex;align-items:baseline;">
+                    <h1 class="page-title">施工计划</h1>
+                    <span class="page-subtitle">三层时间模型 - 倒推工期管理</span>
+                </div>
+            </div>
+
+            <!-- Alert Banner 1 -->
+            <div class="alert-banner alert-warning">
+                <svg class="alert-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <span class="alert-text">当前项目工期紧张，请详细落实好工期计划，并与客户确认</span>
+            </div>
+
+            <!-- Alert Banner 2 -->
+            <div class="alert-banner alert-warning">
+                <svg class="alert-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <span class="alert-text">发货状态：部分发货 → 请与销售确认发货时间</span>
+                <button class="btn-sm-outline-orange">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 2L11 13"/>
+                        <path d="M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                    发起CRM发货提醒
+                </button>
+            </div>
+
+            <!-- Contract Info Bar -->
+            <div class="white-card">
+                <div class="card-body">
+                    <div class="contract-grid">
+                        <div class="info-item">
+                            <div class="info-label">
+                                合同验收时间
+                                <span class="tag-readonly">PMS导入，只读</span>
+                            </div>
+                            <div class="info-value">
+                                <span class="date-text">2026-09-30</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">
+                                工期要求
+                                <span class="tag-imported">工前带入</span>
+                            </div>
+                            <div class="info-value">
+                                <span class="date-text">2026-09-30</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">项目类型</div>
+                            <div class="radio-group">
+                                <label class="radio-item checked">
+                                    <span class="radio-circle"></span>
+                                    <span>直签(含初验)</span>
+                                </label>
+                                <label class="radio-item">
+                                    <span class="radio-circle"></span>
+                                    <span>非直签</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Three-Layer Time Model Table -->
+            <div class="white-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <svg class="title-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        三层时间模型
+                    </div>
+                    <div style="font-size:13px;color:#909399;">
+                        共 7 个阶段
+                    </div>
+                </div>
+                <div class="card-body" style="padding:0;">
+                    <table class="time-table">
+                        <thead>
+                            <tr>
+                                <th style="width:160px;">阶段</th>
+                                <th style="width:200px;">阶段计划时间</th>
+                                <th style="width:200px;">工期要求时间</th>
+                                <th class="col-calc" style="width:280px;">
+                                    工期建议计划时间(倒推)
+                                    <span class="th-hint">自动计算</span>
+                                </th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Row 1: 到货签收 -->
+                            <tr>
+                                <td>
+                                    <div class="stage-name">
+                                        <span class="stage-index">1</span>
+                                        到货签收
+                                    </div>
+                                </td>
+                                <td class="date-cell date-readonly">2026-07-15</td>
+                                <td class="date-cell">2026-07-20</td>
+                                <td class="cell-calc"><span class="calc-value">2026-07-18</span></td>
+                                <td><span class="remark-required">必填</span></td>
+                            </tr>
+                            <!-- Row 2: 硬件实施 -->
+                            <tr>
+                                <td>
+                                    <div class="stage-name">
+                                        <span class="stage-index">2</span>
+                                        硬件实施
+                                    </div>
+                                </td>
+                                <td class="date-cell date-readonly">2026-07-25</td>
+                                <td class="date-cell">2026-07-30</td>
+                                <td class="cell-calc"><span class="calc-value">2026-07-28</span></td>
+                                <td><span class="remark-empty">-</span></td>
+                            </tr>
+                            <!-- Row 3: 设备配置 -->
+                            <tr>
+                                <td>
+                                    <div class="stage-name">
+                                        <span class="stage-index">3</span>
+                                        设备配置
+                                    </div>
+                                </td>
+                                <td class="date-cell date-readonly">2026-08-05</td>
+                                <td class="date-cell">2026-08-10</td>
+                                <td class="cell-calc"><span class="calc-value">2026-08-08</span></td>
+                                <td><span class="remark-empty">-</span></td>
+                            </tr>
+                            <!-- Row 4: 业务联通 -->
+                            <tr>
+                                <td>
+                                    <div class="stage-name">
+                                        <span class="stage-index">4</span>
+                                        业务联通
+                                    </div>
+                                </td>
+                                <td class="date-cell date-readonly">2026-08-15</td>
+                                <td class="date-cell">2026-08-20</td>
+                                <td class="cell-calc"><span class="calc-value">2026-08-18</span></td>
+                                <td><span class="remark-empty">-</span></td>
+                            </tr>
+                            <!-- Row 5: 割接-上线 (OVERDUE) -->
+                            <tr>
+                                <td>
+                                    <div class="stage-name">
+                                        <span class="stage-index">5</span>
+                                        割接-上线
+                                    </div>
+                                </td>
+                                <td class="date-cell date-readonly">2026-09-05</td>
+                                <td class="date-cell">2026-09-10</td>
+                                <td class="cell-calc">
+                                    <span class="calc-value-overdue">2026-07-01</span>
+                                    <span class="badge-overdue">已严重滞后</span>
+                                </td>
+                                <td><span class="remark-hint">提示</span></td>
+                            </tr>
+                            <!-- Row 6: 初验(直签) -->
+                            <tr>
+                                <td>
+                                    <div class="stage-name">
+                                        <span class="stage-index">6</span>
+                                        初验(直签)
+                                    </div>
+                                </td>
+                                <td class="date-cell date-readonly">2026-09-20</td>
+                                <td class="date-cell">2026-09-25</td>
+                                <td class="cell-calc"><span class="calc-value">2026-09-22</span></td>
+                                <td><span class="remark-required">必填</span></td>
+                            </tr>
+                            <!-- Row 7: 终验(直签) -->
+                            <tr>
+                                <td>
+                                    <div class="stage-name">
+                                        <span class="stage-index">7</span>
+                                        终验(直签)
+                                    </div>
+                                </td>
+                                <td class="date-cell date-readonly">2026-09-28</td>
+                                <td class="date-cell">2026-09-30</td>
+                                <td class="cell-calc"><span class="calc-value">2026-09-28</span></td>
+                                <td><span class="remark-required">必填</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Formula Explanation Bar -->
+            <div class="formula-bar">
+                <svg class="formula-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <div class="formula-text">
+                    <span class="formula-label">倒推规则：</span>
+                    <span class="formula-rule">直签项目</span>
+                    割接 = 初验 - 3个月 - 2周；
+                    <span class="formula-rule">非直签项目</span>
+                    割接 = 工期 - 2周
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-bar">
+                <span class="action-hint">提交后将发起钉钉审批流程</span>
+                <button class="btn-outline">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                        <polyline points="17 21 17 13 7 13 7 21"/>
+                        <polyline points="7 3 7 8 15 8"/>
+                    </svg>
+                    保存草稿
+                </button>
+                <button class="btn-primary">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                    提交审核(钉钉审批)
+                </button>
+            </div>
+
+            <!-- ===== Delivery Operations ===== -->
+            <div class="delivery-ops-card" id="delivery-ops-bar">
+                <div class="delivery-ops-head">
+                    <span class="delivery-ops-title">交付操作</span>
+                    <span class="delivery-badge delivery-badge-blue" id="delivery-status-badge">审核中</span>
+                </div>
+                <div class="delivery-ops-actions">
+                    <button class="delivery-btn delivery-btn-outline" data-daction="save-draft">保存草稿</button>
+                    <button class="delivery-btn delivery-btn-primary" data-daction="submit-approval">提交钉钉审批</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="download-plan">下载施工计划</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="view-progress">查看审批进度</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="warn-setting">工期预警设置</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="back-tracking">返回项目跟踪</button>
+                </div>
+            </div>
+        </div>
+</div>
+
+<script>
+function showConfirm(message, onConfirm, okText, cancelText) {
+            var overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:99998;display:flex;align-items:center;justify-content:center;';
+            var box = document.createElement('div');
+            box.style.cssText = 'background:#fff;border-radius:8px;padding:24px;min-width:340px;max-width:440px;box-shadow:0 8px 24px rgba(0,0,0,0.2);';
+            var msg = document.createElement('div');
+            msg.style.cssText = 'font-size:15px;color:#303133;margin-bottom:20px;line-height:1.6;';
+            msg.textContent = message;
+            var row = document.createElement('div');
+            row.style.cssText = 'display:flex;justify-content:flex-end;gap:10px;';
+            var cancel = document.createElement('button');
+            cancel.textContent = cancelText || '取消';
+            cancel.style.cssText = 'height:32px;padding:0 18px;border:1px solid #DCDFE6;border-radius:4px;background:#fff;color:#606266;font-size:14px;cursor:pointer;font-family:inherit;';
+            var ok = document.createElement('button');
+            ok.textContent = okText || '确认';
+            ok.style.cssText = 'height:32px;padding:0 18px;border:1px solid #1A6FD4;border-radius:4px;background:#1A6FD4;color:#fff;font-size:14px;cursor:pointer;font-family:inherit;';
+            row.appendChild(cancel); row.appendChild(ok);
+            box.appendChild(msg); box.appendChild(row);
+            overlay.appendChild(box);
+            document.body.appendChild(overlay);
+            function close(){ if(overlay.parentNode) document.body.removeChild(overlay); }
+            ok.addEventListener('click', function(){ close(); if(onConfirm) onConfirm(); });
+            cancel.addEventListener('click', close);
+            overlay.addEventListener('click', function(e){ if(e.target===overlay) close(); });
+        }
+
+        // ── Radio toggle (项目类型) ──
+        document.querySelectorAll('.radio-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const group = this.closest('.radio-group');
+                if (this.classList.contains('checked')) return;
+                group.querySelectorAll('.radio-item').forEach(r => r.classList.remove('checked'));
+                this.classList.add('checked');
+                showToast('切换项目类型将重新计算倒推时间', 'warning');
+            });
+        });
+
+        // ── Editable date cells (工期要求时间) ──
+        document.querySelectorAll('.time-table .date-cell:not(.date-readonly)').forEach(function(cell){
+            cell.style.cursor = 'pointer';
+            cell.title = '点击编辑日期';
+            cell.addEventListener('click', function(e){
+                if (e.target.tagName === 'INPUT') return;
+                var text = cell.textContent.trim();
+                var input = document.createElement('input');
+                input.type = 'date';
+                input.value = text;
+                input.style.cssText = 'width:100%;height:28px;border:1px solid #1A6FD4;border-radius:4px;padding:0 6px;font-size:14px;color:#303133;font-family:inherit;outline:none;';
+                cell.textContent = '';
+                cell.appendChild(input);
+                input.focus();
+                input.addEventListener('blur', function(){ cell.textContent = input.value || text; });
+                input.addEventListener('keydown', function(ev){
+                    if(ev.key === 'Enter'){ input.blur(); }
+                    if(ev.key === 'Escape'){ cell.textContent = text; }
+                });
+            });
+        });
+
+        // ── Editable 备注 cells ──
+        document.querySelectorAll('.time-table tbody tr td:last-child').forEach(function(cell){
+            cell.style.cursor = 'pointer';
+            cell.title = '点击编辑备注';
+            cell.addEventListener('click', function(e){
+                if (e.target.tagName === 'INPUT') return;
+                var text = cell.textContent.trim();
+                var input = document.createElement('input');
+                input.type = 'text';
+                input.value = (text === '-' || text === '必填' || text === '提示') ? '' : text;
+                input.placeholder = '请输入备注';
+                input.style.cssText = 'width:100%;height:28px;border:1px solid #1A6FD4;border-radius:4px;padding:0 8px;font-size:13px;color:#303133;font-family:inherit;outline:none;';
+                cell.textContent = '';
+                cell.appendChild(input);
+                input.focus();
+                input.addEventListener('blur', function(){
+                    var v = input.value;
+                    if (v) { cell.textContent = v; cell.style.color = '#303133'; }
+                    else { cell.innerHTML = '<span class="remark-empty">-</span>'; }
+                });
+                input.addEventListener('keydown', function(ev){
+                    if(ev.key === 'Enter'){ input.blur(); }
+                    if(ev.key === 'Escape'){ cell.innerHTML = '<span class="remark-empty">-</span>'; }
+                });
+            });
+        });
+
+        // ── 保存草稿 / 提交审核 ──
+        if(!document.getElementById('pms-spin-style')){
+            var st=document.createElement('style');st.id='pms-spin-style';st.textContent='@keyframes pms-spin{to{transform:rotate(360deg)}}';document.head.appendChild(st);
+        }
+        document.querySelectorAll('.action-bar button').forEach(function(btn){
+            if (btn.classList.contains('btn-outline')) {
+                btn.addEventListener('click', function(){
+                    var orig = btn.innerHTML;
+                    btn.disabled = true;
+                    btn.innerHTML = '<span style="display:inline-block;width:14px;height:14px;border:2px solid #C0C4CC;border-top-color:#1A6FD4;border-radius:50%;animation:pms-spin 0.6s linear infinite;vertical-align:middle;"></span> 保存中...';
+                    setTimeout(function(){
+                        btn.disabled = false;
+                        btn.innerHTML = orig;
+                        showToast('草稿已保存', 'success');
+                    }, 800);
+                });
+            } else if (btn.classList.contains('btn-primary')) {
+                btn.addEventListener('click', function(){
+                    showConfirm('确认提交施工计划进行钉钉审批？', function(){
+                        showToast('已提交，等待钉钉审批', 'success');
+                    }, '确认提交', '取消');
+                });
+            }
+        });
+
+        // ── 发起CRM发货提醒 ──
+        var crmBtn = document.querySelector('.btn-sm-outline-orange');
+        if (crmBtn) crmBtn.addEventListener('click', function(){ showToast('CRM发货提醒已发送', 'success'); });
+
+        // ── Formula bar collapsible ──
+        var formulaBar = document.querySelector('.formula-bar');
+        if (formulaBar) {
+            formulaBar.style.cursor = 'pointer';
+            var detail = document.createElement('div');
+            detail.style.cssText = 'font-size:13px;color:#909399;margin-top:8px;display:none;line-height:1.6;';
+            detail.textContent = '详细说明：倒推时间根据合同验收时间自动计算各阶段建议计划时间。直签项目需满足初验节点要求，割接时间须在初验前3个月减2周；非直签项目以工期要求为基准倒推2周。若倒推时间早于当前日期，系统将标记为"已严重滞后"。';
+            formulaBar.appendChild(detail);
+            formulaBar.addEventListener('click', function(){
+                var isHidden = detail.style.display === 'none';
+                detail.style.display = isHidden ? 'block' : 'none';
+            });
+        }
+
+// ===== Delivery Operations =====
+// ===== Delivery Operations =====
+(function(){
+var dcss=document.getElementById('delivery-ops-css');
+if(!dcss){dcss=document.createElement('style');dcss.id='delivery-ops-css';dcss.textContent=`
+.delivery-ops-card{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:20px;margin-bottom:16px}
+.delivery-ops-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.delivery-ops-title{font-size:16px;font-weight:600;color:#303133}
+.delivery-badge{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:4px;font-size:12px;font-weight:500;white-space:nowrap}
+.delivery-badge-green{background:#E8F8EE;color:#27AE60}
+.delivery-badge-blue{background:#E8F2FC;color:#1A6FD4}
+.delivery-badge-orange{background:#FEF0E0;color:#F39C12}
+.delivery-ops-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;flex-wrap:wrap}
+.delivery-btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;height:32px;padding:0 14px;border-radius:4px;font-size:14px;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;border:1px solid transparent}
+.delivery-btn-primary{background:#1A6FD4;border-color:#1A6FD4;color:#fff}
+.delivery-btn-primary:hover{background:#3B8AE0;border-color:#3B8AE0}
+.delivery-btn-primary:disabled{opacity:.7;cursor:not-allowed}
+.delivery-btn-outline{background:#fff;border-color:#DCDFE6;color:#606266}
+.delivery-btn-outline:hover{color:#1A6FD4;border-color:#1A6FD4}
+.delivery-btn-outline:disabled{opacity:.7;cursor:not-allowed}
+.delivery-btn-danger{background:#FEF0F0;border-color:#FBC4C0;color:#E74C3C;cursor:not-allowed;opacity:.6}
+.delivery-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:99998;display:flex;align-items:center;justify-content:center;padding:20px}
+.delivery-modal-box{background:#fff;border-radius:8px;width:480px;max-width:100%;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.delivery-modal-head{padding:16px 20px;border-bottom:1px solid #EBEEF5;font-size:16px;font-weight:600;color:#303133}
+.delivery-modal-body{padding:20px;overflow-y:auto;flex:1}
+.delivery-modal-foot{padding:12px 20px;border-top:1px solid #EBEEF5;display:flex;justify-content:flex-end;gap:8px}
+.delivery-form-label{display:block;font-size:13px;color:#606266;margin-bottom:6px;font-weight:500}
+.delivery-form-textarea{width:100%;min-height:72px;padding:8px 12px;border:1px solid #DCDFE6;border-radius:4px;font-size:14px;color:#303133;font-family:inherit;resize:vertical;outline:none;box-sizing:border-box}
+.delivery-form-textarea:focus{border-color:#1A6FD4}
+.delivery-form-input{width:100%;height:32px;padding:0 12px;border:1px solid #DCDFE6;border-radius:4px;font-size:14px;color:#303133;font-family:inherit;outline:none;box-sizing:border-box}
+.delivery-form-input:focus{border-color:#1A6FD4}
+.delivery-form-group{margin-bottom:16px}
+.delivery-form-group:last-child{margin-bottom:0}
+.delivery-audit-table{width:100%;border-collapse:collapse}
+.delivery-audit-table th,.delivery-audit-table td{padding:10px 12px;text-align:left;font-size:14px;border-bottom:1px solid #EBEEF5}
+.delivery-audit-table th{background:#F5F7FA;color:#303133;font-weight:600}
+.delivery-audit-table td{color:#606266}
+.delivery-audit-pass{color:#27AE60;font-weight:500}
+.delivery-audit-pending{color:#F39C12}
+.delivery-audit-waiting{color:#909399}
+.delivery-timeline{list-style:none;padding:0;margin:0}
+.delivery-timeline li{display:flex;gap:12px;padding:12px 0;position:relative}
+.delivery-timeline li:not(:last-child)::after{content:"";position:absolute;left:11px;top:36px;bottom:-12px;width:2px;background:#EBEEF5}
+.delivery-timeline .tl-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;font-weight:600}
+.delivery-timeline .tl-done{background:#E8F8EE;color:#27AE60}
+.delivery-timeline .tl-active{background:#FEF0E0;color:#F39C12}
+.delivery-timeline .tl-todo{background:#F5F7FA;color:#C0C4CC}
+.delivery-timeline .tl-content{flex:1}
+.delivery-timeline .tl-title{font-size:14px;color:#303133;font-weight:500}
+.delivery-timeline .tl-date{font-size:12px;color:#909399;margin-top:2px}
+.delivery-checklist{list-style:none;padding:0;margin:0}
+.delivery-checklist li{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #EBEEF5;font-size:14px;color:#303133}
+.delivery-checklist li:last-child{border-bottom:none}
+.delivery-checklist .cl-pass{color:#27AE60;font-weight:600}
+.delivery-checklist .cl-pending{color:#F39C12;font-weight:600}
+.delivery-checklist .cl-fail{color:#E74C3C;font-weight:600}
+.delivery-info-box{background:#E8F2FC;border:1px solid #BFDBF7;border-radius:6px;padding:10px 12px;font-size:13px;color:#1A6FD4;margin-bottom:16px}
+.delivery-checkbox-group{display:flex;gap:20px;align-items:center}
+.delivery-checkbox-item{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:#303133}
+`;document.head.appendChild(dcss);}
+if(!document.getElementById('delivery-spin-style')){var _ss=document.createElement('style');_ss.id='delivery-spin-style';_ss.textContent='@keyframes delivery-spin{to{transform:rotate(360deg)}}';document.head.appendChild(_ss);}
+function dt(m,t){if(typeof window.showToast==='function'){try{window.showToast(m,t);return;}catch(e){}}var el=document.getElementById('delivery-toast');if(!el){el=document.createElement('div');el.id='delivery-toast';el.style.cssText='position:fixed;top:80px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:6px;font-size:14px;z-index:99999;opacity:0;transition:opacity .3s;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.15);color:#fff;background:#303133;';document.body.appendChild(el);}var cm={success:'#27AE60',warning:'#F39C12',error:'#E74C3C',info:'#303133'};el.style.background=cm[t]||cm.info;el.textContent=m;el.style.opacity='1';clearTimeout(el._t);el._t=setTimeout(function(){el.style.opacity='0';},2500);}
+window.showToastDelivery=dt;
+function createDeliveryModal(title,html,o){o=o||{};var ov=document.createElement('div');ov.className='delivery-modal-overlay';var bx=document.createElement('div');bx.className='delivery-modal-box';if(o.width)bx.style.width=o.width;var hd=document.createElement('div');hd.className='delivery-modal-head';hd.textContent=title;var bd=document.createElement('div');bd.className='delivery-modal-body';bd.innerHTML=html;bx.appendChild(hd);bx.appendChild(bd);function cl(){if(ov.parentNode)document.body.removeChild(ov);}if(!o.hideFooter){var ft=document.createElement('div');ft.className='delivery-modal-foot';var ok=document.createElement('button');ok.className='delivery-btn delivery-btn-primary';ok.textContent=o.confirmText||'确认';if(!o.hideCancel){var ca=document.createElement('button');ca.className='delivery-btn delivery-btn-outline';ca.textContent=o.cancelText||'取消';ca.addEventListener('click',cl);ft.appendChild(ca);}ft.appendChild(ok);bx.appendChild(ft);ok.addEventListener('click',function(){if(o.onConfirm)o.onConfirm(bx,cl);else cl();});}ov.appendChild(bx);document.body.appendChild(ov);ov.addEventListener('click',function(e){if(e.target===ov)cl();});return{box:bx,overlay:ov,close:cl};}
+window.createDeliveryModal=createDeliveryModal;
+function spW(s){return '<span style="display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:delivery-spin .6s linear infinite;vertical-align:middle;margin-right:4px;"></span>'+s;}
+function spB(s){return '<span style="display:inline-block;width:14px;height:14px;border:2px solid #C0C4CC;border-top-color:#1A6FD4;border-radius:50%;animation:delivery-spin .6s linear infinite;vertical-align:middle;margin-right:4px;"></span>'+s;}
+
+var b1=document.querySelector('[data-daction="save-draft"]');
+if(b1)b1.addEventListener('click',function(){dt('草稿已保存','success');});
+var b2=document.querySelector('[data-daction="submit-approval"]');
+if(b2)b2.addEventListener('click',function(){
+  var h='<div class="delivery-info-box">提交后将进入钉钉审批流程，审批通过后计划生效</div>'+
+    '<table class="delivery-audit-table"><thead><tr><th>步骤</th><th>审核人</th><th>结果</th></tr></thead><tbody>'+
+    '<tr><td>计划提交</td><td>张三</td><td class="delivery-audit-pass">&#10003;已提交</td></tr>'+
+    '<tr><td>服务经理审核</td><td>赵经理</td><td class="delivery-audit-waiting">待审核</td></tr>'+
+    '<tr><td>钉钉审批</td><td>-</td><td class="delivery-audit-waiting">待触发</td></tr>'+
+    '</tbody></table>';
+  createDeliveryModal('确认提交施工计划进行钉钉审批？',h,{confirmText:'确认提交',cancelText:'取消',onConfirm:function(bx,cl){
+    var ok=bx.querySelector('.delivery-modal-foot .delivery-btn-primary');
+    if(ok){ok.disabled=true;ok.innerHTML=spW('提交中...');}
+    setTimeout(function(){
+      cl();dt('已提交钉钉审批','success');
+      var badge=document.getElementById('delivery-status-badge');
+      if(badge){badge.className='delivery-badge delivery-badge-orange';badge.textContent='已提交审批';}
+      b2.disabled=true;b2.textContent='已提交审批';
+    },2000);
+  }});
+});
+var b3=document.querySelector('[data-daction="download-plan"]');
+if(b3)b3.addEventListener('click',function(){dt('下载中...','info');});
+var b4=document.querySelector('[data-daction="view-progress"]');
+if(b4)b4.addEventListener('click',function(){
+  var h='<ul class="delivery-timeline">'+
+    '<li><div class="tl-icon tl-done">&#10003;</div><div class="tl-content"><div class="tl-title">计划提交</div><div class="tl-date">2026-07-05</div></div></li>'+
+    '<li><div class="tl-icon tl-active">&#8987;</div><div class="tl-content"><div class="tl-title">服务经理审核</div><div class="tl-date">审核中</div></div></li>'+
+    '<li><div class="tl-icon tl-todo">&#9675;</div><div class="tl-content"><div class="tl-title">钉钉审批</div><div class="tl-date">待触发</div></div></li>'+
+    '<li><div class="tl-icon tl-todo">&#9675;</div><div class="tl-content"><div class="tl-title">完成</div><div class="tl-date">-</div></div></li>'+
+    '</ul>';
+  createDeliveryModal('审批进度',h,{confirmText:'关闭',hideCancel:true});
+});
+var b5=document.querySelector('[data-daction="warn-setting"]');
+if(b5)b5.addEventListener('click',function(){
+  var h='<div class="delivery-form-group"><label class="delivery-form-label">预警天数</label><input type="number" class="delivery-form-input" value="7" min="1"></div>'+
+    '<div class="delivery-form-group"><label class="delivery-form-label">预警通知方式</label>'+
+    '<div class="delivery-checkbox-group">'+
+    '<label class="delivery-checkbox-item"><input type="checkbox" checked> 钉钉</label>'+
+    '<label class="delivery-checkbox-item"><input type="checkbox" checked> 邮件</label>'+
+    '<label class="delivery-checkbox-item"><input type="checkbox"> 短信</label>'+
+    '</div></div>';
+  createDeliveryModal('工期预警设置',h,{confirmText:'保存',cancelText:'取消',onConfirm:function(bx,cl){cl();dt('预警设置已保存','success');}});
+});
+var b6=document.querySelector('[data-daction="back-tracking"]');
+if(b6)b6.addEventListener('click',function(){__safeNav('project-tracking.html');});
+})();
+</script>

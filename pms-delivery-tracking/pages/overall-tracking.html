@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>项目总体跟踪 - PMS项目交付管理系统</title>
+    <title>项目总览 - PMS项目交付管理系统</title>
     <style id="theme-vars">
 :root {
   /* ── Brand ── */
@@ -252,40 +252,22 @@
 
     <!-- ==================== Sidebar ==================== -->
     <aside class="admin-sidebar">
-        <!-- 交付跟踪 (expanded) -->
+        <!-- 项目总览 (expanded) -->
         <div class="sidebar-group">
             <div class="sidebar-group-header">
                 <span class="group-icon">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
                     </svg>
-                    交付跟踪
+                    项目总览
                 </span>
                 <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="6 9 12 15 18 9"/>
                 </svg>
             </div>
             <ul class="sidebar-menu">
-                <li><a href="#" class="active">项目总体跟踪</a></li>
-                <li><a href="#">售前测试管理</a></li>
-                <li><a href="#">项目转包（代施）</a></li>
+                <li><a href="#" class="active">项目总览</a></li>
             </ul>
-        </div>
-
-        <!-- 交付执行 (collapsed) -->
-        <div class="sidebar-group">
-            <div class="sidebar-group-header">
-                <span class="group-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
-                    </svg>
-                    交付执行
-                </span>
-                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="6 9 12 15 18 9"/>
-                </svg>
-            </div>
-            <ul class="sidebar-menu" style="display: none;"></ul>
         </div>
 
         <!-- 交付支撑 (collapsed) -->
@@ -303,44 +285,12 @@
             </div>
             <ul class="sidebar-menu" style="display: none;"></ul>
         </div>
-
-        <!-- 集成与报表 (collapsed) -->
-        <div class="sidebar-group">
-            <div class="sidebar-group-header">
-                <span class="group-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
-                    </svg>
-                    集成与报表
-                </span>
-                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="6 9 12 15 18 9"/>
-                </svg>
-            </div>
-            <ul class="sidebar-menu" style="display: none;"></ul>
-        </div>
-
-        <!-- 系统管理 (collapsed) -->
-        <div class="sidebar-group">
-            <div class="sidebar-group-header">
-                <span class="group-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                    </svg>
-                    系统管理
-                </span>
-                <svg class="chevron-icon collapsed" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="6 9 12 15 18 9"/>
-                </svg>
-            </div>
-            <ul class="sidebar-menu" style="display: none;"></ul>
-        </div>
     </aside>
 
     <!-- ==================== TagsView ==================== -->
     <div class="tags-view">
         <div class="tag-item active">
-            <span>项目总体跟踪</span>
+            <span>项目总览</span>
             <span class="tag-close">&times;</span>
         </div>
         <div class="tag-item">
@@ -363,15 +313,13 @@
     <div class="admin-main">
         <!-- Breadcrumb -->
         <div class="breadcrumb-bar">
-            <a href="#">交付跟踪</a>
-            <span class="sep">/</span>
-            <span class="current">项目总体跟踪</span>
+            <span class="current">项目总览</span>
         </div>
 
         <div class="page-content">
             <!-- Page Header -->
             <div class="page-header">
-                <h1 class="page-title">项目总体跟踪</h1>
+                <h1 class="page-title">项目总览</h1>
                 <div class="page-actions">
                     <button class="btn-outline">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -717,10 +665,7 @@
       (function () {
         // ===== Sidebar navigation mapping =====
         var pageMap = {
-          '项目总体跟踪': null,
-          '售前测试管理': '__toast__',
-          '项目转包（代施）': '__toast__',
-          '项目转包': '__toast__',
+          '项目总览': null,
           '工前准备': 'pre-work.html',
           '施工计划': 'construction-plan.html',
           '制定施工计划': 'construction-plan.html',
@@ -731,12 +676,7 @@
           '巡检管理': 'inspection.html',
           '客户资产库': 'customer-asset.html',
           'AI排障与知识库': 'ai-troubleshoot.html',
-          '验收交维': '__toast__',
-          '技术公告': '__toast__',
-          '回访与维保': '__toast__',
-          'ITR故障': '__toast__',
-          '集成与报表': '__toast__',
-          '系统管理': '__toast__'
+          '桌面客户端离线模式': 'offline-mode.html'
         };
 
         function bindSidebarItem(a) {
@@ -758,7 +698,7 @@
           }
         }
 
-        // Populate empty sidebar menus (交付执行 / 交付支撑)
+        // Populate empty sidebar menus (交付支撑)
         var groups = document.querySelectorAll('.sidebar-group');
         groups.forEach(function (group) {
           var header = group.querySelector('.sidebar-group-header');
@@ -766,10 +706,8 @@
           if (!header || !menu) return;
           var groupName = header.textContent.trim();
           var items = [];
-          if (groupName.indexOf('交付执行') >= 0 && menu.children.length === 0) {
-            items = ['工前准备', '施工计划', '实施方案', '实施部署', '割接管理', '巡检管理'];
-          } else if (groupName.indexOf('交付支撑') >= 0 && menu.children.length === 0) {
-            items = ['客户资产库', 'AI排障与知识库'];
+          if (groupName.indexOf('交付支撑') >= 0 && menu.children.length === 0) {
+            items = ['客户资产库', 'AI排障与知识库', '桌面客户端离线模式'];
           }
           items.forEach(function (name) {
             var li = document.createElement('li');

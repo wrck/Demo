@@ -1,0 +1,1276 @@
+<!-- Component: implementation-plan -->
+<style>
+      .page-content {
+        padding: 16px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* ── Doc Header Bar ── */
+      .doc-header-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .doc-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #303133;
+      }
+      .doc-header-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .lock-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        border-radius: 4px;
+        background: #F4ECF7;
+        color: #8E44AD;
+        font-size: 13px;
+        font-weight: 500;
+        border: 1px solid #E8D8F0;
+      }
+      .lock-badge svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+      }
+      .btn-more {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        height: 32px;
+        padding: 0 12px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        background: #FFFFFF;
+        color: #606266;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+      .btn-more:hover {
+        color: #1A6FD4;
+        border-color: #1A6FD4;
+      }
+
+      /* ── Card ── */
+      .card {
+        background: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        margin-bottom: 16px;
+      }
+
+      /* ── Upload Section ── */
+      .upload-card {
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .upload-label {
+        font-size: 14px;
+        color: #303133;
+        font-weight: 500;
+      }
+      .radio-group {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .radio-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #606266;
+        user-select: none;
+      }
+      .radio-item .radio-dot {
+        width: 16px;
+        height: 16px;
+        border: 2px solid #DCDFE6;
+        border-radius: 50%;
+        position: relative;
+        transition: border-color 0.2s;
+        flex-shrink: 0;
+      }
+      .radio-item.checked .radio-dot {
+        border-color: #1A6FD4;
+      }
+      .radio-item.checked .radio-dot::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 8px;
+        background: #1A6FD4;
+        border-radius: 50%;
+      }
+      .upload-divider {
+        width: 1px;
+        height: 24px;
+        background: #EBEEF5;
+      }
+      .btn-upload {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 14px;
+        border: 1px solid #1A6FD4;
+        border-radius: 4px;
+        background: #FFFFFF;
+        color: #1A6FD4;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+      .btn-upload:hover {
+        background: #E8F2FC;
+      }
+      .btn-upload svg {
+        width: 14px;
+        height: 14px;
+      }
+      .btn-autofill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 14px;
+        border: 1px solid #8E44AD;
+        border-radius: 4px;
+        background: #F4ECF7;
+        color: #8E44AD;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+      .btn-autofill:hover {
+        background: #E8D8F0;
+      }
+      .btn-autofill svg {
+        width: 14px;
+        height: 14px;
+      }
+      .upload-hint {
+        font-size: 12px;
+        color: #909399;
+      }
+
+      /* ── Editor Layout (Split Panel) ── */
+      .editor-layout {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+      }
+
+      /* ── Chapter Tree Panel ── */
+      .chapter-tree-panel {
+        width: 220px;
+        background: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        flex-shrink: 0;
+        overflow: hidden;
+      }
+      .tree-header {
+        padding: 12px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #303133;
+        border-bottom: 1px solid #EBEEF5;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .tree-header svg {
+        width: 16px;
+        height: 16px;
+        color: #1A6FD4;
+      }
+      .tree-list {
+        list-style: none;
+        padding: 4px 0;
+        max-height: 600px;
+        overflow-y: auto;
+      }
+      .tree-list::-webkit-scrollbar { width: 4px; }
+      .tree-list::-webkit-scrollbar-thumb { background: #DCDFE6; border-radius: 2px; }
+      .tree-list::-webkit-scrollbar-track { background: transparent; }
+
+      .tree-node {
+        position: relative;
+      }
+      .tree-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 8px 12px;
+        font-size: 14px;
+        color: #606266;
+        cursor: pointer;
+        transition: all 0.15s;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        user-select: none;
+      }
+      .tree-item:hover {
+        background: #F5F7FA;
+        color: #1A6FD4;
+      }
+      .tree-item.active {
+        color: #1A6FD4;
+        background: #E8F2FC;
+        font-weight: 500;
+      }
+      .tree-item.active::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: #1A6FD4;
+      }
+      .tree-chevron {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+        color: #909399;
+        transition: transform 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .tree-chevron.collapsed {
+        transform: rotate(-90deg);
+      }
+      .tree-chevron-spacer {
+        width: 14px;
+        flex-shrink: 0;
+      }
+      .tree-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .tree-children {
+        list-style: none;
+        display: block;
+      }
+      .tree-children.collapsed {
+        display: none;
+      }
+      .tree-children .tree-item {
+        padding-left: 36px;
+        font-size: 13px;
+      }
+      .tree-children .tree-item.active::before {
+        left: 0;
+      }
+
+      /* ── Chapter Content Panel ── */
+      .chapter-content-panel {
+        flex: 1;
+        background: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        min-width: 0;
+        overflow: hidden;
+      }
+      .content-section-header {
+        padding: 16px 24px;
+        border-bottom: 1px solid #EBEEF5;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #303133;
+      }
+      .ref-tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 10px;
+        border-radius: 4px;
+        background: #E8F2FC;
+        color: #1A6FD4;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .content-body {
+        padding: 20px 24px;
+      }
+
+      /* ── Sub-sections list ── */
+      .sub-sections {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+      .sub-section-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        background: #FAFBFC;
+        border: 1px solid #EBEEF5;
+        border-radius: 6px;
+        font-size: 14px;
+        color: #606266;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .sub-section-item:hover {
+        border-color: #1A6FD4;
+        background: #F5F9FE;
+        color: #1A6FD4;
+      }
+      .sub-section-item .sub-icon {
+        width: 16px;
+        height: 16px;
+        color: #909399;
+        flex-shrink: 0;
+      }
+      .sub-section-item:hover .sub-icon {
+        color: #1A6FD4;
+      }
+      .sub-section-item .sub-arrow {
+        margin-left: auto;
+        color: #C0C4CC;
+        font-size: 12px;
+      }
+
+      /* ── Rich Text Editor Placeholder ── */
+      .editor-placeholder {
+        min-height: 300px;
+        border: 2px dashed #DCDFE6;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        background: #FAFBFC;
+        transition: border-color 0.2s;
+      }
+      .editor-placeholder:hover {
+        border-color: #1A6FD4;
+      }
+      .editor-placeholder svg {
+        width: 32px;
+        height: 32px;
+        color: #C0C4CC;
+      }
+      .editor-placeholder .placeholder-text {
+        font-size: 14px;
+        color: #909399;
+      }
+      .editor-placeholder .placeholder-hint {
+        font-size: 12px;
+        color: #C0C4CC;
+      }
+
+      /* ── Template Cards ── */
+      .template-section-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #303133;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .template-section-title svg {
+        width: 16px;
+        height: 16px;
+        color: #1A6FD4;
+      }
+      .template-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .template-card {
+        border: 1px solid #EBEEF5;
+        border-radius: 6px;
+        overflow: hidden;
+        transition: border-color 0.2s;
+      }
+      .template-card:hover {
+        border-color: #C6D9F0;
+      }
+      .template-card.selected {
+        border-color: #1A6FD4;
+        background: #F5F9FE;
+      }
+      .template-card-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .template-card-header .chevron {
+        width: 14px;
+        height: 14px;
+        color: #909399;
+        transition: transform 0.2s;
+        flex-shrink: 0;
+      }
+      .template-card.expanded .chevron {
+        transform: rotate(90deg);
+      }
+      .template-card-header .tpl-name {
+        font-size: 14px;
+        color: #303133;
+        font-weight: 500;
+        flex: 1;
+      }
+      .template-card.selected .tpl-name {
+        color: #1A6FD4;
+      }
+      .tpl-check {
+        width: 16px;
+        height: 16px;
+        border: 2px solid #DCDFE6;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: all 0.2s;
+      }
+      .tpl-check.checked {
+        background: #1A6FD4;
+        border-color: #1A6FD4;
+      }
+      .tpl-check.checked svg {
+        width: 10px;
+        height: 10px;
+        color: #FFFFFF;
+      }
+      .tpl-badge-selected {
+        display: inline-flex;
+        align-items: center;
+        padding: 1px 8px;
+        border-radius: 3px;
+        background: #E8F2FC;
+        color: #1A6FD4;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .btn-add-tpl {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        height: 26px;
+        padding: 0 10px;
+        border: 1px solid #1A6FD4;
+        border-radius: 4px;
+        background: #1A6FD4;
+        color: #FFFFFF;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+        flex-shrink: 0;
+      }
+      .btn-add-tpl:hover {
+        background: #3B8AE0;
+        border-color: #3B8AE0;
+      }
+      .btn-add-tpl svg {
+        width: 12px;
+        height: 12px;
+      }
+      .template-card-body {
+        padding: 0 16px 12px 38px;
+        font-size: 13px;
+        color: #909399;
+        display: none;
+      }
+      .template-card.expanded .template-card-body {
+        display: block;
+      }
+
+      /* ── Action Bar ── */
+      .action-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 20px;
+        background: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+      .btn-default {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 36px;
+        padding: 0 20px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        background: #FFFFFF;
+        color: #606266;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+      .btn-default:hover {
+        color: #1A6FD4;
+        border-color: #1A6FD4;
+      }
+      .btn-default svg {
+        width: 14px;
+        height: 14px;
+      }
+      .btn-primary-lg {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 36px;
+        padding: 0 24px;
+        border: 1px solid #1A6FD4;
+        border-radius: 4px;
+        background: #1A6FD4;
+        color: #FFFFFF;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+        margin-left: auto;
+      }
+      .btn-primary-lg:hover {
+        background: #3B8AE0;
+        border-color: #3B8AE0;
+      }
+      .btn-primary-lg svg {
+        width: 14px;
+        height: 14px;
+      }
+      .submit-hint {
+        font-size: 12px;
+        color: #909399;
+        margin-left: 4px;
+      }
+</style>
+
+<div class="component-body">
+        <div class="page-content">
+            <!-- Doc Header Bar -->
+            <div class="doc-header-bar">
+                <h1 class="doc-title">实施方案</h1>
+                <div class="doc-header-right">
+                    <span class="lock-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        已审核锁定
+                    </span>
+                    <button class="btn-more">
+                        <span>更多操作</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Upload Section -->
+            <div class="card upload-card">
+                <span class="upload-label">是否已有客户方案？</span>
+                <div class="radio-group">
+                    <div class="radio-item checked" onclick="selectRadio(this)">
+                        <span class="radio-dot"></span>
+                        <span>是</span>
+                    </div>
+                    <div class="radio-item" onclick="selectRadio(this)">
+                        <span class="radio-dot"></span>
+                        <span>否</span>
+                    </div>
+                </div>
+                <div class="upload-divider"></div>
+                <button class="btn-upload">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    上传方案文件
+                </button>
+                <button class="btn-autofill">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 4V2"/>
+                        <path d="M15 16v-2"/>
+                        <path d="M8 9h2"/>
+                        <path d="M20 9h2"/>
+                        <path d="M17.8 11.8 19 13"/>
+                        <path d="M15 9h.01"/>
+                        <path d="M17.8 6.2 19 5"/>
+                        <path d="m6.2 6.2 1.2 1.2"/>
+                        <path d="M3 9h2"/>
+                        <path d="M7.5 16.5 9 18"/>
+                        <path d="M5 22h14"/>
+                        <path d="M14 21H5a2 2 0 0 1-2-2v-4"/>
+                    </svg>
+                    提交系统判断→自动填充
+                </button>
+                <span class="upload-hint">支持 .docx / .pdf / .xlsx 格式，单文件不超过 50MB</span>
+            </div>
+
+            <!-- Editor Layout (Split Panel) -->
+            <div class="editor-layout">
+                <!-- Left Panel: Chapter Tree -->
+                <div class="chapter-tree-panel">
+                    <div class="tree-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+                        </svg>
+                        章节目录
+                    </div>
+                    <ul class="tree-list">
+                        <!-- Chapter 1 -->
+                        <li class="tree-node">
+                            <div class="tree-item" onclick="toggleTreeNode(this)">
+                                <span class="tree-chevron-spacer"></span>
+                                <span class="tree-text">1. 项目概述</span>
+                            </div>
+                        </li>
+                        <!-- Chapter 2 -->
+                        <li class="tree-node">
+                            <div class="tree-item" onclick="toggleTreeNode(this)">
+                                <span class="tree-chevron-spacer"></span>
+                                <span class="tree-text">2. 现网现状</span>
+                            </div>
+                        </li>
+                        <!-- Chapter 3 (expanded, active parent) -->
+                        <li class="tree-node">
+                            <div class="tree-item active" onclick="toggleTreeNode(this)">
+                                <span class="tree-chevron">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="6 9 12 15 18 9"/>
+                                    </svg>
+                                </span>
+                                <span class="tree-text">3. 总体方案设计</span>
+                            </div>
+                            <ul class="tree-children">
+                                <li class="tree-node">
+                                    <div class="tree-item active" onclick="selectTreeNode(this)">
+                                        <span class="tree-chevron-spacer"></span>
+                                        <span class="tree-text">3.1 设备部署位置规划</span>
+                                    </div>
+                                </li>
+                                <li class="tree-node">
+                                    <div class="tree-item" onclick="selectTreeNode(this)">
+                                        <span class="tree-chevron-spacer"></span>
+                                        <span class="tree-text">3.2 设备接口互联规划</span>
+                                    </div>
+                                </li>
+                                <li class="tree-node">
+                                    <div class="tree-item" onclick="selectTreeNode(this)">
+                                        <span class="tree-chevron-spacer"></span>
+                                        <span class="tree-text">3.3 设备IP与VLAN规划</span>
+                                    </div>
+                                </li>
+                                <li class="tree-node">
+                                    <div class="tree-item" onclick="selectTreeNode(this)">
+                                        <span class="tree-chevron-spacer"></span>
+                                        <span class="tree-text">3.4 软件版本(同步至序列号模块)</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Chapter 4 -->
+                        <li class="tree-node">
+                            <div class="tree-item" onclick="toggleTreeNode(this)">
+                                <span class="tree-chevron-spacer"></span>
+                                <span class="tree-text">4. 配置脚本</span>
+                            </div>
+                        </li>
+                        <!-- Chapter 5 -->
+                        <li class="tree-node">
+                            <div class="tree-item" onclick="toggleTreeNode(this)">
+                                <span class="tree-chevron-spacer"></span>
+                                <span class="tree-text">5. 实施步骤</span>
+                            </div>
+                        </li>
+                        <!-- Chapter 6 (expanded) -->
+                        <li class="tree-node">
+                            <div class="tree-item" onclick="toggleTreeNode(this)">
+                                <span class="tree-chevron">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="6 9 12 15 18 9"/>
+                                    </svg>
+                                </span>
+                                <span class="tree-text">6. 其他方案模板</span>
+                            </div>
+                            <ul class="tree-children">
+                                <li class="tree-node">
+                                    <div class="tree-item" onclick="selectTreeNode(this)">
+                                        <span class="tree-chevron-spacer"></span>
+                                        <span class="tree-text">质量保障模板</span>
+                                    </div>
+                                </li>
+                                <li class="tree-node">
+                                    <div class="tree-item" onclick="selectTreeNode(this)">
+                                        <span class="tree-chevron-spacer"></span>
+                                        <span class="tree-text">风险管控与应急预案</span>
+                                    </div>
+                                </li>
+                                <li class="tree-node">
+                                    <div class="tree-item" onclick="selectTreeNode(this)">
+                                        <span class="tree-chevron-spacer"></span>
+                                        <span class="tree-text">运维交付与售后</span>
+                                    </div>
+                                </li>
+                                <li class="tree-node">
+                                    <div class="tree-item" onclick="selectTreeNode(this)">
+                                        <span class="tree-chevron-spacer"></span>
+                                        <span class="tree-text">项目问题闭环与文档归档</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Chapter 7 -->
+                        <li class="tree-node">
+                            <div class="tree-item" onclick="toggleTreeNode(this)">
+                                <span class="tree-chevron-spacer"></span>
+                                <span class="tree-text">7. 培训移交</span>
+                            </div>
+                        </li>
+                        <!-- Chapter 8 -->
+                        <li class="tree-node">
+                            <div class="tree-item" onclick="toggleTreeNode(this)">
+                                <span class="tree-chevron-spacer"></span>
+                                <span class="tree-text">8. 售后服务</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Right Panel: Chapter Content -->
+                <div class="chapter-content-panel">
+                    <div class="content-section-header">
+                        <h2 class="section-title">3.1 设备部署位置规划</h2>
+                        <span class="ref-tag">[引用工勘/需求分析]</span>
+                    </div>
+                    <div class="content-body">
+                        <!-- Sub-sections listed -->
+                        <div class="sub-sections">
+                            <div class="sub-section-item">
+                                <svg class="sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                                <span>3.2 设备接口互联规划</span>
+                                <span class="sub-arrow">前往编辑</span>
+                            </div>
+                            <div class="sub-section-item">
+                                <svg class="sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                                <span>3.3 设备IP与VLAN规划</span>
+                                <span class="sub-arrow">前往编辑</span>
+                            </div>
+                            <div class="sub-section-item">
+                                <svg class="sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                                <span>3.4 软件版本（同步至序列号模块）</span>
+                                <span class="sub-arrow">前往编辑</span>
+                            </div>
+                        </div>
+
+                        <!-- Rich Text Editor Placeholder -->
+                        <div class="editor-placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 20h9"/>
+                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                            </svg>
+                            <span class="placeholder-text">富文本编辑器</span>
+                            <span class="placeholder-hint">点击此处开始编辑设备部署位置规划内容</span>
+                        </div>
+
+                        <!-- Template Selector Cards -->
+                        <div class="template-section-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="3" y1="9" x2="21" y2="9"/>
+                                <line x1="9" y1="21" x2="9" y2="9"/>
+                            </svg>
+                            引用方案模板
+                        </div>
+                        <div class="template-cards">
+                            <!-- Template 1: selected -->
+                            <div class="template-card selected expanded">
+                                <div class="template-card-header" onclick="toggleTemplateCard(this)">
+                                    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="9 18 15 12 9 6"/>
+                                    </svg>
+                                    <div class="tpl-check checked" onclick="event.stopPropagation(); toggleTplCheck(this)">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"/>
+                                        </svg>
+                                    </div>
+                                    <span class="tpl-name">质量保障模板</span>
+                                    <span class="tpl-badge-selected">已选</span>
+                                    <button class="btn-add-tpl" onclick="event.stopPropagation();">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="12" y1="5" x2="12" y2="19"/>
+                                            <line x1="5" y1="12" x2="19" y2="12"/>
+                                        </svg>
+                                        添加到实施方案
+                                    </button>
+                                </div>
+                                <div class="template-card-body">
+                                    包含质量检查清单、测试验收标准、缺陷管理流程等内容，确保项目交付质量可控可追溯。
+                                </div>
+                            </div>
+                            <!-- Template 2 -->
+                            <div class="template-card">
+                                <div class="template-card-header" onclick="toggleTemplateCard(this)">
+                                    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="9 18 15 12 9 6"/>
+                                    </svg>
+                                    <div class="tpl-check" onclick="event.stopPropagation(); toggleTplCheck(this)"></div>
+                                    <span class="tpl-name">风险管控与应急预案</span>
+                                </div>
+                                <div class="template-card-body">
+                                    包含风险识别矩阵、应急预案库、升级机制等内容，覆盖实施全过程风险管控。
+                                </div>
+                            </div>
+                            <!-- Template 3 -->
+                            <div class="template-card">
+                                <div class="template-card-header" onclick="toggleTemplateCard(this)">
+                                    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="9 18 15 12 9 6"/>
+                                    </svg>
+                                    <div class="tpl-check" onclick="event.stopPropagation(); toggleTplCheck(this)"></div>
+                                    <span class="tpl-name">运维交付与售后</span>
+                                </div>
+                                <div class="template-card-body">
+                                    包含运维交接清单、知识转移计划、售后响应级别等内容，确保交付后运维平滑过渡。
+                                </div>
+                            </div>
+                            <!-- Template 4 -->
+                            <div class="template-card">
+                                <div class="template-card-header" onclick="toggleTemplateCard(this)">
+                                    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="9 18 15 12 9 6"/>
+                                    </svg>
+                                    <div class="tpl-check" onclick="event.stopPropagation(); toggleTplCheck(this)"></div>
+                                    <span class="tpl-name">项目问题闭环与文档归档</span>
+                                </div>
+                                <div class="template-card-body">
+                                    包含问题跟踪闭环流程、文档归档规范、项目复盘模板等内容，确保项目经验沉淀。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons (bottom bar) -->
+            <div class="action-bar">
+                <button class="btn-default">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                        <polyline points="17 21 17 13 7 13 7 21"/>
+                        <polyline points="7 3 7 8 15 8"/>
+                    </svg>
+                    保存草稿
+                </button>
+                <button class="btn-default">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v4"/>
+                        <path d="m6.34 6.34-2.83 2.83"/>
+                        <path d="M2 12h4"/>
+                        <path d="m6.34 17.66-2.83-2.83"/>
+                        <path d="M12 18a6 6 0 0 0 0-12 6 6 0 0 0 0 12z"/>
+                        <path d="M12 22v-4"/>
+                        <path d="m17.66 17.66 2.83-2.83"/>
+                        <path d="M22 12h-4"/>
+                        <path d="m17.66 6.34 2.83-2.83"/>
+                    </svg>
+                    生成方案
+                </button>
+                <button class="btn-default">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    下载方案
+                </button>
+                <span class="submit-hint">服务经理审核，重大项目需总部复核</span>
+                <button class="btn-primary-lg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 2 11 13"/>
+                        <path d="M22 2 15 22l-4-9-9-4 20-7z"/>
+                    </svg>
+                    提交审核
+                </button>
+            </div>
+
+            <!-- ===== Delivery Operations ===== -->
+            <div class="delivery-ops-card" id="delivery-ops-bar">
+                <div class="delivery-ops-head">
+                    <span class="delivery-ops-title">交付操作</span>
+                    <span class="delivery-badge delivery-badge-orange" id="delivery-status-badge">方案待编写</span>
+                </div>
+                <div class="delivery-ops-actions">
+                    <button class="delivery-btn delivery-btn-outline" data-daction="save-draft">保存草稿</button>
+                    <button class="delivery-btn delivery-btn-primary" data-daction="gen-plan">生成方案</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="download-doc">下载方案文档</button>
+                    <button class="delivery-btn delivery-btn-primary" data-daction="submit-review">提交审核</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="audit-trail">查看审核记录</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="template-lib">方案模板库</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="back-tracking">返回项目跟踪</button>
+                </div>
+            </div>
+        </div>
+</div>
+
+<script>
+function showConfirm(message, onConfirm, okText, cancelText) {
+            var overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:99998;display:flex;align-items:center;justify-content:center;';
+            var box = document.createElement('div');
+            box.style.cssText = 'background:#fff;border-radius:8px;padding:24px;min-width:340px;max-width:440px;box-shadow:0 8px 24px rgba(0,0,0,0.2);';
+            var msg = document.createElement('div');
+            msg.style.cssText = 'font-size:15px;color:#303133;margin-bottom:20px;line-height:1.6;';
+            msg.textContent = message;
+            var row = document.createElement('div');
+            row.style.cssText = 'display:flex;justify-content:flex-end;gap:10px;';
+            var cancel = document.createElement('button');
+            cancel.textContent = cancelText || '取消';
+            cancel.style.cssText = 'height:32px;padding:0 18px;border:1px solid #DCDFE6;border-radius:4px;background:#fff;color:#606266;font-size:14px;cursor:pointer;font-family:inherit;';
+            var ok = document.createElement('button');
+            ok.textContent = okText || '确认';
+            ok.style.cssText = 'height:32px;padding:0 18px;border:1px solid #1A6FD4;border-radius:4px;background:#1A6FD4;color:#fff;font-size:14px;cursor:pointer;font-family:inherit;';
+            row.appendChild(cancel); row.appendChild(ok);
+            box.appendChild(msg); box.appendChild(row);
+            overlay.appendChild(box);
+            document.body.appendChild(overlay);
+            function close(){ if(overlay.parentNode) document.body.removeChild(overlay); }
+            ok.addEventListener('click', function(){ close(); if(onConfirm) onConfirm(); });
+            cancel.addEventListener('click', close);
+            overlay.addEventListener('click', function(e){ if(e.target===overlay) close(); });
+        }
+
+        // Radio selection (enhanced: show/hide upload on 否)
+        function selectRadio(el) {
+            const group = el.parentElement;
+            group.querySelectorAll('.radio-item').forEach(item => {
+                item.classList.remove('checked');
+            });
+            el.classList.add('checked');
+            var isNo = el.textContent.trim().indexOf('否') > -1;
+            var card = el.closest('.upload-card');
+            if (card) {
+                var uploadBtn = card.querySelector('.btn-upload');
+                var autofillBtn = card.querySelector('.btn-autofill');
+                var hint = card.querySelector('.upload-hint');
+                var divider = card.querySelector('.upload-divider');
+                var msg = card.querySelector('.upload-alt-msg');
+                if (isNo) {
+                    if (uploadBtn) uploadBtn.style.display = 'none';
+                    if (autofillBtn) autofillBtn.style.display = 'none';
+                    if (hint) hint.style.display = 'none';
+                    if (divider) divider.style.display = 'none';
+                    if (!msg) {
+                        msg = document.createElement('div');
+                        msg.className = 'upload-alt-msg';
+                        msg.style.cssText = 'color:#909399;font-size:14px;padding:8px 0;';
+                        msg.textContent = '请按模板编写实施方案';
+                        card.appendChild(msg);
+                    }
+                    msg.style.display = 'block';
+                } else {
+                    if (uploadBtn) uploadBtn.style.display = '';
+                    if (autofillBtn) autofillBtn.style.display = '';
+                    if (hint) hint.style.display = '';
+                    if (divider) divider.style.display = '';
+                    if (msg) msg.style.display = 'none';
+                }
+            }
+        }
+
+        // Tree node expand/collapse
+        function toggleTreeNode(el) {
+            const treeNode = el.parentElement;
+            const children = treeNode.querySelector(':scope > .tree-children');
+            if (!children) return;
+            const chevron = el.querySelector('.tree-chevron');
+            const isCollapsed = children.classList.contains('collapsed');
+            if (isCollapsed) {
+                children.classList.remove('collapsed');
+                if (chevron) chevron.classList.remove('collapsed');
+            } else {
+                children.classList.add('collapsed');
+                if (chevron) chevron.classList.add('collapsed');
+            }
+        }
+
+        // Tree node selection (enhanced: update title, scroll, 3.4 toast)
+        function selectTreeNode(el) {
+            const treeList = el.closest('.tree-list');
+            if (treeList) {
+                treeList.querySelectorAll('.tree-item.active').forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+            el.classList.add('active');
+            var textEl = el.querySelector('.tree-text');
+            var text = textEl ? textEl.textContent.trim() : '';
+            var title = document.querySelector('.section-title');
+            if (title) title.textContent = text;
+            var contentBody = document.querySelector('.content-body');
+            if (contentBody) contentBody.scrollTop = 0;
+            if (text.indexOf('软件版本') > -1) {
+                showToast('序列号模块将在新窗口打开', 'info');
+            }
+        }
+
+        // Template card expand/collapse
+        function toggleTemplateCard(header) {
+            const card = header.parentElement;
+            card.classList.toggle('expanded');
+        }
+
+        // Template checkbox toggle
+        function toggleTplCheck(checkEl) {
+            const card = checkEl.closest('.template-card');
+            const isChecked = checkEl.classList.contains('checked');
+            if (isChecked) {
+                checkEl.classList.remove('checked');
+                checkEl.innerHTML = '';
+                card.classList.remove('selected');
+                const badge = card.querySelector('.tpl-badge-selected');
+                if (badge) badge.remove();
+                const btn = card.querySelector('.btn-add-tpl');
+                if (btn) btn.remove();
+            } else {
+                checkEl.classList.add('checked');
+                checkEl.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+                card.classList.add('selected');
+                const header = card.querySelector('.template-card-header');
+                if (!header.querySelector('.tpl-badge-selected')) {
+                    const badge = document.createElement('span');
+                    badge.className = 'tpl-badge-selected';
+                    badge.textContent = '已选';
+                    header.appendChild(badge);
+                }
+                if (!header.querySelector('.btn-add-tpl')) {
+                    const btn = document.createElement('button');
+                    btn.className = 'btn-add-tpl';
+                    btn.onclick = function(e) { e.stopPropagation(); showToast('模板已添加到实施方案', 'success'); };
+                    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>添加到实施方案';
+                    header.appendChild(btn);
+                }
+            }
+        }
+
+        // ── Init: spin style ──
+        if(!document.getElementById('pms-spin-style')){
+            var st=document.createElement('style');st.id='pms-spin-style';st.textContent='@keyframes pms-spin{to{transform:rotate(360deg)}}';document.head.appendChild(st);
+        }
+
+        // 上传方案文件 → hidden file input
+        var uploadBtn = document.querySelector('.btn-upload');
+        if (uploadBtn) {
+            uploadBtn.style.cursor = 'pointer';
+            uploadBtn.addEventListener('click', function(){
+                var fi = document.createElement('input');
+                fi.type = 'file';
+                fi.accept = '.docx,.pdf,.xlsx';
+                fi.style.display = 'none';
+                document.body.appendChild(fi);
+                fi.addEventListener('change', function(){
+                    if (fi.files && fi.files.length) {
+                        var hint = document.querySelector('.upload-hint');
+                        if (hint) hint.textContent = '已选择：' + fi.files[0].name;
+                        showToast('文件已选择：' + fi.files[0].name, 'success');
+                    }
+                    document.body.removeChild(fi);
+                });
+                fi.click();
+            });
+        }
+
+        // 提交系统判断→自动填充
+        var autofillBtn = document.querySelector('.btn-autofill');
+        if (autofillBtn) {
+            autofillBtn.style.cursor = 'pointer';
+            autofillBtn.addEventListener('click', function(){
+                var orig = autofillBtn.innerHTML;
+                autofillBtn.disabled = true;
+                autofillBtn.innerHTML = '<span style="display:inline-block;width:14px;height:14px;border:2px solid #C0C4CC;border-top-color:#1A6FD4;border-radius:50%;animation:pms-spin 0.6s linear infinite;vertical-align:middle;"></span> 解析中...';
+                setTimeout(function(){
+                    autofillBtn.disabled = false;
+                    autofillBtn.innerHTML = orig;
+                    showToast('方案已解析，章节内容已自动填充', 'success');
+                }, 2000);
+            });
+        }
+
+        // 添加到实施方案 buttons (existing in DOM)
+        document.querySelectorAll('.btn-add-tpl').forEach(function(btn){
+            btn.style.cursor = 'pointer';
+            btn.addEventListener('click', function(e){
+                e.stopPropagation();
+                showToast('模板已添加到实施方案', 'success');
+            });
+        });
+
+        // Action bar buttons
+        document.querySelectorAll('.action-bar button').forEach(function(btn){
+            btn.style.cursor = 'pointer';
+            var text = btn.textContent.trim();
+            if (text.indexOf('保存草稿') > -1) {
+                btn.addEventListener('click', function(){
+                    var orig = btn.innerHTML;
+                    btn.disabled = true;
+                    btn.innerHTML = '<span style="display:inline-block;width:14px;height:14px;border:2px solid #C0C4CC;border-top-color:#1A6FD4;border-radius:50%;animation:pms-spin 0.6s linear infinite;vertical-align:middle;"></span> 保存中...';
+                    setTimeout(function(){
+                        btn.disabled = false;
+                        btn.innerHTML = orig;
+                        showToast('草稿已保存', 'success');
+                    }, 800);
+                });
+            } else if (text.indexOf('生成方案') > -1) {
+                btn.addEventListener('click', function(){
+                    var orig = btn.innerHTML;
+                    btn.disabled = true;
+                    btn.innerHTML = '<span style="display:inline-block;width:14px;height:14px;border:2px solid #C0C4CC;border-top-color:#1A6FD4;border-radius:50%;animation:pms-spin 0.6s linear infinite;vertical-align:middle;"></span> 生成中...';
+                    setTimeout(function(){
+                        btn.disabled = false;
+                        btn.innerHTML = orig;
+                        showToast('方案已生成', 'success');
+                    }, 2000);
+                });
+            } else if (text.indexOf('下载方案') > -1) {
+                btn.addEventListener('click', function(){
+                    showToast('方案下载中...', 'info');
+                });
+            } else if (text.indexOf('提交审核') > -1) {
+                btn.addEventListener('click', function(){
+                    showConfirm('确认提交方案审核？服务经理审核，重大项目需总部复核', function(){
+                        showToast('方案已提交审核', 'success');
+                    }, '确认', '取消');
+                });
+            }
+        });
+
+// ===== Delivery Operations =====
+// ===== Delivery Operations =====
+(function(){
+var dcss=document.getElementById('delivery-ops-css');
+if(!dcss){dcss=document.createElement('style');dcss.id='delivery-ops-css';dcss.textContent=`
+.delivery-ops-card{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:20px;margin-bottom:16px}
+.delivery-ops-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.delivery-ops-title{font-size:16px;font-weight:600;color:#303133}
+.delivery-badge{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:4px;font-size:12px;font-weight:500;white-space:nowrap}
+.delivery-badge-green{background:#E8F8EE;color:#27AE60}
+.delivery-badge-blue{background:#E8F2FC;color:#1A6FD4}
+.delivery-badge-orange{background:#FEF0E0;color:#F39C12}
+.delivery-ops-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;flex-wrap:wrap}
+.delivery-btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;height:32px;padding:0 14px;border-radius:4px;font-size:14px;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;border:1px solid transparent}
+.delivery-btn-primary{background:#1A6FD4;border-color:#1A6FD4;color:#fff}
+.delivery-btn-primary:hover{background:#3B8AE0;border-color:#3B8AE0}
+.delivery-btn-primary:disabled{opacity:.7;cursor:not-allowed}
+.delivery-btn-outline{background:#fff;border-color:#DCDFE6;color:#606266}
+.delivery-btn-outline:hover{color:#1A6FD4;border-color:#1A6FD4}
+.delivery-btn-outline:disabled{opacity:.7;cursor:not-allowed}
+.delivery-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:99998;display:flex;align-items:center;justify-content:center;padding:20px}
+.delivery-modal-box{background:#fff;border-radius:8px;width:480px;max-width:100%;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.delivery-modal-head{padding:16px 20px;border-bottom:1px solid #EBEEF5;font-size:16px;font-weight:600;color:#303133}
+.delivery-modal-body{padding:20px;overflow-y:auto;flex:1}
+.delivery-modal-foot{padding:12px 20px;border-top:1px solid #EBEEF5;display:flex;justify-content:flex-end;gap:8px}
+.delivery-form-group{margin-bottom:16px}
+.delivery-form-group:last-child{margin-bottom:0}
+.delivery-audit-table{width:100%;border-collapse:collapse}
+.delivery-audit-table th,.delivery-audit-table td{padding:10px 12px;text-align:left;font-size:14px;border-bottom:1px solid #EBEEF5}
+.delivery-audit-table th{background:#F5F7FA;color:#303133;font-weight:600}
+.delivery-audit-table td{color:#606266}
+.delivery-audit-pass{color:#27AE60;font-weight:500}
+.delivery-audit-pending{color:#F39C12}
+.delivery-audit-waiting{color:#909399}
+.delivery-template-item{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid #EBEEF5;border-radius:6px;margin-bottom:8px;cursor:pointer;transition:border-color .2s}
+.delivery-template-item:hover{border-color:#1A6FD4}
+.delivery-template-item input{margin-top:2px}
+.delivery-template-name{font-size:14px;color:#303133;font-weight:500}
+.delivery-template-desc{font-size:12px;color:#909399;margin-top:2px}
+.delivery-info-box{background:#E8F2FC;border:1px solid #BFDBF7;border-radius:6px;padding:10px 12px;font-size:13px;color:#1A6FD4;margin-bottom:16px}
+`;document.head.appendChild(dcss);}
+if(!document.getElementById('delivery-spin-style')){var _ss=document.createElement('style');_ss.id='delivery-spin-style';_ss.textContent='@keyframes delivery-spin{to{transform:rotate(360deg)}}';document.head.appendChild(_ss);}
+function dt(m,t){if(typeof window.showToast==='function'){try{window.showToast(m,t);return;}catch(e){}}var el=document.getElementById('delivery-toast');if(!el){el=document.createElement('div');el.id='delivery-toast';el.style.cssText='position:fixed;top:80px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:6px;font-size:14px;z-index:99999;opacity:0;transition:opacity .3s;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.15);color:#fff;background:#303133;';document.body.appendChild(el);}var cm={success:'#27AE60',warning:'#F39C12',error:'#E74C3C',info:'#303133'};el.style.background=cm[t]||cm.info;el.textContent=m;el.style.opacity='1';clearTimeout(el._t);el._t=setTimeout(function(){el.style.opacity='0';},2500);}
+window.showToastDelivery=dt;
+function createDeliveryModal(title,html,o){o=o||{};var ov=document.createElement('div');ov.className='delivery-modal-overlay';var bx=document.createElement('div');bx.className='delivery-modal-box';if(o.width)bx.style.width=o.width;var hd=document.createElement('div');hd.className='delivery-modal-head';hd.textContent=title;var bd=document.createElement('div');bd.className='delivery-modal-body';bd.innerHTML=html;bx.appendChild(hd);bx.appendChild(bd);function cl(){if(ov.parentNode)document.body.removeChild(ov);}if(!o.hideFooter){var ft=document.createElement('div');ft.className='delivery-modal-foot';var ok=document.createElement('button');ok.className='delivery-btn delivery-btn-primary';ok.textContent=o.confirmText||'确认';if(!o.hideCancel){var ca=document.createElement('button');ca.className='delivery-btn delivery-btn-outline';ca.textContent=o.cancelText||'取消';ca.addEventListener('click',cl);ft.appendChild(ca);}ft.appendChild(ok);bx.appendChild(ft);ok.addEventListener('click',function(){if(o.onConfirm)o.onConfirm(bx,cl);else cl();});}ov.appendChild(bx);document.body.appendChild(ov);ov.addEventListener('click',function(e){if(e.target===ov)cl();});return{box:bx,overlay:ov,close:cl};}
+window.createDeliveryModal=createDeliveryModal;
+function spW(s){return '<span style="display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:delivery-spin .6s linear infinite;vertical-align:middle;margin-right:4px;"></span>'+s;}
+function spB(s){return '<span style="display:inline-block;width:14px;height:14px;border:2px solid #C0C4CC;border-top-color:#1A6FD4;border-radius:50%;animation:delivery-spin .6s linear infinite;vertical-align:middle;margin-right:4px;"></span>'+s;}
+
+var b1=document.querySelector('[data-daction="save-draft"]');
+if(b1)b1.addEventListener('click',function(){dt('草稿已保存','success');});
+var b2=document.querySelector('[data-daction="gen-plan"]');
+if(b2)b2.addEventListener('click',function(){var o=b2.innerHTML;b2.disabled=true;b2.innerHTML=spW('生成中...');setTimeout(function(){b2.disabled=false;b2.innerHTML=o;dt('方案已自动生成，已填充3/8章节','success');},2000);});
+var b3=document.querySelector('[data-daction="download-doc"]');
+if(b3)b3.addEventListener('click',function(){dt('方案文档(Word格式)下载中...','info');});
+var b4=document.querySelector('[data-daction="submit-review"]');
+if(b4)b4.addEventListener('click',function(){
+  var h='<div class="delivery-info-box">服务经理审核，重大项目需总部复核</div>';
+  createDeliveryModal('确认提交方案审核？',h,{confirmText:'确认',cancelText:'取消',onConfirm:function(bx,cl){cl();dt('方案审核已提交','success');}});
+});
+var b5=document.querySelector('[data-daction="audit-trail"]');
+if(b5)b5.addEventListener('click',function(){
+  var h='<table class="delivery-audit-table"><thead><tr><th>步骤</th><th>审核人</th><th>时间</th><th>结果</th></tr></thead><tbody>'+
+    '<tr><td>方案提交</td><td>张三</td><td>-</td><td class="delivery-audit-pass">已提交</td></tr>'+
+    '<tr><td>服务经理审核</td><td>赵经理</td><td>-</td><td class="delivery-audit-pending">待审核</td></tr>'+
+    '<tr><td>总部复核(重大)</td><td>-</td><td>-</td><td class="delivery-audit-waiting">待触发</td></tr>'+
+    '</tbody></table>';
+  createDeliveryModal('审核记录',h,{confirmText:'关闭',hideCancel:true});
+});
+var b6=document.querySelector('[data-daction="template-lib"]');
+if(b6)b6.addEventListener('click',function(){
+  var h='<div class="delivery-form-group">'+
+    '<label class="delivery-template-item"><input type="checkbox"><div><div class="delivery-template-name">质量保障</div><div class="delivery-template-desc">质量保障方案模板，包含质量目标、检验标准、验收流程</div></div></label>'+
+    '<label class="delivery-template-item"><input type="checkbox"><div><div class="delivery-template-name">风险管控</div><div class="delivery-template-desc">风险管控方案模板，包含风险识别、应对策略、应急预案</div></div></label>'+
+    '<label class="delivery-template-item"><input type="checkbox"><div><div class="delivery-template-name">运维交付</div><div class="delivery-template-desc">运维交付方案模板，包含运维架构、SLA标准、移交清单</div></div></label>'+
+    '<label class="delivery-template-item"><input type="checkbox"><div><div class="delivery-template-name">问题闭环</div><div class="delivery-template-desc">问题闭环方案模板，包含问题分级、处理流程、复盘机制</div></div></label>'+
+    '</div>';
+  createDeliveryModal('方案模板库',h,{confirmText:'添加到方案',cancelText:'取消',onConfirm:function(bx,cl){
+    var checks=bx.querySelectorAll('input[type="checkbox"]:checked');
+    cl();dt('已添加'+checks.length+'个模板到方案','success');
+  }});
+});
+var b7=document.querySelector('[data-daction="back-tracking"]');
+if(b7)b7.addEventListener('click',function(){__safeNav('project-tracking.html');});
+})();
+</script>

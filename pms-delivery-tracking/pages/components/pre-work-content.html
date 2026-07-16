@@ -1,0 +1,1034 @@
+<!-- Component: pre-work -->
+<style>
+      .page-content { padding: 16px; }
+
+      /* ── Page Header ── */
+      .page-header {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .page-title {
+        font-size: 20px; font-weight: 600; color: #303133;
+      }
+      .page-actions { display: flex; gap: 10px; }
+
+      /* ── Buttons ── */
+      .btn-outline {
+        display: inline-flex; align-items: center; gap: 6px;
+        height: 32px; padding: 0 14px;
+        border: 1px solid #DCDFE6; border-radius: 4px;
+        background: #FFFFFF; color: #606266;
+        font-size: 14px; cursor: pointer;
+        transition: all 0.2s; font-family: inherit;
+      }
+      .btn-outline:hover { color: #1A6FD4; border-color: #1A6FD4; }
+      .btn-primary {
+        display: inline-flex; align-items: center; gap: 6px;
+        height: 32px; padding: 0 16px;
+        border: 1px solid #1A6FD4; border-radius: 4px;
+        background: #1A6FD4; color: #FFFFFF;
+        font-size: 14px; cursor: pointer;
+        transition: all 0.2s; font-family: inherit;
+      }
+      .btn-primary:hover { background: #3B8AE0; border-color: #3B8AE0; }
+      .btn-sm-primary {
+        display: inline-flex; align-items: center; gap: 4px;
+        height: 28px; padding: 0 12px;
+        border: 1px solid #1A6FD4; border-radius: 4px;
+        background: #1A6FD4; color: #FFFFFF;
+        font-size: 13px; cursor: pointer;
+        transition: all 0.2s; font-family: inherit;
+      }
+      .btn-sm-primary:hover { background: #3B8AE0; border-color: #3B8AE0; }
+      .btn-sm-outline {
+        display: inline-flex; align-items: center; gap: 4px;
+        height: 28px; padding: 0 12px;
+        border: 1px solid #DCDFE6; border-radius: 4px;
+        background: #FFFFFF; color: #606266;
+        font-size: 13px; cursor: pointer;
+        transition: all 0.2s; font-family: inherit;
+      }
+      .btn-sm-outline:hover { color: #1A6FD4; border-color: #1A6FD4; }
+
+      /* ── Tab Navigation ── */
+      .tab-nav {
+        display: flex; gap: 0;
+        border-bottom: 1px solid #DCDFE6;
+        margin-bottom: 16px;
+        background: #FFFFFF;
+        border-radius: 8px 8px 0 0;
+        padding: 0 8px;
+      }
+      .tab-btn {
+        padding: 12px 20px;
+        font-size: 14px; color: #606266;
+        cursor: pointer; border: none; background: none;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+        display: flex; align-items: center; gap: 6px;
+        font-family: inherit;
+        margin-bottom: -1px;
+      }
+      .tab-btn:hover { color: #1A6FD4; }
+      .tab-btn.active {
+        color: #1A6FD4;
+        border-bottom-color: #1A6FD4;
+        font-weight: 500;
+      }
+
+      /* ── Tab Panels ── */
+      .tab-panel { display: none; }
+      .tab-panel.active { display: block; }
+
+      /* ── Content Card ── */
+      .content-card {
+        background: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        padding: 20px;
+        margin-bottom: 16px;
+      }
+      .card-header {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .card-title-with-badge {
+        display: flex; align-items: center; gap: 8px;
+      }
+      .card-title-text {
+        font-size: 16px; font-weight: 600; color: #303133;
+      }
+      .mini-badge {
+        display: inline-flex; align-items: center;
+        padding: 1px 8px; border-radius: 10px;
+        font-size: 12px; font-weight: 400;
+        background: #F0F2F5; color: #909399;
+      }
+
+      /* ── Info Grid (3-column) ── */
+      .info-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px 32px;
+      }
+      .info-field { display: flex; flex-direction: column; gap: 4px; }
+      .info-label { font-size: 12px; color: #909399; }
+      .info-value { font-size: 14px; color: #303133; }
+
+      /* ── Level Badges ── */
+      .level-badge {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 22px; height: 22px;
+        border-radius: 4px;
+        font-size: 12px; font-weight: 600;
+      }
+      .level-badge.level-a {
+        background: #FDECEA; color: #E74C3C;
+      }
+      .level-badge.level-b {
+        background: #E8F2FC; color: #1A6FD4;
+      }
+
+      /* ── Data Table ── */
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .data-table thead th {
+        background: #F5F7FA;
+        padding: 10px 12px;
+        font-size: 14px; font-weight: 600;
+        color: #303133; text-align: left;
+        border-bottom: 1px solid #EBEEF5;
+        white-space: nowrap;
+      }
+      .data-table tbody td {
+        padding: 12px 12px;
+        font-size: 14px; color: #303133;
+        border-bottom: 1px solid #EBEEF5;
+      }
+      .data-table tbody tr { transition: background 0.15s; }
+      .data-table tbody tr:hover { background: #E8F2FC; }
+      .data-table tbody tr:last-child td { border-bottom: none; }
+
+      /* ── Action Links ── */
+      .action-link {
+        color: #1A6FD4; text-decoration: none;
+        cursor: pointer; transition: color 0.2s;
+        font-size: 13px; margin-right: 12px;
+      }
+      .action-link:hover { color: #3B8AE0; text-decoration: underline; }
+      .action-link.danger { color: #E74C3C; }
+      .action-link.danger:hover { color: #C0392B; }
+
+      /* ── Form Elements ── */
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px 32px;
+      }
+      .form-item { display: flex; flex-direction: column; gap: 6px; }
+      .form-label {
+        font-size: 12px; color: #909399;
+      }
+      .form-input, .form-select {
+        height: 32px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        padding: 0 10px;
+        font-size: 14px; color: #303133;
+        outline: none; transition: border-color 0.2s;
+        font-family: inherit;
+        background: #FFFFFF;
+      }
+      .form-input:focus, .form-select:focus { border-color: #1A6FD4; }
+      .form-select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23909399' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 8px center;
+        padding-right: 28px;
+      }
+      .form-textarea {
+        width: 100%;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        padding: 8px 10px;
+        font-size: 14px; color: #303133;
+        outline: none; transition: border-color 0.2s;
+        font-family: inherit;
+        resize: vertical;
+        min-height: 80px;
+      }
+      .form-textarea:focus { border-color: #1A6FD4; }
+      .form-textarea::placeholder { color: #C0C4CC; }
+
+      /* ── Radio Group ── */
+      .radio-group { display: flex; align-items: center; gap: 20px; height: 32px; }
+      .radio-item {
+        display: inline-flex; align-items: center; gap: 6px;
+        font-size: 14px; color: #303133;
+        cursor: pointer;
+      }
+      .radio-item input { accent-color: #1A6FD4; cursor: pointer; }
+
+      /* ── Checkbox ── */
+      .checkbox-item {
+        display: inline-flex; align-items: center; gap: 6px;
+        font-size: 14px; color: #303133;
+        cursor: pointer;
+      }
+      .checkbox-item input { accent-color: #1A6FD4; cursor: pointer; }
+      .checkbox-inline { display: flex; align-items: center; gap: 20px; height: 32px; }
+      .checkbox-list { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 6px; }
+
+      /* ── Conditional Box ── */
+      .conditional-box {
+        background: #FDF6EC;
+        border-left: 3px solid #F39C12;
+        padding: 12px 16px;
+        border-radius: 0 4px 4px 0;
+        margin-bottom: 12px;
+      }
+      .conditional-row {
+        display: flex; align-items: center; gap: 12px;
+      }
+      .form-label-inline {
+        font-size: 14px; color: #303133; font-weight: 500;
+        white-space: nowrap;
+      }
+      .form-value-badge {
+        display: inline-flex; align-items: center;
+        padding: 2px 10px; border-radius: 4px;
+        font-size: 13px; font-weight: 500;
+        background: #FDECEA; color: #E74C3C;
+      }
+      .form-link {
+        color: #1A6FD4; text-decoration: none;
+        cursor: pointer; transition: color 0.2s;
+        font-size: 13px;
+        display: inline-flex; align-items: center; gap: 4px;
+      }
+      .form-link:hover { color: #3B8AE0; text-decoration: underline; }
+
+      /* ── Alert Warning ── */
+      .alert-warning {
+        background: #FDF6EC;
+        border: 1px solid #F5DAB1;
+        border-radius: 4px;
+        padding: 12px 16px;
+        display: flex; align-items: center; gap: 8px;
+        color: #E6A23C; font-size: 14px;
+        margin-top: 12px;
+      }
+      .alert-warning svg { flex-shrink: 0; color: #E6A23C; }
+      .alert-warning .alert-link {
+        color: #1A6FD4; text-decoration: none;
+        cursor: pointer; margin-left: 8px;
+        font-size: 13px; font-weight: 500;
+      }
+      .alert-warning .alert-link:hover { text-decoration: underline; }
+
+      /* ── File Upload ── */
+      .file-upload { display: flex; align-items: center; gap: 12px; }
+      .file-upload-btn {
+        display: inline-flex; align-items: center; gap: 6px;
+        height: 32px; padding: 0 14px;
+        border: 1px dashed #DCDFE6; border-radius: 4px;
+        background: #FAFBFC; color: #606266;
+        font-size: 14px; cursor: pointer;
+        transition: all 0.2s; font-family: inherit;
+      }
+      .file-upload-btn:hover { color: #1A6FD4; border-color: #1A6FD4; }
+      .file-hint { font-size: 12px; color: #909399; }
+
+      /* ── Vertical Form ── */
+      .form-vertical { display: flex; flex-direction: column; gap: 16px; }
+      .form-item-vertical { display: flex; flex-direction: column; gap: 6px; }
+
+      /* ── Checkbox Groups ── */
+      .checkbox-groups { display: flex; flex-direction: column; gap: 20px; }
+      .checkbox-group-title {
+        font-size: 14px; font-weight: 500; color: #303133;
+        display: block; margin-bottom: 8px;
+      }
+
+      /* ── Table Input ── */
+      .table-input {
+        height: 28px;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        padding: 0 8px;
+        font-size: 13px; color: #303133;
+        outline: none; transition: border-color 0.2s;
+        font-family: inherit;
+        width: 100%;
+        min-width: 120px;
+      }
+      .table-input:focus { border-color: #1A6FD4; }
+      .table-input::placeholder { color: #C0C4CC; }
+
+      /* ── Table Footer ── */
+      .table-footer {
+        display: flex; align-items: center; justify-content: space-between;
+        padding-top: 16px;
+        margin-top: 4px;
+        border-top: 1px solid #EBEEF5;
+      }
+      .table-footer-note {
+        font-size: 13px; color: #909399;
+        display: flex; align-items: center; gap: 6px;
+      }
+
+      /* ── Section Title ── */
+      .section-title {
+        font-size: 14px; font-weight: 600; color: #303133;
+        margin-bottom: 12px; padding-bottom: 8px;
+        border-bottom: 1px solid #EBEEF5;
+      }
+
+      /* ── Full Width Form Item ── */
+      .form-item-full {
+        display: flex; align-items: center; gap: 12px;
+        margin-bottom: 12px;
+      }
+      .form-item-full .form-label {
+        flex-shrink: 0; width: 120px;
+      }
+      .form-item-full .form-select {
+        width: 200px;
+      }
+</style>
+
+<div class="component-body">
+        <div class="page-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">工前准备</h1>
+                <div class="page-actions">
+                    <button class="btn-outline">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        工程交底书
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="tab-nav">
+                <button class="tab-btn active" data-tab="contacts">客户联系人</button>
+                <button class="tab-btn" data-tab="survey">工勘分工确认</button>
+                <button class="tab-btn" data-tab="requirements">需求分析</button>
+                <button class="tab-btn" data-tab="materials">
+                    物料选择
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                        <polyline points="15 3 21 3 21 9"/>
+                        <line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- ==================== Tab Panel: 客户联系人 ==================== -->
+            <div class="tab-panel active" id="tab-contacts">
+
+                <!-- Main Contact Card -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-title-with-badge">
+                            <span class="card-title-text">主联系人</span>
+                            <span class="mini-badge">项目页展示</span>
+                        </div>
+                        <button class="btn-sm-outline">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            </svg>
+                            编辑
+                        </button>
+                    </div>
+                    <div class="info-grid-3">
+                        <div class="info-field">
+                            <span class="info-label">姓名</span>
+                            <span class="info-value">孙主管</span>
+                        </div>
+                        <div class="info-field">
+                            <span class="info-label">电话</span>
+                            <span class="info-value">138xxxx</span>
+                        </div>
+                        <div class="info-field">
+                            <span class="info-label">服务等级</span>
+                            <span class="info-value"><span class="level-badge level-a">A</span></span>
+                        </div>
+                        <div class="info-field">
+                            <span class="info-label">部门</span>
+                            <span class="info-value">IT部</span>
+                        </div>
+                        <div class="info-field">
+                            <span class="info-label">职务</span>
+                            <span class="info-value">主管</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other Contacts Table -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-title-with-badge">
+                            <span class="card-title-text">其他联系人</span>
+                            <span class="mini-badge">详情页展示</span>
+                        </div>
+                        <button class="btn-sm-primary">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            新增联系人
+                        </button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>姓名</th>
+                                <th>电话</th>
+                                <th>服务等级</th>
+                                <th>部门</th>
+                                <th>职务</th>
+                                <th style="width:120px;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>周八</td>
+                                <td>139xxxx</td>
+                                <td><span class="level-badge level-a">A</span></td>
+                                <td>运维部</td>
+                                <td>工程师</td>
+                                <td>
+                                    <a href="#" class="action-link">编辑</a>
+                                    <a href="#" class="action-link danger">失效</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>吴九</td>
+                                <td>137xxxx</td>
+                                <td><span class="level-badge level-b">B</span></td>
+                                <td>网络部</td>
+                                <td>主管</td>
+                                <td>
+                                    <a href="#" class="action-link">编辑</a>
+                                    <a href="#" class="action-link danger">失效</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- ==================== Tab Panel: 工勘分工确认 ==================== -->
+            <div class="tab-panel" id="tab-survey">
+
+                <!-- Survey Basic Info -->
+                <div class="content-card">
+                    <div class="section-title">工勘基本信息</div>
+                    <div class="form-grid">
+                        <div class="form-item">
+                            <label class="form-label">工期要求</label>
+                            <input type="date" class="form-input" value="2026-09-30">
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">机房供电确认</label>
+                            <select class="form-select">
+                                <option selected>已确认</option>
+                                <option>未确认</option>
+                            </select>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">供电方式</label>
+                            <div class="radio-group">
+                                <label class="radio-item"><input type="radio" name="power-mode" checked> 市电</label>
+                                <label class="radio-item"><input type="radio" name="power-mode"> UPS</label>
+                            </div>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">网口类型</label>
+                            <select class="form-select">
+                                <option selected>10G光口</option>
+                                <option>1G光口</option>
+                                <option>10G电口</option>
+                                <option>1G电口</option>
+                            </select>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">机柜资源</label>
+                            <select class="form-select">
+                                <option selected>充足</option>
+                                <option>紧张</option>
+                                <option>不足</option>
+                            </select>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">光纤网线</label>
+                            <select class="form-select">
+                                <option selected>需补充</option>
+                                <option>充足</option>
+                                <option>不足</option>
+                            </select>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">光模块</label>
+                            <select class="form-select">
+                                <option selected>原厂</option>
+                                <option>第三方</option>
+                            </select>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">原厂光模块</label>
+                            <select class="form-select">
+                                <option selected>需采购</option>
+                                <option>已备货</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Implementation Conditions -->
+                <div class="content-card">
+                    <div class="section-title">实施条件确认</div>
+
+                    <!-- Conditional: 上架加电需原厂实施 -->
+                    <div class="conditional-box">
+                        <div class="conditional-row">
+                            <span class="form-label-inline">上架加电需原厂实施：</span>
+                            <span class="form-value-badge">是</span>
+                            <a href="#" class="form-link">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                    <polyline points="15 3 21 3 21 9"/>
+                                    <line x1="10" y1="14" x2="21" y2="3"/>
+                                </svg>
+                                发起外包流程
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Conditional: 导轨托盘需求 -->
+                    <div class="conditional-box">
+                        <div class="conditional-row">
+                            <span class="form-label-inline">导轨托盘需求：</span>
+                            <span class="form-value-badge">是</span>
+                            <a href="#" class="form-link">物料领用</a>
+                            <a href="#" class="form-link">外采</a>
+                        </div>
+                    </div>
+
+                    <!-- 发货物料符合性 -->
+                    <div class="form-item-full">
+                        <label class="form-label">发货物料符合性</label>
+                        <select class="form-select">
+                            <option selected>不符合</option>
+                            <option>符合</option>
+                        </select>
+                    </div>
+
+                    <!-- Warning Alert -->
+                    <div class="alert-warning">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                            <line x1="12" y1="9" x2="12" y2="13"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                        <span>物料不符合，请进入物料选择页面</span>
+                        <a href="#" class="alert-link">物料选择</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ==================== Tab Panel: 需求分析 ==================== -->
+            <div class="tab-panel" id="tab-requirements">
+
+                <!-- Project Background & Goals -->
+                <div class="content-card">
+                    <div class="section-title">项目背景与目标</div>
+                    <div class="form-vertical">
+                        <div class="form-item-vertical">
+                            <label class="form-label">项目背景</label>
+                            <textarea class="form-textarea" rows="4" placeholder="请输入项目背景..."></textarea>
+                        </div>
+                        <div class="form-item-vertical">
+                            <label class="form-label">项目目标</label>
+                            <textarea class="form-textarea" rows="4" placeholder="请输入项目目标..."></textarea>
+                        </div>
+                        <div class="form-item-vertical">
+                            <label class="form-label">网络拓扑</label>
+                            <div class="file-upload">
+                                <label for="topology-file" class="file-upload-btn">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                        <polyline points="17 8 12 3 7 8"/>
+                                        <line x1="12" y1="3" x2="12" y2="15"/>
+                                    </svg>
+                                    点击上传
+                                </label>
+                                <input type="file" id="topology-file" style="display:none;">
+                                <span class="file-hint" id="topology-file-hint">支持 PDF、PNG、JPG 格式，文件不超过 10MB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Network Status Analysis -->
+                <div class="content-card">
+                    <div class="section-title">网络现状分析</div>
+                    <div class="checkbox-groups">
+                        <div>
+                            <label class="checkbox-group-title">传输现状</label>
+                            <div class="checkbox-list">
+                                <label class="checkbox-item"><input type="checkbox"> IPv6</label>
+                                <label class="checkbox-item"><input type="checkbox"> 分片</label>
+                                <label class="checkbox-item"><input type="checkbox"> MTU</label>
+                                <label class="checkbox-item"><input type="checkbox"> Jumbo</label>
+                                <label class="checkbox-item"><input type="checkbox"> 隧道</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="checkbox-group-title">流量现状</label>
+                            <div class="checkbox-list">
+                                <label class="checkbox-item"><input type="checkbox"> 新建</label>
+                                <label class="checkbox-item"><input type="checkbox"> 并发</label>
+                                <label class="checkbox-item"><input type="checkbox"> 吞吐</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="checkbox-group-title">IP资源</label>
+                            <div class="checkbox-list">
+                                <label class="checkbox-item"><input type="checkbox"> 管理IP</label>
+                                <label class="checkbox-item"><input type="checkbox"> 公网IP</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- O&M Requirements -->
+                <div class="content-card">
+                    <div class="section-title">运维要求</div>
+                    <div class="form-grid">
+                        <div class="form-item">
+                            <label class="form-label">冗余备份要求</label>
+                            <input type="text" class="form-input" placeholder="请输入冗余备份要求">
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label">运维管理要求</label>
+                            <div class="checkbox-inline">
+                                <label class="checkbox-item"><input type="checkbox"> 带内</label>
+                                <label class="checkbox-item"><input type="checkbox"> 带外</label>
+                                <label class="checkbox-item"><input type="checkbox"> SNMP</label>
+                                <label class="checkbox-item"><input type="checkbox"> UMC</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ==================== Tab Panel: 物料选择 ==================== -->
+            <div class="tab-panel" id="tab-materials">
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-title-with-badge">
+                            <span class="card-title-text">物料符合性检查</span>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width:40px;">
+                                    <input type="checkbox" id="select-all">
+                                </th>
+                                <th>序列号</th>
+                                <th>产品编码</th>
+                                <th>产品名称</th>
+                                <th>不符合项说明</th>
+                                <th style="width:100px;">换货流程</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" class="row-check" checked></td>
+                                <td>SN001</td>
+                                <td>P001</td>
+                                <td>设备A</td>
+                                <td><input type="text" class="table-input" placeholder="请输入不符合项说明"></td>
+                                <td><a href="#" class="action-link">发起换货</a></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="row-check" checked></td>
+                                <td>SN002</td>
+                                <td>P002</td>
+                                <td>设备B</td>
+                                <td>接口不匹配</td>
+                                <td><a href="#" class="action-link">发起换货</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Table Footer -->
+                    <div class="table-footer">
+                        <label class="table-footer-note">
+                            <input type="checkbox" checked> 已确认所选物料的换货需求
+                        </label>
+                        <button class="btn-primary">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            发起换货流程
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ===== Delivery Operations ===== -->
+            <div class="delivery-ops-card" id="delivery-ops-bar">
+                <div class="delivery-ops-head">
+                    <span class="delivery-ops-title">交付操作</span>
+                    <span class="delivery-badge delivery-badge-green" id="delivery-status-badge">工前准备已完成</span>
+                </div>
+                <div class="delivery-ops-actions">
+                    <button class="delivery-btn delivery-btn-primary" data-daction="submit-prework">提交工前确认</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="download-docs">下载工前文档包</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="change-req">发起需求变更</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="audit-trail">查看审核记录</button>
+                    <button class="delivery-btn delivery-btn-outline" data-daction="back-tracking">返回项目跟踪</button>
+                </div>
+            </div>
+
+        </div>
+</div>
+
+<script>
+function showConfirm(message, onConfirm, okText, cancelText) {
+            var overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:99998;display:flex;align-items:center;justify-content:center;';
+            var box = document.createElement('div');
+            box.style.cssText = 'background:#fff;border-radius:8px;padding:24px;min-width:340px;max-width:440px;box-shadow:0 8px 24px rgba(0,0,0,0.2);';
+            var msg = document.createElement('div');
+            msg.style.cssText = 'font-size:15px;color:#303133;margin-bottom:20px;line-height:1.6;';
+            msg.textContent = message;
+            var row = document.createElement('div');
+            row.style.cssText = 'display:flex;justify-content:flex-end;gap:10px;';
+            var cancel = document.createElement('button');
+            cancel.textContent = cancelText || '取消';
+            cancel.style.cssText = 'height:32px;padding:0 18px;border:1px solid #DCDFE6;border-radius:4px;background:#fff;color:#606266;font-size:14px;cursor:pointer;font-family:inherit;';
+            var ok = document.createElement('button');
+            ok.textContent = okText || '确认';
+            ok.style.cssText = 'height:32px;padding:0 18px;border:1px solid #1A6FD4;border-radius:4px;background:#1A6FD4;color:#fff;font-size:14px;cursor:pointer;font-family:inherit;';
+            row.appendChild(cancel); row.appendChild(ok);
+            box.appendChild(msg); box.appendChild(row);
+            overlay.appendChild(box);
+            document.body.appendChild(overlay);
+            function close(){ if(overlay.parentNode) document.body.removeChild(overlay); }
+            ok.addEventListener('click', function(){ close(); if(onConfirm) onConfirm(); });
+            cancel.addEventListener('click', close);
+            overlay.addEventListener('click', function(e){ if(e.target===overlay) close(); });
+        }
+
+        // ── Tab switching with fade-in ──
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+                const panel = document.getElementById('tab-' + tabId);
+                if (panel) {
+                    panel.classList.add('active');
+                    panel.style.transition = 'opacity 0.25s ease';
+                    panel.style.opacity = '0';
+                    requestAnimationFrame(function(){
+                        requestAnimationFrame(function(){ panel.style.opacity = '1'; });
+                    });
+                }
+            });
+        });
+
+        // ── Select all checkbox in materials table ──
+        const selectAll = document.getElementById('select-all');
+        if (selectAll) {
+            selectAll.addEventListener('change', function() {
+                document.querySelectorAll('.row-check').forEach(cb => { cb.checked = this.checked; });
+            });
+        }
+
+        // ── 客户联系人: 编辑主联系人 ──
+        var mainEditBtn = document.querySelector('#tab-contacts .btn-sm-outline');
+        if (mainEditBtn) mainEditBtn.addEventListener('click', function(){ showToast('联系人编辑功能开发中'); });
+
+        // ── 客户联系人: 新增联系人 modal ──
+        var addBtn = document.querySelector('#tab-contacts .btn-sm-primary');
+        if (addBtn) addBtn.addEventListener('click', showAddContactModal);
+
+        function showAddContactModal(){
+            var overlay = document.createElement('div');
+            overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:99998;display:flex;align-items:center;justify-content:center;';
+            var box=document.createElement('div');
+            box.style.cssText='background:#fff;border-radius:8px;padding:24px;min-width:400px;max-width:460px;box-shadow:0 8px 24px rgba(0,0,0,0.2);';
+            var title=document.createElement('div');
+            title.style.cssText='font-size:16px;font-weight:600;color:#303133;margin-bottom:18px;';
+            title.textContent='新增联系人';
+            var fields=[
+                {label:'姓名',type:'text',ph:'请输入姓名'},
+                {label:'电话',type:'text',ph:'请输入电话'},
+                {label:'服务等级',type:'select',opts:['A','B','C']},
+                {label:'部门',type:'text',ph:'请输入部门'},
+                {label:'职务',type:'text',ph:'请输入职务'}
+            ];
+            var form=document.createElement('div');
+            form.style.cssText='display:flex;flex-direction:column;gap:14px;';
+            fields.forEach(function(f){
+                var wrap=document.createElement('div');
+                wrap.style.cssText='display:flex;flex-direction:column;gap:6px;';
+                var lab=document.createElement('label');
+                lab.style.cssText='font-size:13px;color:#909399;';
+                lab.textContent=f.label;
+                var inp;
+                if(f.type==='select'){
+                    inp=document.createElement('select');
+                    f.opts.forEach(function(o){var op=document.createElement('option');op.textContent=o;inp.appendChild(op);});
+                } else {
+                    inp=document.createElement('input');
+                    inp.type=f.type; inp.placeholder=f.ph;
+                }
+                inp.style.cssText='height:34px;border:1px solid #DCDFE6;border-radius:4px;padding:0 10px;font-size:14px;color:#303133;outline:none;font-family:inherit;background:#fff;';
+                wrap.appendChild(lab); wrap.appendChild(inp);
+                form.appendChild(wrap);
+            });
+            var row=document.createElement('div');
+            row.style.cssText='display:flex;justify-content:flex-end;gap:10px;margin-top:20px;';
+            var cancel=document.createElement('button');
+            cancel.textContent='取消';
+            cancel.style.cssText='height:32px;padding:0 18px;border:1px solid #DCDFE6;border-radius:4px;background:#fff;color:#606266;font-size:14px;cursor:pointer;font-family:inherit;';
+            var save=document.createElement('button');
+            save.textContent='保存';
+            save.style.cssText='height:32px;padding:0 18px;border:1px solid #1A6FD4;border-radius:4px;background:#1A6FD4;color:#fff;font-size:14px;cursor:pointer;font-family:inherit;';
+            row.appendChild(cancel); row.appendChild(save);
+            box.appendChild(title); box.appendChild(form); box.appendChild(row);
+            overlay.appendChild(box);
+            document.body.appendChild(overlay);
+            function close(){ if(overlay.parentNode) document.body.removeChild(overlay); }
+            save.addEventListener('click', function(){ close(); showToast('联系人已保存', 'success'); });
+            cancel.addEventListener('click', close);
+            overlay.addEventListener('click', function(e){ if(e.target===overlay) close(); });
+        }
+
+        // ── table edit/fail links ──
+        document.querySelectorAll('#tab-contacts .data-table .action-link').forEach(function(link){
+            link.addEventListener('click', function(e){
+                e.preventDefault();
+                if(this.classList.contains('danger')){
+                    showConfirm('确认将此联系人设为失效？', function(){ showToast('联系人已设为失效', 'success'); }, '确认', '取消');
+                } else {
+                    showToast('编辑功能开发中');
+                }
+            });
+        });
+
+        // ── 工勘: form-link clicks ──
+        document.querySelectorAll('#tab-survey .form-link').forEach(function(link){
+            link.addEventListener('click', function(e){
+                e.preventDefault();
+                var txt=(this.textContent||'').trim();
+                if(txt.indexOf('发起外包流程')>-1){ showToast('外包流程已发起', 'success'); }
+                else if(txt.indexOf('物料领用')>-1){ showToast('物料领用流程已发起', 'success'); }
+                else if(txt.indexOf('外采')>-1){ showToast('外采流程已发起', 'success'); }
+            });
+        });
+
+        // ── 工勘: 发货物料符合性 select toggle alert ──
+        var complianceSelect = document.querySelector('#tab-survey .form-item-full .form-select');
+        var complianceAlert = document.querySelector('#tab-survey .alert-warning');
+        if (complianceSelect && complianceAlert) {
+            complianceSelect.addEventListener('change', function(){
+                var val = this.options[this.selectedIndex].text;
+                complianceAlert.style.display = (val === '不符合') ? '' : 'none';
+            });
+            var initVal = complianceSelect.options[complianceSelect.selectedIndex].text;
+            complianceAlert.style.display = (initVal === '不符合') ? '' : 'none';
+        }
+        var alertLink = document.querySelector('#tab-survey .alert-warning .alert-link');
+        if (alertLink) {
+            alertLink.addEventListener('click', function(e){
+                e.preventDefault();
+                var matBtn = document.querySelector('.tab-btn[data-tab="materials"]');
+                if (matBtn) matBtn.click();
+            });
+        }
+
+        // ── 需求分析: file upload ──
+        var topoFile = document.getElementById('topology-file');
+        if (topoFile) {
+            topoFile.addEventListener('change', function(){
+                var hint = topoFile.parentElement.querySelector('.file-hint');
+                if (topoFile.files && topoFile.files.length) {
+                    if (hint) hint.textContent = '已选择：' + topoFile.files[0].name;
+                } else {
+                    if (hint) hint.textContent = '支持 PDF、PNG、JPG 格式，文件不超过 10MB';
+                }
+            });
+        }
+
+        // ── 物料选择: 发起换货流程 ──
+        var exchangeBtn = document.querySelector('#tab-materials .btn-primary');
+        if (exchangeBtn) exchangeBtn.addEventListener('click', function(){ showToast('换货流程已发起，请等待审批', 'success'); });
+
+// ===== Delivery Operations =====
+// ===== Delivery Operations =====
+(function(){
+var dcss=document.getElementById('delivery-ops-css');
+if(!dcss){dcss=document.createElement('style');dcss.id='delivery-ops-css';dcss.textContent=`
+.delivery-ops-card{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:20px;margin-bottom:16px}
+.delivery-ops-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.delivery-ops-title{font-size:16px;font-weight:600;color:#303133}
+.delivery-badge{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:4px;font-size:12px;font-weight:500;white-space:nowrap}
+.delivery-badge-green{background:#E8F8EE;color:#27AE60}
+.delivery-badge-blue{background:#E8F2FC;color:#1A6FD4}
+.delivery-badge-orange{background:#FEF0E0;color:#F39C12}
+.delivery-ops-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;flex-wrap:wrap}
+.delivery-btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;height:32px;padding:0 14px;border-radius:4px;font-size:14px;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;border:1px solid transparent}
+.delivery-btn-primary{background:#1A6FD4;border-color:#1A6FD4;color:#fff}
+.delivery-btn-primary:hover{background:#3B8AE0;border-color:#3B8AE0}
+.delivery-btn-primary:disabled{opacity:.7;cursor:not-allowed}
+.delivery-btn-outline{background:#fff;border-color:#DCDFE6;color:#606266}
+.delivery-btn-outline:hover{color:#1A6FD4;border-color:#1A6FD4}
+.delivery-btn-outline:disabled{opacity:.7;cursor:not-allowed}
+.delivery-btn-danger{background:#FEF0F0;border-color:#FBC4C0;color:#E74C3C;cursor:not-allowed;opacity:.6}
+.delivery-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:99998;display:flex;align-items:center;justify-content:center;padding:20px}
+.delivery-modal-box{background:#fff;border-radius:8px;width:480px;max-width:100%;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.delivery-modal-head{padding:16px 20px;border-bottom:1px solid #EBEEF5;font-size:16px;font-weight:600;color:#303133}
+.delivery-modal-body{padding:20px;overflow-y:auto;flex:1}
+.delivery-modal-foot{padding:12px 20px;border-top:1px solid #EBEEF5;display:flex;justify-content:flex-end;gap:8px}
+.delivery-form-label{display:block;font-size:13px;color:#606266;margin-bottom:6px;font-weight:500}
+.delivery-form-textarea{width:100%;min-height:72px;padding:8px 12px;border:1px solid #DCDFE6;border-radius:4px;font-size:14px;color:#303133;font-family:inherit;resize:vertical;outline:none;box-sizing:border-box}
+.delivery-form-textarea:focus{border-color:#1A6FD4}
+.delivery-form-input{width:100%;height:32px;padding:0 12px;border:1px solid #DCDFE6;border-radius:4px;font-size:14px;color:#303133;font-family:inherit;outline:none;box-sizing:border-box}
+.delivery-form-input:focus{border-color:#1A6FD4}
+.delivery-form-group{margin-bottom:16px}
+.delivery-form-group:last-child{margin-bottom:0}
+.delivery-audit-table{width:100%;border-collapse:collapse}
+.delivery-audit-table th,.delivery-audit-table td{padding:10px 12px;text-align:left;font-size:14px;border-bottom:1px solid #EBEEF5}
+.delivery-audit-table th{background:#F5F7FA;color:#303133;font-weight:600}
+.delivery-audit-table td{color:#606266}
+.delivery-audit-pass{color:#27AE60;font-weight:500}
+.delivery-audit-pending{color:#F39C12}
+.delivery-audit-waiting{color:#909399}
+.delivery-timeline{list-style:none;padding:0;margin:0}
+.delivery-timeline li{display:flex;gap:12px;padding:12px 0;position:relative}
+.delivery-timeline li:not(:last-child)::after{content:"";position:absolute;left:11px;top:36px;bottom:-12px;width:2px;background:#EBEEF5}
+.delivery-timeline .tl-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;font-weight:600}
+.delivery-timeline .tl-done{background:#E8F8EE;color:#27AE60}
+.delivery-timeline .tl-active{background:#FEF0E0;color:#F39C12}
+.delivery-timeline .tl-todo{background:#F5F7FA;color:#C0C4CC}
+.delivery-timeline .tl-content{flex:1}
+.delivery-timeline .tl-title{font-size:14px;color:#303133;font-weight:500}
+.delivery-timeline .tl-date{font-size:12px;color:#909399;margin-top:2px}
+.delivery-checklist{list-style:none;padding:0;margin:0}
+.delivery-checklist li{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #EBEEF5;font-size:14px;color:#303133}
+.delivery-checklist li:last-child{border-bottom:none}
+.delivery-checklist .cl-pass{color:#27AE60;font-weight:600}
+.delivery-checklist .cl-pending{color:#F39C12;font-weight:600}
+.delivery-checklist .cl-fail{color:#E74C3C;font-weight:600}
+.delivery-template-item{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid #EBEEF5;border-radius:6px;margin-bottom:8px;cursor:pointer;transition:border-color .2s}
+.delivery-template-item:hover{border-color:#1A6FD4}
+.delivery-template-item input{margin-top:2px}
+.delivery-template-name{font-size:14px;color:#303133;font-weight:500}
+.delivery-template-desc{font-size:12px;color:#909399;margin-top:2px}
+.delivery-link{color:#1A6FD4;text-decoration:none;cursor:pointer;font-size:13px;margin-left:8px;background:none;border:none;font-family:inherit;padding:0}
+.delivery-link:hover{text-decoration:underline}
+.delivery-radio-group{display:flex;gap:20px;align-items:center}
+.delivery-radio-item{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:#303133}
+.delivery-checkbox-group{display:flex;gap:20px;align-items:center}
+.delivery-checkbox-item{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:#303133}
+.delivery-tooltip{position:relative;display:inline-block}
+.delivery-tooltip .tt-text{visibility:hidden;background:#303133;color:#fff;text-align:center;border-radius:4px;padding:4px 8px;font-size:12px;position:absolute;z-index:99999;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
+.delivery-tooltip:hover .tt-text{visibility:visible;opacity:1}
+.delivery-info-box{background:#E8F2FC;border:1px solid #BFDBF7;border-radius:6px;padding:10px 12px;font-size:13px;color:#1A6FD4;margin-bottom:16px}
+`;document.head.appendChild(dcss);}
+if(!document.getElementById('delivery-spin-style')){var _ss=document.createElement('style');_ss.id='delivery-spin-style';_ss.textContent='@keyframes delivery-spin{to{transform:rotate(360deg)}}';document.head.appendChild(_ss);}
+function dt(m,t){if(typeof window.showToast==='function'){try{window.showToast(m,t);return;}catch(e){}}var el=document.getElementById('delivery-toast');if(!el){el=document.createElement('div');el.id='delivery-toast';el.style.cssText='position:fixed;top:80px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:6px;font-size:14px;z-index:99999;opacity:0;transition:opacity .3s;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.15);color:#fff;background:#303133;';document.body.appendChild(el);}var cm={success:'#27AE60',warning:'#F39C12',error:'#E74C3C',info:'#303133'};el.style.background=cm[t]||cm.info;el.textContent=m;el.style.opacity='1';clearTimeout(el._t);el._t=setTimeout(function(){el.style.opacity='0';},2500);}
+window.showToastDelivery=dt;
+function createDeliveryModal(title,html,o){o=o||{};var ov=document.createElement('div');ov.className='delivery-modal-overlay';var bx=document.createElement('div');bx.className='delivery-modal-box';if(o.width)bx.style.width=o.width;var hd=document.createElement('div');hd.className='delivery-modal-head';hd.textContent=title;var bd=document.createElement('div');bd.className='delivery-modal-body';bd.innerHTML=html;bx.appendChild(hd);bx.appendChild(bd);function cl(){if(ov.parentNode)document.body.removeChild(ov);}if(!o.hideFooter){var ft=document.createElement('div');ft.className='delivery-modal-foot';var ok=document.createElement('button');ok.className='delivery-btn delivery-btn-primary';ok.textContent=o.confirmText||'确认';if(!o.hideCancel){var ca=document.createElement('button');ca.className='delivery-btn delivery-btn-outline';ca.textContent=o.cancelText||'取消';ca.addEventListener('click',cl);ft.appendChild(ca);}ft.appendChild(ok);bx.appendChild(ft);ok.addEventListener('click',function(){if(o.onConfirm)o.onConfirm(bx,cl);else cl();});}ov.appendChild(bx);document.body.appendChild(ov);ov.addEventListener('click',function(e){if(e.target===ov)cl();});return{box:bx,overlay:ov,close:cl};}
+window.createDeliveryModal=createDeliveryModal;
+function spW(s){return '<span style="display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:delivery-spin .6s linear infinite;vertical-align:middle;margin-right:4px;"></span>'+s;}
+function spB(s){return '<span style="display:inline-block;width:14px;height:14px;border:2px solid #C0C4CC;border-top-color:#1A6FD4;border-radius:50%;animation:delivery-spin .6s linear infinite;vertical-align:middle;margin-right:4px;"></span>'+s;}
+
+var b1=document.querySelector('[data-daction="submit-prework"]');
+if(b1)b1.addEventListener('click',function(){
+  createDeliveryModal('确认提交工前准备工作？提交后将进入审核流程','',{confirmText:'确认提交',cancelText:'取消',onConfirm:function(bx,cl){var ok=bx.querySelector('.delivery-modal-foot .delivery-btn-primary');if(ok){ok.disabled=true;ok.innerHTML=spW('提交中...');}setTimeout(function(){cl();dt('工前确认已提交，等待PM审核','success');var sb=document.getElementById('delivery-status-badge');if(sb){sb.className='delivery-badge delivery-badge-orange';sb.textContent='审批中';}},1500);}});
+});
+var b2=document.querySelector('[data-daction="download-docs"]');
+if(b2)b2.addEventListener('click',function(){var o=b2.innerHTML;b2.disabled=true;b2.innerHTML=spB('文档包生成中...');setTimeout(function(){b2.disabled=false;b2.innerHTML=o;dt('工前文档包已下载','success');},2000);});
+var b3=document.querySelector('[data-daction="change-req"]');
+if(b3)b3.addEventListener('click',function(){
+  var h='<div class="delivery-form-group"><label class="delivery-form-label">变更原因</label><textarea class="delivery-form-textarea" placeholder="请输入变更原因"></textarea></div>'+
+    '<div class="delivery-form-group"><label class="delivery-form-label">变更内容</label><textarea class="delivery-form-textarea" placeholder="请输入变更内容"></textarea></div>'+
+    '<div class="delivery-form-group"><label class="delivery-form-label">影响评估</label><textarea class="delivery-form-textarea" placeholder="请输入影响评估"></textarea></div>';
+  createDeliveryModal('发起需求变更',h,{confirmText:'提交变更',cancelText:'取消',onConfirm:function(bx,cl){cl();dt('需求变更申请已提交','success');}});
+});
+var b4=document.querySelector('[data-daction="audit-trail"]');
+if(b4)b4.addEventListener('click',function(){
+  var h='<table class="delivery-audit-table"><thead><tr><th>步骤</th><th>审核人</th><th>时间</th><th>结果</th></tr></thead><tbody>'+
+    '<tr><td>工前提交</td><td>张三</td><td>2026-06-20 14:30</td><td class="delivery-audit-pass">&#10003;通过</td></tr>'+
+    '<tr><td>PM审核</td><td>赵经理</td><td>2026-06-21 09:15</td><td class="delivery-audit-pass">&#10003;通过</td></tr>'+
+    '<tr><td>客户确认</td><td>孙主管</td><td>2026-06-22 16:00</td><td class="delivery-audit-pass">&#10003;通过</td></tr>'+
+    '</tbody></table>';
+  createDeliveryModal('审核记录',h,{confirmText:'关闭',hideCancel:true});
+});
+var b5=document.querySelector('[data-daction="back-tracking"]');
+if(b5)b5.addEventListener('click',function(){__safeNav('project-tracking.html');});
+})();
+</script>
